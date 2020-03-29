@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="21">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Shooting Increases Bullets"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+"deadspace3.exe"+1D6EC5:
+add edi,[ebp+08]
+// - 2B 7D 08              - sub edi,[ebp+08]
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+"deadspace3.exe"+1D6EC5:
+sub edi,[ebp+08]
+// - 2B 7D 08              - sub edi,[ebp+08]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Stasis Usage Increases"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+"deadspace3.exe"+33664B:
+fadd dword ptr [ecx+00000100]
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+"deadspace3.exe"+33664B:
+fsubr dword ptr [ecx+00000100]
+// - D8 A9 00010000        - fsubr dword ptr [ecx+00000100]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Nothing dies"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+deadspace3.exe+3595F7:
+nop
+nop
+nop
+nop
+nop
+nop
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+deadspace3.exe+3595F7:
+fst dword ptr [esi+000000F8]
+// - D9 96 F8000000        - fst dword ptr [esi+000000F8]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"health"</Description>
+      <LastState Value="200" Activated="1" RealAddress="09D381A8"/>
+      <VariableType>Float</VariableType>
+      <Address>"deadspace3.exe"+00EE0050</Address>
+      <Offsets>
+        <Offset>328</Offset>
+        <Offset>38</Offset>
+        <Offset>1F0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"tungsten"</Description>
+      <LastState Value="8877" RealAddress="09D33694"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"deadspace3.exe"+00DD3B8C</Address>
+      <Offsets>
+        <Offset>6C4</Offset>
+        <Offset>C</Offset>
+        <Offset>4</Offset>
+        <Offset>76C</Offset>
+        <Offset>8</Offset>
+      </Offsets>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"semi conductor"</Description>
+          <LastState Value="3311" RealAddress="09D33698"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"scrap metal"</Description>
+          <LastState Value="9237" RealAddress="09D3369C"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>15</ID>
+          <Description>"somatic gel"</Description>
+          <LastState Value="9498" RealAddress="09D336A0"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+c</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"transducer"</Description>
+          <LastState Value="6708" RealAddress="09D336A4"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+10</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>17</ID>
+          <Description>"ration seals"</Description>
+          <LastState Value="9876" RealAddress="09D336A8"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+14</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of fst dword ptr [esi+000000F8]</Description>
+      <Address>007595F7</Address>
+      <ModuleName>deadspace3.exe</ModuleName>
+      <ModuleNameOffset>3595F7</ModuleNameOffset>
+      <Before>
+        <Byte>EE</Byte>
+        <Byte>D9</Byte>
+        <Byte>CA</Byte>
+        <Byte>D9</Byte>
+        <Byte>C9</Byte>
+      </Before>
+      <Actual>
+        <Byte>D9</Byte>
+        <Byte>96</Byte>
+        <Byte>F8</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>D9</Byte>
+        <Byte>CA</Byte>
+        <Byte>D8</Byte>
+        <Byte>96</Byte>
+        <Byte>F4</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>

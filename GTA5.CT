@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Player Health no dec (and cars?)"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : GTA5.exe
+  Version: 
+  Date   : 2020-03-22
+  Author : Edgar Han
+
+  tested offset rbp+
+  170
+  68
+  18
+  18c
+
+  rbp+28:
+    9c000204 = on foot
+    9c000004 = in car
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(health_dec,GTA5.exe,F3 0F 11 36 80 7D 28 04) // should be unique
+alloc(newmem,$128,"GTA5.exe"+8E6FA1)
+alloc(player,8)
+registersymbol(player)
+
+label(code)
+label(return)
+label(reset_health)
+
+player:
+  dd 0
+
+newmem:
+  push rsi
+  mov rsi,[rbp+28]
+  cmp esi,9c000204 // test player on foot
+  je reset_health
+  cmp esi,9c000004 // test player in car
+  je reset_health
+code:
+  pop rsi
+  movss [rsi],xmm6
+  cmp byte ptr [rbp+28],04
+  jmp return
+reset_health:
+  movss xmm6,[rbp+280]
+  mov [player],rbp
+  jmp code
+
+health_dec:
+  jmp newmem
+  nop 3
+return:
+registersymbol(health_dec)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+health_dec:
+  db F3 0F 11 36 80 7D 28 04
+
+unregistersymbol(health_dec)
+unregistersymbol(player)
+dealloc(player)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GTA5.exe"+8E6FA1
+
+"GTA5.exe"+8E6F81: 48 8B 49 10        -  mov rcx,[rcx+10]
+"GTA5.exe"+8E6F85: 48 3B CE           -  cmp rcx,rsi
+"GTA5.exe"+8E6F88: 75 DF              -  jne GTA5.exe+8E6F69
+"GTA5.exe"+8E6F8A: F3 0F 58 36        -  addss xmm6,[rsi]
+"GTA5.exe"+8E6F8E: 48 8B 46 10        -  mov rax,[rsi+10]
+"GTA5.exe"+8E6F92: EB 08              -  jmp GTA5.exe+8E6F9C
+"GTA5.exe"+8E6F94: F3 0F 11 30        -  movss [rax],xmm6
+"GTA5.exe"+8E6F98: 48 8B 40 10        -  mov rax,[rax+10]
+"GTA5.exe"+8E6F9C: 48 3B C6           -  cmp rax,rsi
+"GTA5.exe"+8E6F9F: 75 F3              -  jne GTA5.exe+8E6F94
+// ---------- INJECTING HERE ----------
+"GTA5.exe"+8E6FA1: F3 0F 11 36        -  movss [rsi],xmm6
+"GTA5.exe"+8E6FA5: 80 7D 28 04        -  cmp byte ptr [rbp+28],04
+// ---------- DONE INJECTING  ----------
+"GTA5.exe"+8E6FA9: 75 42              -  jne GTA5.exe+8E6FED
+"GTA5.exe"+8E6FAB: 48 8B 56 10        -  mov rdx,[rsi+10]
+"GTA5.exe"+8E6FAF: 32 C9              -  xor cl,cl
+"GTA5.exe"+8E6FB1: EB 1C              -  jmp GTA5.exe+8E6FCF
+"GTA5.exe"+8E6FB3: F3 0F 10 06        -  movss xmm0,[rsi]
+"GTA5.exe"+8E6FB7: 0F 2E 02           -  ucomiss xmm0,[rdx]
+"GTA5.exe"+8E6FBA: 74 0F              -  je GTA5.exe+8E6FCB
+"GTA5.exe"+8E6FBC: 0F B6 C1           -  movzx eax,cl
+"GTA5.exe"+8E6FBF: 84 C9              -  test cl,cl
+"GTA5.exe"+8E6FC1: F3 0F 11 02        -  movss [rdx],xmm0
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"player health = 200"</Description>
+          <LastState Value="150" RealAddress="260668CDA60"/>
+          <VariableType>Float</VariableType>
+          <Address>player</Address>
+          <Offsets>
+            <Offset>280</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"No reload (not complete)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : GTA5.exe
+  Version: 
+  Date   : 2020-03-22
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+"GTA5.exe"+EE1412:
+  nop
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+"GTA5.exe"+EE1412:
+  db 66 45 89 53 56
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GTA5.exe"+EE1412
+
+"GTA5.exe"+EE13F4: 8B 50 48                 -  mov edx,[rax+48]
+"GTA5.exe"+EE13F7: EB 07                    -  jmp GTA5.exe+EE1400
+"GTA5.exe"+EE13F9: 49 8B 43 40              -  mov rax,[r11+40]
+"GTA5.exe"+EE13FD: 8B 50 70                 -  mov edx,[rax+70]
+"GTA5.exe"+EE1400: 85 C9                    -  test ecx,ecx
+"GTA5.exe"+EE1402: 78 08                    -  js GTA5.exe+EE140C
+"GTA5.exe"+EE1404: 3B CA                    -  cmp ecx,edx
+"GTA5.exe"+EE1406: 0F 4F CA                 -  cmovg ecx,edx
+"GTA5.exe"+EE1409: 44 8B D1                 -  mov r10d,ecx
+"GTA5.exe"+EE140C: 66 41 83 7B 54 FF        -  cmp word ptr [r11+54],-01
+// ---------- INJECTING HERE ----------
+"GTA5.exe"+EE1412: 66 45 89 53 56           -  mov [r11+56],r10w
+// ---------- DONE INJECTING  ----------
+"GTA5.exe"+EE1417: 74 10                    -  je GTA5.exe+EE1429
+"GTA5.exe"+EE1419: 41 0F BF 53 54           -  movsx edx,word ptr [r11+54]
+"GTA5.exe"+EE141E: 49 8B CB                 -  mov rcx,r11
+"GTA5.exe"+EE1421: 41 2B D1                 -  sub edx,r9d
+"GTA5.exe"+EE1424: E8 1B 1C E7 FF           -  call GTA5.exe+D53044
+"GTA5.exe"+EE1429: 48 83 C4 28              -  add rsp,28
+"GTA5.exe"+EE142D: C3                       -  ret 
+"GTA5.exe"+EE142E: CC                       -  int 3 
+"GTA5.exe"+EE142F: 48 48                    -  dec rax
+"GTA5.exe"+EE1431: 89 5C 24 10              -  mov [rsp+10],ebx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"Unlimited Ammo (not complete)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : GTA5.exe
+  Version: 
+  Date   : 2020-03-22
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+"GTA5.exe"+EDA51D:
+  nop
+  nop
+  nop
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+"GTA5.exe"+EDA51D:
+  db 89 5F 20
+{
+// ORIGINAL CODE - INJECTION POINT: "GTA5.exe"+EDA51D
+
+"GTA5.exe"+EDA503: 7E 1B                 -  jle GTA5.exe+EDA520
+"GTA5.exe"+EDA505: 48 8B 4F 08           -  mov rcx,[rdi+08]
+"GTA5.exe"+EDA509: 48 8B D5              -  mov rdx,rbp
+"GTA5.exe"+EDA50C: 48 8B 01              -  mov rax,[rcx]
+"GTA5.exe"+EDA50F: FF 50 28              -  call qword ptr [rax+28]
+"GTA5.exe"+EDA512: 85 F6                 -  test esi,esi
+"GTA5.exe"+EDA514: 78 07                 -  js GTA5.exe+EDA51D
+"GTA5.exe"+EDA516: 3B F0                 -  cmp esi,eax
+"GTA5.exe"+EDA518: 0F 4F F0              -  cmovg esi,eax
+"GTA5.exe"+EDA51B: 8B DE                 -  mov ebx,esi
+// ---------- INJECTING HERE ----------
+"GTA5.exe"+EDA51D: 89 5F 20              -  mov [rdi+20],ebx
+"GTA5.exe"+EDA520: 48 8B 5C 24 30        -  mov rbx,[rsp+30]
+// ---------- DONE INJECTING  ----------
+"GTA5.exe"+EDA525: 48 8B 6C 24 38        -  mov rbp,[rsp+38]
+"GTA5.exe"+EDA52A: 48 8B 74 24 40        -  mov rsi,[rsp+40]
+"GTA5.exe"+EDA52F: 48 83 C4 20           -  add rsp,20
+"GTA5.exe"+EDA533: 5F                    -  pop rdi
+"GTA5.exe"+EDA534: C3                    -  ret 
+"GTA5.exe"+EDA535: 90                    -  nop 
+"GTA5.exe"+EDA536: 77 72                 -  ja GTA5.exe+EDA5AA
+"GTA5.exe"+EDA538: 4C 8B 49 10           -  mov r9,[rcx+10]
+"GTA5.exe"+EDA53C: 48 83 C1 48           -  add rcx,48
+"GTA5.exe"+EDA540: E9 23 FF FF FF        -  jmp GTA5.exe+EDA468
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"Money Update (not working)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : GTA5.exe
+  Version: 
+  Date   : 2020-03-23
+  Author : Edgar Han
+
+  This script does blah blah blah
+  TODO: put breakpoint at the write location and buy a drink at the bar
+  to get the money value location
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(money_update,GTA5.exe,41 89 00 C3 4C 8D 41 10) // should be unique
+alloc(newmem,$1000,"GTA5.exe"+D04D58)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [r8],eax
+  ret 
+  lea r8,[rcx+10]
+  jmp return
+
+money_update:
+  jmp newmem
+  nop 3
+return:
+registersymbol(money_update)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+money_update:
+  db 41 89 00 C3 4C 8D 41 10
+
+unregistersymbol(money_update)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GTA5.exe"+D04D58
+
+"GTA5.exe"+D04D36: 4C 89 44 24 08        -  mov [rsp+08],r8
+"GTA5.exe"+D04D3B: 8D 51 04              -  lea edx,[rcx+04]
+"GTA5.exe"+D04D3E: 48 8B C1              -  mov rax,rcx
+"GTA5.exe"+D04D41: 48 FF C1              -  inc rcx
+"GTA5.exe"+D04D44: 83 E0 07              -  and eax,07
+"GTA5.exe"+D04D47: 8A 44 04 08           -  mov al,[rsp+rax+08]
+"GTA5.exe"+D04D4B: 30 44 0C 0F           -  xor [rsp+rcx+0F],al
+"GTA5.exe"+D04D4F: 48 FF CA              -  dec rdx
+"GTA5.exe"+D04D52: 75 EA                 -  jne GTA5.exe+D04D3E
+"GTA5.exe"+D04D54: 8B 44 24 10           -  mov eax,[rsp+10]
+// ---------- INJECTING HERE ----------
+"GTA5.exe"+D04D58: 41 89 00              -  mov [r8],eax
+"GTA5.exe"+D04D5B: C3                    -  ret 
+"GTA5.exe"+D04D5C: 4C 8D 41 10           -  lea r8,[rcx+10]
+// ---------- DONE INJECTING  ----------
+"GTA5.exe"+D04D60: 33 C9                 -  xor ecx,ecx
+"GTA5.exe"+D04D62: 48 89 54 24 08        -  mov [rsp+08],rdx
+"GTA5.exe"+D04D67: 4C 89 44 24 10        -  mov [rsp+10],r8
+"GTA5.exe"+D04D6C: 8D 51 08              -  lea edx,[rcx+08]
+"GTA5.exe"+D04D6F: 48 8B C1              -  mov rax,rcx
+"GTA5.exe"+D04D72: 48 FF C1              -  inc rcx
+"GTA5.exe"+D04D75: 83 E0 07              -  and eax,07
+"GTA5.exe"+D04D78: 8A 44 04 10           -  mov al,[rsp+rax+10]
+"GTA5.exe"+D04D7C: 30 44 0C 07           -  xor [rsp+rcx+07],al
+"GTA5.exe"+D04D80: 48 FF CA              -  dec rdx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"Stocks (not working)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : GTA5.exe
+  Version: 
+  Date   : 2020-03-27
+  Author : Edgar Han
+
+  This function touches too many addresses, including stock shares.
+  need to find a way to single out the stock shares only.
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(stocks_update,GTA5.exe,48 89 04 CA E9 05 F7 FF FF) // should be unique
+alloc(newmem,$1000,"GTA5.exe"+157FE10)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [rdx+rcx*8],rax
+  jmp GTA5.exe+157F51E
+  jmp return
+
+stocks_update:
+  jmp newmem
+  nop 4
+return:
+registersymbol(stocks_update)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+stocks_update:
+  db 48 89 04 CA E9 05 F7 FF FF
+
+unregistersymbol(stocks_update)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "GTA5.exe"+157FE10
+
+"GTA5.exe"+157FDEA: 48 83 C7 03        -  add rdi,03
+"GTA5.exe"+157FDEE: 49 2B DC           -  sub rbx,r12
+"GTA5.exe"+157FDF1: C1 E9 08           -  shr ecx,08
+"GTA5.exe"+157FDF4: 8B C1              -  mov eax,ecx
+"GTA5.exe"+157FDF6: C1 E8 12           -  shr eax,12
+"GTA5.exe"+157FDF9: 49 8B 14 C0        -  mov rdx,[r8+rax*8]
+"GTA5.exe"+157FDFD: 48 85 D2           -  test rdx,rdx
+"GTA5.exe"+157FE00: 0F 84 07 05 00 00  -  je GTA5.exe+158030D
+"GTA5.exe"+157FE06: 81 E1 FF FF 03 00  -  and ecx,0003FFFF
+"GTA5.exe"+157FE0C: 48 8B 43 08        -  mov rax,[rbx+08]
+// ---------- INJECTING HERE ----------
+"GTA5.exe"+157FE10: 48 89 04 CA        -  mov [rdx+rcx*8],rax
+"GTA5.exe"+157FE14: E9 05 F7 FF FF     -  jmp GTA5.exe+157F51E
+// ---------- DONE INJECTING  ----------
+"GTA5.exe"+157FE19: 8B 07              -  mov eax,[rdi]
+"GTA5.exe"+157FE1B: 48 83 C7 03        -  add rdi,03
+"GTA5.exe"+157FE1F: 49 03 DC           -  add rbx,r12
+"GTA5.exe"+157FE22: C1 E8 08           -  shr eax,08
+"GTA5.exe"+157FE25: 89 03              -  mov [rbx],eax
+"GTA5.exe"+157FE27: E9 F2 F6 FF FF     -  jmp GTA5.exe+157F51E
+"GTA5.exe"+157FE2C: 8B 17              -  mov edx,[rdi]
+"GTA5.exe"+157FE2E: 8D 47 03           -  lea eax,[rdi+03]
+"GTA5.exe"+157FE31: 49 03 DC           -  add rbx,r12
+"GTA5.exe"+157FE34: 2B C6              -  sub eax,esi
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"Manipulate Stock Shares for Inf Money"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>25</ID>
+      <Description>"No description"</Description>
+      <LastState Value="0" RealAddress="260C8B523C8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>260C8B523C8</Address>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of mov [r11+56],r10w</Description>
+      <AddressString>GTA5.exe+EE1412</AddressString>
+      <Before>
+        <Byte>41</Byte>
+        <Byte>83</Byte>
+        <Byte>7B</Byte>
+        <Byte>54</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>66</Byte>
+        <Byte>45</Byte>
+        <Byte>89</Byte>
+        <Byte>53</Byte>
+        <Byte>56</Byte>
+      </Actual>
+      <After>
+        <Byte>74</Byte>
+        <Byte>10</Byte>
+        <Byte>41</Byte>
+        <Byte>0F</Byte>
+        <Byte>BF</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Health update</Description>
+      <AddressString>GTA5.exe+8E6FA1</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>3B</Byte>
+        <Byte>C6</Byte>
+        <Byte>75</Byte>
+        <Byte>F3</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>36</Byte>
+      </Actual>
+      <After>
+        <Byte>80</Byte>
+        <Byte>7D</Byte>
+        <Byte>28</Byte>
+        <Byte>04</Byte>
+        <Byte>75</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Ammo Update</Description>
+      <AddressString>GTA5.exe+EDA51D</AddressString>
+      <Before>
+        <Byte>0F</Byte>
+        <Byte>4F</Byte>
+        <Byte>F0</Byte>
+        <Byte>8B</Byte>
+        <Byte>DE</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>5F</Byte>
+        <Byte>20</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>5C</Byte>
+        <Byte>24</Byte>
+        <Byte>30</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>InfClip</Name>
+      <Address>00C4A81B</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>InfAmmo</Name>
+      <Address>00C4C2EB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>freezecombobonustimer</Name>
+      <Address>0071CF09</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlimitedhealth</Name>
+      <Address>00B7BD30</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Invincible</Name>
+      <Address>00B7BD30</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>FMT</Name>
+      <Address>0071CADF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>FreezeComboTimer</Name>
+      <Address>00721841</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inventorystart</Name>
+      <Address>05CD43F0</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Structures StructVersion="2">
+    <Structure Name="person" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Byte" Bytesize="1" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="8" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" Description="f/m=20401,f=20400" DisplayMethod="Hexadecimal"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" Description="f/m/t=9c000204" DisplayMethod="Hexadecimal"/>
+        <Element Offset="44" Vartype="4 Bytes" Bytesize="4" Description="f=1052f,m/t=10527" DisplayMethod="Hexadecimal"/>
+        <Element Offset="48" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="56" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="60" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="64" Vartype="Pointer" Bytesize="8" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="92" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="100" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="104" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Signed Integer"/>
+        <Element Offset="108" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="116" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="120" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="128" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="132" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="140" Vartype="Float" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="156" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="160" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="168" Vartype="4 Bytes" Bytesize="4" Description="m=300,t/npc=240" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="172" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="176" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="192" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Hexadecimal"/>
+        <Element Offset="204" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="216" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="224" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="240" Vartype="Pointer" Bytesize="8" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="256" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="264" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="272" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="284" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="288" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="300" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="304" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="316" Vartype="4 Bytes" Bytesize="4" RLECount="7" DisplayMethod="Hexadecimal"/>
+        <Element Offset="344" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="352" Vartype="Float" Bytesize="4" Description="display coords" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="356" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="364" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="368" Vartype="4 Bytes" Bytesize="4" Description="t=CF" DisplayMethod="Hexadecimal"/>
+        <Element Offset="372" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="376" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="384" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="392" Vartype="4 Bytes" Bytesize="4" Description="f=2400008,t=40000C,npc=400408" DisplayMethod="Hexadecimal"/>
+        <Element Offset="396" Vartype="4 Bytes" Bytesize="4" Description="f/m/t=0,t=1,npc=2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="400" Vartype="4 Bytes" Bytesize="4" RLECount="26" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="504" Vartype="4 Bytes" Bytesize="4" Description="m=65537,npc=1" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="508" Vartype="4 Bytes" Bytesize="4" RLECount="27" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="616" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="624" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="628" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="632" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="636" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="640" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="644" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="648" Vartype="Pointer" Bytesize="8" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="664" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="672" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="676" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="680" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="688" Vartype="4 Bytes" Bytesize="4" RLECount="2" Description="f=0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="696" Vartype="4 Bytes" Bytesize="4" RLECount="13" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="748" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Hexadecimal"/>
+        <Element Offset="760" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="776" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="780" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="788" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="792" Vartype="4 Bytes" Bytesize="4" RLECount="18" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="864" Vartype="Float" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="880" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="896" Vartype="Float" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="928" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="944" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="956" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="960" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="972" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="976" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="980" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="988" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="996" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1004" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1016" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1020" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1028" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1036" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1040" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1052" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1056" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1072" Vartype="Float" Bytesize="4" RLECount="5" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1092" Vartype="String" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1096" Vartype="Float" Bytesize="4" RLECount="7" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1124" Vartype="Byte" Bytesize="1" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1125" Vartype="String" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1129" Vartype="Byte" Bytesize="1" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1132" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1136" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1144" Vartype="Float" Bytesize="4" RLECount="9" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1180" Vartype="Byte" Bytesize="1" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1181" Vartype="String" Bytesize="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1187" Vartype="Byte" Bytesize="1" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1188" Vartype="Float" Bytesize="4" RLECount="19" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1264" Vartype="4 Bytes" Bytesize="4" RLECount="35" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1404" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1412" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1416" Vartype="4 Bytes" Bytesize="4" RLECount="10" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1456" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1464" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1468" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1472" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1480" Vartype="4 Bytes" Bytesize="4" RLECount="7" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1508" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1512" Vartype="4 Bytes" Bytesize="4" RLECount="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1536" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1544" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1556" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1568" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1576" Vartype="4 Bytes" Bytesize="4" RLECount="10" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1616" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1628" Vartype="Byte" Bytesize="1" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1632" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1644" Vartype="Byte" Bytesize="1" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1647" Vartype="2 Bytes" Bytesize="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1649" Vartype="Byte" Bytesize="1" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1652" Vartype="Float" Bytesize="4" RLECount="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1676" Vartype="Byte" Bytesize="1" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1677" Vartype="String" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1681" Vartype="Byte" Bytesize="1" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1684" Vartype="Float" Bytesize="4" RLECount="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1708" Vartype="4 Bytes" Bytesize="4" RLECount="9" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1744" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1756" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1760" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1772" Vartype="4 Bytes" Bytesize="4" RLECount="17" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1840" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1844" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1848" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1852" Vartype="4 Bytes" Bytesize="4" RLECount="5" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1872" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1880" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1888" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1896" Vartype="4 Bytes" Bytesize="4" RLECount="50" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2096" Vartype="Pointer" Bytesize="8" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2112" Vartype="Float" Bytesize="4" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2124" Vartype="4 Bytes" Bytesize="4" RLECount="5" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2144" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2152" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2156" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2160" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2164" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2168" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2176" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2208" Vartype="Byte" Bytesize="1" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2212" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2220" Vartype="4 Bytes" Bytesize="4" RLECount="11" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2264" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2272" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2280" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2284" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2292" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2300" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2332" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2340" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2348" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2380" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2388" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2396" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2428" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2436" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2444" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2476" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2484" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2492" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2524" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2532" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2540" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2572" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2580" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2588" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2620" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2628" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2636" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2668" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2676" Vartype="Float" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2684" Vartype="4 Bytes" Bytesize="4" RLECount="9" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2720" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2728" Vartype="4 Bytes" Bytesize="4" RLECount="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2752" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2760" Vartype="4 Bytes" Bytesize="4" RLECount="42" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2928" Vartype="Pointer" Bytesize="8" RLECount="7" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2984" Vartype="4 Bytes" Bytesize="4" RLECount="10" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3024" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3032" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3048" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3052" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3060" Vartype="Double" Bytesize="8" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3076" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3084" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3092" Vartype="4 Bytes" Bytesize="4" RLECount="5" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3112" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3116" Vartype="4 Bytes" Bytesize="4" RLECount="5" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3136" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3144" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3148" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3152" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3160" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3164" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3168" Vartype="Float" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3200" Vartype="4 Bytes" Bytesize="4" RLECount="44" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3376" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3384" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3388" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3392" Vartype="4 Bytes" Bytesize="4" RLECount="6" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3416" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3420" Vartype="4 Bytes" Bytesize="4" RLECount="9" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3456" Vartype="4 Bytes" Bytesize="4" RLECount="3" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3468" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3476" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3484" Vartype="4 Bytes" Bytesize="4" RLECount="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3516" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3524" Vartype="Float" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3528" Vartype="4 Bytes" Bytesize="4" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3544" Vartype="Byte" Bytesize="1" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3548" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3552" Vartype="Pointer" Bytesize="8" RLECount="3" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3576" Vartype="4 Bytes" Bytesize="4" RLECount="20" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3656" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3660" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3664" Vartype="4 Bytes" Bytesize="4" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3668" Vartype="4 Bytes" Bytesize="4" RLECount="32" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3796" Vartype="Double" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3804" Vartype="4 Bytes" Bytesize="4" RLECount="9" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3840" Vartype="Pointer" Bytesize="8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3848" Vartype="4 Bytes" Bytesize="4" RLECount="2" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3856" Vartype="Pointer" Bytesize="8" RLECount="4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3888" Vartype="4 Bytes" Bytesize="4" RLECount="52" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
+  <Comments>Info about this table:
+</Comments>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+32D0F0</Address>
+      <Comment>Adiciona um Costume
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+32D0F3</Address>
+      <Comment>Adiciona um Personagem
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+64853A</Address>
+      <Comment>Normal Mode
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+64856C</Address>
+      <Comment>No mercy
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+8910A8</Address>
+      <Comment>Add Player Value
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+8910AB</Address>
+      <Comment>Add Costume Value
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+A620DD</Address>
+      <Comment>Just Suspicius
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+A6D8D3</Address>
+      <Comment>Remv Player Value
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>

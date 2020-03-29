@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"Enable Mono Coded"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+if LaunchMonoDataCollector() == 0 then
+   error("Failed to load mono data collector!")
+end
+
+{$asm}
+[DISABLE]
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>20</ID>
+          <Description>"Disable Health Loss"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[enable]
+PlayerData:TakeHealth+cc:
+nop
+nop
+
+[disable]
+//16727A1C - 2B C7                 - sub eax,edi
+PlayerData:TakeHealth+cc:
+db 2B C7
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"Disable TakeHealth Function"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[enable]
+PlayerData:TakeHealth+11:
+db C9 C3
+[disable]
+PlayerData:TakeHealth+11:
+db 7E 40
+//16727961 - 7E 40                 - jle 167279A3
+
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"Disable TakeMP function"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[enable]
+PlayerData:TakeMP+13:
+db C9 C3
+
+[disable]
+PlayerData:TakeMP+13:
+db 7F 1F
+//16732CD3 - 7F 1F                 - jg 16732CF4
+
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>23</ID>
+          <Description>"Disable CalculateNotchesUsed function"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[enable]
+PlayerData:CalculateNotchesUsed+13:
+db C9 C3
+
+[disable]
+PlayerData:CalculateNotchesUsed+13:
+db 74 08
+//167275A3 - 74 08                 - je 167275AD
+
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"Always Pulsing"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[enable]
+alloc(newmem,1028)
+label(returnhere)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+
+mov eax,01
+test eax,eax
+
+exit:
+jmp returnhere
+
+InvulnerablePulse:Update+f:
+jmp newmem
+nop
+returnhere:
+
+[disable]
+dealloc(newmem)
+InvulnerablePulse:Update+f:
+movzx eax,byte ptr [edi+34]
+test eax,eax
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"Don't lose Geo"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+PlayerData:TakeGeo+3:
+nop
+nop
+nop
+
+ 
+ 
+[DISABLE]
+PlayerData:TakeGeo+3:
+db 83 EC 08
+//sub esp,08 { 8 }
+
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"zero notches used"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+PlayerData:CalculateNotchesUsed+2f8:
+mov esi, 0
+nop
+nop
+nop
+nop
+nop
+ 
+ 
+[DISABLE]
+PlayerData:CalculateNotchesUsed+2f8:
+db 74 08 8B 87 68 05 00 00 03 F0 89 B7 20 04 00 00
+
+/*
+PlayerData:CalculateNotchesUsed+2f8 - 74 08                 - je PlayerData:CalculateNotchesUsed+302
+PlayerData:CalculateNotchesUsed+2fa - 8B 87 68050000        - mov eax,[edi+00000568]
+PlayerData:CalculateNotchesUsed+300 - 03 F0                 - add esi,eax
+PlayerData:CalculateNotchesUsed+302 - 89 B7 20040000        - mov [edi+00000420],esi
+*/
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>25</ID>
+      <Description>"Old codes (not working)"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"Shops don't take money"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : hollow_knight.exe
+  Version: 
+  Date   : 2020-02-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(MONEY_DEC,2B 55 0C 89 91 18 01 00 00 8B 80 20 01 00 00 83 EC 08 FF 75 0C 50 39 00 E8 14) // should be unique
+alloc(money_dec_mem,$1000)
+
+label(money_dec_code)
+label(money_dec_return)
+
+money_dec_mem:
+
+money_dec_code:
+  nop
+  nop
+  nop
+  mov [ecx+00000118],edx
+  jmp money_dec_return
+
+MONEY_DEC:
+  jmp money_dec_code
+  nop
+  nop
+  nop
+  nop
+money_dec_return:
+registersymbol(MONEY_DEC)
+
+[DISABLE]
+
+MONEY_DEC:
+  db 2B 55 0C 89 91 18 01 00 00
+
+unregistersymbol(MONEY_DEC)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 953A9167
+
+""+953A914B: 6E                    -  outsb 
+""+953A914C: 2F                    -  das 
+""+953A914D: 70 00                 -  jo 953A914F
+""+953A914F: 00 55 8B              -  add [ebp-75],dl
+""+953A9152: EC                    -  in al,dx
+""+953A9153: 83 EC 08              -  sub esp,08
+""+953A9156: 8B 45 08              -  mov eax,[ebp+08]
+""+953A9159: 8B 88 0C 01 00 00     -  mov ecx,[eax+0000010C]
+""+953A915F: 39 09                 -  cmp [ecx],ecx
+""+953A9161: 8B 91 18 01 00 00     -  mov edx,[ecx+00000118]
+// ---------- INJECTING HERE ----------
+""+953A9167: 2B 55 0C              -  sub edx,[ebp+0C]
+""+953A916A: 89 91 18 01 00 00     -  mov [ecx+00000118],edx
+// ---------- DONE INJECTING  ----------
+""+953A9170: 8B 80 20 01 00 00     -  mov eax,[eax+00000120]
+""+953A9176: 83 EC 08              -  sub esp,08
+""+953A9179: FF 75 0C              -  push [ebp+0C]
+""+953A917C: 50                    -  push eax
+""+953A917D: 39 00                 -  cmp [eax],eax
+""+953A917F: E8 14 00 00 00        -  call 953A9198
+""+953A9184: 83 C4 10              -  add esp,10
+""+953A9187: C9                    -  leave 
+""+953A9188: C3                    -  ret 
+""+953A9189: 00 00                 -  add [eax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"Powers don't use soul"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : hollow_knight.exe
+  Version: 
+  Date   : 2020-02-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(SOUL_DEC,2B 45 0C 89 86 20 01 00 00 85 C0) // should be unique
+alloc(soul_dec_mem,$1000)
+
+label(soul_dec_code)
+label(soul_dec_return)
+
+soul_dec_mem:
+
+soul_dec_code:
+  nop
+  nop
+  nop
+  mov [esi+00000120],eax
+  jmp soul_dec_return
+
+SOUL_DEC:
+  jmp soul_dec_code
+  nop
+  nop
+  nop
+  nop
+soul_dec_return:
+registersymbol(SOUL_DEC)
+
+[DISABLE]
+
+SOUL_DEC:
+  db 2B 45 0C 89 86 20 01 00 00
+
+unregistersymbol(SOUL_DEC)
+dealloc(soul_dec_mem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 0F1F1AF3
+
+""+F1F1AD6: 00 00                          -  add [eax],al
+""+F1F1AD8: 55                             -  push ebp
+""+F1F1AD9: 8B EC                          -  mov ebp,esp
+""+F1F1ADB: 56                             -  push esi
+""+F1F1ADC: 83 EC 04                       -  sub esp,04
+""+F1F1ADF: 8B 75 08                       -  mov esi,[ebp+08]
+""+F1F1AE2: 8B 86 20 01 00 00              -  mov eax,[esi+00000120]
+""+F1F1AE8: 39 45 0C                       -  cmp [ebp+0C],eax
+""+F1F1AEB: 7F 1F                          -  jg 0F1F1B0C
+""+F1F1AED: 8B 86 20 01 00 00              -  mov eax,[esi+00000120]
+// ---------- INJECTING HERE ----------
+""+F1F1AF3: 2B 45 0C                       -  sub eax,[ebp+0C]
+""+F1F1AF6: 89 86 20 01 00 00              -  mov [esi+00000120],eax
+// ---------- DONE INJECTING  ----------
+""+F1F1AFC: 85 C0                          -  test eax,eax
+""+F1F1AFE: 7D 16                          -  jnl 0F1F1B16
+""+F1F1B00: C7 86 20 01 00 00 00 00 00 00  -  mov [esi+00000120],00000000
+""+F1F1B0A: EB 0A                          -  jmp 0F1F1B16
+""+F1F1B0C: C7 86 20 01 00 00 00 00 00 00  -  mov [esi+00000120],00000000
+""+F1F1B16: 8D 65 FC                       -  lea esp,[ebp-04]
+""+F1F1B19: 5E                             -  pop esi
+""+F1F1B1A: C9                             -  leave 
+""+F1F1B1B: C3                             -  ret 
+""+F1F1B1C: 00 00                          -  add [eax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12</ID>
+          <Description>"Money Pickup x10"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : hollow_knight.exe
+  Version: 
+  Date   : 2020-02-13
+  Author : Edgar Han
+
+  Money collected x10
+}
+
+[ENABLE]
+
+aobscan(MONEY_INC,03 45 0C 89 86 18 01 00 00 3D 7F 96 98 00) // should be unique
+alloc(money_ten,$1000)
+
+label(money_inc_code)
+label(money_inc_return)
+
+money_ten:
+
+money_inc_code:
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  add eax,[ebp+0C]
+  mov [esi+00000118],eax
+  jmp money_inc_return
+
+MONEY_INC:
+  jmp money_inc_code
+  nop
+  nop
+  nop
+  nop
+money_inc_return:
+registersymbol(MONEY_INC)
+
+[DISABLE]
+
+MONEY_INC:
+  db 03 45 0C 89 86 18 01 00 00
+
+unregistersymbol(MONEY_INC)
+dealloc(money_ten)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 0F1E3C30
+
+""+F1E3C15: E9 0E C4 4B F6                 -  jmp 056A0028
+""+F1E3C1A: 00 00                          -  add [eax],al
+""+F1E3C1C: 00 00                          -  add [eax],al
+""+F1E3C1E: 00 00                          -  add [eax],al
+""+F1E3C20: 55                             -  push ebp
+""+F1E3C21: 8B EC                          -  mov ebp,esp
+""+F1E3C23: 56                             -  push esi
+""+F1E3C24: 83 EC 04                       -  sub esp,04
+""+F1E3C27: 8B 75 08                       -  mov esi,[ebp+08]
+""+F1E3C2A: 8B 86 18 01 00 00              -  mov eax,[esi+00000118]
+// ---------- INJECTING HERE ----------
+""+F1E3C30: 03 45 0C                       -  add eax,[ebp+0C]
+""+F1E3C33: 89 86 18 01 00 00              -  mov [esi+00000118],eax
+// ---------- DONE INJECTING  ----------
+""+F1E3C39: 3D 7F 96 98 00                 -  cmp eax,0098967F
+""+F1E3C3E: 7E 0A                          -  jle 0F1E3C4A
+""+F1E3C40: C7 86 18 01 00 00 7F 96 98 00  -  mov [esi+00000118],0098967F
+""+F1E3C4A: 8D 65 FC                       -  lea esp,[ebp-04]
+""+F1E3C4D: 5E                             -  pop esi
+""+F1E3C4E: C9                             -  leave 
+""+F1E3C4F: C3                             -  ret 
+""+F1E3C50: 55                             -  push ebp
+""+F1E3C51: 8B EC                          -  mov ebp,esp
+""+F1E3C53: 57                             -  push edi
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Disable Health Dec"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : hollow_knight.exe
+  Version: 
+  Date   : 2020-02-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(HP_DEC,2B C7 89 86 E4 00 00 00 8D 65 F4) // should be unique
+HP_DEC:
+  nop
+  nop
+registersymbol(HP_DEC)
+
+[DISABLE]
+
+HP_DEC:
+  db 2B C7
+
+unregistersymbol(HP_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 0F1E530E
+
+""+F1E52E5: EB 2D                          -  jmp 0F1E5314
+""+F1E52E7: C6 86 F8 00 00 00 00           -  mov byte ptr [esi+000000F8],00
+""+F1E52EE: 8B 86 E4 00 00 00              -  mov eax,[esi+000000E4]
+""+F1E52F4: 2B C7                          -  sub eax,edi
+""+F1E52F6: 85 C0                          -  test eax,eax
+""+F1E52F8: 7F 0C                          -  jg 0F1E5306
+""+F1E52FA: C7 86 E4 00 00 00 00 00 00 00  -  mov [esi+000000E4],00000000
+""+F1E5304: EB 0E                          -  jmp 0F1E5314
+""+F1E5306: 8B 86 E4 00 00 00              -  mov eax,[esi+000000E4]
+""+F1E530C: 2B C7                          -  sub eax,edi
+// ---------- INJECTING HERE ----------
+""+F1E530E: 89 86 E4 00 00 00              -  mov [esi+000000E4],eax
+// ---------- DONE INJECTING  ----------
+""+F1E5314: 8D 65 F4                       -  lea esp,[ebp-0C]
+""+F1E5317: 5E                             -  pop esi
+""+F1E5318: 5F                             -  pop edi
+""+F1E5319: 5B                             -  pop ebx
+""+F1E531A: C9                             -  leave 
+""+F1E531B: C3                             -  ret 
+""+F1E531C: 00 00                          -  add [eax],al
+""+F1E531E: 00 00                          -  add [eax],al
+""+F1E5320: 55                             -  push ebp
+""+F1E5321: 8B EC                          -  mov ebp,esp
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>Commander_savedAOB</Name>
+      <Address>3D8424AC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>PowerShunt_savedAOB</Name>
+      <Address>3D83614A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>UnitState_savedAOB</Name>
+      <Address>3D84C2E5</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>HealthSaveState_savedAOB</Name>
+      <Address>3D84C328</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP</Name>
+      <Address>010CF325</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP4</Name>
+      <Address>008BB36D</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>iMinGold</Name>
+      <Address>055F0C0E</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Recifense</Name>
+      <Address>20160827</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>_MonUTest</Name>
+      <Address>009F03FB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>genderchange</Name>
+      <Address>02A40000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP1</Name>
+      <Address>0119C7D5</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP2</Name>
+      <Address>0178106C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP3</Name>
+      <Address>017813A9</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>HP_DEC</Name>
+      <Address>0F1E530C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>SOUL_DEC</Name>
+      <Address>0F1F1AF3</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>MONEY_INC</Name>
+      <Address>16726CA0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>MONEY_DEC</Name>
+      <Address>971BEF3F</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+</CheatTable>

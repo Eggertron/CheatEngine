@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="21">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Bullets increase"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Launcher.exe+84B1EB:
+add eax,[esp+08]
+
+[DISABLE]
+Launcher.exe+84B1EB:
+sub eax,[esp+08]
+//2B 44 24 08
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Purchases increase gold"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Launcher.exe+8ED709:
+add eax,edx
+
+[DISABLE]
+Launcher.exe+8ED709:
+sub eax,edx
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Bomb use increases inventory"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Launcher.exe+3EC110:
+add eax,01
+
+[DISABLE]
+Launcher.exe+3EC110:
+sub eax,01
+//83 E8 01
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"No description"</Description>
+      <LastState Value="98500" RealAddress="1A4B40D4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>1A4B40D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"Exchange Points always increase"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Launcher.exe+8ED759:
+add eax,edx
+
+[DISABLE]
+Launcher.exe+8ED759:
+sub eax,edx
+//2B C2
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

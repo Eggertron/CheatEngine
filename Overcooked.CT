@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="21">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Money Hack doesn't work"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+mov [ebp+0C],384 // move 0x384 (900) into the money address
+mov edi,[ebp+0C] // move the money value into edi
+mov [esi+18],edi // move edi into gui money address
+jmp exit
+
+
+originalcode:
+mov edi,[ebp+0C]
+mov [esi+18],edi
+
+exit:
+jmp returnhere
+
+2325B2AB:
+jmp newmem
+nop
+returnhere:
+
+[disable]
+dealloc(newmem)
+
+2325B2AB:
+mov edi,[ebp+0C]
+mov [esi+18],edi
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"No description"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>2010CCF8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Money Hack 2 doesn't work"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+mov [eax+18],384
+
+originalcode:
+mov eax,[eax+18]
+leave 
+ret 
+
+exit:
+jmp returnhere
+
+23288D01:
+jmp newmem
+returnhere:
+
+[disable]
+dealloc(newmem)
+23288D01:
+mov eax,[eax+18]
+leave
+ret
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Money Hack 3 crashes game"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+mov [ebp+08],389
+originalcode:
+mov eax,[ebp+08]
+mov eax,[eax]
+
+exit:
+jmp returnhere
+
+067C6EDE:
+jmp newmem
+returnhere:
+
+[disable]
+dealloc(newmem)
+067C6EDE:
+mov eax,[ebp+08]
+mov eax,[eax]
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>Commander_savedAOB</Name>
+      <Address>3D8424AC</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>PowerShunt_savedAOB</Name>
+      <Address>3D83614A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>UnitState_savedAOB</Name>
+      <Address>3D84C2E5</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>HealthSaveState_savedAOB</Name>
+      <Address>3D84C328</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP</Name>
+      <Address>010CF325</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP4</Name>
+      <Address>008BB36D</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>iMinGold</Name>
+      <Address>055F0C0E</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Recifense</Name>
+      <Address>20160827</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>_MonUTest</Name>
+      <Address>009F03FB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>genderchange</Name>
+      <Address>02A40000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP1</Name>
+      <Address>0119C7D5</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP2</Name>
+      <Address>0178106C</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>CHP3</Name>
+      <Address>017813A9</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>

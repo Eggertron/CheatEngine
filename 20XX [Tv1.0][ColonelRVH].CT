@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="26">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>8278</ID>
+      <Description>"--- 20XX v1.00.0 b911 | Cheat Engine Table V1.0, [2017-8-18] COLONELRVH ---"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>A00000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8275</ID>
+      <Description>"======================================================"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>FF8000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8274</ID>
+      <Description>"               - MAIN CHEATS -                                                        "</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>FF8000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8276</ID>
+      <Description>"======================================================"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>FF8000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8848</ID>
+      <Description>"[Stats]"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <Color>FF8000</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>9121</ID>
+          <Description>"Lives"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>20XX.exe+469C18</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9123</ID>
+          <Description>"Unlimited Lives"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 20XX.exe
+  Version: 
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Set_Lives_AOB,20XX.exe,A3 18 9C DE 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [20XX.exe+469C18],7
+  jmp return
+
+Set_Lives_AOB:
+  jmp newmem
+return:
+registersymbol(Set_Lives_AOB)
+
+[DISABLE]
+
+Set_Lives_AOB:
+  db A3 18 9C DE 00
+
+unregistersymbol(Set_Lives_AOB)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+7A4F4
+
+"20XX.exe"+7A4DC: C3                    -  ret 
+"20XX.exe"+7A4DD: CC                    -  int 3 
+"20XX.exe"+7A4DE: CC                    -  int 3 
+"20XX.exe"+7A4DF: CC                    -  int 3 
+"20XX.exe"+7A4E0: 55                    -  push ebp
+"20XX.exe"+7A4E1: 8B EC                 -  mov ebp,esp
+"20XX.exe"+7A4E3: 83 3D 18 9C DE 00 00  -  cmp dword ptr [20XX.exe+469C18],00
+"20XX.exe"+7A4EA: 76 0D                 -  jna 20XX.exe+7A4F9
+"20XX.exe"+7A4EC: A1 18 9C DE 00        -  mov eax,[20XX.exe+469C18]
+"20XX.exe"+7A4F1: 83 E8 01              -  sub eax,01
+// ---------- INJECTING HERE ----------
+"20XX.exe"+7A4F4: A3 18 9C DE 00        -  mov [20XX.exe+469C18],eax
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+7A4F9: 5D                    -  pop ebp
+"20XX.exe"+7A4FA: C3                    -  ret 
+"20XX.exe"+7A4FB: CC                    -  int 3 
+"20XX.exe"+7A4FC: CC                    -  int 3 
+"20XX.exe"+7A4FD: CC                    -  int 3 
+"20XX.exe"+7A4FE: CC                    -  int 3 
+"20XX.exe"+7A4FF: CC                    -  int 3 
+"20XX.exe"+7A500: 55                    -  push ebp
+"20XX.exe"+7A501: 8B EC                 -  mov ebp,esp
+"20XX.exe"+7A503: 81 EC 04 02 00 00     -  sub esp,00000204
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9126</ID>
+          <Description>"Unlimited Chips"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 20XX.exe
+  Version:
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Get_Chips_AOB,20XX.exe,A1 64 9C DE 00 5D) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  mov [20XX.exe+469C64],#7000
+code:
+  mov eax,[20XX.exe+469C64]
+  jmp return
+
+Get_Chips_AOB:
+  jmp newmem
+return:
+registersymbol(Get_Chips_AOB)
+
+[DISABLE]
+
+Get_Chips_AOB:
+  db A1 64 9C DE 00
+
+unregistersymbol(Get_Chips_AOB)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+B8F33
+
+"20XX.exe"+B8F21: 8B EC                 -  mov ebp,esp
+"20XX.exe"+B8F23: 8B 45 08              -  mov eax,[ebp+08]
+"20XX.exe"+B8F26: A3 48 9C DE 00        -  mov [20XX.exe+469C48],eax
+"20XX.exe"+B8F2B: 5D                    -  pop ebp
+"20XX.exe"+B8F2C: C3                    -  ret
+"20XX.exe"+B8F2D: CC                    -  int 3
+"20XX.exe"+B8F2E: CC                    -  int 3
+"20XX.exe"+B8F2F: CC                    -  int 3
+"20XX.exe"+B8F30: 55                    -  push ebp
+"20XX.exe"+B8F31: 8B EC                 -  mov ebp,esp
+// ---------- INJECTING HERE ----------
+"20XX.exe"+B8F33: A1 64 9C DE 00        -  mov eax,[20XX.exe+469C64]
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+B8F38: 5D                    -  pop ebp
+"20XX.exe"+B8F39: C3                    -  ret
+"20XX.exe"+B8F3A: CC                    -  int 3
+"20XX.exe"+B8F3B: CC                    -  int 3
+"20XX.exe"+B8F3C: CC                    -  int 3
+"20XX.exe"+B8F3D: CC                    -  int 3
+"20XX.exe"+B8F3E: CC                    -  int 3
+"20XX.exe"+B8F3F: CC                    -  int 3
+"20XX.exe"+B8F40: 55                    -  push ebp
+"20XX.exe"+B8F41: 8B EC                 -  mov ebp,esp
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9128</ID>
+          <Description>"Unlimited Nuts"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 20XX.exe
+  Version: 
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Get_Nuts_AOB,20XX.exe,FC A1 B4 83 EE 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  mov [20XX.exe+5683B4],#9000
+code:
+  mov eax,[20XX.exe+5683B4]
+  jmp return
+
+Get_Nuts_AOB+01:
+  jmp newmem
+return:
+registersymbol(Get_Nuts_AOB)
+
+[DISABLE]
+
+Get_Nuts_AOB+01:
+  db A1 B4 83 EE 00
+
+unregistersymbol(Get_Nuts_AOB)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+265537
+
+"20XX.exe"+26552A: CC                 -  int 3 
+"20XX.exe"+26552B: CC                 -  int 3 
+"20XX.exe"+26552C: CC                 -  int 3 
+"20XX.exe"+26552D: CC                 -  int 3 
+"20XX.exe"+26552E: CC                 -  int 3 
+"20XX.exe"+26552F: CC                 -  int 3 
+"20XX.exe"+265530: 55                 -  push ebp
+"20XX.exe"+265531: 8B EC              -  mov ebp,esp
+"20XX.exe"+265533: 51                 -  push ecx
+"20XX.exe"+265534: 89 4D FC           -  mov [ebp-04],ecx
+// ---------- INJECTING HERE ----------
+"20XX.exe"+265537: A1 B4 83 EE 00     -  mov eax,[20XX.exe+5683B4]
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+26553C: 2B 05 F4 81 EE 00  -  sub eax,[20XX.exe+5681F4]
+"20XX.exe"+265542: 8B E5              -  mov esp,ebp
+"20XX.exe"+265544: 5D                 -  pop ebp
+"20XX.exe"+265545: C3                 -  ret 
+"20XX.exe"+265546: CC                 -  int 3 
+"20XX.exe"+265547: CC                 -  int 3 
+"20XX.exe"+265548: CC                 -  int 3 
+"20XX.exe"+265549: CC                 -  int 3 
+"20XX.exe"+26554A: CC                 -  int 3 
+"20XX.exe"+26554B: CC                 -  int 3 
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>110</ID>
+      <Description>"[Battle]"</Description>
+      <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <Color>00009D</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>9109</ID>
+          <Description>"Get HP Addresses"</Description>
+          <Options moHideChildren="1"/>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 20XX.exe
+  Version: 
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Set_HP_AOB,20XX.exe,B4 89 82 E8 00 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+label(Cmp_GodMode_Flag)
+label(Cmp_InstantKill_Flag)
+label(GodMode)
+label(InstantKill)
+
+registersymbol(GodMode_Flag)
+registersymbol(InstantKill_Flag)
+alloc(GodMode_Flag,4)
+alloc(InstantKill_Flag,4)
+
+GodMode_Flag:
+dd 0
+Instantkill_Flag:
+dd 0
+
+newmem:
+  cmp dword ptr [edx+00000078],0
+  je Cmp_GodMode_Flag
+  jmp Cmp_InstantKill_Flag
+
+Cmp_GodMode_Flag:
+  cmp dword ptr [GodMode_Flag],1
+  je GodMode
+  jmp code
+
+Cmp_InstantKill_Flag:
+  cmp dword ptr [InstantKill_Flag],1
+  je InstantKill
+
+code:
+  mov [edx+000000E8],eax
+  jmp return
+
+GodMode:
+  mov eax,[edx+000000E0]
+  mov [edx+000000E8],eax
+  jmp return
+
+InstantKill:
+  mov [edx+000000E8],0
+  jmp return
+
+Set_HP_AOB+01:
+  jmp newmem
+  nop
+return:
+registersymbol(Set_HP_AOB)
+
+[DISABLE]
+
+Set_HP_AOB+01:
+  db 89 82 E8 00 00 00
+
+unregistersymbol(Set_HP_AOB)
+dealloc(newmem)
+unregistersymbol(GodMode_Flag)
+unregistersymbol(InstantKill_Flag)
+dealloc(GodMode_Flag)
+dealloc(Instantkill_Flag)
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+263F26
+
+"20XX.exe"+263EFC: 8B 85 44 FF FF FF        -  mov eax,[ebp-000000BC]
+"20XX.exe"+263F02: 89 45 0C                 -  mov [ebp+0C],eax
+"20XX.exe"+263F05: 8B 8D 48 FF FF FF        -  mov ecx,[ebp-000000B8]
+"20XX.exe"+263F0B: 89 4D 10                 -  mov [ebp+10],ecx
+"20XX.exe"+263F0E: 8B 55 B4                 -  mov edx,[ebp-4C]
+"20XX.exe"+263F11: 8B 82 E8 00 00 00        -  mov eax,[edx+000000E8]
+"20XX.exe"+263F17: 2B 45 0C                 -  sub eax,[ebp+0C]
+"20XX.exe"+263F1A: 8B 8A EC 00 00 00        -  mov ecx,[edx+000000EC]
+"20XX.exe"+263F20: 1B 4D 10                 -  sbb ecx,[ebp+10]
+"20XX.exe"+263F23: 8B 55 B4                 -  mov edx,[ebp-4C]
+// ---------- INJECTING HERE ----------
+"20XX.exe"+263F26: 89 82 E8 00 00 00        -  mov [edx+000000E8],eax
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+263F2C: 89 8A EC 00 00 00        -  mov [edx+000000EC],ecx
+"20XX.exe"+263F32: 8B 45 B4                 -  mov eax,[ebp-4C]
+"20XX.exe"+263F35: 8B 4D B4                 -  mov ecx,[ebp-4C]
+"20XX.exe"+263F38: 89 45 84                 -  mov [ebp-7C],eax
+"20XX.exe"+263F3B: 89 4D 80                 -  mov [ebp-80],ecx
+"20XX.exe"+263F3E: 8B 55 84                 -  mov edx,[ebp-7C]
+"20XX.exe"+263F41: 8B 45 80                 -  mov eax,[ebp-80]
+"20XX.exe"+263F44: 8B 8A EC 00 00 00        -  mov ecx,[edx+000000EC]
+"20XX.exe"+263F4A: 3B 88 E4 00 00 00        -  cmp ecx,[eax+000000E4]
+"20XX.exe"+263F50: 0F 8C EA 00 00 00        -  jl 20XX.exe+264040
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>9060</ID>
+              <Description>"Activate God Mode"</Description>
+              <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">1:Enabled
+0:Disabled
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>Godmode_Flag</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>8928</ID>
+              <Description>"Activate Instant Kill"</Description>
+              <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">1:Enabled
+0:Disabled
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>InstantKill_Flag</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9117</ID>
+          <Description>"Unlimited Energy"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 20XX.exe
+  Version: 
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Set_Energy_AOB,20XX.exe,D0 89 82 10 01 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov eax,[edx+00000118]
+  mov [edx+00000110],eax
+  jmp return
+
+Set_Energy_AOB+01:
+  jmp newmem
+  nop
+return:
+registersymbol(Set_Energy_AOB)
+
+[DISABLE]
+
+Set_Energy_AOB+01:
+  db 89 82 10 01 00 00
+
+unregistersymbol(Set_Energy_AOB)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+264BD3
+
+"20XX.exe"+264BAF: 8B 45 B4                 -  mov eax,[ebp-4C]
+"20XX.exe"+264BB2: 89 45 08                 -  mov [ebp+08],eax
+"20XX.exe"+264BB5: 8B 4D B8                 -  mov ecx,[ebp-48]
+"20XX.exe"+264BB8: 89 4D 0C                 -  mov [ebp+0C],ecx
+"20XX.exe"+264BBB: 8B 55 D0                 -  mov edx,[ebp-30]
+"20XX.exe"+264BBE: 8B 82 10 01 00 00        -  mov eax,[edx+00000110]
+"20XX.exe"+264BC4: 2B 45 08                 -  sub eax,[ebp+08]
+"20XX.exe"+264BC7: 8B 8A 14 01 00 00        -  mov ecx,[edx+00000114]
+"20XX.exe"+264BCD: 1B 4D 0C                 -  sbb ecx,[ebp+0C]
+"20XX.exe"+264BD0: 8B 55 D0                 -  mov edx,[ebp-30]
+// ---------- INJECTING HERE ----------
+"20XX.exe"+264BD3: 89 82 10 01 00 00        -  mov [edx+00000110],eax
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+264BD9: 89 8A 14 01 00 00        -  mov [edx+00000114],ecx
+"20XX.exe"+264BDF: 8B 45 D0                 -  mov eax,[ebp-30]
+"20XX.exe"+264BE2: 8B 4D D0                 -  mov ecx,[ebp-30]
+"20XX.exe"+264BE5: 89 45 C0                 -  mov [ebp-40],eax
+"20XX.exe"+264BE8: 89 4D BC                 -  mov [ebp-44],ecx
+"20XX.exe"+264BEB: 8B 55 C0                 -  mov edx,[ebp-40]
+"20XX.exe"+264BEE: 8B 45 BC                 -  mov eax,[ebp-44]
+"20XX.exe"+264BF1: 8B 8A 14 01 00 00        -  mov ecx,[edx+00000114]
+"20XX.exe"+264BF7: 3B 88 1C 01 00 00        -  cmp ecx,[eax+0000011C]
+"20XX.exe"+264BFD: 7C 34                    -  jl 20XX.exe+264C33
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>117</ID>
+      <Description>"[Miscellaneous][Use With Caution!]"</Description>
+      <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0000FF</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>8266</ID>
+          <Description>"[Backups][Unused]"</Description>
+          <Options moHideChildren="1"/>
+          <LastState Value="" RealAddress="00000000"/>
+          <Color>C0C0C0</Color>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>9124</ID>
+              <Description>"Unlimited Nuts [Update: Get Nut]"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>{ Game   : 20XX.exe
+  Version: 
+  Date   : 2017-08-18
+  Author : ColonelRVH
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Set_Nuts_AOB,20XX.exe,89 0D B4 83 EE 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [20XX.exe+5683B4],#70000
+  jmp return
+
+Set_Nuts_AOB:
+  jmp newmem
+  nop
+return:
+registersymbol(Set_Nuts_AOB)
+
+[DISABLE]
+
+Set_Nuts_AOB:
+  db 89 0D B4 83 EE 00
+
+unregistersymbol(Set_Nuts_AOB)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "20XX.exe"+265588
+
+"20XX.exe"+26556E: CC                 -  int 3 
+"20XX.exe"+26556F: CC                 -  int 3 
+"20XX.exe"+265570: 55                 -  push ebp
+"20XX.exe"+265571: 8B EC              -  mov ebp,esp
+"20XX.exe"+265573: 83 EC 08           -  sub esp,08
+"20XX.exe"+265576: 89 4D F8           -  mov [ebp-08],ecx
+"20XX.exe"+265579: 8B 45 08           -  mov eax,[ebp+08]
+"20XX.exe"+26557C: 89 45 FC           -  mov [ebp-04],eax
+"20XX.exe"+26557F: 8B 0D B4 83 EE 00  -  mov ecx,[20XX.exe+5683B4]
+"20XX.exe"+265585: 2B 4D FC           -  sub ecx,[ebp-04]
+// ---------- INJECTING HERE ----------
+"20XX.exe"+265588: 89 0D B4 83 EE 00  -  mov [20XX.exe+5683B4],ecx
+// ---------- DONE INJECTING  ----------
+"20XX.exe"+26558E: 8B 15 B4 83 EE 00  -  mov edx,[20XX.exe+5683B4]
+"20XX.exe"+265594: 3B 15 F4 81 EE 00  -  cmp edx,[20XX.exe+5681F4]
+"20XX.exe"+26559A: 7D 0A              -  jnl 20XX.exe+2655A6
+"20XX.exe"+26559C: A1 F4 81 EE 00     -  mov eax,[20XX.exe+5681F4]
+"20XX.exe"+2655A1: A3 B4 83 EE 00     -  mov [20XX.exe+5683B4],eax
+"20XX.exe"+2655A6: 8B 0D BC 83 EE 00  -  mov ecx,[20XX.exe+5683BC]
+"20XX.exe"+2655AC: 2B 4D FC           -  sub ecx,[ebp-04]
+"20XX.exe"+2655AF: 89 0D BC 83 EE 00  -  mov [20XX.exe+5683BC],ecx
+"20XX.exe"+2655B5: 8B 15 BC 83 EE 00  -  mov edx,[20XX.exe+5683BC]
+"20XX.exe"+2655BB: 3B 15 B8 83 EE 00  -  cmp edx,[20XX.exe+5683B8]
+}
+</AssemblerScript>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>8435</ID>
+          <Description>"[Obsolete][Buggy]"</Description>
+          <Options moHideChildren="1"/>
+          <LastState Value="" RealAddress="00000000"/>
+          <Color>C0C0C0</Color>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8267</ID>
+      <Description>"======================================================"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8265</ID>
+      <Description>"               - SPECIAL THANKS -                                                      "</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8268</ID>
+      <Description>"======================================================"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8277</ID>
+      <Description>"               ____"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8443</ID>
+      <Description>"------------------------------------------------------"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8849</ID>
+      <Description>"- CHANGES | NOTES -"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>8910</ID>
+          <Description>"Upcoming Version 2.0"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <Color>008000</Color>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8441</ID>
+      <Description>"------------------------------------------------------"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>808000</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8908</ID>
+      <Description>"- Please support my work at -"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0080FF</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8909</ID>
+      <Description>"https://www.patreon.com/ColonelRVH"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0080FF</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9065</ID>
+      <Description>"Early Update might as well be on Patreon first!"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0080FF</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>BLucre</Name>
+      <Address>015C0010</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>BHP</Name>
+      <Address>015C0000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>GetHP</Name>
+      <Address>463A7445</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>GetLucre</Name>
+      <Address>463A9B27</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>IgnoreMana</Name>
+      <Address>463C8647</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>BaseGold</Name>
+      <Address>02680000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>GetGold</Name>
+      <Address>00F6FCC9</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>If you want to support, Please consider become my patron at:
+----------------------
+https://www.patreon.com/ColonelRVH
+----------------------
+It would be a great help for me to cover my living expenses so I can focus on making  &amp; improving cheat for you. 
+----------------------
+© ColonelRVH, 2017
+</Comments>
+  <LuaScript>attachlist=getAutoAttachList()
+stringlist_add(attachlist,"20XX.exe");
+</LuaScript>
+</CheatTable>

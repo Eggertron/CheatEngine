@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="21">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>78</ID>
+      <Description>"Money"</Description>
+      <LastState Value="3221225472" RealAddress="472C6F70"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"The_Swords_of_Ditto.exe"+01B90880</Address>
+      <Offsets>
+        <Offset>20</Offset>
+        <Offset>1E0</Offset>
+        <Offset>15C</Offset>
+        <Offset>388</Offset>
+      </Offsets>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Current day"</Description>
+          <LastState Value="5" RealAddress="472C8130"/>
+          <VariableType>Double</VariableType>
+          <Address>+11c0</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>70</ID>
+              <Description>"World Level?"</Description>
+              <LastState Value="7" RealAddress="472C8150"/>
+              <VariableType>Double</VariableType>
+              <Address>+20</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>71</ID>
+                  <Description>"Era?"</Description>
+                  <LastState Value="3" RealAddress="472C8170"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+20</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>72</ID>
+                      <Description>"World Level?"</Description>
+                      <LastState Value="7" RealAddress="472C8190"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+20</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>73</ID>
+                          <Description>"Ether Level?"</Description>
+                          <LastState Value="1" RealAddress="472C81B0"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+20</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>75</ID>
+                              <Description>"No description"</Description>
+                              <LastState Value="11347714" RealAddress="472C81D0"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+20</Address>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>69</ID>
+              <Description>"Sword Power"</Description>
+              <LastState Value="5" RealAddress="472C9150"/>
+              <VariableType>Double</VariableType>
+              <Address>+1020</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>65</ID>
+                  <Description>"level"</Description>
+                  <LastState Value="7" RealAddress="472C91B0"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+60</Address>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"Crystals"</Description>
+          <LastState Value="9840" RealAddress="472C6F60"/>
+          <VariableType>Double</VariableType>
+          <Address>-10</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>74</ID>
+              <Description>"No description"</Description>
+              <LastState Value="10" RealAddress="472C6F40"/>
+              <VariableType>Double</VariableType>
+              <Address>-20</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>83</ID>
+      <Description>"Inventory Start"</Description>
+      <LastState Value="0" RealAddress="4E3458C8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"The_Swords_of_Ditto.exe"+00E47580</Address>
+      <Offsets>
+        <Offset>790</Offset>
+        <Offset>7A0</Offset>
+        <Offset>30</Offset>
+        <Offset>24C</Offset>
+        <Offset>378</Offset>
+      </Offsets>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"2-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="1" RealAddress="4E345968"/>
+          <VariableType>Double</VariableType>
+          <Address>+a0</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>28</ID>
+              <Description>"2-1 quantity"</Description>
+              <LastState Value="16" RealAddress="4E345978"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>29</ID>
+                  <Description>"22- item code"</Description>
+                  <LastState Value="1" RealAddress="4E345988"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>30</ID>
+                      <Description>"2-2 quantity"</Description>
+                      <LastState Value="17" RealAddress="4E345998"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>31</ID>
+                          <Description>"2-3 item code"</Description>
+                          <LastState Value="1" RealAddress="4E3459A8"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+10</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>32</ID>
+                              <Description>"2-3 quantity"</Description>
+                              <LastState Value="18" RealAddress="4E3459B8"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+10</Address>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>41</ID>
+          <Description>"1-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="10" RealAddress="4E345918"/>
+          <VariableType>Double</VariableType>
+          <Address>+50</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>42</ID>
+              <Description>"1-1 quantity"</Description>
+              <LastState Value="1" RealAddress="4E345928"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>43</ID>
+                  <Description>"1-2 item code"</Description>
+                  <LastState Value="11" RealAddress="4E345938"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>39</ID>
+                      <Description>"1-2 quantity"</Description>
+                      <LastState Value="1" RealAddress="4E345948"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"3-1 item code"</Description>
+          <Options moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
+          <LastState Value="8" RealAddress="4E345A08"/>
+          <VariableType>Double</VariableType>
+          <Address>+140</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>17</ID>
+              <Description>"3-1 quantity"</Description>
+              <LastState Value="23" RealAddress="4E345A18"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>25</ID>
+                  <Description>"3-2 item code"</Description>
+                  <LastState Value="1" RealAddress="4E345A28"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>26</ID>
+                      <Description>"3-2 quantity"</Description>
+                      <LastState Value="39" RealAddress="4E345A38"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>33</ID>
+                          <Description>"3-3 item code"</Description>
+                          <LastState Value="8" RealAddress="4E345A48"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+10</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>34</ID>
+                              <Description>"3-3 quantity"</Description>
+                              <LastState Value="40" RealAddress="4E345A58"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+10</Address>
+                              <CheatEntries>
+                                <CheatEntry>
+                                  <ID>35</ID>
+                                  <Description>"3-4 item code"</Description>
+                                  <LastState Value="8" RealAddress="4E345A68"/>
+                                  <VariableType>Double</VariableType>
+                                  <Address>+10</Address>
+                                  <CheatEntries>
+                                    <CheatEntry>
+                                      <ID>36</ID>
+                                      <Description>"3-4 quantity"</Description>
+                                      <LastState Value="41" RealAddress="4E345A78"/>
+                                      <VariableType>Double</VariableType>
+                                      <Address>+10</Address>
+                                      <CheatEntries>
+                                        <CheatEntry>
+                                          <ID>37</ID>
+                                          <Description>"3-5 item code"</Description>
+                                          <LastState Value="8" RealAddress="4E345A88"/>
+                                          <VariableType>Double</VariableType>
+                                          <Address>+10</Address>
+                                          <CheatEntries>
+                                            <CheatEntry>
+                                              <ID>38</ID>
+                                              <Description>"3-5 quantity"</Description>
+                                              <LastState Value="43" RealAddress="4E345A98"/>
+                                              <VariableType>Double</VariableType>
+                                              <Address>+10</Address>
+                                            </CheatEntry>
+                                          </CheatEntries>
+                                        </CheatEntry>
+                                      </CheatEntries>
+                                    </CheatEntry>
+                                  </CheatEntries>
+                                </CheatEntry>
+                              </CheatEntries>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"4-1 item code"</Description>
+          <Options moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
+          <LastState Value="8" RealAddress="4E345AA8"/>
+          <VariableType>Double</VariableType>
+          <Address>+1e0</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>16</ID>
+              <Description>"4-1 quantity"</Description>
+              <LastState Value="48" RealAddress="4E345AB8"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>19</ID>
+                  <Description>"4-2 item code"</Description>
+                  <LastState Value="8" RealAddress="4E345AC8"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>15</ID>
+                      <Description>"4-2 quanity"</Description>
+                      <LastState Value="49" RealAddress="4E345AD8"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>20</ID>
+                          <Description>"4-3 item code"</Description>
+                          <LastState Value="10" RealAddress="4E345AE8"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+10</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>14</ID>
+                              <Description>"4-3 quantity"</Description>
+                              <LastState Value="52" RealAddress="4E345AF8"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+10</Address>
+                              <CheatEntries>
+                                <CheatEntry>
+                                  <ID>13</ID>
+                                  <Description>"4-4 item code"</Description>
+                                  <LastState Value="88" RealAddress="4E345B08"/>
+                                  <VariableType>Double</VariableType>
+                                  <Address>+10</Address>
+                                  <CheatEntries>
+                                    <CheatEntry>
+                                      <ID>18</ID>
+                                      <Description>"4-4 quantity"</Description>
+                                      <LastState Value="53" RealAddress="4E345B18"/>
+                                      <VariableType>Double</VariableType>
+                                      <Address>+10</Address>
+                                      <CheatEntries>
+                                        <CheatEntry>
+                                          <ID>23</ID>
+                                          <Description>"4-5 item code"</Description>
+                                          <LastState Value="1" RealAddress="4E345B28"/>
+                                          <VariableType>Double</VariableType>
+                                          <Address>+10</Address>
+                                          <CheatEntries>
+                                            <CheatEntry>
+                                              <ID>24</ID>
+                                              <Description>"4-5 quantity"</Description>
+                                              <LastState Value="54" RealAddress="4E345B38"/>
+                                              <VariableType>Double</VariableType>
+                                              <Address>+10</Address>
+                                            </CheatEntry>
+                                          </CheatEntries>
+                                        </CheatEntry>
+                                      </CheatEntries>
+                                    </CheatEntry>
+                                  </CheatEntries>
+                                </CheatEntry>
+                              </CheatEntries>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>46</ID>
+          <Description>"5-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="10" RealAddress="4E345B48"/>
+          <VariableType>Double</VariableType>
+          <Address>+280</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>47</ID>
+              <Description>"5-1 quantity"</Description>
+              <LastState Value="56" RealAddress="4E345B58"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>48</ID>
+                  <Description>"5-2 item code"</Description>
+                  <LastState Value="7" RealAddress="4E345B68"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>49</ID>
+                      <Description>"5-2 quantity"</Description>
+                      <LastState Value="70" RealAddress="4E345B78"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>50</ID>
+                          <Description>"5-3 item code"</Description>
+                          <LastState Value="9" RealAddress="4E345B88"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+10</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>51</ID>
+                              <Description>"5-3 quantity"</Description>
+                              <LastState Value="71" RealAddress="4E345B98"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+10</Address>
+                              <CheatEntries>
+                                <CheatEntry>
+                                  <ID>63</ID>
+                                  <Description>"5-4 item code"</Description>
+                                  <LastState Value="9" RealAddress="4E345BA8"/>
+                                  <VariableType>Double</VariableType>
+                                  <Address>+10</Address>
+                                  <CheatEntries>
+                                    <CheatEntry>
+                                      <ID>64</ID>
+                                      <Description>"5-4 quantity"</Description>
+                                      <LastState Value="73" RealAddress="4E345BB8"/>
+                                      <VariableType>Double</VariableType>
+                                      <Address>+10</Address>
+                                      <CheatEntries>
+                                        <CheatEntry>
+                                          <ID>66</ID>
+                                          <Description>"5-5 item code"</Description>
+                                          <LastState Value="1" RealAddress="4E345BC8"/>
+                                          <VariableType>Double</VariableType>
+                                          <Address>+10</Address>
+                                          <CheatEntries>
+                                            <CheatEntry>
+                                              <ID>67</ID>
+                                              <Description>"5-5 quantity"</Description>
+                                              <LastState Value="105" RealAddress="4E345BD8"/>
+                                              <VariableType>Double</VariableType>
+                                              <Address>+10</Address>
+                                            </CheatEntry>
+                                          </CheatEntries>
+                                        </CheatEntry>
+                                      </CheatEntries>
+                                    </CheatEntry>
+                                  </CheatEntries>
+                                </CheatEntry>
+                              </CheatEntries>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>52</ID>
+          <Description>"6-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="1" RealAddress="4E345BE8"/>
+          <VariableType>Double</VariableType>
+          <Address>+320</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>68</ID>
+              <Description>"6-1 quantity"</Description>
+              <LastState Value="109" RealAddress="4E345BF8"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>53</ID>
+          <Description>"7-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="1" RealAddress="4E345C88"/>
+          <VariableType>Double</VariableType>
+          <Address>+3c0</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>56</ID>
+              <Description>"7-1 quantity"</Description>
+              <LastState Value="116" RealAddress="4E345C98"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>57</ID>
+                  <Description>"7-2 item code"</Description>
+                  <LastState Value="7" RealAddress="4E345CA8"/>
+                  <VariableType>Double</VariableType>
+                  <Address>+10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>58</ID>
+                      <Description>"7-2 quantity"</Description>
+                      <LastState Value="117" RealAddress="4E345CB8"/>
+                      <VariableType>Double</VariableType>
+                      <Address>+10</Address>
+                      <CheatEntries>
+                        <CheatEntry>
+                          <ID>59</ID>
+                          <Description>"7-3 item code"</Description>
+                          <LastState Value="2" RealAddress="4E345CC8"/>
+                          <VariableType>Double</VariableType>
+                          <Address>+10</Address>
+                          <CheatEntries>
+                            <CheatEntry>
+                              <ID>60</ID>
+                              <Description>"7-3 quantity"</Description>
+                              <LastState Value="118" RealAddress="4E345CD8"/>
+                              <VariableType>Double</VariableType>
+                              <Address>+10</Address>
+                              <CheatEntries>
+                                <CheatEntry>
+                                  <ID>61</ID>
+                                  <Description>"7-4 item code"</Description>
+                                  <LastState Value="6" RealAddress="4E345CE8"/>
+                                  <VariableType>Double</VariableType>
+                                  <Address>+10</Address>
+                                  <CheatEntries>
+                                    <CheatEntry>
+                                      <ID>62</ID>
+                                      <Description>"7-4 quantity"</Description>
+                                      <LastState Value="119" RealAddress="4E345CF8"/>
+                                      <VariableType>Double</VariableType>
+                                      <Address>+10</Address>
+                                    </CheatEntry>
+                                  </CheatEntries>
+                                </CheatEntry>
+                              </CheatEntries>
+                            </CheatEntry>
+                          </CheatEntries>
+                        </CheatEntry>
+                      </CheatEntries>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>54</ID>
+          <Description>"8-1 item code"</Description>
+          <Options moManualExpandCollapse="1"/>
+          <LastState Value="9876" RealAddress="4E345D28"/>
+          <VariableType>Double</VariableType>
+          <Address>+460</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>55</ID>
+              <Description>"8-1 quantity"</Description>
+              <LastState Value="126" RealAddress="4E345D38"/>
+              <VariableType>Double</VariableType>
+              <Address>+10</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of subsd xmm1,xmm0</Description>
+      <Address>0043942A</Address>
+      <ModuleName>The_Swords_of_Ditto.exe</ModuleName>
+      <ModuleNameOffset>4942A</ModuleNameOffset>
+      <Before>
+        <Byte>0C</Byte>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>07</Byte>
+      </Before>
+      <Actual>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>5C</Byte>
+        <Byte>C8</Byte>
+      </Actual>
+      <After>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>0E</Byte>
+        <Byte>89</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of movsd [esi],xmm0</Description>
+      <Address>003F7169</Address>
+      <ModuleName>The_Swords_of_Ditto.exe</ModuleName>
+      <ModuleNameOffset>7169</ModuleNameOffset>
+      <Before>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>10</Byte>
+      </Before>
+      <Actual>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>06</Byte>
+      </Actual>
+      <After>
+        <Byte>EB</Byte>
+        <Byte>13</Byte>
+        <Byte>8B</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of movsd [esi],xmm1</Description>
+      <Address>0043942E</Address>
+      <ModuleName>The_Swords_of_Ditto.exe</ModuleName>
+      <ModuleNameOffset>4942E</ModuleNameOffset>
+      <Before>
+        <Byte>07</Byte>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>5C</Byte>
+        <Byte>C8</Byte>
+      </Before>
+      <Actual>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>0E</Byte>
+      </Actual>
+      <After>
+        <Byte>89</Byte>
+        <Byte>F0</Byte>
+        <Byte>8D</Byte>
+        <Byte>65</Byte>
+        <Byte>F8</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <Comments>mouse bomb - 49
+</Comments>
+</CheatTable>
