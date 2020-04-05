@@ -1,119 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="21">
+<CheatTable CheatEngineTableVersion="29">
   <CheatEntries>
     <CheatEntry>
-      <ID>1</ID>
-      <Description>"Money Hack doesn't work"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[enable]
-alloc(newmem,2048)
-label(returnhere)
-label(originalcode)
-label(exit)
-
-newmem: //this is allocated memory, you have read,write,execute access
-//place your code here
-mov [ebp+0C],384 // move 0x384 (900) into the money address
-mov edi,[ebp+0C] // move the money value into edi
-mov [esi+18],edi // move edi into gui money address
-jmp exit
-
-
-originalcode:
-mov edi,[ebp+0C]
-mov [esi+18],edi
-
-exit:
-jmp returnhere
-
-2325B2AB:
-jmp newmem
-nop
-returnhere:
-
-[disable]
-dealloc(newmem)
-
-2325B2AB:
-mov edi,[ebp+0C]
-mov [esi+18],edi
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>2</ID>
-      <Description>"No description"</Description>
-      <VariableType>4 Bytes</VariableType>
-      <Address>2010CCF8</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>3</ID>
-      <Description>"Money Hack 2 doesn't work"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[enable]
-alloc(newmem,2048)
-label(returnhere)
-label(originalcode)
-label(exit)
-
-newmem: //this is allocated memory, you have read,write,execute access
-//place your code here
-mov [eax+18],384
-
-originalcode:
-mov eax,[eax+18]
-leave 
-ret 
-
-exit:
-jmp returnhere
-
-23288D01:
-jmp newmem
-returnhere:
-
-[disable]
-dealloc(newmem)
-23288D01:
-mov eax,[eax+18]
-leave
-ret
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>4</ID>
-      <Description>"Money Hack 3 crashes game"</Description>
+      <ID>6</ID>
+      <Description>"Enable Codes"</Description>
+      <Options moHideChildren="1"/>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[enable]
-alloc(newmem,2048)
-label(returnhere)
-label(originalcode)
-label(exit)
-
-newmem: //this is allocated memory, you have read,write,execute access
-//place your code here
-mov [ebp+08],389
-originalcode:
-mov eax,[ebp+08]
-mov eax,[eax]
-
-exit:
-jmp returnhere
-
-067C6EDE:
-jmp newmem
-returnhere:
-
-[disable]
-dealloc(newmem)
-067C6EDE:
-mov eax,[ebp+08]
-mov eax,[eax]
+      <AssemblerScript>[ENABLE]
+{$lua}
+if syntaxcheck then return end
+if process and readInteger(process) ~= 0 then
+    mono_initialize()
+    LaunchMonoDataCollector()
+else
+    local msg = 'No process detected.'
+    print(msg)
+    error(msg)
+end
+{$asm}
+[DISABLE]
 </AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"Freeze Game Timer [HOME]"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+TimedFlowControllerBase:OnUpdateInRound+12:
+  nop
+  nop
+  nop
+  nop
+  nop
+
+ 
+ 
+[DISABLE]
+TimedFlowControllerBase:OnUpdateInRound+12:
+  db E8 11 00 00 00
+
+
+/*
+TimedFlowControllerBase:OnUpdateInRound - 55                    - push ebp
+TimedFlowControllerBase:OnUpdateInRound+1- 8B EC                 - mov ebp,esp
+TimedFlowControllerBase:OnUpdateInRound+3- 83 EC 08              - sub esp,08 { 8 }
+TimedFlowControllerBase:OnUpdateInRound+6- 8B 45 08              - mov eax,[ebp+08]
+TimedFlowControllerBase:OnUpdateInRound+9- 8B 40 38              - mov eax,[eax+38]
+TimedFlowControllerBase:OnUpdateInRound+c- 83 EC 0C              - sub esp,0C { 12 }
+TimedFlowControllerBase:OnUpdateInRound+f- 50                    - push eax
+TimedFlowControllerBase:OnUpdateInRound+10- 39 00                 - cmp [eax],eax
+TimedFlowControllerBase:OnUpdateInRound+12- E8 11000000           - call RoundTimer:Update
+TimedFlowControllerBase:OnUpdateInRound+17- 83 C4 10              - add esp,10 { 16 }
+TimedFlowControllerBase:OnUpdateInRound+1a- C9                    - leave
+TimedFlowControllerBase:OnUpdateInRound+1b- C3                    - ret
+23C237E4                                - 68 B8796A1A           - push 1A6A79B8 { (134) }
+23C237E9                                - E9 3AC8D9E2           - jmp 069C0028
+23C237EE                                - 00 00                 - add [eax],al
+RoundTimer:Update                       - 55                    - push ebp
+RoundTimer:Update+1                     - 8B EC                 - mov ebp,esp
+RoundTimer:Update+3                     - 53                    - push ebx
+*/
+</AssemblerScript>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Toggle Activation</Action>
+              <Keys>
+                <Key>36</Key>
+              </Keys>
+              <ID>0</ID>
+              <ActivateSound>Activate</ActivateSound>
+              <DeactivateSound>Deactivate</DeactivateSound>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"No description"</Description>
+      <LastState Value="96" RealAddress="1E26AF78"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>1E26AF78</Address>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call RoundTimer:Update</Description>
+      <AddressString>23C237DA</AddressString>
+      <Before>
+        <Byte>EC</Byte>
+        <Byte>0C</Byte>
+        <Byte>50</Byte>
+        <Byte>39</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>11</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>10</Byte>
+        <Byte>C9</Byte>
+        <Byte>C3</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>Commander_savedAOB</Name>
