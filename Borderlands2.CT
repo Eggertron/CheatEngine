@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Golden Keys amount do not change"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Borderlands2.exe
+  Version: 
+  Date   : 2020-05-06
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(gold_key_update,Borderlands2.exe,E8 D4 11 7E 00) // should be unique
+registersymbol(gold_key_update)
+gold_key_update:
+  db 90 90 90 90 90
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+gold_key_update:
+  db E8 D4 11 7E 00
+
+unregistersymbol(gold_key_update)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Borderlands2.exe"+8C5767
+
+"Borderlands2.exe"+8C5753: 8B 50 04              -  mov edx,[eax+04]
+"Borderlands2.exe"+8C5756: 6A 08                 -  push 08
+"Borderlands2.exe"+8C5758: 57                    -  push edi
+"Borderlands2.exe"+8C5759: FF D2                 -  call edx
+"Borderlands2.exe"+8C575B: 8B 4E 04              -  mov ecx,[esi+04]
+"Borderlands2.exe"+8C575E: 8B 55 0C              -  mov edx,[ebp+0C]
+"Borderlands2.exe"+8C5761: 51                    -  push ecx
+"Borderlands2.exe"+8C5762: 52                    -  push edx
+"Borderlands2.exe"+8C5763: 50                    -  push eax
+"Borderlands2.exe"+8C5764: 89 46 08              -  mov [esi+08],eax
+// ---------- INJECTING HERE ----------
+"Borderlands2.exe"+8C5767: E8 D4 11 7E 00        -  call Borderlands2.exe+10A6940
+// ---------- DONE INJECTING  ----------
+"Borderlands2.exe"+8C576C: 83 C4 0C              -  add esp,0C
+"Borderlands2.exe"+8C576F: 5F                    -  pop edi
+"Borderlands2.exe"+8C5770: 5E                    -  pop esi
+"Borderlands2.exe"+8C5771: 5D                    -  pop ebp
+"Borderlands2.exe"+8C5772: C2 08 00              -  ret 0008
+"Borderlands2.exe"+8C5775: CC                    -  int 3 
+"Borderlands2.exe"+8C5776: CC                    -  int 3 
+"Borderlands2.exe"+8C5777: CC                    -  int 3 
+"Borderlands2.exe"+8C5778: CC                    -  int 3 
+"Borderlands2.exe"+8C5779: CC                    -  int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Magazine unchanged"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Borderlands2.exe
+  Version: 
+  Date   : 2020-05-06
+  Author : Edgar Han
+
+  This script checks if ecx is a bullet update and jumps instead of write
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(mag_dec,Borderlands2.exe,7C 0B 8B 55 0C 89 02 8B E5 5D) // should be unique
+alloc(newmem,128)
+
+label(code)
+label(return)
+
+newmem:
+  test ecx,ecx
+  jz code
+  mov [edx],eax
+
+code:
+  mov esp,ebp
+  pop ebp
+  jmp return
+
+mag_dec+05:
+  jmp newmem
+return:
+registersymbol(mag_dec)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+mag_dec+05:
+  db 89 02 8B E5 5D
+
+unregistersymbol(mag_dec)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Borderlands2.exe"+55ECA
+
+"Borderlands2.exe"+55EB2: 6A 00                 -  push 00
+"Borderlands2.exe"+55EB4: 51                    -  push ecx
+"Borderlands2.exe"+55EB5: 8B CE                 -  mov ecx,esi
+"Borderlands2.exe"+55EB7: E8 14 DE 12 00        -  call Borderlands2.exe+183CD0
+"Borderlands2.exe"+55EBC: 8B 45 FC              -  mov eax,[ebp-04]
+"Borderlands2.exe"+55EBF: 8B 4D 08              -  mov ecx,[ebp+08]
+"Borderlands2.exe"+55EC2: 5E                    -  pop esi
+"Borderlands2.exe"+55EC3: 3B C1                 -  cmp eax,ecx
+"Borderlands2.exe"+55EC5: 7C 0B                 -  jl Borderlands2.exe+55ED2
+"Borderlands2.exe"+55EC7: 8B 55 0C              -  mov edx,[ebp+0C]
+// ---------- INJECTING HERE ----------
+"Borderlands2.exe"+55ECA: 89 02                 -  mov [edx],eax
+"Borderlands2.exe"+55ECC: 8B E5                 -  mov esp,ebp
+"Borderlands2.exe"+55ECE: 5D                    -  pop ebp
+// ---------- DONE INJECTING  ----------
+"Borderlands2.exe"+55ECF: C2 08 00              -  ret 0008
+"Borderlands2.exe"+55ED2: 8B 45 0C              -  mov eax,[ebp+0C]
+"Borderlands2.exe"+55ED5: 89 08                 -  mov [eax],ecx
+"Borderlands2.exe"+55ED7: 8B E5                 -  mov esp,ebp
+"Borderlands2.exe"+55ED9: 5D                    -  pop ebp
+"Borderlands2.exe"+55EDA: C2 08 00              -  ret 0008
+"Borderlands2.exe"+55EDD: CC                    -  int 3 
+"Borderlands2.exe"+55EDE: CC                    -  int 3 
+"Borderlands2.exe"+55EDF: CC                    -  int 3 
+"Borderlands2.exe"+55EE0: 55                    -  push ebp
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call Borderlands2.exe+10A6940</Description>
+      <AddressString>Borderlands2.exe+8C5767</AddressString>
+      <Before>
+        <Byte>52</Byte>
+        <Byte>50</Byte>
+        <Byte>89</Byte>
+        <Byte>46</Byte>
+        <Byte>08</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>D4</Byte>
+        <Byte>11</Byte>
+        <Byte>7E</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>0C</Byte>
+        <Byte>5F</Byte>
+        <Byte>5E</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>
