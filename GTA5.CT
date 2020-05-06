@@ -5,7 +5,7 @@
       <ID>2</ID>
       <Description>"Player Health no dec (and cars?)"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : GTA5.exe
   Version: 
@@ -106,7 +106,6 @@ dealloc(newmem)
         <CheatEntry>
           <ID>21</ID>
           <Description>"player health = 200"</Description>
-          <LastState Value="150" RealAddress="260668CDA60"/>
           <VariableType>Float</VariableType>
           <Address>player</Address>
           <Offsets>
@@ -387,11 +386,37 @@ dealloc(newmem)
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
-      <ID>25</ID>
+      <ID>26</ID>
+      <Description>" Online Online Online Online Online Online Online"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>35</ID>
       <Description>"No description"</Description>
-      <LastState Value="0" RealAddress="260C8B523C8"/>
+      <LastState Value="0" RealAddress="21F4DFFB9D8"/>
       <VariableType>4 Bytes</VariableType>
-      <Address>260C8B523C8</Address>
+      <Address>21F4DFFB9D8</Address>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>32</ID>
+          <Description>"OFFSET from bet: Rulette win"</Description>
+          <LastState Value="0" RealAddress="21F4DFFB548"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>-490</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>115</Key>
+              </Keys>
+              <Value>20</Value>
+              <ID>0</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
