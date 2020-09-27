@@ -221,168 +221,6 @@ dealloc(newmem)
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
-          <ID>97</ID>
-          <Description>"Crafting does not decrease resources"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
-NMS.AK::WriteBytesMem::Bytes+342E8:
-nop
-nop
-nop
- 
- 
-[DISABLE]
-NMS.AK::WriteBytesMem::Bytes+342E8:
-sub [rax+18],ebx
-
-/*
-NMS.exe+441E25 - 39 72 18              - cmp [rdx+18],esi
-NMS.exe+441E28 - 0F4C 5A 18            - cmovl ebx,[rdx+18]
-NMS.exe+441E2C - 48 83 C2 28           - add rdx,28 { 40 }
-NMS.exe+441E30 - 48 8B CF              - mov rcx,rdi
-NMS.exe+441E33 - E8 089DFCFF           - call NMS.exe+40BB40
-NMS.exe+441E38 - 29 58 18              - sub [rax+18],ebx
-NMS.exe+441E3B - 2B F3                 - sub esi,ebx
-NMS.exe+441E3D - 4D 8D 76 08           - lea r14,[r14+08]
-NMS.exe+441E41 - 48 FF C5              - inc rbp
-NMS.exe+441E44 - 49 3B EF              - cmp rbp,r15
-*/
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>102</ID>
-          <Description>"Crafting give 9999 resources"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-alloc(newmem,2048,NMS.AK::WriteBytesMem::Bytes+342E8)
-label(returnhere)
-label(exit)
-
-newmem: //this is allocated memory, you have read,write,execute access
-//place your code here
-push ebx
-mov ebx, 270f
-mov [rax+18],ebx
-mov ebx, 0
-sub esi,ebx
-pop ebx
-
-exit:
-jmp returnhere
-
-NMS.AK::WriteBytesMem::Bytes+342E8:
-jmp newmem
-returnhere:
-
-
- 
- 
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-dealloc(newmem)
-NMS.AK::WriteBytesMem::Bytes+342E8:
-sub [rax+18],ebx
-sub esi,ebx
-//Alt: db 29 58 18 2B F3
-
-/*
-NMS.exe+441E23 - 8B DE                 - mov ebx,esi
-NMS.exe+441E25 - 39 72 18              - cmp [rdx+18],esi
-NMS.exe+441E28 - 0F4C 5A 18            - cmovl ebx,[rdx+18]
-NMS.exe+441E2C - 48 83 C2 28           - add rdx,28 { 40 }
-NMS.exe+441E30 - 48 8B CF              - mov rcx,rdi
-NMS.exe+441E33 - E8 089DFCFF           - call NMS.exe+40BB40
-NMS.exe+441E38 - 29 58 18              - sub [rax+18],ebx
-NMS.exe+441E3B - 2B F3                 - sub esi,ebx
-NMS.exe+441E3D - 4D 8D 76 08           - lea r14,[r14+08]
-NMS.exe+441E41 - 48 FF C5              - inc rbp
-NMS.exe+441E44 - 49 3B EF              - cmp rbp,r15
-NMS.exe+441E47 - 75 D7                 - jne NMS.exe+441E20
-*/
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>117</ID>
-          <Description>"Recharging/refueling give 9999 of resources used"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : NMS.exe
-  Version: 
-  Date   : 2020-02-27
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
- 
- 
-aobscanmodule(RECHARGE,NMS.exe,44 29 68 18 4D 85 F6) // should be unique
-alloc(newmem,$1000,"NMS.exe"+4452CE)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  mov r13d, 270f
-  mov [rax+18],r13d
-  test r14,r14
-  jmp return
-
-RECHARGE:
-  jmp newmem
-  nop 2
-return:
-registersymbol(RECHARGE)
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-RECHARGE:
-  db 44 29 68 18 4D 85 F6
-
-unregistersymbol(RECHARGE)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+4452CE
-
-"NMS.exe"+4452A2: 89 44 24 30              -  mov [rsp+30],eax
-"NMS.exe"+4452A6: E8 95 68 FC FF           -  call NMS.exe+40BB40
-"NMS.exe"+4452AB: 48 8B 94 24 E8 00 00 00  -  mov rdx,[rsp+000000E8]
-"NMS.exe"+4452B3: 4C 8B F8                 -  mov r15,rax
-"NMS.exe"+4452B6: 48 8B 4C 24 40           -  mov rcx,[rsp+40]
-"NMS.exe"+4452BB: 01 78 18                 -  add [rax+18],edi
-"NMS.exe"+4452BE: E8 7D 68 FC FF           -  call NMS.exe+40BB40
-"NMS.exe"+4452C3: 44 8B 6C 24 30           -  mov r13d,[rsp+30]
-"NMS.exe"+4452C8: 48 8B F8                 -  mov rdi,rax
-"NMS.exe"+4452CB: 45 2B E5                 -  sub r12d,r13d
-// ---------- INJECTING HERE ----------
-"NMS.exe"+4452CE: 44 29 68 18              -  sub [rax+18],r13d
-"NMS.exe"+4452D2: 4D 85 F6                 -  test r14,r14
-// ---------- DONE INJECTING  ----------
-"NMS.exe"+4452D5: 74 64                    -  je NMS.exe+44533B
-"NMS.exe"+4452D7: 41 83 BE 70 02 00 00 01  -  cmp dword ptr [r14+00000270],01
-"NMS.exe"+4452DF: 75 5A                    -  jne NMS.exe+44533B
-"NMS.exe"+4452E1: 4C 8B 05 70 01 05 02     -  mov r8,[NMS.exe+2495458]
-"NMS.exe"+4452E8: 41 8B 8E 90 02 00 00     -  mov ecx,[r14+00000290]
-"NMS.exe"+4452EF: E8 AC 8D FC FF           -  call NMS.exe+40E0A0
-"NMS.exe"+4452F4: 83 F8 0C                 -  cmp eax,0C
-"NMS.exe"+4452F7: 74 42                    -  je NMS.exe+44533B
-"NMS.exe"+4452F9: 66 41 0F 6E C4           -  movd xmm0,r12d
-"NMS.exe"+4452FE: 0F 5B C0                 -  cvtdq2ps xmm0,xmm0
-}
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
           <ID>120</ID>
           <Description>"Collect extra 9999 units 100 clusters/quicksilver"</Description>
           <LastState/>
@@ -828,243 +666,12 @@ dealloc(newmem)
 }
 </AssemblerScript>
         </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>135</ID>
-      <Description>"Crafting inventory gives 9999 resources"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : NMS.exe
-  Version: 
-  Date   : 2020-04-25
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
- 
- 
-aobscanmodule(ITEM_DEC,NMS.exe,29 58 18 2B F3 85) // should be unique
-alloc(newmem,$1000,"NMS.exe"+439B04)
-
-label(code)
-label(return)
-
-newmem:
-  push ebx
-  mov ebx, 270f
-code:
-  mov [rax+18],ebx
-  mov ebx, 0
-  sub esi,ebx
-  pop ebx
-  jmp return
-
-ITEM_DEC:
-  jmp newmem
-return:
-registersymbol(ITEM_DEC)
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-ITEM_DEC:
-  db 29 58 18 2B F3
-
-unregistersymbol(ITEM_DEC)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+439B04
-
-"NMS.exe"+439AD9: 75 E5                    -  jne NMS.exe+439AC0
-"NMS.exe"+439ADB: E9 A2 01 00 00           -  jmp NMS.exe+439C82
-"NMS.exe"+439AE0: 4D 85 D2                 -  test r10,r10
-"NMS.exe"+439AE3: 0F 84 99 01 00 00        -  je NMS.exe+439C82
-"NMS.exe"+439AE9: 8B DE                    -  mov ebx,esi
-"NMS.exe"+439AEB: 41 39 72 18              -  cmp [r10+18],esi
-"NMS.exe"+439AEF: 41 0F 4C 5A 18           -  cmovl ebx,[r10+18]
-"NMS.exe"+439AF4: 48 8D 94 24 88 00 00 00  -  lea rdx,[rsp+00000088]
-"NMS.exe"+439AFC: 48 8B CF                 -  mov rcx,rdi
-"NMS.exe"+439AFF: E8 CC A2 FC FF           -  call NMS.exe+403DD0
-// ---------- INJECTING HERE ----------
-"NMS.exe"+439B04: 29 58 18                 -  sub [rax+18],ebx
-"NMS.exe"+439B07: 2B F3                    -  sub esi,ebx
-// ---------- DONE INJECTING  ----------
-"NMS.exe"+439B09: 85 F6                    -  test esi,esi
-"NMS.exe"+439B0B: 0F 8E 22 01 00 00        -  jng NMS.exe+439C33
-"NMS.exe"+439B11: 0F 57 C0                 -  xorps xmm0,xmm0
-"NMS.exe"+439B14: F3 0F 7F 44 24 28        -  movdqu [rsp+28],xmm0
-"NMS.exe"+439B1A: 45 33 ED                 -  xor r13d,r13d
-"NMS.exe"+439B1D: 4C 89 6C 24 38           -  mov [rsp+38],r13
-"NMS.exe"+439B22: 4C 8B 77 50              -  mov r14,[rdi+50]
-"NMS.exe"+439B26: 48 8B 5F 48              -  mov rbx,[rdi+48]
-"NMS.exe"+439B2A: 48 8B 54 24 30           -  mov rdx,[rsp+30]
-"NMS.exe"+439B2F: 49 3B DE                 -  cmp rbx,r14
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>138</ID>
-      <Description>"Recharging/refueling give 9999 of resource used"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : NMS.exe
-  Version: 
-  Date   : 2020-04-25
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
- 
- 
-aobscanmodule(USAGE,NMS.exe,41 29 47 18 4D 85 F6) // should be unique
-alloc(newmem,$1000,"NMS.exe"+43D0DA)
-
-label(code)
-label(return)
-
-newmem:
-  mov eax, 270f
-code:
-  mov [r15+18],eax
-  test r14,r14
-  jmp return
-
-USAGE:
-  jmp newmem
-  nop 2
-return:
-registersymbol(USAGE)
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-USAGE:
-  db 41 29 47 18 4D 85 F6
-
-unregistersymbol(USAGE)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+43D0DA
-
-"NMS.exe"+43D0AF: 89 44 24 30              -  mov [rsp+30],eax
-"NMS.exe"+43D0B3: E8 18 6D FC FF           -  call NMS.exe+403DD0
-"NMS.exe"+43D0B8: 48 8B 94 24 E8 00 00 00  -  mov rdx,[rsp+000000E8]
-"NMS.exe"+43D0C0: 4C 8B E0                 -  mov r12,rax
-"NMS.exe"+43D0C3: 48 8B 4C 24 40           -  mov rcx,[rsp+40]
-"NMS.exe"+43D0C8: 01 78 18                 -  add [rax+18],edi
-"NMS.exe"+43D0CB: E8 00 6D FC FF           -  call NMS.exe+403DD0
-"NMS.exe"+43D0D0: 4C 8B F8                 -  mov r15,rax
-"NMS.exe"+43D0D3: 8B 44 24 30              -  mov eax,[rsp+30]
-"NMS.exe"+43D0D7: 44 2B E8                 -  sub r13d,eax
-// ---------- INJECTING HERE ----------
-"NMS.exe"+43D0DA: 41 29 47 18              -  sub [r15+18],eax
-"NMS.exe"+43D0DE: 4D 85 F6                 -  test r14,r14
-// ---------- DONE INJECTING  ----------
-"NMS.exe"+43D0E1: 74 65                    -  je NMS.exe+43D148
-"NMS.exe"+43D0E3: 41 83 BE 70 02 00 00 01  -  cmp dword ptr [r14+00000270],01
-"NMS.exe"+43D0EB: 75 5B                    -  jne NMS.exe+43D148
-"NMS.exe"+43D0ED: 48 8B 3D 74 AE 15 02     -  mov rdi,[NMS.exe+2597F68]
-"NMS.exe"+43D0F4: 41 8B 8E 90 02 00 00     -  mov ecx,[r14+00000290]
-"NMS.exe"+43D0FB: E8 D0 8E FC FF           -  call NMS.exe+405FD0
-"NMS.exe"+43D100: 83 F8 0C                 -  cmp eax,0C
-"NMS.exe"+43D103: 74 43                    -  je NMS.exe+43D148
-"NMS.exe"+43D105: 89 87 F8 B5 4C 00        -  mov [rdi+004CB5F8],eax
-"NMS.exe"+43D10B: 8B 7B 1C                 -  mov edi,[rbx+1C]
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>140</ID>
-      <Description>"Crafting Building gives 9999 resources"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : NMS.exe
-  Version: 
-  Date   : 2020-04-26
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
- 
- 
-aobscanmodule(CRAFTING,NMS.exe,29 58 18 2B F3 4D) // should be unique
-alloc(newmem,$1000,"NMS.exe"+439BF8)
-
-label(code)
-label(return)
-
-newmem:
-  push ebx
-  mov ebx, 270f
-code:
-  mov [rax+18],ebx
-  mov ebx, 0
-  sub esi,ebx
-  pop ebx
-  jmp return
-
-CRAFTING:
-  jmp newmem
-return:
-registersymbol(CRAFTING)
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-CRAFTING:
-  db 29 58 18 2B F3
-
-unregistersymbol(CRAFTING)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+439BF8
-
-"NMS.exe"+439BD2: 74 35                       -  je NMS.exe+439C09
-"NMS.exe"+439BD4: 0F 1F 40 00                 -  nop [rax+00]
-"NMS.exe"+439BD8: 0F 1F 84 00 00 00 00 00     -  nop [rax+rax+00000000]
-"NMS.exe"+439BE0: 49 8B 16                    -  mov rdx,[r14]
-"NMS.exe"+439BE3: 8B DE                       -  mov ebx,esi
-"NMS.exe"+439BE5: 39 72 18                    -  cmp [rdx+18],esi
-"NMS.exe"+439BE8: 0F 4C 5A 18                 -  cmovl ebx,[rdx+18]
-"NMS.exe"+439BEC: 48 83 C2 28                 -  add rdx,28
-"NMS.exe"+439BF0: 48 8B CF                    -  mov rcx,rdi
-"NMS.exe"+439BF3: E8 D8 A1 FC FF              -  call NMS.exe+403DD0
-// ---------- INJECTING HERE ----------
-"NMS.exe"+439BF8: 29 58 18                    -  sub [rax+18],ebx
-"NMS.exe"+439BFB: 2B F3                       -  sub esi,ebx
-// ---------- DONE INJECTING  ----------
-"NMS.exe"+439BFD: 4D 8D 76 08                 -  lea r14,[r14+08]
-"NMS.exe"+439C01: 48 FF C5                    -  inc rbp
-"NMS.exe"+439C04: 49 3B EF                    -  cmp rbp,r15
-"NMS.exe"+439C07: 75 D7                       -  jne NMS.exe+439BE0
-"NMS.exe"+439C09: 48 8B 54 24 28              -  mov rdx,[rsp+28]
-"NMS.exe"+439C0E: 48 85 D2                    -  test rdx,rdx
-"NMS.exe"+439C11: 74 20                       -  je NMS.exe+439C33
-"NMS.exe"+439C13: 41 B8 FF FF FF FF           -  mov r8d,FFFFFFFF
-"NMS.exe"+439C19: 48 8D 0D A0 7A B6 01        -  lea rcx,[NMS.exe+1FA16C0]
-"NMS.exe"+439C20: E8 1B EA FE 00              -  call NMS.exe+1428640
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>143</ID>
-      <Description>"Find Money and Nanites Address"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : NMS.exe
+        <CheatEntry>
+          <ID>143</ID>
+          <Description>"Find Money and Nanites Address"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : NMS.exe
   Version: 
   Date   : 2020-05-09
   Author : Edgar Han
@@ -1138,32 +745,183 @@ dealloc(newmem)
 "NMS.exe"+6407FE: F3 0F 5C C8              -  subss xmm1,xmm0
 }
 </AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>95</ID>
-          <Description>"Money"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>[MADDRESS]</Address>
           <CheatEntries>
             <CheatEntry>
-              <ID>29</ID>
-              <Description>"Nanite Clusters ------ MOVE ME -----"</Description>
+              <ID>95</ID>
+              <Description>"Money"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>[MADDRESS]</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>146</ID>
+      <Description>"Crafting give 9999 of resource"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : NMS.exe
+  Version: 
+  Date   : 2020-09-26
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,44 29 73 18 48 8B 8C 24 90 00 00 00) // should be unique
+alloc(newmem,$256,"NMS.exe"+6CB0D0)
+
+label(code)
+label(return)
+
+newmem:
+code:
+  mov [rbx+18],270f
+  mov rcx,[rsp+00000090]
+  jmp return
+
+ITEM_DEC_CRAFTING:
+  jmp newmem
+  nop 7
+return:
+registersymbol(ITEM_DEC_CRAFTING)
+
+[DISABLE]
+
+ITEM_DEC_CRAFTING:
+  db 44 29 73 18 48 8B 8C 24 90 00 00 00
+
+unregistersymbol(ITEM_DEC_CRAFTING)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+6CB0D0
+
+"NMS.exe"+6CB0A6: 66 66 0F 1F 84 00 00 00 00 00  -  nop [rax+rax+00000000]
+"NMS.exe"+6CB0B0: 48 8D 53 28                    -  lea rdx,[rbx+28]
+"NMS.exe"+6CB0B4: 48 8D 4D 28                    -  lea rcx,[rbp+28]
+"NMS.exe"+6CB0B8: E8 83 C1 C8 FF                 -  call NMS.exe+357240
+"NMS.exe"+6CB0BD: 84 C0                          -  test al,al
+"NMS.exe"+6CB0BF: 0F 85 91 00 00 00              -  jne NMS.exe+6CB156
+"NMS.exe"+6CB0C5: 48 83 C3 30                    -  add rbx,30
+"NMS.exe"+6CB0C9: 48 3B DF                       -  cmp rbx,rdi
+"NMS.exe"+6CB0CC: 75 E2                          -  jne NMS.exe+6CB0B0
+"NMS.exe"+6CB0CE: 33 DB                          -  xor ebx,ebx
+// ---------- INJECTING HERE ----------
+"NMS.exe"+6CB0D0: 44 29 73 18                    -  sub [rbx+18],r14d
+"NMS.exe"+6CB0D4: 48 8B 8C 24 90 00 00 00        -  mov rcx,[rsp+00000090]
+"NMS.exe"+6CB0DC: 41 2B F6                       -  sub esi,r14d
+// ---------- DONE INJECTING  ----------
+"NMS.exe"+6CB0DF: 49 83 C5 08                    -  add r13,08
+"NMS.exe"+6CB0E3: 49 FF C4                       -  inc r12
+"NMS.exe"+6CB0E6: 4C 3B E1                       -  cmp r12,rcx
+"NMS.exe"+6CB0E9: 75 95                          -  jne NMS.exe+6CB080
+"NMS.exe"+6CB0EB: 44 8B B4 24 A0 00 00 00        -  mov r14d,[rsp+000000A0]
+"NMS.exe"+6CB0F3: 33 DB                          -  xor ebx,ebx
+"NMS.exe"+6CB0F5: 48 8B 54 24 28                 -  mov rdx,[rsp+28]
+"NMS.exe"+6CB0FA: 48 85 D2                       -  test rdx,rdx
+"NMS.exe"+6CB0FD: 74 20                          -  je NMS.exe+6CB11F
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>150</ID>
+      <Description>"Recharging give 9999 resource"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : NMS.exe
+  Version: 
+  Date   : 2020-09-26
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 29 60 18 48 8B 44 24 30) // should be unique
+alloc(newmem,$1000,"NMS.exe"+678BD5)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [rax+18],270f
+  mov rax,[rsp+30]
+  jmp return
+
+ITEM_DEC_RECHARGE:
+  jmp newmem
+  nop 4
+return:
+registersymbol(ITEM_DEC_RECHARGE)
+
+[DISABLE]
+
+ITEM_DEC_RECHARGE:
+  db 44 29 60 18 48 8B 44 24 30
+
+unregistersymbol(ITEM_DEC_RECHARGE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+678BD5
+
+"NMS.exe"+678BA4: F3 0F 2C C1              -  cvttss2si eax,xmm1
+"NMS.exe"+678BA8: 89 84 24 E0 00 00 00     -  mov [rsp+000000E0],eax
+"NMS.exe"+678BAF: E8 FC 52 01 00           -  call NMS.exe+68DEB0
+"NMS.exe"+678BB4: 48 8B 94 24 D8 00 00 00  -  mov rdx,[rsp+000000D8]
+"NMS.exe"+678BBC: 49 8B CC                 -  mov rcx,r12
+"NMS.exe"+678BBF: 4C 8B E8                 -  mov r13,rax
+"NMS.exe"+678BC2: 01 78 18                 -  add [rax+18],edi
+"NMS.exe"+678BC5: E8 E6 52 01 00           -  call NMS.exe+68DEB0
+"NMS.exe"+678BCA: 44 8B A4 24 E0 00 00 00  -  mov r12d,[rsp+000000E0]
+"NMS.exe"+678BD2: 48 8B F8                 -  mov rdi,rax
+// ---------- INJECTING HERE ----------
+"NMS.exe"+678BD5: 44 29 60 18              -  sub [rax+18],r12d
+"NMS.exe"+678BD9: 48 8B 44 24 30           -  mov rax,[rsp+30]
+// ---------- DONE INJECTING  ----------
+"NMS.exe"+678BDE: 48 85 C0                 -  test rax,rax
+"NMS.exe"+678BE1: 0F 84 E3 00 00 00        -  je NMS.exe+678CCA
+"NMS.exe"+678BE7: 83 B8 70 02 00 00 01     -  cmp dword ptr [rax+00000270],01
+"NMS.exe"+678BEE: 0F 85 D6 00 00 00        -  jne NMS.exe+678CCA
+"NMS.exe"+678BF4: 48 8D 0D 65 C4 60 02     -  lea rcx,[NMS.exe+2C85060]
+"NMS.exe"+678BFB: E8 20 91 C7 FF           -  call NMS.exe+2F1D20
+"NMS.exe"+678C00: 4C 8B E0                 -  mov r12,rax
+"NMS.exe"+678C03: 48 8B 44 24 30           -  mov rax,[rsp+30]
+"NMS.exe"+678C08: 8B 88 90 02 00 00        -  mov ecx,[rax+00000290]
+"NMS.exe"+678C0E: E8 6D AD 01 00           -  call NMS.exe+693980
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>149</ID>
+      <Description>"No description"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>22731E30F3C</Address>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"Nanite Clusters ------ MOVE ME -----"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+4</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>35</ID>
+              <Description>"No description"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>-8</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>27</ID>
+              <Description>"quick silvers"</Description>
               <VariableType>4 Bytes</VariableType>
               <Address>+4</Address>
-              <CheatEntries>
-                <CheatEntry>
-                  <ID>35</ID>
-                  <Description>"No description"</Description>
-                  <VariableType>4 Bytes</VariableType>
-                  <Address>-8</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>27</ID>
-                  <Description>"quick silvers"</Description>
-                  <VariableType>4 Bytes</VariableType>
-                  <Address>+4</Address>
-                </CheatEntry>
-              </CheatEntries>
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>

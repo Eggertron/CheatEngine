@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="21">
+<CheatTable CheatEngineTableVersion="29">
   <CheatEntries>
     <CheatEntry>
       <ID>1</ID>
@@ -65,7 +65,6 @@ fst dword ptr [esi+000000F8]
     <CheatEntry>
       <ID>13</ID>
       <Description>"health"</Description>
-      <LastState Value="200" Activated="1" RealAddress="09D381A8"/>
       <VariableType>Float</VariableType>
       <Address>"deadspace3.exe"+00EE0050</Address>
       <Offsets>
@@ -77,7 +76,6 @@ fst dword ptr [esi+000000F8]
     <CheatEntry>
       <ID>18</ID>
       <Description>"tungsten"</Description>
-      <LastState Value="8877" RealAddress="09D33694"/>
       <VariableType>4 Bytes</VariableType>
       <Address>"deadspace3.exe"+00DD3B8C</Address>
       <Offsets>
@@ -91,37 +89,678 @@ fst dword ptr [esi+000000F8]
         <CheatEntry>
           <ID>10</ID>
           <Description>"semi conductor"</Description>
-          <LastState Value="3311" RealAddress="09D33698"/>
           <VariableType>4 Bytes</VariableType>
           <Address>+4</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>11</ID>
           <Description>"scrap metal"</Description>
-          <LastState Value="9237" RealAddress="09D3369C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>+8</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>15</ID>
           <Description>"somatic gel"</Description>
-          <LastState Value="9498" RealAddress="09D336A0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>+c</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>16</ID>
           <Description>"transducer"</Description>
-          <LastState Value="6708" RealAddress="09D336A4"/>
           <VariableType>4 Bytes</VariableType>
           <Address>+10</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>17</ID>
           <Description>"ration seals"</Description>
-          <LastState Value="9876" RealAddress="09D336A8"/>
           <VariableType>4 Bytes</VariableType>
           <Address>+14</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"Get Player Health"</Description>
+      <Options moActivateChildrenAsWell="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(HEALTHREAD,deadspace3.exe,D9 80 F8 00 00 00 C3 CC CC CC CC E8) // should be unique
+registersymbol(PLAYERHEALTH)
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  fld dword ptr [eax+000000F8]
+  mov [PLAYERHEALTH], eax
+  add [PLAYERHEALTH], F8
+  jmp return
+
+PLAYERHEALTH:
+  db 0
+
+HEALTHREAD:
+  jmp newmem
+  nop
+return:
+registersymbol(HEALTHREAD)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+HEALTHREAD:
+  db D9 80 F8 00 00 00
+
+unregistersymbol(HEALTHREAD)
+unregistersymbol(PLAYERHEALTH)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+432C5
+
+"deadspace3.exe"+432B0: 8B 01                 -  mov eax,[ecx]
+"deadspace3.exe"+432B2: 8B 90 38 02 00 00     -  mov edx,[eax+00000238]
+"deadspace3.exe"+432B8: FF E2                 -  jmp edx
+"deadspace3.exe"+432BA: CC                    -  int 3 
+"deadspace3.exe"+432BB: CC                    -  int 3 
+"deadspace3.exe"+432BC: CC                    -  int 3 
+"deadspace3.exe"+432BD: CC                    -  int 3 
+"deadspace3.exe"+432BE: CC                    -  int 3 
+"deadspace3.exe"+432BF: CC                    -  int 3 
+"deadspace3.exe"+432C0: E8 7B E3 24 00        -  call deadspace3.exe+291640
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+432C5: D9 80 F8 00 00 00     -  fld dword ptr [eax+000000F8]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+432CB: C3                    -  ret 
+"deadspace3.exe"+432CC: CC                    -  int 3 
+"deadspace3.exe"+432CD: CC                    -  int 3 
+"deadspace3.exe"+432CE: CC                    -  int 3 
+"deadspace3.exe"+432CF: CC                    -  int 3 
+"deadspace3.exe"+432D0: E8 6B E3 24 00        -  call deadspace3.exe+291640
+"deadspace3.exe"+432D5: D9 80 F4 00 00 00     -  fld dword ptr [eax+000000F4]
+"deadspace3.exe"+432DB: C3                    -  ret 
+"deadspace3.exe"+432DC: CC                    -  int 3 
+"deadspace3.exe"+432DD: CC                    -  int 3 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>20</ID>
+          <Description>"Player Health Value"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[PLAYERHEALTH]</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"Instant Kill Enemies"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(HEALTHUPDATE,deadspace3.exe,D9 96 F8 00 00 00 D9 CA) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+label(cleanup)
+
+newmem:
+
+code:
+  push edx
+  mov edx, [PLAYERHEALTH]
+  cmp edx, 0
+  je cleanup
+  sub edx, F8
+  cmp edx, esi
+  je cleanup
+  mov [esi+000000F8], 0
+
+cleanup:
+  pop edx
+  jmp return
+
+normal:
+  fst dword ptr [esi+000000F8]
+  jmp return
+
+HEALTHUPDATE:
+  jmp newmem
+  nop
+return:
+registersymbol(HEALTHUPDATE)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+HEALTHUPDATE:
+  db D9 96 F8 00 00 00
+
+unregistersymbol(HEALTHUPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+3595F7
+
+"deadspace3.exe"+3595DC: D9 1C 24           -  fstp dword ptr [esp]
+"deadspace3.exe"+3595DF: 53                 -  push ebx
+"deadspace3.exe"+3595E0: 51                 -  push ecx
+"deadspace3.exe"+3595E1: 8B 0D 04 65 1D 01  -  mov ecx,[deadspace3.exe+DD6504]
+"deadspace3.exe"+3595E7: E8 04 45 35 00     -  call deadspace3.exe+6ADAF0
+"deadspace3.exe"+3595EC: D9 E8              -  fld1 
+"deadspace3.exe"+3595EE: D9 45 08           -  fld dword ptr [ebp+08]
+"deadspace3.exe"+3595F1: D9 EE              -  fldz 
+"deadspace3.exe"+3595F3: D9 CA              -  fxch st(2)
+"deadspace3.exe"+3595F5: D9 C9              -  fxch st(1)
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+3595F7: D9 96 F8 00 00 00  -  fst dword ptr [esi+000000F8]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+3595FD: D9 CA              -  fxch st(2)
+"deadspace3.exe"+3595FF: D8 96 F4 00 00 00  -  fcom dword ptr [esi+000000F4]
+"deadspace3.exe"+359605: DF E0              -  fnstsw ax
+"deadspace3.exe"+359607: F6 C4 05           -  test ah,05
+"deadspace3.exe"+35960A: 7A 3A              -  jp deadspace3.exe+359646
+"deadspace3.exe"+35960C: D9 86 F4 00 00 00  -  fld dword ptr [esi+000000F4]
+"deadspace3.exe"+359612: DE FB              -  fdivp st(3),st(0)
+"deadspace3.exe"+359614: D9 CA              -  fxch st(2)
+"deadspace3.exe"+359616: D9 5D 08           -  fstp dword ptr [ebp+08]
+"deadspace3.exe"+359619: D9 45 08           -  fld dword ptr [ebp+08]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"Oxygen does not decrease"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(O2UPDATE,deadspace3.exe,D9 5E 60 D8 5E 60) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  //fstp dword ptr [esi+60]
+  fcomp dword ptr [esi+60]
+  jmp return
+
+O2UPDATE:
+  jmp newmem
+  nop
+return:
+registersymbol(O2UPDATE)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+O2UPDATE:
+  db D9 5E 60 D8 5E 60
+
+unregistersymbol(O2UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+154977
+
+"deadspace3.exe"+154958: 68 88 8C EC 00     -  push deadspace3.exe+AC8C88
+"deadspace3.exe"+15495D: 51                 -  push ecx
+"deadspace3.exe"+15495E: D9 1C 24           -  fstp dword ptr [esp]
+"deadspace3.exe"+154961: E8 1A B1 00 00     -  call deadspace3.exe+15FA80
+"deadspace3.exe"+154966: D8 4D F8           -  fmul dword ptr [ebp-08]
+"deadspace3.exe"+154969: 83 C4 08           -  add esp,08
+"deadspace3.exe"+15496C: D9 5D F8           -  fstp dword ptr [ebp-08]
+"deadspace3.exe"+15496F: D9 EE              -  fldz 
+"deadspace3.exe"+154971: D9 46 60           -  fld dword ptr [esi+60]
+"deadspace3.exe"+154974: D8 65 F8           -  fsub dword ptr [ebp-08]
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+154977: D9 5E 60           -  fstp dword ptr [esi+60]
+"deadspace3.exe"+15497A: D8 5E 60           -  fcomp dword ptr [esi+60]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+15497D: 53                 -  push ebx
+"deadspace3.exe"+15497E: DF E0              -  fnstsw ax
+"deadspace3.exe"+154980: F6 C4 41           -  test ah,41
+"deadspace3.exe"+154983: 0F 85 9D 00 00 00  -  jne deadspace3.exe+154A26
+"deadspace3.exe"+154989: 8B 46 70           -  mov eax,[esi+70]
+"deadspace3.exe"+15498C: 85 C0              -  test eax,eax
+"deadspace3.exe"+15498E: 0F 84 92 00 00 00  -  je deadspace3.exe+154A26
+"deadspace3.exe"+154994: 83 C0 F0           -  add eax,-10
+"deadspace3.exe"+154997: 0F 84 89 00 00 00  -  je deadspace3.exe+154A26
+"deadspace3.exe"+15499D: 8D 48 5C           -  lea ecx,[eax+5C]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>37</ID>
+      <Description>"Teleport to Aim Enable"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(AIMPOS,deadspace3.exe,0F 28 0A 8B 4B 0C 0F 5C C8 0F 29 4D B0 D8 4D B4 0F) // should be unique
+alloc(newmem,$1000)
+registersymbol(mousex)
+registersymbol(mousey)
+registersymbol(mousez)
+
+label(code)
+label(return)
+label(mousex)
+label(mousey)
+label(mousez)
+
+newmem:
+
+code:
+  movaps xmm1,[edx]
+
+  push edx
+  mov [mousex], edx
+  add edx, 04
+  mov [mousey], edx
+  add edx, 04
+  mov [mousez], edx
+
+  pop edx
+
+  mov ecx,[ebx+0C]
+  jmp return
+
+mousex:
+  db 00 00 00 00
+mousey:
+  db 00 00 00 00
+mousez:
+  db 00 00 00 00
+
+
+AIMPOS:
+  jmp newmem
+  nop
+return:
+registersymbol(AIMPOS)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+AIMPOS:
+  db 0F 28 0A 8B 4B 0C
+
+unregistersymbol(AIMPOS)
+unregistersymbol(mousex)
+unregistersymbol(mousey)
+unregistersymbol(mousez)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+6C6386
+
+"deadspace3.exe"+6C6369: D9 EE                 -  fldz 
+"deadspace3.exe"+6C636B: 8B 43 14              -  mov eax,[ebx+14]
+"deadspace3.exe"+6C636E: D9 5D FC              -  fstp dword ptr [ebp-04]
+"deadspace3.exe"+6C6371: 85 C0                 -  test eax,eax
+"deadspace3.exe"+6C6373: 75 05                 -  jne deadspace3.exe+6C637A
+"deadspace3.exe"+6C6375: B8 00 64 E2 00        -  mov eax,deadspace3.exe+A26400
+"deadspace3.exe"+6C637A: 8B 4B 08              -  mov ecx,[ebx+08]
+"deadspace3.exe"+6C637D: D9 40 04              -  fld dword ptr [eax+04]
+"deadspace3.exe"+6C6380: 0F 28 01              -  movaps xmm0,[ecx]
+"deadspace3.exe"+6C6383: 8B 53 10              -  mov edx,[ebx+10]
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+6C6386: 0F 28 0A              -  movaps xmm1,[edx]
+"deadspace3.exe"+6C6389: 8B 4B 0C              -  mov ecx,[ebx+0C]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+6C638C: 0F 5C C8              -  subps xmm1,xmm0
+"deadspace3.exe"+6C638F: 0F 29 4D B0           -  movaps [ebp-50],xmm1
+"deadspace3.exe"+6C6393: D8 4D B4              -  fmul dword ptr [ebp-4C]
+"deadspace3.exe"+6C6396: 0F 28 10              -  movaps xmm2,[eax]
+"deadspace3.exe"+6C6399: D9 00                 -  fld dword ptr [eax]
+"deadspace3.exe"+6C639B: 0F 29 55 90           -  movaps [ebp-70],xmm2
+"deadspace3.exe"+6C639F: D8 4D B0              -  fmul dword ptr [ebp-50]
+"deadspace3.exe"+6C63A2: DE C1                 -  faddp 
+"deadspace3.exe"+6C63A4: D9 40 08              -  fld dword ptr [eax+08]
+"deadspace3.exe"+6C63A7: D8 4D B8              -  fmul dword ptr [ebp-48]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>38</ID>
+          <Description>"aim x"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[mousex]</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>39</ID>
+          <Description>"aim y"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[mousey]</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>40</ID>
+          <Description>"aim z"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[mousez]</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>42</ID>
+          <Description>"Get Player Pos, teleport not working"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(GETPLAYERPOS,deadspace3.exe,D9 86 B0 00 00 00 D9 5D D0) // should be unique
+alloc(newmem,$1000)
+registersymbol(posx)
+registersymbol(posy)
+registersymbol(posz)
+registersymbol(isTeleport)
+
+label(code)
+label(return)
+label(posx)
+label(posy)
+label(posz)
+label(cleanup)
+label(isTeleport)
+
+newmem:
+
+code:
+  push eax
+  mov eax, esi
+  add eax, 000000B0
+  mov [posx], eax
+  add eax, 00000004
+  mov [posy], eax
+  add eax, 00000004
+  mov [posz], eax
+
+  mov eax, [isTeleport]
+  test eax,eax
+  je cleanup
+  mov eax, [mousex]
+  mov [posx], eax
+  mov eax, [mousey]
+  mov [posy], eax
+  mov eax, [mousez]
+  mov [posz], eax
+  mov [isTeleport], 0
+
+cleanup:
+  pop eax
+  fld dword ptr [esi+000000B0]
+  jmp return
+
+posx:
+  db 00 00 00 00
+posy:
+  db 00 00 00 00
+posz:
+  db 00 00 00 00
+isTeleport:
+  db 00 00 00 00
+
+GETPLAYERPOS:
+  jmp newmem
+  nop
+return:
+registersymbol(GETPLAYERPOS)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+GETPLAYERPOS:
+  db D9 86 B0 00 00 00
+
+unregistersymbol(GETPLAYERPOS)
+unregistersymbol(posx)
+unregistersymbol(posy)
+unregistersymbol(posz)
+unregistersymbol(isTeleport)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+343949
+
+"deadspace3.exe"+343925: EB 02                 -  jmp deadspace3.exe+343929
+"deadspace3.exe"+343927: DD D8                 -  fstp st(0)
+"deadspace3.exe"+343929: DD D8                 -  fstp st(0)
+"deadspace3.exe"+34392B: 0F 28 86 90 00 00 00  -  movaps xmm0,[esi+00000090]
+"deadspace3.exe"+343932: 0F 29 85 70 FF FF FF  -  movaps [ebp-00000090],xmm0
+"deadspace3.exe"+343939: 8D 4D A0              -  lea ecx,[ebp-60]
+"deadspace3.exe"+34393C: 51                    -  push ecx
+"deadspace3.exe"+34393D: 8D 95 70 FF FF FF     -  lea edx,[ebp-00000090]
+"deadspace3.exe"+343943: 52                    -  push edx
+"deadspace3.exe"+343944: E8 C7 8F CD FF        -  call deadspace3.exe+1C910
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+343949: D9 86 B0 00 00 00     -  fld dword ptr [esi+000000B0]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+34394F: D9 5D D0              -  fstp dword ptr [ebp-30]
+"deadspace3.exe"+343952: BA 01 00 00 00        -  mov edx,00000001
+"deadspace3.exe"+343957: E9 A4 C6 5F 03        -  jmp 03D40000
+"deadspace3.exe"+34395C: 90                    -  nop 
+"deadspace3.exe"+34395D: 83 C4 08              -  add esp,08
+"deadspace3.exe"+343960: D9 5D D4              -  fstp dword ptr [ebp-2C]
+"deadspace3.exe"+343963: D9 86 B8 00 00 00     -  fld dword ptr [esi+000000B8]
+"deadspace3.exe"+343969: D9 5D D8              -  fstp dword ptr [ebp-28]
+"deadspace3.exe"+34396C: D9 E8                 -  fld1 
+"deadspace3.exe"+34396E: D9 5D DC              -  fstp dword ptr [ebp-24]
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>32</ID>
+              <Description>"Pos X"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posx]</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>34</ID>
+              <Description>"Pos Y"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posy]</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>35</ID>
+              <Description>"Pos Z"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posz]</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>41</ID>
+              <Description>"Trigger Teleport [F4]"</Description>
+              <VariableType>Byte</VariableType>
+              <Address>isTeleport</Address>
+              <Hotkeys>
+                <Hotkey>
+                  <Action>Set Value</Action>
+                  <Keys>
+                    <Key>115</Key>
+                  </Keys>
+                  <Value>1</Value>
+                  <ID>0</ID>
+                  <ActivateSound>Activate</ActivateSound>
+                </Hotkey>
+              </Hotkeys>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>43</ID>
+          <Description>"Get Player Pos, teleport not working"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : deadspace3.exe
+  Version: 
+  Date   : 2020-05-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(PLAYERPOS,deadspace3.exe,0F 28 86 B0 00 00 00 8D) // should be unique
+alloc(newmem,$1000)
+registersymbol(posx)
+registersymbol(posy)
+registersymbol(posz)
+registersymbol(isTeleport)
+
+label(code)
+label(return)
+label(posx)
+label(posy)
+label(posz)
+label(cleanup)
+label(isTeleport)
+
+newmem:
+
+code:
+  push eax
+  mov eax, esi
+  add eax, 000000B0
+  mov [posx], eax
+  add eax, 00000004
+  mov [posy], eax
+  add eax, 00000004
+  mov [posz], eax
+
+  mov eax, [isTeleport]
+  test eax,eax
+  je cleanup
+  mov eax, [mousex]
+  mov [posx], eax
+  mov eax, [mousey]
+  mov [posy], eax
+  mov eax, [mousez]
+  mov [posz], eax
+  mov [isTeleport], 0
+
+cleanup:
+  pop eax
+  movaps xmm0,[esi+000000B0]
+  jmp return
+
+posx:
+  db 00 00 00 00
+posy:
+  db 00 00 00 00
+posz:
+  db 00 00 00 00
+isTeleport:
+  db 00 00 00 00
+
+PLAYERPOS:
+  jmp newmem
+  nop 2
+return:
+registersymbol(PLAYERPOS)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+PLAYERPOS:
+  db 0F 28 86 B0 00 00 00
+
+unregistersymbol(PLAYERPOS)
+unregistersymbol(posx)
+unregistersymbol(posy)
+unregistersymbol(posz)
+unregistersymbol(isTeleport)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadspace3.exe"+33345F
+
+"deadspace3.exe"+333439: 56                       -  push esi
+"deadspace3.exe"+33343A: 8B F1                    -  mov esi,ecx
+"deadspace3.exe"+33343C: 83 7E 18 00              -  cmp dword ptr [esi+18],00
+"deadspace3.exe"+333440: 0F 84 B5 00 00 00        -  je deadspace3.exe+3334FB
+"deadspace3.exe"+333446: F6 46 14 01              -  test byte ptr [esi+14],01
+"deadspace3.exe"+33344A: 0F 84 AB 00 00 00        -  je deadspace3.exe+3334FB
+"deadspace3.exe"+333450: 8D 86 90 00 00 00        -  lea eax,[esi+00000090]
+"deadspace3.exe"+333456: 50                       -  push eax
+"deadspace3.exe"+333457: 8D 4D C0                 -  lea ecx,[ebp-40]
+"deadspace3.exe"+33345A: E8 B1 C8 1D 00           -  call deadspace3.exe+50FD10
+// ---------- INJECTING HERE ----------
+"deadspace3.exe"+33345F: 0F 28 86 B0 00 00 00     -  movaps xmm0,[esi+000000B0]
+// ---------- DONE INJECTING  ----------
+"deadspace3.exe"+333466: 8D 4D C0                 -  lea ecx,[ebp-40]
+"deadspace3.exe"+333469: 51                       -  push ecx
+"deadspace3.exe"+33346A: 8B 4E 18                 -  mov ecx,[esi+18]
+"deadspace3.exe"+33346D: 0F 29 45 F0              -  movaps [ebp-10],xmm0
+"deadspace3.exe"+333471: E8 5A 2B 17 00           -  call deadspace3.exe+4A5FD0
+"deadspace3.exe"+333476: 8B C8                    -  mov ecx,eax
+"deadspace3.exe"+333478: E8 D3 35 18 00           -  call deadspace3.exe+4B6A50
+"deadspace3.exe"+33347D: 83 66 14 FE              -  and dword ptr [esi+14],-02
+"deadspace3.exe"+333481: 8B 56 18                 -  mov edx,[esi+18]
+"deadspace3.exe"+333484: 0F 28 45 D0              -  movaps xmm0,[ebp-30]
+}
+</AssemblerScript>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -129,9 +768,7 @@ fst dword ptr [esi+000000F8]
   <CheatCodes>
     <CodeEntry>
       <Description>Change of fst dword ptr [esi+000000F8]</Description>
-      <Address>007595F7</Address>
-      <ModuleName>deadspace3.exe</ModuleName>
-      <ModuleNameOffset>3595F7</ModuleNameOffset>
+      <AddressString>deadspace3.exe+3595F7</AddressString>
       <Before>
         <Byte>EE</Byte>
         <Byte>D9</Byte>
