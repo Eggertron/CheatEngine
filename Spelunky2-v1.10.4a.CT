@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Spelunky 2 v1.10.4a"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Rope does not decrease"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-03
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(rope1,Spel2.exe,41 88 48 05 C3) // should be unique
+rope1:
+nop
+nop
+nop
+nop
+
+[DISABLE]
+
+rope1:
+  db 41 88 48 05 C3
+
+unregistersymbol(rope1)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B98E55
+
+"Spel2.exe"+21B98E37: 0F BE C2                 -  movsx eax,dl
+"Spel2.exe"+21B98E3A: BA 63 00 00 00           -  mov edx,00000063
+"Spel2.exe"+21B98E3F: 41 0F B6 48 05           -  movzx ecx,byte ptr [r8+05]
+"Spel2.exe"+21B98E44: 03 C8                    -  add ecx,eax
+"Spel2.exe"+21B98E46: 3B CA                    -  cmp ecx,edx
+"Spel2.exe"+21B98E48: 0F 4C D1                 -  cmovl edx,ecx
+"Spel2.exe"+21B98E4B: 33 C9                    -  xor ecx,ecx
+"Spel2.exe"+21B98E4D: 85 D2                    -  test edx,edx
+"Spel2.exe"+21B98E4F: 0F B6 C2                 -  movzx eax,dl
+"Spel2.exe"+21B98E52: 0F 4F C8                 -  cmovg ecx,eax
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21B98E55: 41 88 48 05              -  mov [r8+05],cl
+"Spel2.exe"+21B98E59: C3                       -  ret 
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21B98E5A: CC                       -  int 3 
+"Spel2.exe"+21B98E5B: CC                       -  int 3 
+"Spel2.exe"+21B98E5C: CC                       -  int 3 
+"Spel2.exe"+21B98E5D: CC                       -  int 3 
+"Spel2.exe"+21B98E5E: CC                       -  int 3 
+"Spel2.exe"+21B98E5F: CC                       -  int 3 
+"Spel2.exe"+21B98E60: 4C 8B 81 38 01 00 00     -  mov r8,[rcx+00000138]
+"Spel2.exe"+21B98E67: 0F BE C2                 -  movsx eax,dl
+"Spel2.exe"+21B98E6A: BA 63 00 00 00           -  mov edx,00000063
+"Spel2.exe"+21B98E6F: 41 0F B6 48 04           -  movzx ecx,byte ptr [r8+04]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Bombs do not decrease"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-03
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+
+aobscanmodule(bombs,Spel2.exe,C8 41 88 48 04 C3) // should be unique
+bombs+01:
+nop
+nop
+nop
+nop
+registersymbol(bombs)
+
+[DISABLE]
+
+bombs+01:
+  db 41 88 48 04 C3
+
+unregistersymbol(bombs)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B98E85
+
+"Spel2.exe"+21B98E67: 0F BE C2                 -  movsx eax,dl
+"Spel2.exe"+21B98E6A: BA 63 00 00 00           -  mov edx,00000063
+"Spel2.exe"+21B98E6F: 41 0F B6 48 04           -  movzx ecx,byte ptr [r8+04]
+"Spel2.exe"+21B98E74: 03 C8                    -  add ecx,eax
+"Spel2.exe"+21B98E76: 3B CA                    -  cmp ecx,edx
+"Spel2.exe"+21B98E78: 0F 4C D1                 -  cmovl edx,ecx
+"Spel2.exe"+21B98E7B: 33 C9                    -  xor ecx,ecx
+"Spel2.exe"+21B98E7D: 85 D2                    -  test edx,edx
+"Spel2.exe"+21B98E7F: 0F B6 C2                 -  movzx eax,dl
+"Spel2.exe"+21B98E82: 0F 4F C8                 -  cmovg ecx,eax
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21B98E85: 41 88 48 04              -  mov [r8+04],cl
+"Spel2.exe"+21B98E89: C3                       -  ret 
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21B98E8A: CC                       -  int 3 
+"Spel2.exe"+21B98E8B: CC                       -  int 3 
+"Spel2.exe"+21B98E8C: CC                       -  int 3 
+"Spel2.exe"+21B98E8D: CC                       -  int 3 
+"Spel2.exe"+21B98E8E: CC                       -  int 3 
+"Spel2.exe"+21B98E8F: CC                       -  int 3 
+"Spel2.exe"+21B98E90: 48 83 B9 50 01 00 00 00  -  cmp qword ptr [rcx+00000150],00
+"Spel2.exe"+21B98E98: 75 30                    -  jne Spel2.exe+21B98ECA
+"Spel2.exe"+21B98E9A: 80 B9 98 00 00 00 01     -  cmp byte ptr [rcx+00000098],01
+"Spel2.exe"+21B98EA1: 74 1C                    -  je Spel2.exe+21B98EBF
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Health does not decrease"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-03
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(health,Spel2.exe,41 88 89 0F 01 00 00 C3 CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 4C) // should be unique
+health:
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+registersymbol(health)
+
+[DISABLE]
+
+health:
+  db 41 88 89 0F 01 00 00
+
+unregistersymbol(health)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B98E19
+
+"Spel2.exe"+21B98DFA: 48 C1 E8 2D              -  shr rax,2D
+"Spel2.exe"+21B98DFE: A8 01                    -  test al,01
+"Spel2.exe"+21B98E00: B8 01 00 00 00           -  mov eax,00000001
+"Spel2.exe"+21B98E05: 0F 45 D0                 -  cmovne edx,eax
+"Spel2.exe"+21B98E08: 44 3B C2                 -  cmp r8d,edx
+"Spel2.exe"+21B98E0B: 41 0F 4C D0              -  cmovl edx,r8d
+"Spel2.exe"+21B98E0F: 33 C9                    -  xor ecx,ecx
+"Spel2.exe"+21B98E11: 85 D2                    -  test edx,edx
+"Spel2.exe"+21B98E13: 0F B6 C2                 -  movzx eax,dl
+"Spel2.exe"+21B98E16: 0F 4F C8                 -  cmovg ecx,eax
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21B98E19: 41 88 89 0F 01 00 00     -  mov [r9+0000010F],cl
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21B98E20: C3                       -  ret 
+"Spel2.exe"+21B98E21: CC                       -  int 3 
+"Spel2.exe"+21B98E22: CC                       -  int 3 
+"Spel2.exe"+21B98E23: CC                       -  int 3 
+"Spel2.exe"+21B98E24: CC                       -  int 3 
+"Spel2.exe"+21B98E25: CC                       -  int 3 
+"Spel2.exe"+21B98E26: CC                       -  int 3 
+"Spel2.exe"+21B98E27: CC                       -  int 3 
+"Spel2.exe"+21B98E28: CC                       -  int 3 
+"Spel2.exe"+21B98E29: CC                       -  int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"Gold Pick up alway 999999"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-03
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(gold,Spel2.exe,01 38 48 8B 93 38 01 00 00) // should be unique
+alloc(newmem,$1000,"Spel2.exe"+21D7D8CD)
+
+label(code)
+label(return)
+
+newmem:
+  mov edi,1869f //999999
+
+code:
+  add [rax],edi
+  mov rdx,[rbx+00000138]
+  jmp return
+
+gold:
+  jmp newmem
+  nop 4
+return:
+registersymbol(gold)
+
+[DISABLE]
+
+gold:
+  db 01 38 48 8B 93 38 01 00 00
+
+unregistersymbol(gold)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21D7D8CD
+
+"Spel2.exe"+21D7D8A8: 48 8B C8                       -  mov rcx,rax
+"Spel2.exe"+21D7D8AB: 48 8B D8                       -  mov rbx,rax
+"Spel2.exe"+21D7D8AE: E8 7D B4 E1 FF                 -  call Spel2.exe+21B98D30
+"Spel2.exe"+21D7D8B3: 48 85 C0                       -  test rax,rax
+"Spel2.exe"+21D7D8B6: 75 E8                          -  jne Spel2.exe+21D7D8A0
+"Spel2.exe"+21D7D8B8: 48 83 BB 50 01 00 00 00        -  cmp qword ptr [rbx+00000150],00
+"Spel2.exe"+21D7D8C0: 74 04                          -  je Spel2.exe+21D7D8C6
+"Spel2.exe"+21D7D8C2: 32 C0                          -  xor al,al
+"Spel2.exe"+21D7D8C4: EB 6B                          -  jmp Spel2.exe+21D7D931
+"Spel2.exe"+21D7D8C6: 48 8B 83 38 01 00 00           -  mov rax,[rbx+00000138]
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21D7D8CD: 01 38                          -  add [rax],edi
+"Spel2.exe"+21D7D8CF: 48 8B 93 38 01 00 00           -  mov rdx,[rbx+00000138]
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21D7D8D6: 48 63 82 24 10 00 00           -  movsxd  rax,dword ptr [rdx+00001024]
+"Spel2.exe"+21D7D8DD: 3D 00 02 00 00                 -  cmp eax,00000200
+"Spel2.exe"+21D7D8E2: 7D 2D                          -  jnl Spel2.exe+21D7D911
+"Spel2.exe"+21D7D8E4: 48 8B C8                       -  mov rcx,rax
+"Spel2.exe"+21D7D8E7: 8B 44 24 50                    -  mov eax,[rsp+50]
+"Spel2.exe"+21D7D8EB: 89 44 8A 24                    -  mov [rdx+rcx*4+24],eax
+"Spel2.exe"+21D7D8EF: 48 8B 8B 38 01 00 00           -  mov rcx,[rbx+00000138]
+"Spel2.exe"+21D7D8F6: 48 63 81 24 10 00 00           -  movsxd  rax,dword ptr [rcx+00001024]
+"Spel2.exe"+21D7D8FD: 89 BC 81 24 08 00 00           -  mov [rcx+rax*4+00000824],edi
+"Spel2.exe"+21D7D904: 48 8B 83 38 01 00 00           -  mov rax,[rbx+00000138]
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
