@@ -10,7 +10,7 @@
     <CheatEntry>
       <ID>3</ID>
       <Description>"Rope does not decrease"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -263,6 +263,216 @@ dealloc(newmem)
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"Landing on Spikes are safe"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-04
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(spikes,Spel2.exe,C6 83 0F 01 00 00 00 32) // should be unique
+
+spikes:
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+registersymbol(spikes)
+
+[DISABLE]
+
+spikes:
+  db C6 83 0F 01 00 00 00
+
+unregistersymbol(spikes)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B7E4AF
+
+"Spel2.exe"+21B7E48D: 76 05                       -  jna Spel2.exe+21B7E494
+"Spel2.exe"+21B7E48F: 40 84 F6                    -  test sil,sil
+"Spel2.exe"+21B7E492: 75 1B                       -  jne Spel2.exe+21B7E4AF
+"Spel2.exe"+21B7E494: 48 8B 03                    -  mov rax,[rbx]
+"Spel2.exe"+21B7E497: 40 0F B6 D6                 -  movzx edx,sil
+"Spel2.exe"+21B7E49B: F6 DA                       -  neg dl
+"Spel2.exe"+21B7E49D: 48 8B CB                    -  mov rcx,rbx
+"Spel2.exe"+21B7E4A0: FF 90 58 01 00 00           -  call qword ptr [rax+00000158]
+"Spel2.exe"+21B7E4A6: 0F B6 8B 0F 01 00 00        -  movzx ecx,byte ptr [rbx+0000010F]
+"Spel2.exe"+21B7E4AD: EB 09                       -  jmp Spel2.exe+21B7E4B8
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21B7E4AF: C6 83 0F 01 00 00 00        -  mov byte ptr [rbx+0000010F],00
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21B7E4B6: 32 C9                       -  xor cl,cl
+"Spel2.exe"+21B7E4B8: 0F B6 C1                    -  movzx eax,cl
+"Spel2.exe"+21B7E4BB: 40 84 F6                    -  test sil,sil
+"Spel2.exe"+21B7E4BE: 74 1E                       -  je Spel2.exe+21B7E4DE
+"Spel2.exe"+21B7E4C0: 4D 85 F6                    -  test r14,r14
+"Spel2.exe"+21B7E4C3: 74 19                       -  je Spel2.exe+21B7E4DE
+"Spel2.exe"+21B7E4C5: 49 8B 06                    -  mov rax,[r14]
+"Spel2.exe"+21B7E4C8: 84 C9                       -  test cl,cl
+"Spel2.exe"+21B7E4CA: 48 8B D3                    -  mov rdx,rbx
+"Spel2.exe"+21B7E4CD: 49 8B CE                    -  mov rcx,r14
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Ghost don't kill you (WIP)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2020-10-04
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ghost,Spel2.exe,C6 86 0F 01 00 00 00 48 81 66) // should be unique
+
+ghost:
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+registersymbol(ghost)
+
+[DISABLE]
+
+ghost:
+  db C6 86 0F 01 00 00 00
+
+unregistersymbol(ghost)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B97A4D
+
+"Spel2.exe"+21B97A15: 45 0F B6 C4                       -  movzx r8d,r12l
+"Spel2.exe"+21B97A19: 49 8B 89 70 11 00 00              -  mov rcx,[r9+00001170]
+"Spel2.exe"+21B97A20: 0F B6 50 17                       -  movzx edx,byte ptr [rax+17]
+"Spel2.exe"+21B97A24: E8 77 1E 16 00                    -  call Spel2.exe+21CF98A0
+"Spel2.exe"+21B97A29: 4C 8B 7C 24 50                    -  mov r15,[rsp+50]
+"Spel2.exe"+21B97A2E: 48 8B BC 24 90 00 00 00           -  mov rdi,[rsp+00000090]
+"Spel2.exe"+21B97A36: 0F 28 7C 24 30                    -  movaps xmm7,[rsp+30]
+"Spel2.exe"+21B97A3B: 4C 8B 74 24 58                    -  mov r14,[rsp+58]
+"Spel2.exe"+21B97A40: 0F 28 74 24 40                    -  movaps xmm6,[rsp+40]
+"Spel2.exe"+21B97A45: 48 8B 9C 24 80 00 00 00           -  mov rbx,[rsp+00000080]
+// ---------- INJECTING HERE ----------
+"Spel2.exe"+21B97A4D: C6 86 0F 01 00 00 00              -  mov byte ptr [rsi+0000010F],00
+// ---------- DONE INJECTING  ----------
+"Spel2.exe"+21B97A54: 48 81 66 30 FF FF B7 FF           -  and qword ptr [rsi+30],FFFFFFFFFFB7FFFF
+"Spel2.exe"+21B97A5C: F6 86 75 01 00 00 04              -  test byte ptr [rsi+00000175],04
+"Spel2.exe"+21B97A63: 74 11                             -  je Spel2.exe+21B97A76
+"Spel2.exe"+21B97A65: 49 3B ED                          -  cmp rbp,r13
+"Spel2.exe"+21B97A68: 75 0C                             -  jne Spel2.exe+21B97A76
+"Spel2.exe"+21B97A6A: 48 8B 0D B7 D7 32 00              -  mov rcx,[Spel2.exe+21EC5228]
+"Spel2.exe"+21B97A71: E8 BA 4C 1E 00                    -  call Spel2.exe+21D7C730
+"Spel2.exe"+21B97A76: 80 BE 1D 01 00 00 00              -  cmp byte ptr [rsi+0000011D],00
+"Spel2.exe"+21B97A7D: 77 48                             -  ja Spel2.exe+21B97AC7
+"Spel2.exe"+21B97A7F: 48 8B 05 A2 D7 32 00              -  mov rax,[Spel2.exe+21EC5228]
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of mov byte ptr [rbx+0000010F],00</Description>
+      <AddressString>Spel2.exe+21B7E4AF</AddressString>
+      <Before>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>EB</Byte>
+        <Byte>09</Byte>
+      </Before>
+      <Actual>
+        <Byte>C6</Byte>
+        <Byte>83</Byte>
+        <Byte>0F</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>32</Byte>
+        <Byte>C9</Byte>
+        <Byte>0F</Byte>
+        <Byte>B6</Byte>
+        <Byte>C1</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [rcx+0000010F],dl</Description>
+      <AddressString>Spel2.exe+21B84C04</AddressString>
+      <Before>
+        <Byte>90</Byte>
+        <Byte>95</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>88</Byte>
+        <Byte>91</Byte>
+        <Byte>0F</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>F6</Byte>
+        <Byte>41</Byte>
+        <Byte>30</Byte>
+        <Byte>18</Byte>
+        <Byte>75</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov byte ptr [rsi+0000010F],00</Description>
+      <AddressString>Spel2.exe+21B97A4D</AddressString>
+      <Before>
+        <Byte>24</Byte>
+        <Byte>80</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>C6</Byte>
+        <Byte>86</Byte>
+        <Byte>0F</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>81</Byte>
+        <Byte>66</Byte>
+        <Byte>30</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols/>
 </CheatTable>
