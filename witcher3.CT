@@ -2,71 +2,6 @@
 <CheatTable CheatEngineTableVersion="29">
   <CheatEntries>
     <CheatEntry>
-      <ID>1</ID>
-      <Description>"Coin/Items not decrement"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : witcher3.exe
-  Version: 
-  Date   : 2020-04-04
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
- 
- 
-aobscanmodule(gold_dec,witcher3.exe,41 29 6C FA 54) // should be unique
-registersymbol(gold_dec)
-
-gold_dec:
-  nop
-  nop
-  nop
-  nop
-  nop
-
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-gold_dec:
-  db 41 29 6C FA 54
-
-unregistersymbol(gold_dec)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "witcher3.exe"+73442C
-
-"witcher3.exe"+734409: 4C 63 F7              -  movsxd  r14,edi
-"witcher3.exe"+73440C: 4B 8D 3C F6           -  lea rdi,[r14+r14*8]
-"witcher3.exe"+734410: 48 03 FF              -  add rdi,rdi
-"witcher3.exe"+734413: 41 0F B6 44 FA 70     -  movzx eax,byte ptr [r10+rdi*8+70]
-"witcher3.exe"+734419: 41 8B 5C FA 60        -  mov ebx,[r10+rdi*8+60]
-"witcher3.exe"+73441E: C0 E8 02              -  shr al,02
-"witcher3.exe"+734421: A8 01                 -  test al,01
-"witcher3.exe"+734423: 74 13                 -  je witcher3.exe+734438
-"witcher3.exe"+734425: 41 39 6C FA 54        -  cmp [r10+rdi*8+54],ebp
-"witcher3.exe"+73442A: 76 0C                 -  jna witcher3.exe+734438
-// ---------- INJECTING HERE ----------
-"witcher3.exe"+73442C: 41 29 6C FA 54        -  sub [r10+rdi*8+54],ebp
-// ---------- DONE INJECTING  ----------
-"witcher3.exe"+734431: BA 03 00 00 00        -  mov edx,00000003
-"witcher3.exe"+734436: EB 55                 -  jmp witcher3.exe+73448D
-"witcher3.exe"+734438: 49 8B 4C FA 70        -  mov rcx,[r10+rdi*8+70]
-"witcher3.exe"+73443D: 0F B6 C1              -  movzx eax,cl
-"witcher3.exe"+734440: C0 E8 05              -  shr al,05
-"witcher3.exe"+734443: A8 01                 -  test al,01
-"witcher3.exe"+734445: 75 08                 -  jne witcher3.exe+73444F
-"witcher3.exe"+734447: C0 E9 06              -  shr cl,06
-"witcher3.exe"+73444A: F6 C1 01              -  test cl,01
-"witcher3.exe"+73444D: 74 11                 -  je witcher3.exe+734460
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
       <ID>4</ID>
       <Description>"Health"</Description>
       <LastState/>
@@ -158,46 +93,55 @@ dealloc(newmem)
     </CheatEntry>
     <CheatEntry>
       <ID>5</ID>
-      <Description>"Item's do not dec"</Description>
-      <LastState/>
+      <Description>"Last Touched Inventory Quantity Modifier"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : witcher3.exe
   Version: 
-  Date   : 2020-04-05
+  Date   : 2020-10-26
   Author : Edgar Han
 
   This script does blah blah blah
 }
 
 [ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
 
- 
- 
-aobscanmodule(items_dec,witcher3.exe,41 29 6C FA 54) // should be unique
+aobscanmodule(gold_dec,witcher3.exe,41 29 6C FA 54) // should be unique
 alloc(newmem,$1000,"witcher3.exe"+73442C)
+alloc(coin_addr, 8)
 
 label(code)
 label(return)
 
+coin_addr:
+db 0
+
 newmem:
+  push rbp
+  lea rbp, [r10+rdi*8+54]
+  mov [coin_addr], rbp
+  pop rbp
 
 code:
   sub [r10+rdi*8+54],ebp
   jmp return
 
-items_dec:
+gold_dec:
   jmp newmem
 return:
-registersymbol(items_dec)
+registersymbol(gold_dec)
+registersymbol(coin_addr)
 
 [DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-items_dec:
+
+gold_dec:
   db 41 29 6C FA 54
 
-unregistersymbol(items_dec)
+unregistersymbol(gold_dec)
+unregistersymbol(coin_addr)
 dealloc(newmem)
+dealloc(coin_addr)
 
 {
 // ORIGINAL CODE - INJECTION POINT: "witcher3.exe"+73442C
@@ -227,13 +171,15 @@ dealloc(newmem)
 "witcher3.exe"+73444D: 74 11                 -  je witcher3.exe+734460
 }
 </AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>6</ID>
-      <Description>"No Description"</Description>
-      <LastState Value="922" RealAddress="200923FB7C4"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>200923FB7C4</Address>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>6</ID>
+          <Description>"Quantity"</Description>
+          <LastState Value="10" RealAddress="148153B4B34"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[coin_addr]</Address>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
