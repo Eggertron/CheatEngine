@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="21">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"add resources when building"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+NMS.exe+43A880:
+add r8d,ecx
+
+[DISABLE]
+NMS.exe+43A880:
+sub r8d,ecx
+//44 2B C1
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"add when recharging"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+NMS.exe+43C6C4:
+add [rdi+18],eax
+
+[DISABLE]
+NMS.exe+43C6C4:
+sub [rdi+18],eax
+//29 47 18
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

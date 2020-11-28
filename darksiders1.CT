@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Darksiders Warmastered Edition"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"100% Player Health when hit"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : darksiders1.exe
+  Version: 
+  Date   : 2020-11-21
+  Author : Edgar Han
+
+  Set Health to 100 percent on hit
+}
+
+[ENABLE]
+
+aobscanmodule(ON_HIT,darksiders1.exe,F3 0F 11 86 00 01 00 00 F3 0F 10 86) // should be unique
+alloc(newmem,$1000)
+alloc(HEALTH,8)
+
+label(code)
+label(return)
+
+HEALTH:
+  db 0
+newmem:
+  push eax
+  lea eax,[esi+00000100]
+  mov [HEALTH],eax
+  push (float)200
+  movss xmm0, dword ptr [rsp]
+  pop eax
+  pop eax
+code:
+  movss [esi+00000100],xmm0
+  jmp return
+
+ON_HIT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(ON_HIT)
+registersymbol(HEALTH)
+
+[DISABLE]
+
+ON_HIT:
+  db F3 0F 11 86 00 01 00 00
+
+unregistersymbol(ON_HIT)
+unregistersymbol(HEALTH)
+dealloc(newmem)
+dealloc(HEALTH)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "darksiders1.exe"+862C2A
+
+"darksiders1.exe"+862C05: F2 0F 5C C8              -  subsd xmm1,xmm0
+"darksiders1.exe"+862C09: 66 0F 5A C1              -  cvtpd2ps xmm0,xmm1
+"darksiders1.exe"+862C0D: EB 1B                    -  jmp darksiders1.exe+862C2A
+"darksiders1.exe"+862C0F: 0F 5A C1                 -  cvtps2pd xmm0,xmm1
+"darksiders1.exe"+862C12: F3 0F 10 48 38           -  movss xmm1,[eax+38]
+"darksiders1.exe"+862C17: 0F 5A C9                 -  cvtps2pd xmm1,xmm1
+"darksiders1.exe"+862C1A: F2 0F 58 C1              -  addsd xmm0,xmm1
+"darksiders1.exe"+862C1E: 66 0F 5A C0              -  cvtpd2ps xmm0,xmm0
+"darksiders1.exe"+862C22: F3 0F 11 40 38           -  movss [eax+38],xmm0
+"darksiders1.exe"+862C27: 0F 57 C0                 -  xorps xmm0,xmm0
+// ---------- INJECTING HERE ----------
+"darksiders1.exe"+862C2A: F3 0F 11 86 00 01 00 00  -  movss [esi+00000100],xmm0
+// ---------- DONE INJECTING  ----------
+"darksiders1.exe"+862C32: F3 0F 10 86 00 01 00 00  -  movss xmm0,[esi+00000100]
+"darksiders1.exe"+862C3A: 0F 2E 05 98 B9 79 02     -  ucomiss xmm0,[darksiders1.exe+191B998]
+"darksiders1.exe"+862C41: 9F                       -  lahf 
+"darksiders1.exe"+862C42: BF 02 00 00 00           -  mov edi,00000002
+"darksiders1.exe"+862C47: F6 C4 44                 -  test ah,44
+"darksiders1.exe"+862C4A: 0F 8A 1E 01 00 00        -  jp darksiders1.exe+862D6E
+"darksiders1.exe"+862C50: 80 7B 1A 07              -  cmp byte ptr [ebx+1A],07
+"darksiders1.exe"+862C54: 0F 84 14 01 00 00        -  je darksiders1.exe+862D6E
+"darksiders1.exe"+862C5A: F6 05 88 96 23 03 01     -  test byte ptr [darksiders1.exe+23B9688],01
+"darksiders1.exe"+862C61: 75 2C                    -  jne darksiders1.exe+862C8F
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>6</ID>
+          <Description>"Player Health"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[HEALTH]</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Souls Update"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : darksiders1.exe
+  Version: 
+  Date   : 2020-11-21
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ADD_SOULS,darksiders1.exe,F3 0F 11 06 83 3D E4 02 21 03 00) // should be unique
+alloc(newmem,$1000)
+alloc(SOULS,8)
+
+label(code)
+label(return)
+
+SOULS:
+  db 0
+newmem:
+  mov [SOULS],esi
+code:
+  movss [esi],xmm0
+  cmp dword ptr ["darksiders1.gfc::Singleton&lt;gfc::InventoryHelper,gfc::CreateStatic,gfc::DefaultLifetime&gt;::InstanceHandle"],00
+  jmp return
+
+ADD_SOULS:
+  jmp newmem
+  nop 6
+return:
+registersymbol(ADD_SOULS)
+registersymbol(SOULS)
+
+[DISABLE]
+
+ADD_SOULS:
+  db F3 0F 11 06 83 3D E4 02 21 03 00
+
+unregistersymbol(ADD_SOULS)
+unregistersymbol(SOULS)
+dealloc(newmem)
+dealloc(SOULS)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "darksiders1.exe"+85DBA3
+
+"darksiders1.exe"+85DB7E: CC                                -  int 3 
+"darksiders1.exe"+85DB7F: CC                                -  int 3 
+"darksiders1.exe"+85DB80: F3 0F 10 89 78 06 00 00           -  movss xmm1,[ecx+00000678]
+"darksiders1.exe"+85DB88: F3 0F 10 44 24 04                 -  movss xmm0,[esp+04]
+"darksiders1.exe"+85DB8E: 56                                -  push esi
+"darksiders1.exe"+85DB8F: 8D B1 78 06 00 00                 -  lea esi,[ecx+00000678]
+"darksiders1.exe"+85DB95: 0F 5A C0                          -  cvtps2pd xmm0,xmm0
+"darksiders1.exe"+85DB98: 0F 5A C9                          -  cvtps2pd xmm1,xmm1
+"darksiders1.exe"+85DB9B: F2 0F 58 C1                       -  addsd xmm0,xmm1
+"darksiders1.exe"+85DB9F: 66 0F 5A C0                       -  cvtpd2ps xmm0,xmm0
+// ---------- INJECTING HERE ----------
+"darksiders1.exe"+85DBA3: F3 0F 11 06                       -  movss [esi],xmm0
+"darksiders1.exe"+85DBA7: 83 3D E4 02 21 03 00              -  cmp dword ptr [darksiders1.exe+23902E4],00
+// ---------- DONE INJECTING  ----------
+"darksiders1.exe"+85DBAE: 75 05                             -  jne darksiders1.exe+85DBB5
+"darksiders1.exe"+85DBB0: E8 EB C0 97 FF                    -  call darksiders1.exe+1D9CA0
+"darksiders1.exe"+85DBB5: F3 0F 2C 06                       -  cvttss2si eax,[esi]
+"darksiders1.exe"+85DBB9: 5E                                -  pop esi
+"darksiders1.exe"+85DBBA: 89 44 24 04                       -  mov [esp+04],eax
+"darksiders1.exe"+85DBBE: 8B 0D E4 02 21 03                 -  mov ecx,[darksiders1.exe+23902E4]
+"darksiders1.exe"+85DBC4: E9 F7 9F 94 FF                    -  jmp darksiders1.exe+1A7BC0
+"darksiders1.exe"+85DBC9: CC                                -  int 3 
+"darksiders1.exe"+85DBCA: CC                                -  int 3 
+"darksiders1.exe"+85DBCB: CC                                -  int 3 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Souls"</Description>
+          <LastState Value="630" RealAddress="0A381468"/>
+          <VariableType>Float</VariableType>
+          <Address>[SOULS]</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Wrath Codes"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : darksiders1.exe
+  Version: 
+  Date   : 2020-11-22
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(GET_WRATH,darksiders1.exe,F3 0F 11 46 04 8B 01) // should be unique
+alloc(newmem,$1000)
+alloc(WRATH,8)
+
+label(code)
+label(return)
+
+WRATH:
+  db 0
+newmem:
+  push eax
+  lea eax,[esi+04]
+  mov [WRATH],eax
+  pop eax
+code:
+  movss [esi+04],xmm0
+  jmp return
+
+GET_WRATH:
+  jmp newmem
+return:
+registersymbol(GET_WRATH)
+registersymbol(WRATH)
+
+[DISABLE]
+
+GET_WRATH:
+  db F3 0F 11 46 04
+
+unregistersymbol(GET_WRATH)
+dealloc(newmem)
+dealloc(WRATH)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "darksiders1.exe"+2A235F
+
+"darksiders1.exe"+2A233F: CC                    -  int 3 
+"darksiders1.exe"+2A2340: F3 0F 10 44 24 04     -  movss xmm0,[esp+04]
+"darksiders1.exe"+2A2346: 56                    -  push esi
+"darksiders1.exe"+2A2347: 8B F1                 -  mov esi,ecx
+"darksiders1.exe"+2A2349: F3 0F 10 4E 04        -  movss xmm1,[esi+04]
+"darksiders1.exe"+2A234E: 8B 4E 0C              -  mov ecx,[esi+0C]
+"darksiders1.exe"+2A2351: 0F 5A C0              -  cvtps2pd xmm0,xmm0
+"darksiders1.exe"+2A2354: 0F 5A C9              -  cvtps2pd xmm1,xmm1
+"darksiders1.exe"+2A2357: F2 0F 58 C1           -  addsd xmm0,xmm1
+"darksiders1.exe"+2A235B: 66 0F 5A C0           -  cvtpd2ps xmm0,xmm0
+// ---------- INJECTING HERE ----------
+"darksiders1.exe"+2A235F: F3 0F 11 46 04        -  movss [esi+04],xmm0
+// ---------- DONE INJECTING  ----------
+"darksiders1.exe"+2A2364: 8B 01                 -  mov eax,[ecx]
+"darksiders1.exe"+2A2366: 8B 90 90 01 00 00     -  mov edx,[eax+00000190]
+"darksiders1.exe"+2A236C: 6A 1F                 -  push 1F
+"darksiders1.exe"+2A236E: FF D2                 -  call edx
+"darksiders1.exe"+2A2370: 66 0F 6E 00           -  movd xmm0,[eax]
+"darksiders1.exe"+2A2374: 8B 4E 0C              -  mov ecx,[esi+0C]
+"darksiders1.exe"+2A2377: 8B 01                 -  mov eax,[ecx]
+"darksiders1.exe"+2A2379: 8B 90 90 01 00 00     -  mov edx,[eax+00000190]
+"darksiders1.exe"+2A237F: 0F 5B C0              -  cvtdq2ps xmm0,xmm0
+"darksiders1.exe"+2A2382: 6A 20                 -  push 20
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"Wrath"</Description>
+          <LastState Value="100" Activated="1" RealAddress="158AB55C"/>
+          <VariableType>Float</VariableType>
+          <Address>[WRATH]</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>17</ID>
+      <Description>"Weapon Level Codes"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : darksiders1.exe
+  Version: 
+  Date   : 2020-11-22
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(WEAPON_EXP,darksiders1.exe,D9 81 48 01 00 00 C3 CC CC CC CC CC CC CC CC CC 6A FF 68 20) // should be unique
+alloc(newmem,$1000)
+alloc(WEAPON_LVL,8)
+
+label(code)
+label(return)
+
+WEAPON_LVL:
+  db 0
+newmem:
+  push eax
+  lea eax,[ecx+00000148]
+  mov [WEAPON_LVL],eax
+  pop eax
+code:
+  fld dword ptr [ecx+00000148]
+  jmp return
+
+WEAPON_EXP:
+  jmp newmem
+  nop
+return:
+registersymbol(WEAPON_EXP)
+registersymbol(WEAPON_LVL)
+
+[DISABLE]
+
+WEAPON_EXP:
+  db D9 81 48 01 00 00
+
+unregistersymbol(WEAPON_EXP)
+unregistersymbol(WEAPON_LVL)
+dealloc(newmem)
+dealloc(WEAPON_LVL)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "darksiders1.exe"+4A8720
+
+"darksiders1.exe"+4A8716: CC                       -  int 3 
+"darksiders1.exe"+4A8717: CC                       -  int 3 
+"darksiders1.exe"+4A8718: CC                       -  int 3 
+"darksiders1.exe"+4A8719: CC                       -  int 3 
+"darksiders1.exe"+4A871A: CC                       -  int 3 
+"darksiders1.exe"+4A871B: CC                       -  int 3 
+"darksiders1.exe"+4A871C: CC                       -  int 3 
+"darksiders1.exe"+4A871D: CC                       -  int 3 
+"darksiders1.exe"+4A871E: CC                       -  int 3 
+"darksiders1.exe"+4A871F: CC                       -  int 3 
+// ---------- INJECTING HERE ----------
+"darksiders1.exe"+4A8720: D9 81 48 01 00 00        -  fld dword ptr [ecx+00000148]
+// ---------- DONE INJECTING  ----------
+"darksiders1.exe"+4A8726: C3                       -  ret 
+"darksiders1.exe"+4A8727: CC                       -  int 3 
+"darksiders1.exe"+4A8728: CC                       -  int 3 
+"darksiders1.exe"+4A8729: CC                       -  int 3 
+"darksiders1.exe"+4A872A: CC                       -  int 3 
+"darksiders1.exe"+4A872B: CC                       -  int 3 
+"darksiders1.exe"+4A872C: CC                       -  int 3 
+"darksiders1.exe"+4A872D: CC                       -  int 3 
+"darksiders1.exe"+4A872E: CC                       -  int 3 
+"darksiders1.exe"+4A872F: CC                       -  int 3 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"Weapon Level"</Description>
+          <VariableType>Float</VariableType>
+          <Address>[WEAPON_LVL]</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

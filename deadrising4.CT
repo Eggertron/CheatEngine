@@ -123,85 +123,13 @@ unregistersymbol(THROWABLE_UPDATE)
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>11</ID>
-      <Description>"Display Health 500, not real health"</Description>
-      <LastState/>
+      <ID>39</ID>
+      <Description>"Vehicle HP?"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : deadrising4.exe
   Version: 
-  Date   : 2020-11-07
-  Author : Edgar Han
-
-  1f4 = 500
-  This only effects the gui, not the actual health
-}
-
-[ENABLE]
-
-aobscanmodule(HEALTH_UPDATE,deadrising4.exe,89 83 1C 03 00 00 E8 AE) // should be unique
-alloc(newmem,$128,"deadrising4.exe"+A5B6F7)
-
-label(code)
-label(return)
-
-newmem:
-  mov rax, 01F4
-code:
-  mov [rbx+0000031C],eax
-  jmp return
-
-HEALTH_UPDATE:
-  jmp newmem
-  nop
-return:
-registersymbol(HEALTH_UPDATE)
-
-[DISABLE]
-
-HEALTH_UPDATE:
-  db 89 83 1C 03 00 00
-
-unregistersymbol(HEALTH_UPDATE)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+A5B6F7
-
-"deadrising4.exe"+A5B6CC: E8 EF E7 76 00              -  call deadrising4.exe+11C9EC0
-"deadrising4.exe"+A5B6D1: 48 85 C0                    -  test rax,rax
-"deadrising4.exe"+A5B6D4: 74 4A                       -  je deadrising4.exe+A5B720
-"deadrising4.exe"+A5B6D6: 48 8B C8                    -  mov rcx,rax
-"deadrising4.exe"+A5B6D9: E8 D2 22 BD FF              -  call deadrising4.exe+62D9B0
-"deadrising4.exe"+A5B6DE: 84 C0                       -  test al,al
-"deadrising4.exe"+A5B6E0: 74 3E                       -  je deadrising4.exe+A5B720
-"deadrising4.exe"+A5B6E2: 66 C7 83 24 03 00 00 00 00  -  mov word ptr [rbx+00000324],0000
-"deadrising4.exe"+A5B6EB: C6 83 26 03 00 00 01        -  mov byte ptr [rbx+00000326],01
-"deadrising4.exe"+A5B6F2: E8 F9 17 DC FF              -  call deadrising4.exe+81CEF0
-// ---------- INJECTING HERE ----------
-"deadrising4.exe"+A5B6F7: 89 83 1C 03 00 00           -  mov [rbx+0000031C],eax
-// ---------- DONE INJECTING  ----------
-"deadrising4.exe"+A5B6FD: E8 AE 18 DC FF              -  call deadrising4.exe+81CFB0
-"deadrising4.exe"+A5B702: 48 8B 4B 10                 -  mov rcx,[rbx+10]
-"deadrising4.exe"+A5B706: 48 8D 93 18 03 00 00        -  lea rdx,[rbx+00000318]
-"deadrising4.exe"+A5B70D: C6 02 00                    -  mov byte ptr [rdx],00
-"deadrising4.exe"+A5B710: 89 83 20 03 00 00           -  mov [rbx+00000320],eax
-"deadrising4.exe"+A5B716: 48 83 C4 20                 -  add rsp,20
-"deadrising4.exe"+A5B71A: 5B                          -  pop rbx
-"deadrising4.exe"+A5B71B: E9 F0 7E F6 FF              -  jmp deadrising4.exe+9C3610
-"deadrising4.exe"+A5B720: 48 83 C4 20                 -  add rsp,20
-"deadrising4.exe"+A5B724: 5B                          -  pop rbx
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>24</ID>
-      <Description>"Skill Points"</Description>
-      <Options moHideChildren="1"/>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : deadrising4.exe
-  Version: 
-  Date   : 2020-11-10
+  Date   : 2020-11-12
   Author : Edgar Han
 
   This script does blah blah blah
@@ -209,186 +137,66 @@ dealloc(newmem)
 
 [ENABLE]
 
-aobscanmodule(GET_SKILL_POINTS,deadrising4.exe,8B 80 60 1B 00 00 48 83) // should be unique
-alloc(newmem,$128,"deadrising4.exe"+81C14B)
-alloc(SKILL_POINTS,8)
+aobscanmodule(VEHICLE_HP_READ,deadrising4.exe,8B 42 18 89 44 24 78) // should be unique
+alloc(newmem,$1000,"deadrising4.exe"+7EA463)
 
 label(code)
 label(return)
 
-SKILL_POINTS:
-db 0
-
 newmem:
   push ebx
-  lea ebx,[rax+00001B60]
-  mov [SKILL_POINTS],ebx
+  mov ebx,[rdx+1C]
+  mov [rdx+18],ebx
   pop ebx
+
 code:
-  mov eax,[rax+00001B60]
+  mov eax,[rdx+18]
+  mov [rsp+78],eax
   jmp return
 
-GET_SKILL_POINTS:
+VEHICLE_HP_READ:
   jmp newmem
-  nop
+  nop 2
 return:
-registersymbol(GET_SKILL_POINTS)
-registersymbol(SKILL_POINTS)
+registersymbol(VEHICLE_HP_READ)
 
 [DISABLE]
 
-GET_SKILL_POINTS:
-  db 8B 80 60 1B 00 00
+VEHICLE_HP_READ:
+  db 8B 42 18 89 44 24 78
 
-unregistersymbol(GET_SKILL_POINTS)
-unregistersymbol(SKILL_POINTS)
+unregistersymbol(VEHICLE_HP_READ)
 dealloc(newmem)
-dealloc(SKILL_POINTS)
 
 {
-// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+81C14B
+// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+7EA463
 
-"deadrising4.exe"+81C12C: CC                                -  int 3 
-"deadrising4.exe"+81C12D: CC                                -  int 3 
-"deadrising4.exe"+81C12E: CC                                -  int 3 
-"deadrising4.exe"+81C12F: CC                                -  int 3 
-"deadrising4.exe"+81C130: 48 83 EC 28                       -  sub rsp,28
-"deadrising4.exe"+81C134: C6 44 24 30 FF                    -  mov byte ptr [rsp+30],-01
-"deadrising4.exe"+81C139: E8 B2 49 C4 FF                    -  call deadrising4.exe+460AF0
-"deadrising4.exe"+81C13E: 48 8D 54 24 30                    -  lea rdx,[rsp+30]
-"deadrising4.exe"+81C143: 48 8B C8                          -  mov rcx,rax
-"deadrising4.exe"+81C146: E8 05 91 C4 FF                    -  call deadrising4.exe+465250
+"deadrising4.exe"+7EA43B: 0F 84 79 02 00 00        -  je deadrising4.exe+7EA6BA
+"deadrising4.exe"+7EA441: 8B CF                    -  mov ecx,edi
+"deadrising4.exe"+7EA443: E8 08 1B C9 00           -  call deadrising4.exe+147BF50
+"deadrising4.exe"+7EA448: 84 C0                    -  test al,al
+"deadrising4.exe"+7EA44A: 0F 84 6A 02 00 00        -  je deadrising4.exe+7EA6BA
+"deadrising4.exe"+7EA450: 49 8B 46 08              -  mov rax,[r14+08]
+"deadrising4.exe"+7EA454: 48 8B 90 48 01 00 00     -  mov rdx,[rax+00000148]
+"deadrising4.exe"+7EA45B: 48 85 D2                 -  test rdx,rdx
+"deadrising4.exe"+7EA45E: 74 4D                    -  je deadrising4.exe+7EA4AD
+"deadrising4.exe"+7EA460: 8B 4A 1C                 -  mov ecx,[rdx+1C]
 // ---------- INJECTING HERE ----------
-"deadrising4.exe"+81C14B: 8B 80 60 1B 00 00                 -  mov eax,[rax+00001B60]
+"deadrising4.exe"+7EA463: 8B 42 18                 -  mov eax,[rdx+18]
+"deadrising4.exe"+7EA466: 89 44 24 78              -  mov [rsp+78],eax
 // ---------- DONE INJECTING  ----------
-"deadrising4.exe"+81C151: 48 83 C4 28                       -  add rsp,28
-"deadrising4.exe"+81C155: C3                                -  ret 
-"deadrising4.exe"+81C156: CC                                -  int 3 
-"deadrising4.exe"+81C157: CC                                -  int 3 
-"deadrising4.exe"+81C158: CC                                -  int 3 
-"deadrising4.exe"+81C159: CC                                -  int 3 
-"deadrising4.exe"+81C15A: CC                                -  int 3 
-"deadrising4.exe"+81C15B: CC                                -  int 3 
-"deadrising4.exe"+81C15C: CC                                -  int 3 
-"deadrising4.exe"+81C15D: CC                                -  int 3 
+"deadrising4.exe"+7EA46A: 89 4C 24 7C              -  mov [rsp+7C],ecx
+"deadrising4.exe"+7EA46E: E8 0D 4C E4 FF           -  call deadrising4.exe+62F080
+"deadrising4.exe"+7EA473: 4C 8D 4C 24 78           -  lea r9,[rsp+78]
+"deadrising4.exe"+7EA478: 41 B8 99 04 00 00        -  mov r8d,00000499
+"deadrising4.exe"+7EA47E: 48 8D 15 5B F4 37 01     -  lea rdx,[deadrising4.exe+1B698E0]
+"deadrising4.exe"+7EA485: 48 8B 48 18              -  mov rcx,[rax+18]
+"deadrising4.exe"+7EA489: 8B 05 29 AD 96 01        -  mov eax,[deadrising4.exe+21551B8]
+"deadrising4.exe"+7EA48F: 89 44 24 38              -  mov [rsp+38],eax
+"deadrising4.exe"+7EA493: 40 88 74 24 30           -  mov [rsp+30],sil
+"deadrising4.exe"+7EA498: C7 44 24 28 01 00 00 00  -  mov [rsp+28],00000001
 }
 </AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>25</ID>
-          <Description>"Skill Points"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>[SKILL_POINTS]</Address>
-        </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>28</ID>
-      <Description>"Scraps do not decrease"</Description>
-      <Options moHideChildren="1"/>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : deadrising4.exe
-  Version: 
-  Date   : 2020-11-10
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscanmodule(SCRAPS_UPDATE,deadrising4.exe,89 04 0A EB 0E 4D 8B C6 48 8B D7 48 8B CE E8 76) // should be unique
-alloc(newmem,$1000,"deadrising4.exe"+11A3EF7)
-alloc(SCRAPS_ADDR,8)
-
-label(code)
-label(return)
-
-SCRAPS_ADDR:
-db 0
-
-newmem:
-  push ebx
-  lea ebx,[rdx+rcx]
-  mov [SCRAPS_ADDR],ebx
-  mov ebx,[rdx+rcx]
-  cmp ebx,eax
-  jge code
-  mov [rdx+rcx],eax
-code:
-  pop ebx
-  jmp deadrising4.exe+11A3F0A
-
-SCRAPS_UPDATE:
-  jmp newmem
-return:
-registersymbol(SCRAPS_UPDATE)
-registersymbol(SCRAPS_ADDR)
-
-[DISABLE]
-
-SCRAPS_UPDATE:
-  db 89 04 0A EB 0E
-
-unregistersymbol(SCRAPS_UPDATE)
-unregistersymbol(SCRAPS_ADDR)
-dealloc(newmem)
-dealloc(SCRAPS_ADDR)
-
-{
-// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+11A3EF7
-
-"deadrising4.exe"+11A3ED5: 74 25                       -  je deadrising4.exe+11A3EFC
-"deadrising4.exe"+11A3ED7: 0F B7 48 18                 -  movzx ecx,word ptr [rax+18]
-"deadrising4.exe"+11A3EDB: 48 8B 47 30                 -  mov rax,[rdi+30]
-"deadrising4.exe"+11A3EDF: 0F B7 14 48                 -  movzx edx,word ptr [rax+rcx*2]
-"deadrising4.exe"+11A3EE3: B8 FF FF 00 00              -  mov eax,0000FFFF
-"deadrising4.exe"+11A3EE8: 66 3B D0                    -  cmp dx,ax
-"deadrising4.exe"+11A3EEB: 74 0F                       -  je deadrising4.exe+11A3EFC
-"deadrising4.exe"+11A3EED: 48 8B 4E 20                 -  mov rcx,[rsi+20]
-"deadrising4.exe"+11A3EF1: 41 8B 06                    -  mov eax,[r14]
-"deadrising4.exe"+11A3EF4: 0F B7 D2                    -  movzx edx,dx
-// ---------- INJECTING HERE ----------
-"deadrising4.exe"+11A3EF7: 89 04 0A                    -  mov [rdx+rcx],eax
-"deadrising4.exe"+11A3EFA: EB 0E                       -  jmp deadrising4.exe+11A3F0A
-// ---------- DONE INJECTING  ----------
-"deadrising4.exe"+11A3EFC: 4D 8B C6                    -  mov r8,r14
-"deadrising4.exe"+11A3EFF: 48 8B D7                    -  mov rdx,rdi
-"deadrising4.exe"+11A3F02: 48 8B CE                    -  mov rcx,rsi
-"deadrising4.exe"+11A3F05: E8 76 F3 FF FF              -  call deadrising4.exe+11A3280
-"deadrising4.exe"+11A3F0A: 48 8D 8E 98 00 00 00        -  lea rcx,[rsi+00000098]
-"deadrising4.exe"+11A3F11: 48 8B 5C 24 30              -  mov rbx,[rsp+30]
-"deadrising4.exe"+11A3F16: 48 8B 74 24 40              -  mov rsi,[rsp+40]
-"deadrising4.exe"+11A3F1B: 48 8B 7C 24 48              -  mov rdi,[rsp+48]
-"deadrising4.exe"+11A3F20: 48 83 C4 20                 -  add rsp,20
-"deadrising4.exe"+11A3F24: 41 5E                       -  pop r14
-}
-</AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>29</ID>
-          <Description>"Scraps [make change to get address]"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>[SCRAPS_ADDR]</Address>
-          <CheatEntries>
-            <CheatEntry>
-              <ID>33</ID>
-              <Description>"Health?"</Description>
-              <VariableType>4 Bytes</VariableType>
-              <Address>-10</Address>
-              <CheatEntries>
-                <CheatEntry>
-                  <ID>34</ID>
-                  <Description>"Stamina"</Description>
-                  <VariableType>4 Bytes</VariableType>
-                  <Address>-18</Address>
-                </CheatEntry>
-              </CheatEntries>
-            </CheatEntry>
-          </CheatEntries>
-        </CheatEntry>
-      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>35</ID>
@@ -476,7 +284,6 @@ dealloc(HEALTH_ADDR)
         <CheatEntry>
           <ID>36</ID>
           <Description>"Health"</Description>
-          <LastState Value="500" RealAddress="9AC5F330"/>
           <VariableType>4 Bytes</VariableType>
           <Address>[HEALTH_ADDR]</Address>
           <CheatEntries>
@@ -593,6 +400,274 @@ dealloc(newmem)
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
+      <ID>24</ID>
+      <Description>"Skill Points"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadrising4.exe
+  Version: 
+  Date   : 2020-11-10
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(GET_SKILL_POINTS,deadrising4.exe,8B 80 60 1B 00 00 48 83) // should be unique
+alloc(newmem,$128,"deadrising4.exe"+81C14B)
+alloc(SKILL_POINTS,8)
+
+label(code)
+label(return)
+
+SKILL_POINTS:
+db 0
+
+newmem:
+  push ebx
+  lea ebx,[rax+00001B60]
+  mov [SKILL_POINTS],ebx
+  pop ebx
+code:
+  mov eax,[rax+00001B60]
+  jmp return
+
+GET_SKILL_POINTS:
+  jmp newmem
+  nop
+return:
+registersymbol(GET_SKILL_POINTS)
+registersymbol(SKILL_POINTS)
+
+[DISABLE]
+
+GET_SKILL_POINTS:
+  db 8B 80 60 1B 00 00
+
+unregistersymbol(GET_SKILL_POINTS)
+unregistersymbol(SKILL_POINTS)
+dealloc(newmem)
+dealloc(SKILL_POINTS)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+81C14B
+
+"deadrising4.exe"+81C12C: CC                                -  int 3 
+"deadrising4.exe"+81C12D: CC                                -  int 3 
+"deadrising4.exe"+81C12E: CC                                -  int 3 
+"deadrising4.exe"+81C12F: CC                                -  int 3 
+"deadrising4.exe"+81C130: 48 83 EC 28                       -  sub rsp,28
+"deadrising4.exe"+81C134: C6 44 24 30 FF                    -  mov byte ptr [rsp+30],-01
+"deadrising4.exe"+81C139: E8 B2 49 C4 FF                    -  call deadrising4.exe+460AF0
+"deadrising4.exe"+81C13E: 48 8D 54 24 30                    -  lea rdx,[rsp+30]
+"deadrising4.exe"+81C143: 48 8B C8                          -  mov rcx,rax
+"deadrising4.exe"+81C146: E8 05 91 C4 FF                    -  call deadrising4.exe+465250
+// ---------- INJECTING HERE ----------
+"deadrising4.exe"+81C14B: 8B 80 60 1B 00 00                 -  mov eax,[rax+00001B60]
+// ---------- DONE INJECTING  ----------
+"deadrising4.exe"+81C151: 48 83 C4 28                       -  add rsp,28
+"deadrising4.exe"+81C155: C3                                -  ret 
+"deadrising4.exe"+81C156: CC                                -  int 3 
+"deadrising4.exe"+81C157: CC                                -  int 3 
+"deadrising4.exe"+81C158: CC                                -  int 3 
+"deadrising4.exe"+81C159: CC                                -  int 3 
+"deadrising4.exe"+81C15A: CC                                -  int 3 
+"deadrising4.exe"+81C15B: CC                                -  int 3 
+"deadrising4.exe"+81C15C: CC                                -  int 3 
+"deadrising4.exe"+81C15D: CC                                -  int 3 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>25</ID>
+          <Description>"Skill Points"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[SKILL_POINTS]</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"Display Health 500, not real health"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadrising4.exe
+  Version: 
+  Date   : 2020-11-07
+  Author : Edgar Han
+
+  1f4 = 500
+  This only effects the gui, not the actual health
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,deadrising4.exe,89 83 1C 03 00 00 E8 AE) // should be unique
+alloc(newmem,$128,"deadrising4.exe"+A5B6F7)
+
+label(code)
+label(return)
+
+newmem:
+  mov rax, 01F4
+code:
+  mov [rbx+0000031C],eax
+  jmp return
+
+HEALTH_UPDATE:
+  jmp newmem
+  nop
+return:
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db 89 83 1C 03 00 00
+
+unregistersymbol(HEALTH_UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+A5B6F7
+
+"deadrising4.exe"+A5B6CC: E8 EF E7 76 00              -  call deadrising4.exe+11C9EC0
+"deadrising4.exe"+A5B6D1: 48 85 C0                    -  test rax,rax
+"deadrising4.exe"+A5B6D4: 74 4A                       -  je deadrising4.exe+A5B720
+"deadrising4.exe"+A5B6D6: 48 8B C8                    -  mov rcx,rax
+"deadrising4.exe"+A5B6D9: E8 D2 22 BD FF              -  call deadrising4.exe+62D9B0
+"deadrising4.exe"+A5B6DE: 84 C0                       -  test al,al
+"deadrising4.exe"+A5B6E0: 74 3E                       -  je deadrising4.exe+A5B720
+"deadrising4.exe"+A5B6E2: 66 C7 83 24 03 00 00 00 00  -  mov word ptr [rbx+00000324],0000
+"deadrising4.exe"+A5B6EB: C6 83 26 03 00 00 01        -  mov byte ptr [rbx+00000326],01
+"deadrising4.exe"+A5B6F2: E8 F9 17 DC FF              -  call deadrising4.exe+81CEF0
+// ---------- INJECTING HERE ----------
+"deadrising4.exe"+A5B6F7: 89 83 1C 03 00 00           -  mov [rbx+0000031C],eax
+// ---------- DONE INJECTING  ----------
+"deadrising4.exe"+A5B6FD: E8 AE 18 DC FF              -  call deadrising4.exe+81CFB0
+"deadrising4.exe"+A5B702: 48 8B 4B 10                 -  mov rcx,[rbx+10]
+"deadrising4.exe"+A5B706: 48 8D 93 18 03 00 00        -  lea rdx,[rbx+00000318]
+"deadrising4.exe"+A5B70D: C6 02 00                    -  mov byte ptr [rdx],00
+"deadrising4.exe"+A5B710: 89 83 20 03 00 00           -  mov [rbx+00000320],eax
+"deadrising4.exe"+A5B716: 48 83 C4 20                 -  add rsp,20
+"deadrising4.exe"+A5B71A: 5B                          -  pop rbx
+"deadrising4.exe"+A5B71B: E9 F0 7E F6 FF              -  jmp deadrising4.exe+9C3610
+"deadrising4.exe"+A5B720: 48 83 C4 20                 -  add rsp,20
+"deadrising4.exe"+A5B724: 5B                          -  pop rbx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>28</ID>
+      <Description>"Scraps do not decrease"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : deadrising4.exe
+  Version: 
+  Date   : 2020-11-10
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(SCRAPS_UPDATE,deadrising4.exe,89 04 0A EB 0E 4D 8B C6 48 8B D7 48 8B CE E8 76) // should be unique
+alloc(newmem,$1000,"deadrising4.exe"+11A3EF7)
+alloc(SCRAPS_ADDR,8)
+
+label(code)
+label(return)
+
+SCRAPS_ADDR:
+db 0
+
+newmem:
+  push ebx
+  lea ebx,[rdx+rcx]
+  mov [SCRAPS_ADDR],ebx
+  mov ebx,[rdx+rcx]
+  cmp ebx,eax
+  jge code
+  mov [rdx+rcx],eax
+code:
+  pop ebx
+  jmp deadrising4.exe+11A3F0A
+
+SCRAPS_UPDATE:
+  jmp newmem
+return:
+registersymbol(SCRAPS_UPDATE)
+registersymbol(SCRAPS_ADDR)
+
+[DISABLE]
+
+SCRAPS_UPDATE:
+  db 89 04 0A EB 0E
+
+unregistersymbol(SCRAPS_UPDATE)
+unregistersymbol(SCRAPS_ADDR)
+dealloc(newmem)
+dealloc(SCRAPS_ADDR)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "deadrising4.exe"+11A3EF7
+
+"deadrising4.exe"+11A3ED5: 74 25                       -  je deadrising4.exe+11A3EFC
+"deadrising4.exe"+11A3ED7: 0F B7 48 18                 -  movzx ecx,word ptr [rax+18]
+"deadrising4.exe"+11A3EDB: 48 8B 47 30                 -  mov rax,[rdi+30]
+"deadrising4.exe"+11A3EDF: 0F B7 14 48                 -  movzx edx,word ptr [rax+rcx*2]
+"deadrising4.exe"+11A3EE3: B8 FF FF 00 00              -  mov eax,0000FFFF
+"deadrising4.exe"+11A3EE8: 66 3B D0                    -  cmp dx,ax
+"deadrising4.exe"+11A3EEB: 74 0F                       -  je deadrising4.exe+11A3EFC
+"deadrising4.exe"+11A3EED: 48 8B 4E 20                 -  mov rcx,[rsi+20]
+"deadrising4.exe"+11A3EF1: 41 8B 06                    -  mov eax,[r14]
+"deadrising4.exe"+11A3EF4: 0F B7 D2                    -  movzx edx,dx
+// ---------- INJECTING HERE ----------
+"deadrising4.exe"+11A3EF7: 89 04 0A                    -  mov [rdx+rcx],eax
+"deadrising4.exe"+11A3EFA: EB 0E                       -  jmp deadrising4.exe+11A3F0A
+// ---------- DONE INJECTING  ----------
+"deadrising4.exe"+11A3EFC: 4D 8B C6                    -  mov r8,r14
+"deadrising4.exe"+11A3EFF: 48 8B D7                    -  mov rdx,rdi
+"deadrising4.exe"+11A3F02: 48 8B CE                    -  mov rcx,rsi
+"deadrising4.exe"+11A3F05: E8 76 F3 FF FF              -  call deadrising4.exe+11A3280
+"deadrising4.exe"+11A3F0A: 48 8D 8E 98 00 00 00        -  lea rcx,[rsi+00000098]
+"deadrising4.exe"+11A3F11: 48 8B 5C 24 30              -  mov rbx,[rsp+30]
+"deadrising4.exe"+11A3F16: 48 8B 74 24 40              -  mov rsi,[rsp+40]
+"deadrising4.exe"+11A3F1B: 48 8B 7C 24 48              -  mov rdi,[rsp+48]
+"deadrising4.exe"+11A3F20: 48 83 C4 20                 -  add rsp,20
+"deadrising4.exe"+11A3F24: 41 5E                       -  pop r14
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"Scraps [make change to get address]"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>[SCRAPS_ADDR]</Address>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>33</ID>
+              <Description>"Health?"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>-10</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>34</ID>
+                  <Description>"Stamina"</Description>
+                  <VariableType>4 Bytes</VariableType>
+                  <Address>-18</Address>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
       <ID>37</ID>
       <Description>"Testing durability?"</Description>
       <LastState/>
@@ -668,7 +743,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>38</ID>
       <Description>"testing for weapon durability?"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : deadrising4.exe
   Version: 

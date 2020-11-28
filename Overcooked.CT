@@ -25,7 +25,7 @@ end
         <CheatEntry>
           <ID>5</ID>
           <Description>"Freeze Game Timer [HOME]"</Description>
-          <LastState/>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 TimedFlowControllerBase:OnUpdateInRound+12:
@@ -75,14 +75,81 @@ RoundTimer:Update+3                     - 53                    - push ebx
             </Hotkey>
           </Hotkeys>
         </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Always Add 300 points"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Overcooked.exe
+  Version: 
+  Date   : 2020-11-23
+  Author : Edgar Han
+
+  Always Add 300 to score
+}
+
+[ENABLE]
+
+aobscan(GET_SCORE,8B 41 08 8B 51 0C 03 C2) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  mov eax,[ecx+08]
+  add eax,12C //300
+  mov [ecx+08],eax
+
+code:
+  mov edx,[ecx+0C]
+  jmp return
+
+GET_SCORE:
+  jmp newmem
+  nop
+return:
+registersymbol(GET_SCORE)
+
+[DISABLE]
+
+GET_SCORE:
+  db 8B 41 08 8B 51 0C
+
+unregistersymbol(GET_SCORE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 23F99B59
+
+23F99B43: 83 EC 08              -  sub esp,08
+23F99B46: 8B 45 08              -  mov eax,[ebp+08]
+23F99B49: 8B 40 48              -  mov eax,[eax+48]
+23F99B4C: C9                    -  leave 
+23F99B4D: C3                    -  ret 
+23F99B4E: 00 00                 -  add [eax],al
+23F99B50: 55                    -  push ebp
+23F99B51: 8B EC                 -  mov ebp,esp
+23F99B53: 83 EC 08              -  sub esp,08
+23F99B56: 8B 4D 08              -  mov ecx,[ebp+08]
+// ---------- INJECTING HERE ----------
+23F99B59: 8B 41 08              -  mov eax,[ecx+08]
+23F99B5C: 8B 51 0C              -  mov edx,[ecx+0C]
+// ---------- DONE INJECTING  ----------
+23F99B5F: 03 C2                 -  add eax,edx
+23F99B61: 8B 49 10              -  mov ecx,[ecx+10]
+23F99B64: 2B C1                 -  sub eax,ecx
+23F99B66: C9                    -  leave 
+23F99B67: C3                    -  ret 
+23F99B68: 55                    -  push ebp
+23F99B69: 8B EC                 -  mov ebp,esp
+23F99B6B: 83 EC 08              -  sub esp,08
+23F99B6E: 8B 45 08              -  mov eax,[ebp+08]
+23F99B71: 8B 40 18              -  mov eax,[eax+18]
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>7</ID>
-      <Description>"No description"</Description>
-      <LastState Value="96" RealAddress="1E26AF78"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>1E26AF78</Address>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
@@ -113,6 +180,38 @@ RoundTimer:Update+3                     - 53                    - push ebx
     </CodeEntry>
   </CheatCodes>
   <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>InfClip</Name>
+      <Address>00C4A81B</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>InfAmmo</Name>
+      <Address>00C4C2EB</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>freezecombobonustimer</Name>
+      <Address>0071CF09</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>unlimitedhealth</Name>
+      <Address>00B7BD30</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Invincible</Name>
+      <Address>00B7BD30</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>FMT</Name>
+      <Address>0071CADF</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>FreezeComboTimer</Name>
+      <Address>00721841</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>inventorystart</Name>
+      <Address>05CD43F0</Address>
+    </SymbolEntry>
     <SymbolEntry>
       <Name>Commander_savedAOB</Name>
       <Address>3D8424AC</Address>
@@ -168,4 +267,46 @@ RoundTimer:Update+3                     - 53                    - push ebx
   </UserdefinedSymbols>
   <Comments>Info about this table:
 </Comments>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+32D0F0</Address>
+      <Comment>Adiciona um Costume
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+32D0F3</Address>
+      <Comment>Adiciona um Personagem
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+64853A</Address>
+      <Comment>Normal Mode
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+64856C</Address>
+      <Comment>No mercy
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+8910A8</Address>
+      <Comment>Add Player Value
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+8910AB</Address>
+      <Comment>Add Costume Value
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+A620DD</Address>
+      <Comment>Just Suspicius
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"re5dx9.exe"+A6D8D3</Address>
+      <Comment>Remv Player Value
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
 </CheatTable>
