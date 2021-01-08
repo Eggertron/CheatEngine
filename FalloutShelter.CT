@@ -219,7 +219,7 @@ dealloc(BASE_ADDR)
     <CheatEntry>
       <ID>21</ID>
       <Description>"Dwellers Health Always at Max"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : FalloutShelter.exe
   Version: 

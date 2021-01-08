@@ -831,7 +831,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>146</ID>
       <Description>"Crafting give max of used resources"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -904,7 +904,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>154</ID>
       <Description>"Recharge give max item used"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -978,7 +978,7 @@ dealloc(newmem)
       <ID>159</ID>
       <Description>"Money Address Enable (open inventory to init)"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -1056,28 +1056,24 @@ dealloc(MONEY_ADDR)
         <CheatEntry>
           <ID>158</ID>
           <Description>"Units"</Description>
-          <LastState Value="398569970" Activated="1" RealAddress="1D54C160F3C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>[MONEY_ADDR]</Address>
           <CheatEntries>
             <CheatEntry>
               <ID>29</ID>
               <Description>"Nanite Clusters ------ MOVE ME -----"</Description>
-              <LastState Value="300072" Activated="1" RealAddress="1D54C160F40"/>
               <VariableType>4 Bytes</VariableType>
               <Address>+4</Address>
               <CheatEntries>
                 <CheatEntry>
                   <ID>35</ID>
                   <Description>"No description"</Description>
-                  <LastState Value="500" RealAddress="1D54C160F38"/>
                   <VariableType>4 Bytes</VariableType>
                   <Address>-8</Address>
                 </CheatEntry>
                 <CheatEntry>
                   <ID>27</ID>
                   <Description>"quick silvers"</Description>
-                  <LastState Value="62471" RealAddress="1D54C160F44"/>
                   <VariableType>4 Bytes</VariableType>
                   <Address>+4</Address>
                 </CheatEntry>
@@ -1090,7 +1086,7 @@ dealloc(MONEY_ADDR)
     <CheatEntry>
       <ID>161</ID>
       <Description>"Use/move Item give max item stack"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 

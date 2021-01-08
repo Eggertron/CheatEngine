@@ -4,13 +4,22 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Spelunky 2 v1.10.4a"</Description>
+      <Options moHideChildren="1"/>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"values are"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>3</ID>
       <Description>"Rope does not decrease"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -193,7 +202,7 @@ unregistersymbol(health)
     <CheatEntry>
       <ID>8</ID>
       <Description>"Gold Pick up alway 999999"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -266,7 +275,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>11</ID>
       <Description>"Landing on Spikes are safe"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -328,13 +337,13 @@ unregistersymbol(spikes)
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>13</ID>
-      <Description>"Ghost don't kill you (WIP)"</Description>
+      <ID>15</ID>
+      <Description>"Ghost can't kill you"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
-  Date   : 2020-10-04
+  Date   : 2021-01-07
   Author : Edgar Han
 
   This script does blah blah blah
@@ -342,52 +351,48 @@ unregistersymbol(spikes)
 
 [ENABLE]
 
-aobscanmodule(ghost,Spel2.exe,C6 86 0F 01 00 00 00 48 81 66) // should be unique
+aobscanmodule(ghost_maybe,Spel2.exe,40 56 41 54 48 83 EC 68) // should be unique
 
-ghost:
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-
-registersymbol(ghost)
+ghost_maybe:
+  ret
+  nop
+registersymbol(ghost_maybe)
 
 [DISABLE]
 
-ghost:
-  db C6 86 0F 01 00 00 00
+ghost_maybe:
+  db 40 56 41 54 48 83 EC 68
 
-unregistersymbol(ghost)
+unregistersymbol(ghost_maybe)
 
 {
-// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B97A4D
+// ORIGINAL CODE - INJECTION POINT: "Spel2.exe"+21B97170
 
-"Spel2.exe"+21B97A15: 45 0F B6 C4                       -  movzx r8d,r12l
-"Spel2.exe"+21B97A19: 49 8B 89 70 11 00 00              -  mov rcx,[r9+00001170]
-"Spel2.exe"+21B97A20: 0F B6 50 17                       -  movzx edx,byte ptr [rax+17]
-"Spel2.exe"+21B97A24: E8 77 1E 16 00                    -  call Spel2.exe+21CF98A0
-"Spel2.exe"+21B97A29: 4C 8B 7C 24 50                    -  mov r15,[rsp+50]
-"Spel2.exe"+21B97A2E: 48 8B BC 24 90 00 00 00           -  mov rdi,[rsp+00000090]
-"Spel2.exe"+21B97A36: 0F 28 7C 24 30                    -  movaps xmm7,[rsp+30]
-"Spel2.exe"+21B97A3B: 4C 8B 74 24 58                    -  mov r14,[rsp+58]
-"Spel2.exe"+21B97A40: 0F 28 74 24 40                    -  movaps xmm6,[rsp+40]
-"Spel2.exe"+21B97A45: 48 8B 9C 24 80 00 00 00           -  mov rbx,[rsp+00000080]
+"Spel2.exe"+21B97166: CC                       -  int 3 
+"Spel2.exe"+21B97167: CC                       -  int 3 
+"Spel2.exe"+21B97168: CC                       -  int 3 
+"Spel2.exe"+21B97169: CC                       -  int 3 
+"Spel2.exe"+21B9716A: CC                       -  int 3 
+"Spel2.exe"+21B9716B: CC                       -  int 3 
+"Spel2.exe"+21B9716C: CC                       -  int 3 
+"Spel2.exe"+21B9716D: CC                       -  int 3 
+"Spel2.exe"+21B9716E: CC                       -  int 3 
+"Spel2.exe"+21B9716F: CC                       -  int 3 
 // ---------- INJECTING HERE ----------
-"Spel2.exe"+21B97A4D: C6 86 0F 01 00 00 00              -  mov byte ptr [rsi+0000010F],00
+"Spel2.exe"+21B97170: 40 56                    -  push rsi
+"Spel2.exe"+21B97172: 41 54                    -  push r12
+"Spel2.exe"+21B97174: 48 83 EC 68              -  sub rsp,68
 // ---------- DONE INJECTING  ----------
-"Spel2.exe"+21B97A54: 48 81 66 30 FF FF B7 FF           -  and qword ptr [rsi+30],FFFFFFFFFFB7FFFF
-"Spel2.exe"+21B97A5C: F6 86 75 01 00 00 04              -  test byte ptr [rsi+00000175],04
-"Spel2.exe"+21B97A63: 74 11                             -  je Spel2.exe+21B97A76
-"Spel2.exe"+21B97A65: 49 3B ED                          -  cmp rbp,r13
-"Spel2.exe"+21B97A68: 75 0C                             -  jne Spel2.exe+21B97A76
-"Spel2.exe"+21B97A6A: 48 8B 0D B7 D7 32 00              -  mov rcx,[Spel2.exe+21EC5228]
-"Spel2.exe"+21B97A71: E8 BA 4C 1E 00                    -  call Spel2.exe+21D7C730
-"Spel2.exe"+21B97A76: 80 BE 1D 01 00 00 00              -  cmp byte ptr [rsi+0000011D],00
-"Spel2.exe"+21B97A7D: 77 48                             -  ja Spel2.exe+21B97AC7
-"Spel2.exe"+21B97A7F: 48 8B 05 A2 D7 32 00              -  mov rax,[Spel2.exe+21EC5228]
+"Spel2.exe"+21B97178: 48 89 AC 24 88 00 00 00  -  mov [rsp+00000088],rbp
+"Spel2.exe"+21B97180: 44 0F B6 E2              -  movzx r12d,dl
+"Spel2.exe"+21B97184: 4C 89 6C 24 60           -  mov [rsp+60],r13
+"Spel2.exe"+21B97189: 48 8B F1                 -  mov rsi,rcx
+"Spel2.exe"+21B9718C: 4C 8B A9 28 01 00 00     -  mov r13,[rcx+00000128]
+"Spel2.exe"+21B97193: 49 8B ED                 -  mov rbp,r13
+"Spel2.exe"+21B97196: 49 8B 45 08              -  mov rax,[r13+08]
+"Spel2.exe"+21B9719A: 80 78 19 00              -  cmp byte ptr [rax+19],00
+"Spel2.exe"+21B9719E: 75 1B                    -  jne Spel2.exe+21B971BB
+"Spel2.exe"+21B971A0: 81 78 20 25 02 00 00     -  cmp [rax+20],00000225
 }
 </AssemblerScript>
     </CheatEntry>
