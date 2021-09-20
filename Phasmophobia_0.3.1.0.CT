@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="38">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Enable Mono"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>/*
+  Enables Mono
+*/
+[ENABLE]
+{$lua}
+if syntaxcheck then return end
+if process and readInteger(process) ~= 0 then
+    mono_initialize()
+    LaunchMonoDataCollector()
+else
+    local msg = 'No process detected.'
+    print(msg)
+    error(msg)
+end
+{$asm}
+[DISABLE]
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>0</ID>
+          <Description>"Free Purchases"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Phasmophobia.exe
+  Version: 
+  Date   : 2021-09-19
+  Author : Edgar Han
+
+  This script disables money subtraction on purchase. Free Items!
+  Requires Mono
+  Requires CE 7.3
+}
+
+[ENABLE]
+
+aobscanmodule(BUY_BUTTON_FREE_ITEM,GameAssembly.dll,2B 41 18 4C 8B 05 03 C6 F5 01) // should be unique
+
+BUY_BUTTON_FREE_ITEM:
+  db 90 90 90
+registersymbol(BUY_BUTTON_FREE_ITEM)
+
+[DISABLE]
+
+BUY_BUTTON_FREE_ITEM:
+  db 2B 41 18 4C 8B 05 03 C6 F5 01
+
+unregistersymbol(BUY_BUTTON_FREE_ITEM)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+15DE33B
+
+GameAssembly.dll+15DE312: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+15DE315: 8D 50 01              - lea edx,[rax+01]
+GameAssembly.dll+15DE318: E8 B3 20 69 00        - call GameAssembly.dll+1C703D0
+GameAssembly.dll+15DE31D: 4C 8B 05 F4 B5 F6 01  - mov r8,[GameAssembly.dll+3549918]
+GameAssembly.dll+15DE324: 33 D2                 - xor edx,edx
+GameAssembly.dll+15DE326: 48 8B 0D 33 B4 F3 01  - mov rcx,[GameAssembly.dll+3519760]
+GameAssembly.dll+15DE32D: E8 4E DD EF FF        - call GameAssembly.dll+14DC080
+GameAssembly.dll+15DE332: 48 8B 4B 28           - mov rcx,[rbx+28]
+GameAssembly.dll+15DE336: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+15DE339: 74 5C                 - je GameAssembly.dll+15DE397
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+15DE33B: 2B 41 18              - sub eax,[rcx+18]
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+15DE33E: 4C 8B 05 03 C6 F5 01  - mov r8,[GameAssembly.dll+353A948]
+GameAssembly.dll+15DE345: 8B D0                 - mov edx,eax
+GameAssembly.dll+15DE347: 48 8B 0D 12 B4 F3 01  - mov rcx,[GameAssembly.dll+3519760]
+GameAssembly.dll+15DE34E: E8 7D 20 69 00        - call GameAssembly.dll+1C703D0
+GameAssembly.dll+15DE353: 33 D2                 - xor edx,edx
+GameAssembly.dll+15DE355: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+15DE358: E8 73 68 00 00        - call StoreManager.UpdatePlayerMoneyText
+GameAssembly.dll+15DE35D: 33 D2                 - xor edx,edx
+GameAssembly.dll+15DE35F: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+15DE362: E8 19 22 00 00        - call StoreManager.टछझऩडञजतढझण
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"Inf Run"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Phasmophobia.exe
+  Version: 
+  Date   : 2021-09-19
+  Author : Edgar Han
+
+  This script disables stamina drain. Inf RUN.
+}
+
+[ENABLE]
+
+aobscanmodule(PLAYER_STAMINA_NO_DRAIN,GameAssembly.dll,FD CC 80 79 3B 00 75 0F) // should be unique
+
+PLAYER_STAMINA_NO_DRAIN+02:
+  db 80 79 3B 00 EB 0F
+registersymbol(PLAYER_STAMINA_NO_DRAIN)
+
+[DISABLE]
+
+PLAYER_STAMINA_NO_DRAIN+02:
+  db 80 79 3B 00 75 0F
+
+unregistersymbol(PLAYER_STAMINA_NO_DRAIN)
+
+{
+// ORIGINAL CODE - INJECTION POINT: PlayerStamina.StartDraining
+
+GameAssembly.dll+2432F30: E8 EB 1B CC FD        - call GameAssembly.dll+F4B20
+GameAssembly.dll+2432F35: 48 8B C8              - mov rcx,rax
+GameAssembly.dll+2432F38: 33 D2                 - xor edx,edx
+GameAssembly.dll+2432F3A: E8 A1 1D CC FD        - call GameAssembly.dll+F4CE0
+GameAssembly.dll+2432F3F: CC                    - int 3 
+GameAssembly.dll+2432F40: E8 DB 1B CC FD        - call GameAssembly.dll+F4B20
+GameAssembly.dll+2432F45: 48 8B C8              - mov rcx,rax
+GameAssembly.dll+2432F48: 33 D2                 - xor edx,edx
+GameAssembly.dll+2432F4A: E8 91 1D CC FD        - call GameAssembly.dll+F4CE0
+GameAssembly.dll+2432F4F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+PlayerStamina.StartDraining: 80 79 3B 00           - cmp byte ptr [rcx+3B],00
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+2432F54: 75 0F                 - jne GameAssembly.dll+2432F65
+GameAssembly.dll+2432F56: C6 41 3A 01           - mov byte ptr [rcx+3A],01
+GameAssembly.dll+2432F5A: C6 41 3C 00           - mov byte ptr [rcx+3C],00
+GameAssembly.dll+2432F5E: C7 41 50 00 00 00 40  - mov [rcx+50],40000000
+GameAssembly.dll+2432F65: C3                    - ret 
+GameAssembly.dll+2432F66: CC                    - int 3 
+GameAssembly.dll+2432F67: CC                    - int 3 
+GameAssembly.dll+2432F68: CC                    - int 3 
+GameAssembly.dll+2432F69: CC                    - int 3 
+GameAssembly.dll+2432F6A: CC                    - int 3 
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of sub eax,[rcx+18]</Description>
+      <AddressString>GameAssembly.dll+15DE33B</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>85</Byte>
+        <Byte>C9</Byte>
+        <Byte>74</Byte>
+        <Byte>5C</Byte>
+      </Before>
+      <Actual>
+        <Byte>2B</Byte>
+        <Byte>41</Byte>
+        <Byte>18</Byte>
+      </Actual>
+      <After>
+        <Byte>4C</Byte>
+        <Byte>8B</Byte>
+        <Byte>05</Byte>
+        <Byte>03</Byte>
+        <Byte>C6</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of sub eax,edx</Description>
+      <AddressString>GameAssembly.dll+15DE8E3</AddressString>
+      <Before>
+        <Byte>66</Byte>
+        <Byte>C0</Byte>
+        <Byte>F5</Byte>
+        <Byte>01</Byte>
+        <Byte>99</Byte>
+      </Before>
+      <Actual>
+        <Byte>2B</Byte>
+        <Byte>C2</Byte>
+      </Actual>
+      <After>
+        <Byte>D1</Byte>
+        <Byte>F8</Byte>
+        <Byte>8D</Byte>
+        <Byte>14</Byte>
+        <Byte>01</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov eax,[rax+18]</Description>
+      <AddressString>GameAssembly.dll+15DE8D8</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+        <Byte>74</Byte>
+        <Byte>44</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>40</Byte>
+        <Byte>18</Byte>
+      </Actual>
+      <After>
+        <Byte>4C</Byte>
+        <Byte>8B</Byte>
+        <Byte>05</Byte>
+        <Byte>66</Byte>
+        <Byte>C0</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>

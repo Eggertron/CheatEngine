@@ -216,7 +216,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>146</ID>
       <Description>"Crafting give max of used resources"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -289,7 +289,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>154</ID>
       <Description>"Recharge give max item used"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -544,7 +544,7 @@ dealloc(newmem)
     <CheatEntry>
       <ID>164</ID>
       <Description>"No cool down planet scanner"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -596,6 +596,100 @@ unregistersymbol(SCANNER1)
 "NMS.exe"+1550669: 0F 11 81 80 00 00 00     -  movups [rcx+00000080],xmm0
 "NMS.exe"+1550670: 4C 89 81 B8 00 00 00     -  mov [rcx+000000B8],r8
 "NMS.exe"+1550677: F3 0F 11 99 E8 0E 00 00  -  movss [rcx+00000EE8],xmm3
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>225</ID>
+      <Description>"Auto Assemble script"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : NMS.exe
+  Version: 
+  Date   : 2021-03-03
+  Author : Edgar Han
+
+  Modify Acceleration
+}
+
+[ENABLE]
+
+aobscanmodule(PULSE_ACC,NMS.exe,0F 11 68 50 48 8B 83 B0 00 00 00) // should be unique
+alloc(newmem,$1000,"NMS.exe"+1BA1118)
+
+label(code)
+label(return)
+label(multiplier)
+
+newmem:
+
+code:
+  movups [rax+50],xmm5
+  movups [old_xmm],xmm5
+
+  movups xmm5,[multiplier]
+  mulss xmm5,[rax+50]
+  movups [rax+50],xmm5
+
+  movups xmm5,[multiplier]
+  mulss xmm5,[rax+54]
+  movups [rax+54],xmm5
+
+  movups xmm5,[multiplier]
+  mulss xmm5,[rax+58]
+  movups [rax+58],xmm5
+
+  movups xmm5,[old_xmm]
+  mov rax,[rbx+000000B0]
+  jmp return
+multiplier:
+  dd (float)10
+old_xmm:
+  dd (float)0
+
+PULSE_ACC:
+  jmp newmem
+  nop 6
+return:
+registersymbol(PULSE_ACC)
+registersymbol(multiplier)
+
+[DISABLE]
+
+PULSE_ACC:
+  db 0F 11 68 50 48 8B 83 B0 00 00 00
+
+unregistersymbol(PULSE_ACC)
+unregistersymbol(multiplier)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "NMS.exe"+1BA1118
+
+"NMS.exe"+1BA10F5: 0F 2F D6                    -  comiss xmm2,xmm6
+"NMS.exe"+1BA10F8: 76 1E                       -  jna NMS.exe+1BA1118
+"NMS.exe"+1BA10FA: F3 0F 10 0D 3E 30 73 00     -  movss xmm1,[NMS.exe+22D4140]
+"NMS.exe"+1BA1102: F3 0F 5E F2                 -  divss xmm6,xmm2
+"NMS.exe"+1BA1106: 0F 28 D6                    -  movaps xmm2,xmm6
+"NMS.exe"+1BA1109: 0F 28 DE                    -  movaps xmm3,xmm6
+"NMS.exe"+1BA110C: 0F 14 DE                    -  unpcklps xmm3,xmm6
+"NMS.exe"+1BA110F: 0F 14 D1                    -  unpcklps xmm2,xmm1
+"NMS.exe"+1BA1112: 0F 14 DA                    -  unpcklps xmm3,xmm2
+"NMS.exe"+1BA1115: 0F 59 EB                    -  mulps xmm5,xmm3
+// ---------- INJECTING HERE ----------
+"NMS.exe"+1BA1118: 0F 11 68 50                 -  movups [rax+50],xmm5
+"NMS.exe"+1BA111C: 48 8B 83 B0 00 00 00        -  mov rax,[rbx+000000B0]
+// ---------- DONE INJECTING  ----------
+"NMS.exe"+1BA1123: 80 88 80 00 00 00 02        -  or byte ptr [rax+00000080],02
+"NMS.exe"+1BA112A: 48 8B 8B B0 00 00 00        -  mov rcx,[rbx+000000B0]
+"NMS.exe"+1BA1131: E8 AA 99 02 00              -  call NMS.exe+1BCAAE0
+"NMS.exe"+1BA1136: 48 8B 5C 24 58              -  mov rbx,[rsp+58]
+"NMS.exe"+1BA113B: 0F 28 74 24 30              -  movaps xmm6,[rsp+30]
+"NMS.exe"+1BA1140: 48 83 C4 40                 -  add rsp,40
+"NMS.exe"+1BA1144: 5F                          -  pop rdi
+"NMS.exe"+1BA1145: C3                          -  ret 
+"NMS.exe"+1BA1146: CC                          -  int 3 
+"NMS.exe"+1BA1147: CC                          -  int 3 
 }
 </AssemblerScript>
     </CheatEntry>
