@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version 1.18.1"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"Hosted Game"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"Fly Mode Script"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : javaw.exe
+  Version: 
+  Date   : 2022-04-10
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(FLY_MODE,44 0F B6 50 16 45 85 D2 0F 85 E2) // should be unique
+alloc(newmem,$1000,FLY_MODE)
+
+label(code)
+label(return)
+
+registersymbol(fly_mode_address)
+
+newmem:
+  push rdx
+  mov edx,rax
+  mov [fly_mode_address],edx
+  pop rdx
+
+code:
+  movzx r10d,byte ptr [rax+16]
+  jmp return
+
+fly_mode_address:
+  dw 0
+
+FLY_MODE:
+  jmp newmem
+return:
+registersymbol(FLY_MODE)
+
+[DISABLE]
+
+FLY_MODE:
+  db 44 0F B6 50 16
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 24191718F6C
+
+24191718F42: 0F 85 68 06 00 00     - jne 241917195B0
+24191718F48: 48 8B 54 24 30        - mov rdx,[rsp+30]
+24191718F4D: 66 90                 - nop 2
+24191718F4F: E8 6C 92 2C FE        - call 2418F9E21C0
+24191718F54: 85 C0                 - test eax,eax
+24191718F56: 0F 85 40 0A 00 00     - jne 2419171999C
+24191718F5C: 48 8B 54 24 30        - mov rdx,[rsp+30]
+24191718F61: 48 8B EA              - mov rbp,rdx
+24191718F64: 66 66 90              - nop 3
+24191718F67: E8 D4 16 41 FE        - call 2418FB2A640
+// ---------- INJECTING HERE ----------
+24191718F6C: 44 0F B6 50 16        - movzx r10d,byte ptr [rax+16]
+// ---------- DONE INJECTING  ----------
+24191718F71: 45 85 D2              - test r10d,r10d
+24191718F74: 0F 85 E2 07 00 00     - jne 2419171975C
+24191718F7A: 4C 8B D5              - mov r10,rbp
+24191718F7D: 4C 89 54 24 48        - mov [rsp+48],r10
+24191718F82: 45 8B 82 4C 03 00 00  - mov r8d,[r10+0000034C]
+24191718F89: 45 85 C0              - test r8d,r8d
+24191718F8C: 0F 84 3A 15 00 00     - je 2419171A4CC
+24191718F92: 45 33 D2              - xor r10d,r10d
+24191718F95: 44 8B 4C 24 44        - mov r9d,[rsp+44]
+24191718F9A: 44 89 4C 24 2C        - mov [rsp+2C],r9d
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>12</ID>
+              <Description>"Fly Mode Trigger"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Byte</VariableType>
+              <Address>fly_mode_address</Address>
+              <Offsets>
+                <Offset>16</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>13</ID>
+          <Description>"Old Codes"</Description>
+          <Options moHideChildren="1"/>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>9</ID>
+              <Description>"Fly Mode Script?"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>{ Game   : javaw.exe
+  Version: 
+  Date   : 2022-04-10
+  Author : Edgar Han
+
+  FLY MODE
+  Need to jump to find the fly mode address offset
+}
+
+[ENABLE]
+
+aobscan(FLY_MODE,0F BE 76 16 83 FE 00 48 BE 10) // should be unique
+alloc(newmem,$1000,FLY_MODE)
+registersymbol(fly_mode_address)
+
+label(code)
+label(return)
+
+newmem:
+  push rsi
+  mov esi,rsi
+  add esi,(int)16
+  mov [fly_mode_address],esi
+  pop rsi
+
+code:
+  movsx esi,byte ptr [rsi+16]
+  cmp esi,00
+  jmp return
+
+fly_mode_address:
+  dw 0
+
+FLY_MODE:
+  jmp newmem
+  nop 2
+return:
+registersymbol(FLY_MODE)
+
+[DISABLE]
+
+FLY_MODE:
+  db 0F BE 76 16 83 FE 00
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 24189B803FD
+
+24189B803C7: 55                             - push rbp
+24189B803C8: 48 81 EC 40 01 00 00           - sub rsp,00000140
+24189B803CF: 48 BE 10 74 69 D1 41 02 00 00  - mov rsi,00000241D1697410
+24189B803D9: 8B BE CC 00 00 00              - mov edi,[rsi+000000CC]
+24189B803DF: 83 C7 02                       - add edi,02
+24189B803E2: 89 BE CC 00 00 00              - mov [rsi+000000CC],edi
+24189B803E8: 81 E7 FE 07 00 00              - and edi,000007FE
+24189B803EE: 83 FF 00                       - cmp edi,00
+24189B803F1: 0F 84 91 08 00 00              - je 24189B80C88
+24189B803F7: 8B B2 B0 02 00 00              - mov esi,[rdx+000002B0]
+// ---------- INJECTING HERE ----------
+24189B803FD: 0F BE 76 16                    - movsx esi,byte ptr [rsi+16]
+// ---------- DONE INJECTING  ----------
+24189B80401: 83 FE 00                       - cmp esi,00
+24189B80404: 48 BE 10 74 69 D1 41 02 00 00  - mov rsi,00000241D1697410
+24189B8040E: 48 BF 20 01 00 00 00 00 00 00  - mov rdi,0000000000000120
+24189B80418: 0F 85 0A 00 00 00              - jne 24189B80428
+24189B8041E: 48 BF 10 01 00 00 00 00 00 00  - mov rdi,0000000000000110
+24189B80428: 48 8B 1C 3E                    - mov rbx,[rsi+rdi]
+24189B8042C: 48 8D 5B 01                    - lea rbx,[rbx+01]
+24189B80430: 48 89 1C 3E                    - mov [rsi+rdi],rbx
+24189B80434: 0F 85 33 08 00 00              - jne 24189B80C6D
+24189B8043A: C5 FA 10 15 3E FF FF FF        - vmovss xmm2,[24189B80380]
+}
+</AssemblerScript>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>10</ID>
+                  <Description>"Fly Mode"</Description>
+                  <ShowAsHex>1</ShowAsHex>
+                  <ShowAsSigned>0</ShowAsSigned>
+                  <VariableType>Byte</VariableType>
+                  <Address>fly_mode_address</Address>
+                  <Offsets>
+                    <Offset>0</Offset>
+                  </Offsets>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

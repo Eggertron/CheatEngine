@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Get Wallet (Press Tab)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Barotrauma.exe
+  Version: 
+  Date   : 2022-07-11
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(bytes,8B 95 14 F9 FF FF)
+
+[ENABLE]
+
+assert(Barotrauma.TabMenu::CreateInfoFrame+1593,bytes)
+alloc(newmem,$1000,7FF7FA808723)
+registersymbol(WALLET)
+
+label(code)
+label(return)
+
+newmem:
+  lea rdx,[rcx+10]
+  mov [WALLET],rdx
+code:
+  mov edx,[rbp-000006EC]
+  jmp return
+
+WALLET:
+  dq 0
+
+Barotrauma.TabMenu::CreateInfoFrame+1593:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+Barotrauma.TabMenu::CreateInfoFrame+1593:
+  db bytes
+  // mov edx,[rbp-000006EC]
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Barotrauma.TabMenu::CreateInfoFrame+1593
+
+Barotrauma.TabMenu::CreateInfoFrame+155C: 48 89 8D C0 FB FF FF           - mov [rbp-00000440],rcx
+Barotrauma.TabMenu::CreateInfoFrame+1563: 48 8B 4D A0                    - mov rcx,[rbp-60]
+Barotrauma.TabMenu::CreateInfoFrame+1567: 48 8B 89 B8 00 00 00           - mov rcx,[rcx+000000B8]
+Barotrauma.TabMenu::CreateInfoFrame+156E: 48 89 8D C8 F8 FF FF           - mov [rbp-00000738],rcx
+Barotrauma.TabMenu::CreateInfoFrame+1575: 48 8B 8D C8 F8 FF FF           - mov rcx,[rbp-00000738]
+Barotrauma.TabMenu::CreateInfoFrame+157C: 48 8B 85 C8 F8 FF FF           - mov rax,[rbp-00000738]
+Barotrauma.TabMenu::CreateInfoFrame+1583: 48 8B 00                       - mov rax,[rax]
+Barotrauma.TabMenu::CreateInfoFrame+1586: 48 8B 40 40                    - mov rax,[rax+40]
+Barotrauma.TabMenu::CreateInfoFrame+158A: FF 50 20                       - call qword ptr [rax+20]
+Barotrauma.TabMenu::CreateInfoFrame+158D: 89 85 14 F9 FF FF              - mov [rbp-000006EC],eax
+// ---------- INJECTING HERE ----------
+Barotrauma.TabMenu::CreateInfoFrame+1593: 8B 95 14 F9 FF FF              - mov edx,[rbp-000006EC]
+// ---------- DONE INJECTING  ----------
+Barotrauma.TabMenu::CreateInfoFrame+1599: 48 8B 8D C0 FB FF FF           - mov rcx,[rbp-00000440]
+Barotrauma.TabMenu::CreateInfoFrame+15A0: E8 D3 0E 4D FE                 - call 7FF7F8CD9608
+Barotrauma.TabMenu::CreateInfoFrame+15A5: 48 BA C0 2C C6 5A 34 02 00 00  - mov rdx,000002345AC62CC0
+Barotrauma.TabMenu::CreateInfoFrame+15AF: 48 8B 12                       - mov rdx,[rdx]
+Barotrauma.TabMenu::CreateInfoFrame+15B2: 48 8D 8D 48 FF FF FF           - lea rcx,[rbp-000000B8]
+Barotrauma.TabMenu::CreateInfoFrame+15B9: E8 B2 E9 D9 FD                 - call 7FF7F85A7100
+Barotrauma.TabMenu::CreateInfoFrame+15BE: 48 B9 30 03 0C FA F7 7F 00 00  - mov rcx,00007FF7FA0C0330
+Barotrauma.TabMenu::CreateInfoFrame+15C8: E8 E3 F0 89 5D                 - call coreclr.coreclr_shutdown_2+C6F0
+Barotrauma.TabMenu::CreateInfoFrame+15CD: 48 89 85 B8 FB FF FF           - mov [rbp-00000448],rax
+Barotrauma.TabMenu::CreateInfoFrame+15D4: 4C 8B 45 A0                    - mov r8,[rbp-60]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"Money Pointer"</Description>
+          <LastState Value="99999" RealAddress="234551B6020"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>WALLET</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Structures StructVersion="2">
+    <Structure Name="Barotrauma.Wallet" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="8" OffsetHex="00000000" Description="Vtable" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="8" OffsetHex="00000008" Description="Owner" DisplayMethod="unsigned integer">
+          <Structure Name="Barotrauma.None`1" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+            <Elements>
+              <Element Offset="0" Vartype="Pointer" Bytesize="8" OffsetHex="00000000" Description="Vtable" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="balance" DisplayMethod="signed integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="rewardDistribution" DisplayMethod="signed integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
+  <Comments>Info about this table:
+</Comments>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+</LuaScript>
+</CheatTable>

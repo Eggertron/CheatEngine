@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version: v2022.03.16"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Enable"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  mono_initialize()
+  LaunchMonoDataCollector()
+{$asm}
+[DISABLE]
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Unlimited Ammo"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-06
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,ammoscript:Decrease+151)
+define(bytes,2B C1 89 47 2C)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // sub eax,ecx
+  // mov [rdi+2C],eax
+
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: ammoscript:Decrease+151
+
+ammoscript:Decrease+128: 41 FF D3           - call r11
+ammoscript:Decrease+12b: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+12f: F2 0F 5A E8        - cvtsd2ss xmm5,xmm0
+ammoscript:Decrease+133: F3 0F 11 6D E8     - movss [rbp-18],xmm5
+ammoscript:Decrease+138: 85 F6              - test esi,esi
+ammoscript:Decrease+13a: 0F 84 16 00 00 00  - je ammoscript:Decrease+156
+ammoscript:Decrease+140: 48 63 47 2C        - movsxd  rax,dword ptr [rdi+2C]
+ammoscript:Decrease+144: F3 0F 10 45 E8     - movss xmm0,[rbp-18]
+ammoscript:Decrease+149: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+14d: F2 0F 2C C8        - cvttsd2si ecx,xmm0
+// ---------- INJECTING HERE ----------
+ammoscript:Decrease+151: 2B C1              - sub eax,ecx
+// ---------- DONE INJECTING  ----------
+ammoscript:Decrease+153: 89 47 2C           - mov [rdi+2C],eax
+ammoscript:Decrease+156: F3 0F 10 45 E8     - movss xmm0,[rbp-18]
+ammoscript:Decrease+15b: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+15f: F2 0F 5A C0        - cvtsd2ss xmm0,xmm0
+ammoscript:Decrease+163: 48 8B 75 F0        - mov rsi,[rbp-10]
+ammoscript:Decrease+167: 48 8B 7D F8        - mov rdi,[rbp-08]
+ammoscript:Decrease+16b: 48 8D 65 00        - lea rsp,[rbp+00]
+ammoscript:Decrease+16f: 5D                 - pop rbp
+ammoscript:Decrease+170: C3                 - ret 
+1AC0190CA61: 00 00              - add [rax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>18</ID>
+          <Description>"No fluid loss on refill (needs to start game first)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-09
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(FLUIDEXCHANGE,F3 41 0F 11 6E 14 F3) // should be unique
+alloc(newmem,$1000,FLUIDEXCHANGE)
+
+label(code)
+label(return)
+
+newmem:
+  movss xmm0,[r14+14]
+  comiss xmm0,xmm5
+  ja code
+  movss [r14+14],xmm5
+
+code:
+  jmp return
+
+FLUIDEXCHANGE:
+  jmp newmem
+  nop
+return:
+registersymbol(FLUIDEXCHANGE)
+
+[DISABLE]
+
+FLUIDEXCHANGE:
+  db F3 41 0F 11 6E 14
+
+unregistersymbol(FLUIDEXCHANGE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: mainscript+fluidcontainer:ChangeOne+116
+
+mainscript+fluidcontainer:ChangeOne+ec: 49 8B C6                 - mov rax,r14
+mainscript+fluidcontainer:ChangeOne+ef: 48 63 40 10              - movsxd  rax,dword ptr [rax+10]
+mainscript+fluidcontainer:ChangeOne+f3: 3B C6                    - cmp eax,esi
+mainscript+fluidcontainer:ChangeOne+f5: 0F 85 65 00 00 00        - jne mainscript+fluidcontainer:ChangeOne+160
+mainscript+fluidcontainer:ChangeOne+fb: F3 41 0F 10 46 14        - movss xmm0,[r14+14]
+mainscript+fluidcontainer:ChangeOne+101: F3 0F 5A C0              - cvtss2sd xmm0,xmm0
+mainscript+fluidcontainer:ChangeOne+105: F3 0F 10 4D 90           - movss xmm1,[rbp-70]
+mainscript+fluidcontainer:ChangeOne+10a: F3 0F 5A C9              - cvtss2sd xmm1,xmm1
+mainscript+fluidcontainer:ChangeOne+10e: F2 0F 58 C1              - addsd xmm0,xmm1
+mainscript+fluidcontainer:ChangeOne+112: F2 0F 5A E8              - cvtsd2ss xmm5,xmm0
+// ---------- INJECTING HERE ----------
+mainscript+fluidcontainer:ChangeOne+116: F3 41 0F 11 6E 14        - movss [r14+14],xmm5
+// ---------- DONE INJECTING  ----------
+mainscript+fluidcontainer:ChangeOne+11c: F3 0F 10 45 90           - movss xmm0,[rbp-70]
+mainscript+fluidcontainer:ChangeOne+121: F3 0F 5A C0              - cvtss2sd xmm0,xmm0
+mainscript+fluidcontainer:ChangeOne+125: F2 0F 5A E8              - cvtsd2ss xmm5,xmm0
+mainscript+fluidcontainer:ChangeOne+129: F3 0F 11 6D AC           - movss [rbp-54],xmm5
+mainscript+fluidcontainer:ChangeOne+12e: 48 C7 45 A0 00 00 00 00  - mov qword ptr [rbp-60],00000000
+mainscript+fluidcontainer:ChangeOne+136: 48 83 EC 08              - sub rsp,08
+mainscript+fluidcontainer:ChangeOne+13a: E8 7E 00 00 00           - call mainscript+fluidcontainer:ChangeOne+1bd
+mainscript+fluidcontainer:ChangeOne+13f: 48 83 C4 08              - add rsp,08
+mainscript+fluidcontainer:ChangeOne+143: 48 8B 45 A0              - mov rax,[rbp-60]
+mainscript+fluidcontainer:ChangeOne+147: 48 85 C0                 - test rax,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"fluid usage no change"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-07
+  Author : Edgar Han
+
+  This script does blah blah blah
+  2BF323EFE0F
+  2BF323CFC4E
+
+}
+
+//define(bytes,F2 0F 58 C1 F2 0F 5A E8 F3 0F 11 6F 14 48 8B CD 48 83 C1 C0 49 BA 90 9A 17 8C AC 01 00 00 66 66 90 49 BB E0 CB BA 19 AC 01 00 00)
+
+[ENABLE]
+
+//aobscanregion(FLUIDCONTAINERCHANGE,fluidcontainer:ChangeWithoutMix-A000000,fluidcontainer:ChangeWithoutMix,0F 85 5D FF FF FF) // should be unique
+//aobscanmodule(FLUIDCONTAINERCHANGE,fluidcontainer,0F 85 5D FF FF FF)
+aobscan(FLUIDCONTAINERCHANGE,0F 85 5D FF FF FF 48 C7 45 B8 00 00 00 00 48 83 EC 08)
+
+FLUIDCONTAINERCHANGE:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+registersymbol(FLUIDCONTAINERCHANGE)
+
+[DISABLE]
+
+FLUIDCONTAINERCHANGE:
+  db 0F 85 5D FF FF FF 48 C7 45 B8 00 00 00 00 48 83 EC 08
+
+unregistersymbol(FLUIDCONTAINERCHANGE)
+
+{
+
+// ORIGINAL CODE - INJECTION POINT: mainscript+fluidcontainer:ChangeWithoutMix+bd
+
+mainscript+fluidcontainer:ChangeWithoutMix+8b: F2 0F 11 45 98                 - movsd [rbp-68],xmm0
+mainscript+fluidcontainer:ChangeWithoutMix+90: 48 63 57 10                    - movsxd  rdx,dword ptr [rdi+10]
+mainscript+fluidcontainer:ChangeWithoutMix+94: 48 8B CE                       - mov rcx,rsi
+mainscript+fluidcontainer:ChangeWithoutMix+97: 48 8D AD 00 00 00 00           - lea rbp,[rbp+00000000]
+mainscript+fluidcontainer:ChangeWithoutMix+9e: 49 BB E0 AD 4E 0A AC 01 00 00  - mov r11,mainscript+fluidcontainer:GetPercent
+mainscript+fluidcontainer:ChangeWithoutMix+a8: 41 FF D3                       - call r11
+mainscript+fluidcontainer:ChangeWithoutMix+ab: F3 0F 5A D0                    - cvtss2sd xmm2,xmm0
+mainscript+fluidcontainer:ChangeWithoutMix+af: F2 0F 10 45 A0                 - movsd xmm0,[rbp-60]
+mainscript+fluidcontainer:ChangeWithoutMix+b4: F2 0F 10 4D 98                 - movsd xmm1,[rbp-68]
+mainscript+fluidcontainer:ChangeWithoutMix+b9: F2 0F 59 CA                    - mulsd xmm1,xmm2
+// ---------- INJECTING HERE ----------
+mainscript+fluidcontainer:ChangeWithoutMix+bd: F2 0F 58 C1                    - addsd xmm0,xmm1
+// ---------- DONE INJECTING  ----------
+mainscript+fluidcontainer:ChangeWithoutMix+c1: F2 0F 5A E8                    - cvtsd2ss xmm5,xmm0
+mainscript+fluidcontainer:ChangeWithoutMix+c5: F3 0F 11 6F 14                 - movss [rdi+14],xmm5
+mainscript+fluidcontainer:ChangeWithoutMix+ca: 48 8B CD                       - mov rcx,rbp
+mainscript+fluidcontainer:ChangeWithoutMix+cd: 48 83 C1 C0                    - add rcx,-40
+mainscript+fluidcontainer:ChangeWithoutMix+d1: 49 BA 90 9A 17 8C AC 01 00 00  - mov r10,000001AC8C179A90
+mainscript+fluidcontainer:ChangeWithoutMix+db: 66 66 90                       - nop 3
+mainscript+fluidcontainer:ChangeWithoutMix+de: 49 BB E0 CB BA 19 AC 01 00 00  - mov r11,System.Collections.Generic.List`1+Enumerator[T_REF]:MoveNext
+mainscript+fluidcontainer:ChangeWithoutMix+e8: 41 FF D3                       - call r11
+mainscript+fluidcontainer:ChangeWithoutMix+eb: 85 C0                          - test eax,eax
+mainscript+fluidcontainer:ChangeWithoutMix+ed: 0F 85 5D FF FF FF              - jne mainscript+fluidcontainer:ChangeWithoutMix+50
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"Unlmited other ammo (paint)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-07
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,ammoscript:Decrease+b2)
+define(bytes,F2 0F 5C C1 F2 0F 5A E8)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // subsd xmm0,xmm1
+  // cvtsd2ss xmm5,xmm0
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: ammoscript:Decrease+b2
+
+ammoscript:Decrease+88: 41 FF D3           - call r11
+ammoscript:Decrease+8b: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+8f: F2 0F 5A E8        - cvtsd2ss xmm5,xmm0
+ammoscript:Decrease+93: F3 0F 11 6D E8     - movss [rbp-18],xmm5
+ammoscript:Decrease+98: 85 F6              - test esi,esi
+ammoscript:Decrease+9a: 0F 84 B6 00 00 00  - je ammoscript:Decrease+156
+ammoscript:Decrease+a0: F3 0F 10 47 34     - movss xmm0,[rdi+34]
+ammoscript:Decrease+a5: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+a9: F3 0F 10 4D E8     - movss xmm1,[rbp-18]
+ammoscript:Decrease+ae: F3 0F 5A C9        - cvtss2sd xmm1,xmm1
+// ---------- INJECTING HERE ----------
+ammoscript:Decrease+b2: F2 0F 5C C1        - subsd xmm0,xmm1
+// ---------- DONE INJECTING  ----------
+ammoscript:Decrease+b6: F2 0F 5A E8        - cvtsd2ss xmm5,xmm0
+ammoscript:Decrease+ba: F3 0F 11 6F 34     - movss [rdi+34],xmm5
+ammoscript:Decrease+bf: E9 92 00 00 00     - jmp ammoscript:Decrease+156
+ammoscript:Decrease+c4: F3 0F 10 45 E8     - movss xmm0,[rbp-18]
+ammoscript:Decrease+c9: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+ammoscript:Decrease+cd: F2 0F 11 45 E0     - movsd [rbp-20],xmm0
+ammoscript:Decrease+d2: 66 0F 57 C0        - xorpd xmm0,xmm0
+ammoscript:Decrease+d6: F2 0F 11 45 D8     - movsd [rbp-28],xmm0
+ammoscript:Decrease+db: 66 0F 57 C0        - xorpd xmm0,xmm0
+ammoscript:Decrease+df: 48 63 47 2C        - movsxd  rax,dword ptr [rdi+2C]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"Tank Contents don't change"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-07
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,tankcapscript:Update+be8)
+define(bytes,41 FF D3 48 8B 46 68)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // call r11
+  // mov rax,[rsi+68]
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: tankcapscript:Update+be8
+
+tankcapscript:Update+bb3: 48 8B 40 40                    - mov rax,[rax+40]
+tankcapscript:Update+bb7: F3 0F 10 86 7C 01 00 00        - movss xmm0,[rsi+0000017C]
+tankcapscript:Update+bbf: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
+tankcapscript:Update+bc3: 66 0F 57 05 45 02 00 00        - xorpd xmm0,[tankcapscript:Update+e10]
+tankcapscript:Update+bcb: 48 8B C8                       - mov rcx,rax
+tankcapscript:Update+bce: F2 0F 10 C8                    - movsd xmm1,xmm0
+tankcapscript:Update+bd2: F2 0F 5A C9                    - cvtsd2ss xmm1,xmm1
+tankcapscript:Update+bd6: 83 38 00                       - cmp dword ptr [rax],00
+tankcapscript:Update+bd9: 48 8D 64 24 00                 - lea rsp,[rsp+00]
+tankcapscript:Update+bde: 49 BB A0 A8 15 2F A6 01 00 00  - mov r11,mainscript+fluidcontainer:ChangeWithoutMix
+// ---------- INJECTING HERE ----------
+tankcapscript:Update+be8: 41 FF D3                       - call r11
+// ---------- DONE INJECTING  ----------
+tankcapscript:Update+beb: 48 8B 46 68                    - mov rax,[rsi+68]
+tankcapscript:Update+bef: 48 8B C8                       - mov rcx,rax
+tankcapscript:Update+bf2: 33 D2                          - xor edx,edx
+tankcapscript:Update+bf4: 83 38 00                       - cmp dword ptr [rax],00
+tankcapscript:Update+bf7: 48 8D AD 00 00 00 00           - lea rbp,[rbp+00000000]
+tankcapscript:Update+bfe: 49 BB 80 3B A2 2A A6 01 00 00  - mov r11,tankscript:Upd
+tankcapscript:Update+c08: 41 FF D3                       - call r11
+tankcapscript:Update+c0b: 48 8B 86 A0 00 00 00           - mov rax,[rsi+000000A0]
+tankcapscript:Update+c12: 48 89 85 E8 FA FF FF           - mov [rbp-00000518],rax
+tankcapscript:Update+c19: 48 B8 E0 6E 73 2B A6 01 00 00  - mov rax,000001A62B736EE0
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>13</ID>
+          <Description>"Engine Does not use gas"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : TheLongDrive.exe
+  Version: 
+  Date   : 2022-07-07
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,enginescript:Upd+20)
+define(bytes,41 FF D3 48 8D 65 00)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  db 90 90 90
+[DISABLE]
+
+address:
+  db bytes
+  // call r11
+  // lea rsp,[rbp+00]
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: enginescript:Upd+20
+
+1A62DDEE3CC: 00 00                          - add [rax],al
+1A62DDEE3CE: 00 00                          - add [rax],al
+enginescript:Upd: 55                             - push rbp
+enginescript:Upd+1: 48 8B EC                       - mov rbp,rsp
+enginescript:Upd+4: 48 83 EC 30                    - sub rsp,30
+enginescript:Upd+8: 48 89 4D F8                    - mov [rbp-08],rcx
+enginescript:Upd+c: 48 89 55 F0                    - mov [rbp-10],rdx
+enginescript:Upd+10: 45 33 C0                       - xor r8d,r8d
+enginescript:Upd+13: 66 66 90                       - nop 3
+enginescript:Upd+16: 49 BB 20 E4 DE 2D A6 01 00 00  - mov r11,enginescript:Upd
+// ---------- INJECTING HERE ----------
+enginescript:Upd+20: 41 FF D3                       - call r11
+// ---------- DONE INJECTING  ----------
+enginescript:Upd+23: 48 8D 65 00                    - lea rsp,[rbp+00]
+enginescript:Upd+27: 5D                             - pop rbp
+enginescript:Upd+28: C3                             - ret 
+1A62DDEE3F9: 00 00                          - add [rax],al
+1A62DDEE3FB: 00 00                          - add [rax],al
+1A62DDEE3FD: 00 00                          - add [rax],al
+1A62DDEE3FF: 00 01                          - add [rcx],al
+1A62DDEE401: 04 02                          - add al,02
+1A62DDEE403: 05 04 03 01 50                 - add eax,50010304
+1A62DDEE408: 00 E8                          - add al,ch
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"mainscript+fluidcontainer:ChangeWithoutMix"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"lua"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+{$lua}
+d=mono_enumDomains()
+a1=mono_enumAssemblies(d[1])
+nop="90"
+bytes_assert="0F 85 5D FF FF FF"
+offset="ed"
+images={}
+assert(1, 2)
+
+for i=1, #a1 do
+  images[i]=mono_getImageFromAssembly(a1[i])
+
+  if mono_image_get_name(images[i])=="Assembly-CSharp" then
+    classes=mono_image_enumClasses(images[i])
+
+    for j=1, #classes do
+      --print("class name: "..classes[j].classname)
+      if classes[j].classname=="fluidcontainer" then
+        methods=mono_class_enumMethods(classes[j].class)
+
+        --print(j.." : "..classes[j].class)
+        for k=1,#methods do
+          if methods[k].name=="ChangeWithoutMix" then
+            address = mono_compile_method(methods[k].method)
+            --print(address)
+            address2 = address + tonumber(offset, 16)
+            bytes = readBytes(address2, 6, true)
+            assert(unpack(bytes) == bytes_assert, "not equal")
+            print(string.format("%.8x", address2))
+            --print(unpack(bytes))
+            --print(string.format("%.8x", mono_compile_method(methods[k].method)))
+            --return
+          end
+        end
+
+      end
+      --print(mono_class_getName(classes[j]))
+    end
+  end
+end
+
+-- mainscript+fluidcontainer:ChangeWithoutMix
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of addsd xmm0,xmm1</Description>
+      <AddressString>1AC0190768D</AddressString>
+      <Before>
+        <Byte>98</Byte>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>59</Byte>
+        <Byte>CA</Byte>
+      </Before>
+      <Actual>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>58</Byte>
+        <Byte>C1</Byte>
+      </Actual>
+      <After>
+        <Byte>F2</Byte>
+        <Byte>0F</Byte>
+        <Byte>5A</Byte>
+        <Byte>E8</Byte>
+        <Byte>F3</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call r11</Description>
+      <AddressString>1A62ABF7B98</AddressString>
+      <Before>
+        <Byte>2F</Byte>
+        <Byte>A6</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>41</Byte>
+        <Byte>FF</Byte>
+        <Byte>D3</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>46</Byte>
+        <Byte>68</Byte>
+        <Byte>48</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of jne mainscript+fluidcontainer:ChangeWithoutMix+50</Description>
+      <AddressString>2BF323EFEFD</AddressString>
+      <Before>
+        <Byte>41</Byte>
+        <Byte>FF</Byte>
+        <Byte>D3</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>85</Byte>
+        <Byte>5D</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>C7</Byte>
+        <Byte>45</Byte>
+        <Byte>B8</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of jne mainscript+fluidcontainer:ChangeOne+e8</Description>
+      <AddressString>2BF05174285</AddressString>
+      <Before>
+        <Byte>41</Byte>
+        <Byte>FF</Byte>
+        <Byte>D3</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>85</Byte>
+        <Byte>5D</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>C7</Byte>
+        <Byte>45</Byte>
+        <Byte>A0</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <LuaScript>d=mono_enumDomains()
+a1=mono_enumAssemblies(d[1])
+
+images={}
+for i=1, #a1 do
+  images[i]=mono_getImageFromAssembly(a1[i])
+
+  if mono_image_get_name(images[i])=="Assembly-CSharp" then
+    classes=mono_image_enumClasses(images[i])
+
+    for j=1, #classes do
+      if classes[j].classname=="mainscript+fluidcontainer" then
+        methods=mono_class_enumMethods(classes[j].class)
+
+        print(j.." : "..classes[j].class)
+        for k=1,#methods do
+          if methods[k].name=="ChangeWithoutMix" then
+            print(string.format("%.8x", mono_compile_method(methods[k].method)))
+            return
+          end
+        end
+
+      end
+      --print(mono_class_getName(classes[j]))
+    end
+  end
+end
+
+-- mainscript+fluidcontainer:ChangeWithoutMix
+</LuaScript>
+</CheatTable>
