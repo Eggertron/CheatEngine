@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Ark Survival Evolved Patch 348.3"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"Set Items to 20"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-04
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"ShooterGame.UPrimalItem::SetQuantity"+38F9)
+define(bytes,89 88 F8 05 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"ShooterGame.exe"+906989)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov ecx,(int)50
+  mov [rax+000005F8],ecx
+  jmp return
+
+address:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov [rax+000005F8],ecx
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.UPrimalItem::SetQuantity+38F9
+
+ShooterGame.UPrimalItem::SetQuantity+38B6: E8 15 A9 81 FF           - call "ShooterGame.TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;::~TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;"
+ShooterGame.UPrimalItem::SetQuantity+38BB: 48 8D 8C 24 E8 08 00 00  - lea rcx,[rsp+000008E8]
+ShooterGame.UPrimalItem::SetQuantity+38C3: E8 08 A9 81 FF           - call "ShooterGame.TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;::~TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;"
+ShooterGame.UPrimalItem::SetQuantity+38C8: 48 8D 8C 24 08 09 00 00  - lea rcx,[rsp+00000908]
+ShooterGame.UPrimalItem::SetQuantity+38D0: E8 FB A8 81 FF           - call "ShooterGame.TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;::~TArray&lt;UTrueSkySequenceAsset * __ptr64,FDefaultAllocator&gt;"
+ShooterGame.UPrimalItem::SetQuantity+38D5: 48 8B 84 24 90 09 00 00  - mov rax,[rsp+00000990]
+ShooterGame.UPrimalItem::SetQuantity+38DD: 8B 80 F8 05 00 00        - mov eax,[rax+000005F8]
+ShooterGame.UPrimalItem::SetQuantity+38E3: 89 84 24 58 08 00 00     - mov [rsp+00000858],eax
+ShooterGame.UPrimalItem::SetQuantity+38EA: 48 8B 84 24 90 09 00 00  - mov rax,[rsp+00000990]
+ShooterGame.UPrimalItem::SetQuantity+38F2: 8B 8C 24 98 09 00 00     - mov ecx,[rsp+00000998]
+// ---------- INJECTING HERE ----------
+ShooterGame.UPrimalItem::SetQuantity+38F9: 89 88 F8 05 00 00        - mov [rax+000005F8],ecx
+// ---------- DONE INJECTING  ----------
+ShooterGame.UPrimalItem::SetQuantity+38FF: 48 8B 84 24 90 09 00 00  - mov rax,[rsp+00000990]
+ShooterGame.UPrimalItem::SetQuantity+3907: 48 05 90 02 00 00        - add rax,00000290
+ShooterGame.UPrimalItem::SetQuantity+390D: 33 D2                    - xor edx,edx
+ShooterGame.UPrimalItem::SetQuantity+390F: 48 8B C8                 - mov rcx,rax
+ShooterGame.UPrimalItem::SetQuantity+3912: E8 69 35 82 FF           - call "ShooterGame.operator!=&lt;APrimalDinoAIController,FWeakObjectPtr,FIndexToObject&gt;"
+ShooterGame.UPrimalItem::SetQuantity+3917: 0F B6 C0                 - movzx eax,al
+ShooterGame.UPrimalItem::SetQuantity+391A: 85 C0                    - test eax,eax
+ShooterGame.UPrimalItem::SetQuantity+391C: 0F 84 2B 07 00 00        - je ShooterGame.UPrimalItem::SetQuantity+404D
+ShooterGame.UPrimalItem::SetQuantity+3922: 48 8B 84 24 90 09 00 00  - mov rax,[rsp+00000990]
+ShooterGame.UPrimalItem::SetQuantity+392A: 48 05 90 02 00 00        - add rax,00000290
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>21</ID>
+      <Description>"Engram Points Hook"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-05
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"ShooterGame.exe"+13EAE01)
+define(bytes,8B 80 8C 0C 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"ShooterGame.UUI_Hub::Tick_Implementation"+1F1)
+registersymbol(ENGRAM_POINTS)
+label(code)
+label(return)
+
+newmem:
+  push rcx
+  lea rcx,[rax+00000C8C]
+  mov [ENGRAM_POINTS],rcx
+  pop rcx
+
+code:
+  mov eax,[rax+00000C8C]
+  jmp return
+
+ENGRAM_POINTS:
+  dq 0
+
+address:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov eax,[rax+00000C8C]
+
+unregistersymbol(ENGRAM_POINTS)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.UUI_Hub::Tick_Implementation+1F1
+
+ShooterGame.UUI_Hub::Tick_Implementation+1BC: 74 14                    - je ShooterGame.UUI_Hub::Tick_Implementation+1D2
+ShooterGame.UUI_Hub::Tick_Implementation+1BE: 48 8B 84 24 80 01 00 00  - mov rax,[rsp+00000180]
+ShooterGame.UUI_Hub::Tick_Implementation+1C6: 48 8B 88 90 06 00 00     - mov rcx,[rax+00000690]
+ShooterGame.UUI_Hub::Tick_Implementation+1CD: E8 FE E2 30 01           - call ShooterGame.UWidget::SetKeyboardFocus
+ShooterGame.UUI_Hub::Tick_Implementation+1D2: 48 8B 8C 24 80 01 00 00  - mov rcx,[rsp+00000180]
+ShooterGame.UUI_Hub::Tick_Implementation+1DA: E8 F1 D9 7C FF           - call ShooterGame.UPrimalUI::GetPlayerState
+ShooterGame.UUI_Hub::Tick_Implementation+1DF: 48 85 C0                 - test rax,rax
+ShooterGame.UUI_Hub::Tick_Implementation+1E2: 74 19                    - je ShooterGame.UUI_Hub::Tick_Implementation+1FD
+ShooterGame.UUI_Hub::Tick_Implementation+1E4: 48 8B 8C 24 80 01 00 00  - mov rcx,[rsp+00000180]
+ShooterGame.UUI_Hub::Tick_Implementation+1EC: E8 DF D9 7C FF           - call ShooterGame.UPrimalUI::GetPlayerState
+// ---------- INJECTING HERE ----------
+ShooterGame.UUI_Hub::Tick_Implementation+1F1: 8B 80 8C 0C 00 00        - mov eax,[rax+00000C8C]
+// ---------- DONE INJECTING  ----------
+ShooterGame.UUI_Hub::Tick_Implementation+1F7: 89 44 24 28              - mov [rsp+28],eax
+ShooterGame.UUI_Hub::Tick_Implementation+1FB: EB 08                    - jmp ShooterGame.UUI_Hub::Tick_Implementation+205
+ShooterGame.UUI_Hub::Tick_Implementation+1FD: C7 44 24 28 00 00 00 00  - mov [rsp+28],00000000
+ShooterGame.UUI_Hub::Tick_Implementation+205: 8B 44 24 28              - mov eax,[rsp+28]
+ShooterGame.UUI_Hub::Tick_Implementation+209: 89 44 24 20              - mov [rsp+20],eax
+ShooterGame.UUI_Hub::Tick_Implementation+20D: 48 8B 84 24 80 01 00 00  - mov rax,[rsp+00000180]
+ShooterGame.UUI_Hub::Tick_Implementation+215: 48 83 B8 48 06 00 00 00  - cmp qword ptr [rax+00000648],00
+ShooterGame.UUI_Hub::Tick_Implementation+21D: 0F 84 B2 00 00 00        - je ShooterGame.UUI_Hub::Tick_Implementation+2D5
+ShooterGame.UUI_Hub::Tick_Implementation+223: 33 D2                    - xor edx,edx
+ShooterGame.UUI_Hub::Tick_Implementation+225: 48 8D 0D 3C 43 AC 02     - lea rcx,[ShooterGame.exe+3EAF178]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"Engram Points"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>ENGRAM_POINTS</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"Enable Player Base"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"ShooterGame.APrimalCharacter::UpdateStatusComponent"+E5)
+define(bytes,45 33 C0 F3 0F 10 4C 24 68)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,address)
+registersymbol(PLAYER_BASE)
+
+label(code)
+label(return)
+
+newmem:
+  mov [PLAYER_BASE],rcx
+
+code:
+  xor r8d,r8d
+  movss xmm1,[rsp+68]
+  jmp return
+
+PLAYER_BASE:
+  dq 0
+
+address:
+  jmp newmem
+  nop 4
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // xor r8d,r8d
+  // movss xmm1,[rsp+68]
+
+dealloc(newmem)
+unregistersymbol(PLAYER_BASE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.APrimalCharacter::UpdateStatusComponent+E5
+
+ShooterGame.APrimalCharacter::UpdateStatusComponent+B3: 48 8B 4C 24 38        - mov rcx,[rsp+38]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+B8: E8 43 C7 C3 01        - call ShooterGame.exe+2119360
+ShooterGame.APrimalCharacter::UpdateStatusComponent+BD: 48 8B 10              - mov rdx,[rax]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+C0: 48 8B 4C 24 60        - mov rcx,[rsp+60]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+C5: E8 36 1D 35 02        - call ShooterGame.AActor::MulticastProperty
+ShooterGame.APrimalCharacter::UpdateStatusComponent+CA: 48 8B 44 24 60        - mov rax,[rsp+60]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+CF: 48 8B 80 D0 0C 00 00  - mov rax,[rax+00000CD0]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+D6: 48 8B 4C 24 60        - mov rcx,[rsp+60]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+DB: 48 8B 89 D0 0C 00 00  - mov rcx,[rcx+00000CD0]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+E2: 48 8B 00              - mov rax,[rax]
+// ---------- INJECTING HERE ----------
+ShooterGame.APrimalCharacter::UpdateStatusComponent+E5: 45 33 C0              - xor r8d,r8d
+// ---------- DONE INJECTING  ----------
+ShooterGame.APrimalCharacter::UpdateStatusComponent+E8: F3 0F 10 4C 24 68     - movss xmm1,[rsp+68]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+EE: FF 90 08 04 00 00     - call qword ptr [rax+00000408]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+F4: 48 8B 44 24 60        - mov rax,[rsp+60]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+F9: 0F B6 80 D8 08 00 00  - movzx eax,byte ptr [rax+000008D8]
+ShooterGame.APrimalCharacter::UpdateStatusComponent+100: D0 E8                 - shr al,1
+ShooterGame.APrimalCharacter::UpdateStatusComponent+102: 24 01                 - and al,01
+ShooterGame.APrimalCharacter::UpdateStatusComponent+104: 0F B6 C0              - movzx eax,al
+ShooterGame.APrimalCharacter::UpdateStatusComponent+107: 85 C0                 - test eax,eax
+ShooterGame.APrimalCharacter::UpdateStatusComponent+109: 74 7B                 - je ShooterGame.APrimalCharacter::UpdateStatusComponent+186
+ShooterGame.APrimalCharacter::UpdateStatusComponent+10B: 48 8B 44 24 60        - mov rax,[rsp+60]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>4</ID>
+          <Description>"Player Base"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>PLAYER_BASE</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5</ID>
+              <Description>"Health"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+0</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>6</ID>
+              <Description>"Stamina"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>7</ID>
+              <Description>"Torpidity"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*2</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>8</ID>
+              <Description>"Oxygen"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*3</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>9</ID>
+              <Description>"Food"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*4</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>10</ID>
+              <Description>"Water"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*5</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>11</ID>
+              <Description>"No description"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*6</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>12</ID>
+              <Description>"Weight"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*7</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>13</ID>
+              <Description>""</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*8</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>14</ID>
+              <Description>""</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*9</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>15</ID>
+              <Description>""</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>+818+4*10</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"Old"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Enable Player Base [unstable]"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-04
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+//define(address,"ShooterGame.exe"+57E97C)
+define(address,"ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue"+5BC)
+define(bytes,48 8B 8C 24 A0 00 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"ShooterGame.exe"+57E97C)
+registersymbol(PLAYER_BASE)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rcx,[rsp+000000A0]
+  mov [PLAYER_BASE],rcx
+  jmp return
+
+PLAYER_BASE:
+  dq 0
+
+address:
+  jmp newmem
+  nop 3
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov rcx,[rsp+000000A0]
+
+unregistersymbol(PLAYER_BASE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5BC
+
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+587: 0F 2F 44 24 50              - comiss xmm0,[rsp+50]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+58C: 73 0E                       - jae ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+59C
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+58E: F3 0F 10 44 24 40           - movss xmm0,[rsp+40]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+594: F3 0F 11 44 24 60           - movss [rsp+60],xmm0
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+59A: EB 0C                       - jmp ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5A8
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+59C: F3 0F 10 44 24 50           - movss xmm0,[rsp+50]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5A2: F3 0F 11 44 24 60           - movss [rsp+60],xmm0
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5A8: F3 0F 10 44 24 60           - movss xmm0,[rsp+60]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5AE: F3 0F 11 44 24 70           - movss [rsp+70],xmm0
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5B4: 48 63 84 24 A8 00 00 00     - movsxd  rax,dword ptr [rsp+000000A8]
+// ---------- INJECTING HERE ----------
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5BC: 48 8B 8C 24 A0 00 00 00     - mov rcx,[rsp+000000A0]
+// ---------- DONE INJECTING  ----------
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5C4: F3 0F 10 44 24 70           - movss xmm0,[rsp+70]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5CA: F3 0F 11 84 81 18 08 00 00  - movss [rcx+rax*4+00000818],xmm0
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5D3: 48 63 84 24 A8 00 00 00     - movsxd  rax,dword ptr [rsp+000000A8]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5DB: 48 8B 8C 24 A0 00 00 00     - mov rcx,[rsp+000000A0]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5E3: 0F 57 C0                    - xorps xmm0,xmm0
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5E6: 0F 2E 84 81 18 08 00 00     - ucomiss xmm0,[rcx+rax*4+00000818]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5EE: 75 3C                       - jne ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+62C
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5F0: 48 8B 84 24 A0 00 00 00     - mov rax,[rsp+000000A0]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5F8: 48 8B 00                    - mov rax,[rax]
+ShooterGame.UPrimalCharacterStatusComponent::ModifyCurrentStatusValue+5FB: 48 8B 8C 24 A0 00 00 00     - mov rcx,[rsp+000000A0]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>30</ID>
+      <Description>"not working"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"Item Quantity Update (network client)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"ShooterGame.exe"+1073B2E)
+define(bytes,48 89 44 24 30)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation"+3E)
+
+label(code)
+label(return)
+
+newmem:
+  mov rax,(int)50
+
+code:
+  mov [rsp+30],rax
+  jmp return
+
+address:
+  jmp newmem
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov [rsp+30],rax
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+3E
+
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+F: 48 89 4C 24 08              - mov [rsp+08],rcx
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+14: 48 83 EC 48                 - sub rsp,48
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+18: 48 83 7C 24 58 00           - cmp qword ptr [rsp+58],00
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+1E: 74 3C                       - je ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+5C
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+20: 48 C7 44 24 20 00 00 00 00  - mov qword ptr [rsp+20],00000000
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+29: 45 33 C9                    - xor r9d,r9d
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+2C: 45 33 C0                    - xor r8d,r8d
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+2F: 48 8D 54 24 60              - lea rdx,[rsp+60]
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+34: 48 8B 4C 24 58              - mov rcx,[rsp+58]
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+39: E8 F2 B0 79 FF              - call ShooterGame.UPrimalInventoryComponent::FindItem
+// ---------- INJECTING HERE ----------
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+3E: 48 89 44 24 30              - mov [rsp+30],rax
+// ---------- DONE INJECTING  ----------
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+43: 48 83 7C 24 30 00           - cmp qword ptr [rsp+30],00
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+49: 74 11                       - je ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+5C
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+4B: 41 B0 01                    - mov r8l,01
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+4E: 8B 54 24 68                 - mov edx,[rsp+68]
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+52: 48 8B 4C 24 30              - mov rcx,[rsp+30]
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+57: E8 44 F5 88 FF              - call ShooterGame.UPrimalItem::SetQuantity
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+5C: 48 83 C4 48                 - add rsp,48
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+60: C3                          - ret 
+ShooterGame.AShooterPlayerController::ClientUpdateItemQuantity_Implementation+61: CC                          - int 3 
+ShooterGame.exe+1073B52: CC                          - int 3 
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"Item Quantity Update? (network client)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ShooterGame.exe
+  Version: 
+  Date   : 2022-08-13
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity"+F9)
+define(bytes,44 8B 4C 24 40)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,address)
+
+label(code)
+label(return)
+
+newmem:
+  push rax
+  mov rax,(int)50
+  mov [rsp+40],rax
+  pop rax
+
+
+code:
+  mov r9d,[rsp+40]
+  jmp return
+
+address:
+  jmp newmem
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov r9d,[rsp+40]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+F9
+
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+CD: 48 8B D3              - mov rdx,rbx
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+D0: FF 54 C5 00           - call qword ptr [rbp+rax*8+00]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+D4: EB 1F                 - jmp ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+F5
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+D6: 4C 8B 83 80 00 00 00  - mov r8,[rbx+00000080]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+DD: 48 8D 54 24 40        - lea rdx,[rsp+40]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+E2: 48 8B CB              - mov rcx,rbx
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+E5: 49 8B 40 28           - mov rax,[r8+28]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+E9: 48 89 83 80 00 00 00  - mov [rbx+00000080],rax
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+F0: E8 1B F6 74 00        - call ShooterGame.FFrame::StepExplicitProperty
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+F5: 48 8B 43 20           - mov rax,[rbx+20]
+// ---------- INJECTING HERE ----------
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+F9: 44 8B 4C 24 40        - mov r9d,[rsp+40]
+// ---------- DONE INJECTING  ----------
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+FE: 4C 8B 44 24 58        - mov r8,[rsp+58]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+103: 48 8B 54 24 48        - mov rdx,[rsp+48]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+108: 48 85 C0              - test rax,rax
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+10B: 48 8B CE              - mov rcx,rsi
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+10E: 40 0F 95 C7           - setne dil
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+112: 48 03 F8              - add rdi,rax
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+115: 48 89 7B 20           - mov [rbx+20],rdi
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+119: 48 8B 06              - mov rax,[rsi]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+11C: FF 90 50 16 00 00     - call qword ptr [rax+00001650]
+ShooterGame.AShooterPlayerController::execClientUpdateItemQuantity+122: 48 8B 5C 24 50        - mov rbx,[rsp+50]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>newmem</Name>
+      <Address>1F0718D0000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+</CheatTable>

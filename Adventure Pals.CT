@@ -2,425 +2,62 @@
 <CheatTable CheatEngineTableVersion="42">
   <CheatEntries>
     <CheatEntry>
-      <ID>4</ID>
-      <Description>"The Forest Version: 4175072"</Description>
+      <ID>0</ID>
+      <Description>"Version: 1.0.0.14"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
-      <ID>5</ID>
+      <ID>1</ID>
       <Description>"Enable"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
 {$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
   mono_initialize()
   LaunchMonoDataCollector()
 {$asm}
- 
 [DISABLE]
-//code from here till the end of the code will be used to disable the cheat
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
-          <ID>13</ID>
-          <Description>"Player Stats Hook"</Description>
-          <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-          <LastState/>
+          <ID>7</ID>
+          <Description>"Ammo does not decrease"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : TheForest.exe
+          <AssemblerScript>{ Game   : Adventure Pals.exe
   Version: 
-  Date   : 2022-02-03
+  Date   : 2022-10-03
   Author : Edgar Han
 
   This script does blah blah blah
 }
 
-define(address,PlayerStats:Update+1a5)
-define(bytes,0F B6 8E 91 03 00 00)
+define(address,com.massivemonster.swordscouts.Inventory:updateItemAmmo)
+define(bytes,55 48 8B EC 57)
 
 [ENABLE]
 
 assert(address,bytes)
-alloc(newmem,$1000,address)
-alloc(player_stat_addr,8,address)
-alloc(inv_list_index,8,address)
-registersymbol(player_stat_addr)
-registersymbol(inv_list_index)
+alloc(newmem,$1000,0C9A25B0)
 
 label(code)
 label(return)
-
-inv_list_index:
-  dw 0
-player_stat_addr:
-  dw 0
-
-newmem:
-
-code:
-  mov [player_stat_addr],rsi
-  movzx ecx,byte ptr [rsi+00000391]
-  jmp return
-
-address:
-  jmp newmem
-  nop
-  nop
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // movzx ecx,byte ptr [rsi+00000391]
-
-dealloc(*)
-unregistersymbol(*)
-
-{
-// ORIGINAL CODE - INJECTION POINT: PlayerStats:Update+1a5
-
-PlayerStats:Update+173: 41 FF D3                 - call r11
-PlayerStats:Update+176: 48 83 C4 20              - add rsp,20
-PlayerStats:Update+17a: EB 1D                    - jmp PlayerStats:Update+199
-PlayerStats:Update+17c: 48 8B 04 25 A8 70 28 06  - mov rax,[062870A8]
-PlayerStats:Update+184: F3 0F 10 45 94           - movss xmm0,[rbp-6C]
-PlayerStats:Update+189: F3 0F 5A C0              - cvtss2sd xmm0,xmm0
-PlayerStats:Update+18d: F2 0F 5A E8              - cvtsd2ss xmm5,xmm0
-PlayerStats:Update+191: F3 0F 11 A8 78 02 00 00  - movss [rax+00000278],xmm5
-PlayerStats:Update+199: 48 8B 04 25 D8 70 28 06  - mov rax,[062870D8]
-PlayerStats:Update+1a1: 48 8B 40 38              - mov rax,[rax+38]
-// ---------- INJECTING HERE ----------
-PlayerStats:Update+1a5: 0F B6 8E 91 03 00 00     - movzx ecx,byte ptr [rsi+00000391]
-// ---------- DONE INJECTING  ----------
-PlayerStats:Update+1ac: 40 88 48 59              - mov [rax+59],cl
-PlayerStats:Update+1b0: 66 0F 57 C0              - xorpd xmm0,xmm0
-PlayerStats:Update+1b4: F2 0F 5A E8              - cvtsd2ss xmm5,xmm0
-PlayerStats:Update+1b8: F3 0F 11 AD 74 FE FF FF  - movss [rbp-0000018C],xmm5
-PlayerStats:Update+1c0: 0F B6 86 4C 03 00 00     - movzx eax,byte ptr [rsi+0000034C]
-PlayerStats:Update+1c7: 85 C0                    - test eax,eax
-PlayerStats:Update+1c9: 74 2D                    - je PlayerStats:Update+1f8
-PlayerStats:Update+1cb: 48 8B 04 25 80 70 28 06  - mov rax,[06287080]
-PlayerStats:Update+1d3: 0F B6 80 F0 05 00 00     - movzx eax,byte ptr [rax+000005F0]
-PlayerStats:Update+1da: 85 C0                    - test eax,eax
-}
-</AssemblerScript>
-          <CheatEntries>
-            <CheatEntry>
-              <ID>23</ID>
-              <Description>"Player Stats Pointer"</Description>
-              <LastState Value="" RealAddress="00000000"/>
-              <ShowAsSigned>0</ShowAsSigned>
-              <GroupHeader>1</GroupHeader>
-              <Address>player_stat_addr</Address>
-              <Offsets>
-                <Offset>0</Offset>
-              </Offsets>
-              <CheatEntries>
-                <CheatEntry>
-                  <ID>24</ID>
-                  <Description>"Player Inventory Pointer"</Description>
-                  <LastState Value="" RealAddress="00000000"/>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <GroupHeader>1</GroupHeader>
-                  <Address>+120</Address>
-                  <Offsets>
-                    <Offset>0</Offset>
-                  </Offsets>
-                  <CheatEntries>
-                    <CheatEntry>
-                      <ID>25</ID>
-                      <Description>"Logs Pointer"</Description>
-                      <LastState Value="" RealAddress="00000000"/>
-                      <ShowAsSigned>0</ShowAsSigned>
-                      <GroupHeader>1</GroupHeader>
-                      <Address>+130</Address>
-                      <Offsets>
-                        <Offset>0</Offset>
-                      </Offsets>
-                      <CheatEntries>
-                        <CheatEntry>
-                          <ID>12</ID>
-                          <Description>"Infinite Log Hack (0/1)"</Description>
-                          <ShowAsSigned>0</ShowAsSigned>
-                          <VariableType>4 Bytes</VariableType>
-                          <Address>+48</Address>
-                        </CheatEntry>
-                      </CheatEntries>
-                    </CheatEntry>
-                    <CheatEntry>
-                      <ID>26</ID>
-                      <Description>"Possessed Items Pointer"</Description>
-                      <LastState Value="" RealAddress="00000000"/>
-                      <ShowAsSigned>0</ShowAsSigned>
-                      <GroupHeader>1</GroupHeader>
-                      <Address>+20</Address>
-                      <Offsets>
-                        <Offset>0</Offset>
-                      </Offsets>
-                      <CheatEntries>
-                        <CheatEntry>
-                          <ID>29</ID>
-                          <Description>"Inventory List Index"</Description>
-                          <ShowAsSigned>0</ShowAsSigned>
-                          <VariableType>4 Bytes</VariableType>
-                          <Address>inv_list_index</Address>
-                        </CheatEntry>
-                        <CheatEntry>
-                          <ID>28</ID>
-                          <Description>"Item Info"</Description>
-                          <LastState Value="" RealAddress="00000000"/>
-                          <ShowAsSigned>0</ShowAsSigned>
-                          <GroupHeader>1</GroupHeader>
-                          <Address>+10</Address>
-                          <Offsets>
-                            <Offset>0</Offset>
-                            <Offset>[inv_list_index] * 8 + 20</Offset>
-                          </Offsets>
-                          <CheatEntries>
-                            <CheatEntry>
-                              <ID>30</ID>
-                              <Description>"Item Id"</Description>
-                              <DropDownList DescriptionOnly="1" DisplayValueAsItem="1">33:"Cloth"
-34:"Leaf"
-36:"Batteries"
-37:"Booze"
-38:"Cash"
-42:"Feather"
-48:"Lighter"
-49:"Meds"
-53:"Rock"
-54:"Rope"
-57:"Stick"
-60:"Teeth"
-74:"Survival Guide"
-80:"Plane Axe"
-82:"Small Rock"
-109:"Soda"
-122:"Walkie-Talkie"
-175:"Dynamite"
-</DropDownList>
-                              <ShowAsSigned>0</ShowAsSigned>
-                              <VariableType>4 Bytes</VariableType>
-                              <Address>+10</Address>
-                            </CheatEntry>
-                            <CheatEntry>
-                              <ID>27</ID>
-                              <Description>"Amount"</Description>
-                              <ShowAsSigned>0</ShowAsSigned>
-                              <VariableType>4 Bytes</VariableType>
-                              <Address>+14</Address>
-                            </CheatEntry>
-                            <CheatEntry>
-                              <ID>31</ID>
-                              <Description>"Max Amount"</Description>
-                              <ShowAsSigned>0</ShowAsSigned>
-                              <VariableType>4 Bytes</VariableType>
-                              <Address>+18</Address>
-                            </CheatEntry>
-                            <CheatEntry>
-                              <ID>32</ID>
-                              <Description>"Max Amount Bonus"</Description>
-                              <ShowAsSigned>0</ShowAsSigned>
-                              <VariableType>4 Bytes</VariableType>
-                              <Address>+1c</Address>
-                            </CheatEntry>
-                          </CheatEntries>
-                        </CheatEntry>
-                      </CheatEntries>
-                    </CheatEntry>
-                  </CheatEntries>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>15</ID>
-                  <Description>"Health"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+250</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>16</ID>
-                  <Description>"Stamina"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+24c</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>17</ID>
-                  <Description>"Energy"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+258</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>18</ID>
-                  <Description>"Stealth"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+258</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>19</ID>
-                  <Description>"Fullness"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+284</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>20</ID>
-                  <Description>"Thirst"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+288</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>36</ID>
-                  <Description>"Flash Light Charge"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+268</Address>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>37</ID>
-                  <Description>"Hair Spray"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+58</Address>
-                  <Offsets>
-                    <Offset>14</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>38</ID>
-                  <Description>"Scuba Gear Air (300)"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>+40</Address>
-                  <Offsets>
-                    <Offset>28</Offset>
-                  </Offsets>
-                </CheatEntry>
-              </CheatEntries>
-            </CheatEntry>
-          </CheatEntries>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>6</ID>
-          <Description>"Add Inventory Item Multiplier"</Description>
-          <Options moHideChildren="1"/>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>define(inventory_add_orig, 03 44 24 18 41 89 47 14)
-define(inventory_add_addr, TheForest.Items.Inventory:InventoryItem:Add+21)
-
-[ENABLE]
-assert(inventory_add_addr, inventory_add_orig)
-
-alloc(newmem,1000,inventory_add_addr)
-alloc(add_item_multiplier, 4, inventory_add_addr)
-label(returnhere)
 label(exit)
-registersymbol(add_item_multiplier)
-
-add_item_multiplier:
-  dw 2
 
 newmem:
-  mov eax,[rsp+18]
-  mov ecx,[add_item_multiplier]
-  mul ecx
-  mov ecx,[r15+14]
-  add eax,ecx
-  mov [r15+14],eax
-
+  cmp r8,0
+  jg code
 exit:
-jmp returnhere
+  ret
 
-inventory_add_addr:
-jmp newmem
-nop
-nop
-nop
-returnhere:
-
- 
- 
-[DISABLE]
-inventory_add_addr:
-  db inventory_add_orig
-
-unregistersymbol(add_item_multiplier)
-
-/*
-TheForest.Items.Inventory.InventoryItem:Add+1a - 49 8B F0              - mov rsi,r8
-TheForest.Items.Inventory.InventoryItem:Add+1d - 49 63 47 14           - movsxd  rax,dword ptr [r15+14]
-TheForest.Items.Inventory.InventoryItem:Add+21 - 03 44 24 18           - add eax,[rsp+18]
-TheForest.Items.Inventory.InventoryItem:Add+25 - 41 89 47 14           - mov [r15+14],eax
-TheForest.Items.Inventory.InventoryItem:Add+29 - 33 C0                 - xor eax,eax
-TheForest.Items.Inventory.InventoryItem:Add+2b - B9 01000000           - mov ecx,00000001
-TheForest.Items.Inventory.InventoryItem:Add+30 - 85 F6                 - test esi,esi
-TheForest.Items.Inventory.InventoryItem:Add+32 - 48 0F44 C8            - cmove rcx,rax
-TheForest.Items.Inventory.InventoryItem:Add+36 - 48 8B F1              - mov rsi,rcx
-TheForest.Items.Inventory.InventoryItem:Add+39 - 49 63 47 14           - movsxd  rax,dword ptr [r15+14]
-TheForest.Items.Inventory.InventoryItem:Add+3d - 03 C1                 - add eax,ecx
-TheForest.Items.Inventory.InventoryItem:Add+3f - 49 63 4F 18           - movsxd  rcx,dword ptr [r15+18]
-TheForest.Items.Inventory.InventoryItem:Add+43 - 49 63 57 1C           - movsxd  rdx,dword ptr [r15+1C]
-TheForest.Items.Inventory.InventoryItem:Add+47 - 03 CA                 - add ecx,edx
-TheForest.Items.Inventory.InventoryItem:Add+49 - 3B C1                 - cmp eax,ecx
-TheForest.Items.Inventory.InventoryItem:Add+4b - 0F8E 26000000         - jng TheForest.Items.Inventory.InventoryItem:Add+77
-TheForest.Items.Inventory.InventoryItem:Add+51 - 49 63 47 14           - movsxd  rax,dword ptr [r15+14]
-TheForest.Items.Inventory.InventoryItem:Add+55 - 03 C6                 - add eax,esi
-*/
-</AssemblerScript>
-          <CheatEntries>
-            <CheatEntry>
-              <ID>7</ID>
-              <Description>"Add Item Multiplier"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>4 Bytes</VariableType>
-              <Address>add_item_multiplier</Address>
-            </CheatEntry>
-          </CheatEntries>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>33</ID>
-          <Description>"Debug Console Hook"</Description>
-          <Options moHideChildren="1"/>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : TheForest.exe
-  Version:
-  Date   : 2022-02-03
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,TheForest:DebugConsole:Update)
-define(bytes,55 48 8B EC 56)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-alloc(debug_console_ptr,8,address)
-registersymbol(debug_console_ptr)
-
-label(code)
-label(return)
-
-debug_console_ptr:
-  dw 0
-
-newmem:
-  mov [debug_console_ptr],rcx
 code:
   push rbp
   mov rbp,rsp
-  push rsi
+  push rdi
   jmp return
 
 address:
@@ -431,114 +68,159 @@ return:
 
 address:
   db bytes
+  // push rbp
+  // mov rbp,rsp
+  // push rdi
 
-dealloc(*)
-unregistersymbol(*)
+dealloc(newmem)
 
 {
-TheForest.DebugConsole:Update - 55                    - push rbp
-TheForest.DebugConsole:Update+1- 48 8B EC              - mov rbp,rsp
-TheForest.DebugConsole:Update+4- 56                    - push rsi
-TheForest.DebugConsole:Update+5- 48 83 EC 18           - sub rsp,18
-TheForest.DebugConsole:Update+9- 48 8B F1              - mov rsi,rcx
-TheForest.DebugConsole:Update+c- F3 0F10 86 E8000000   - movss xmm0,[rsi+000000E8]
-TheForest.DebugConsole:Update+14- F3 0F5A C0            - cvtss2sd xmm0,xmm0
-TheForest.DebugConsole:Update+18- F2 0F11 45 E8         - movsd [rbp-18],xmm0
-TheForest.DebugConsole:Update+1d- F3 0F10 05 7B010000   - movss xmm0,[TheForest.DebugConsole:Update+1a0]
-TheForest.DebugConsole:Update+25- F3 0F5A C0            - cvtss2sd xmm0,xmm0
-TheForest.DebugConsole:Update+29- F2 0F11 45 E0         - movsd [rbp-20],xmm0
-TheForest.DebugConsole:Update+2e- 48 83 EC 20           - sub rsp,20
-TheForest.DebugConsole:Update+32- 49 BB 20E9610800000000 - mov r11,UnityEngine.Time:get_deltaTime
-TheForest.DebugConsole:Update+3c- 41 FF D3              - call r11
-TheForest.DebugConsole:Update+3f- 48 83 C4 20           - add rsp,20
-TheForest.DebugConsole:Update+43- F3 0F5A D0            - cvtss2sd xmm2,xmm0
-TheForest.DebugConsole:Update+47- F2 0F10 45 E8         - movsd xmm0,[rbp-18]
-TheForest.DebugConsole:Update+4c- F2 0F10 4D E0         - movsd xmm1,[rbp-20]
-TheForest.DebugConsole:Update+51- F2 0F5E CA            - divsd xmm1,xmm2
-TheForest.DebugConsole:Update+55- F3 0F10 15 33010000   - movss xmm2,[TheForest.DebugConsole:Update+190]
+// ORIGINAL CODE - INJECTION POINT: com.massivemonster.swordscouts.Inventory:updateItemAmmo
 
+0C9A259C: 01 50 00     - add [rax+00],edx
+0C9A259F: 00 00        - add [rax],al
+0C9A25A1: 00 00        - add [rax],al
+0C9A25A3: 00 00        - add [rax],al
+0C9A25A5: 00 00        - add [rax],al
+0C9A25A7: 00 00        - add [rax],al
+0C9A25A9: 00 00        - add [rax],al
+0C9A25AB: 00 00        - add [rax],al
+0C9A25AD: 00 00        - add [rax],al
+0C9A25AF: 00           - db 00 
+// ---------- INJECTING HERE ----------
+com.massivemonster.swordscouts.Inventory:updateItemAmmo: 55           - push rbp
+// ---------- DONE INJECTING  ----------
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+1: 48 8B EC     - mov rbp,rsp
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+4: 57           - push rdi
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+5: 41 57        - push r15
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+7: 48 83 EC 10  - sub rsp,10
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+b: 4C 8B F9     - mov r15,rcx
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+e: 48 8B FA     - mov rdi,rdx
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+11: 4C 89 45 E8  - mov [rbp-18],r8
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+15: 48 63 47 3C  - movsxd  rax,dword ptr [rdi+3C]
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+19: 03 45 E8     - add eax,[rbp-18]
+com.massivemonster.swordscouts.Inventory:updateItemAmmo+1c: 89 47 3C     - mov [rdi+3C],eax
 }
 </AssemblerScript>
-          <CheatEntries>
-            <CheatEntry>
-              <ID>34</ID>
-              <Description>"Debug Console Pointer"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>4 Bytes</VariableType>
-              <Address>debug_console_ptr</Address>
-              <Offsets>
-                <Offset>0</Offset>
-              </Offsets>
-              <CheatEntries>
-                <CheatEntry>
-                  <ID>35</ID>
-                  <Description>"Show Console"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Byte</VariableType>
-                  <Address>+ce</Address>
-                </CheatEntry>
-              </CheatEntries>
-            </CheatEntry>
-          </CheatEntries>
         </CheatEntry>
         <CheatEntry>
-          <ID>3</ID>
-          <Description>"Inf Item Usage"</Description>
-          <LastState/>
+          <ID>9</ID>
+          <Description>"Opening chest is free"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : TheForest.exe
+          <AssemblerScript>{ Game   : Adventure Pals.exe
   Version: 
-  Date   : 2022-02-01
+  Date   : 2022-10-03
   Author : Edgar Han
 
-  When Items are used from inventory screen
+  This script does blah blah blah
 }
 
-
-define(consume_item_orig, 2B C6 85 C0 7C 10)
-define(consume_item_addr, TheForest.Items.Inventory:InventoryItem:Remove+17)
+define(address,com.massivemonster.swordscouts.sprites.Chest:update+4c4)
+define(bytes,2B CA 89 48 30)
 
 [ENABLE]
-assert(consume_item_addr, consume_item_orig)
-registersymbol(consume_item_addr)
 
-consume_item_addr:
-xor esi,esi
-
+assert(address,bytes)
+address:
+  nop
+  nop
 
 [DISABLE]
 
-consume_item_addr:
-  db consume_item_orig
-
-unregistersymbol(consume_item_addr)
+address:
+  db bytes
+  // sub ecx,edx
+  // mov [rax+30],ecx
 
 {
-// ORIGINAL CODE - INJECTION POINT: 5C841EA3
+// ORIGINAL CODE - INJECTION POINT: com.massivemonster.swordscouts.sprites.Chest:update+4c4
 
-5C841E87: 00 00           - add [rax],al
-5C841E89: 00 00           - add [rax],al
-5C841E8B: 00 00           - add [rax],al
-5C841E8D: 00 00           - add [rax],al
-5C841E8F: 00 48 83        - add [rax-7D],cl
-5C841E92: EC              - in al,dx
-5C841E93: 18 48 89        - sbb [rax-77],cl
-5C841E96: 34 24           - xor al,24
-5C841E98: 48 89 7C 24 08  - mov [rsp+08],rdi
-5C841E9D: 48 8B F9        - mov rdi,rcx
+com.massivemonster.swordscouts.sprites.Chest:update+49e: 48 83 EC 20           - sub rsp,20
+com.massivemonster.swordscouts.sprites.Chest:update+4a2: 48 8B 06              - mov rax,[rsi]
+com.massivemonster.swordscouts.sprites.Chest:update+4a5: 90                    - nop 
+com.massivemonster.swordscouts.sprites.Chest:update+4a6: 90                    - nop 
+com.massivemonster.swordscouts.sprites.Chest:update+4a7: 90                    - nop 
+com.massivemonster.swordscouts.sprites.Chest:update+4a8: FF 90 A8 01 00 00     - call qword ptr [rax+000001A8]
+com.massivemonster.swordscouts.sprites.Chest:update+4ae: 48 83 C4 20           - add rsp,20
+com.massivemonster.swordscouts.sprites.Chest:update+4b2: 48 8B 83 A0 02 00 00  - mov rax,[rbx+000002A0]
+com.massivemonster.swordscouts.sprites.Chest:update+4b9: 48 63 48 30           - movsxd  rcx,dword ptr [rax+30]
+com.massivemonster.swordscouts.sprites.Chest:update+4bd: 48 63 96 B4 02 00 00  - movsxd  rdx,dword ptr [rsi+000002B4]
 // ---------- INJECTING HERE ----------
-5C841EA0: 48 8B F2        - mov rsi,rdx
+com.massivemonster.swordscouts.sprites.Chest:update+4c4: 2B CA                 - sub ecx,edx
 // ---------- DONE INJECTING  ----------
-5C841EA3: 48 63 47 14     - movsxd  rax,dword ptr [rdi+14]
-5C841EA7: 2B C6           - sub eax,esi
-5C841EA9: 85 C0           - test eax,eax
-5C841EAB: 7C 10           - jl 5C841EBD
-5C841EAD: 48 63 47 14     - movsxd  rax,dword ptr [rdi+14]
-5C841EB1: 2B C6           - sub eax,esi
-5C841EB3: 89 47 14        - mov [rdi+14],eax
-5C841EB6: B8 01 00 00 00  - mov eax,00000001
-5C841EBB: EB 02           - jmp 5C841EBF
-5C841EBD: 33 C0           - xor eax,eax
+com.massivemonster.swordscouts.sprites.Chest:update+4c6: 89 48 30              - mov [rax+30],ecx
+com.massivemonster.swordscouts.sprites.Chest:update+4c9: 48 8B 83 A8 02 00 00  - mov rax,[rbx+000002A8]
+com.massivemonster.swordscouts.sprites.Chest:update+4d0: 48 63 96 B4 02 00 00  - movsxd  rdx,dword ptr [rsi+000002B4]
+com.massivemonster.swordscouts.sprites.Chest:update+4d7: F7 DA                 - neg edx
+com.massivemonster.swordscouts.sprites.Chest:update+4d9: 48 8B C8              - mov rcx,rax
+com.massivemonster.swordscouts.sprites.Chest:update+4dc: 48 83 EC 20           - sub rsp,20
+com.massivemonster.swordscouts.sprites.Chest:update+4e0: 48 8B 00              - mov rax,[rax]
+com.massivemonster.swordscouts.sprites.Chest:update+4e3: 90                    - nop 
+com.massivemonster.swordscouts.sprites.Chest:update+4e4: 90                    - nop 
+com.massivemonster.swordscouts.sprites.Chest:update+4e5: 90                    - nop 
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Don't Lose money on death"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Adventure Pals.exe
+  Version: 
+  Date   : 2022-10-03
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,com.massivemonster.swordscouts.sprites.Player:die+1922)
+define(bytes,89 48 30 F2 0F 10 86 F8 00 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov [rax+30],ecx
+  // movsd xmm0,[rsi+000000F8]
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: com.massivemonster.swordscouts.sprites.Player:die+1922
+
+com.massivemonster.swordscouts.sprites.Player:die+18fd: 48 8B CE                 - mov rcx,rsi
+com.massivemonster.swordscouts.sprites.Player:die+1900: 48 83 EC 20              - sub rsp,20
+com.massivemonster.swordscouts.sprites.Player:die+1904: 48 8B 06                 - mov rax,[rsi]
+com.massivemonster.swordscouts.sprites.Player:die+1907: 90                       - nop 
+com.massivemonster.swordscouts.sprites.Player:die+1908: 90                       - nop 
+com.massivemonster.swordscouts.sprites.Player:die+1909: 90                       - nop 
+com.massivemonster.swordscouts.sprites.Player:die+190a: FF 90 B0 01 00 00        - call qword ptr [rax+000001B0]
+com.massivemonster.swordscouts.sprites.Player:die+1910: 48 83 C4 20              - add rsp,20
+com.massivemonster.swordscouts.sprites.Player:die+1914: 48 8B 86 A0 02 00 00     - mov rax,[rsi+000002A0]
+com.massivemonster.swordscouts.sprites.Player:die+191b: 48 63 8E 0C 04 00 00     - movsxd  rcx,dword ptr [rsi+0000040C]
+// ---------- INJECTING HERE ----------
+com.massivemonster.swordscouts.sprites.Player:die+1922: 89 48 30                 - mov [rax+30],ecx
+// ---------- DONE INJECTING  ----------
+com.massivemonster.swordscouts.sprites.Player:die+1925: F2 0F 10 86 F8 00 00 00  - movsd xmm0,[rsi+000000F8]
+com.massivemonster.swordscouts.sprites.Player:die+192d: F2 0F 11 45 80           - movsd [rbp-80],xmm0
+com.massivemonster.swordscouts.sprites.Player:die+1932: F2 0F 10 86 00 01 00 00  - movsd xmm0,[rsi+00000100]
+com.massivemonster.swordscouts.sprites.Player:die+193a: F2 0F 11 85 78 FF FF FF  - movsd [rbp-00000088],xmm0
+com.massivemonster.swordscouts.sprites.Player:die+1942: F2 0F 10 86 08 01 00 00  - movsd xmm0,[rsi+00000108]
+com.massivemonster.swordscouts.sprites.Player:die+194a: F2 0F 11 85 70 FF FF FF  - movsd [rbp-00000090],xmm0
+com.massivemonster.swordscouts.sprites.Player:die+1952: 48 63 86 E0 01 00 00     - movsxd  rax,dword ptr [rsi+000001E0]
+com.massivemonster.swordscouts.sprites.Player:die+1959: 48 89 45 88              - mov [rbp-78],rax
+com.massivemonster.swordscouts.sprites.Player:die+195d: B8 B0 86 EF 1F           - mov eax,1FEF86B0
+com.massivemonster.swordscouts.sprites.Player:die+1962: 48 63 00                 - movsxd  rax,dword ptr [rax]
 }
 </AssemblerScript>
         </CheatEntry>
@@ -4129,9 +3811,11 @@ unregistersymbol(consume_item_addr)
       </Elements>
     </Structure>
   </Structures>
+  <Comments>Info about this table:
+</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 
-getAutoAttachList().add("TheForest.exe")
+getAutoAttachList().add("Adventure Pals.exe")
 </LuaScript>
 </CheatTable>

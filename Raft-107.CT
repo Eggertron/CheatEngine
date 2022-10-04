@@ -1,29 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheatTable CheatEngineTableVersion="42">
-  <Forms>
-    <UDF1 Class="TCEForm" Encoding="Ascii85">MUX+D!!Q*bvvzCiS]hKBC$FV=?UE?JL8XOOJxaR0ZGkKq$y4Yz@kbPUYrO;C]#+mCe]#ifbWNFsUH)!@b)p@w/@8.ZE(7XD?Ct0VNB?]jojiK_.+*J}Z@rmpstu@sS[(N{J!:PzaCigpJw]1K9KxvA1+2T/!kiwFNfDg+NzNGvoanKeNBV@:.s94$=bt2Sp%$javKCKkWIq(5YGGgYdR!(7D1eUn@[2fFmsMVUfYP;1[;gAlW15l3+jKa%9(r1+5Abfz^?($D_IX:qx0B5II(P;k@;fLkiU:Wp</UDF1>
-  </Forms>
   <CheatEntries>
     <CheatEntry>
       <ID>2</ID>
-      <Description>"Raft Version 1.08 (9078615)"</Description>
+      <Description>"Raft Version 1.07 (9072271)"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>71</ID>
-      <Description>"Open Raft Process"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[ENABLE]
-{$lua}
-getAutoAttachList().add("Raft.exe")
-
- 
- 
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-</AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>3</ID>
@@ -33,7 +15,6 @@ getAutoAttachList().add("Raft.exe")
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
-getAutoAttachList().add("Raft.exe")
 if syntaxcheck then return end
 if process and readInteger(process) ~= 0 then
     mono_initialize()
@@ -48,157 +29,8 @@ end
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
-          <ID>70</ID>
-          <Description>"Display Layer (J)"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>[ENABLE]
-{$lua}
-
-function UpdateForm()
--- updates the content of our form
-addressList = getAddressList()
-item_usage = addressList.getMemoryRecordByDescription("Item Usage does not decrease")
-melee_dam_mod = addressList.getMemoryRecordByDescription("Melee Damage Modifier")
-arrow_dam_mod = addressList.getMemoryRecordByDescription("Arrow Damage Modifier")
-l.caption=string.format('Inf Item (g): %s\nMelee Damage Mod(h): %s\nArrow Damage Mod(k): %s\n',
-  item_usage.Active,
-  melee_dam_mod.Active,
-  arrow_dam_mod.Active)
-end
-
--- if the form is already active, destroy it and create a new
-if f then f.Destroy() end
-f=createForm()
-f.font.color=0xffffff
-f.BorderStyle='bsNone'
-f.FormStyle='fsSystemStayOnTop'
-f.Name='test'
-f.Color=0x00
-f.setSize(200,75)
---f.Position='poDesktopCenter'
-l=createLabel(f)
-l.font.size=12
-l.caption="hello world"
-
-f.OnMouseDown=function(sender,button,x,y)
-  f.dragNow()
-end
-
-f.setLayeredAttributes(0xB4,230,3,3)
-
--- Create Time based function loop
-if t_UPDATE then t_UPDATE.destroy(); t_UPDATE=nil end
-t_UPDATE = createTimer()
-t_UPDATE.Interval = 200
-t_UPDATE.onTimer = UpdateForm
-{$asm}
-[DISABLE]
-{$lua}
-if t_UPDATE then t_UPDATE.destroy(); t_UPDATE=nil end
-if f then f.Destroy() end
-{$asm}
-</AssemblerScript>
-          <Hotkeys>
-            <Hotkey>
-              <Action>Toggle Activation</Action>
-              <Keys>
-                <Key>74</Key>
-              </Keys>
-              <ID>0</ID>
-            </Hotkey>
-          </Hotkeys>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>65</ID>
-          <Description>"Item Usage does not decrease"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version:
-  Date   : 2022-07-06
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"ItemInstance:set_Amount"+32)
-define(bytes,89 48 60 48 8D 65 00 5D C3)
-
-[ENABLE]
-
-
-assert(address,bytes)
-alloc(newmem,128)
-
-label(code)
-
-newmem:
-  push rdx
-  mov edx,[rax+60]
-  cmp edx,ecx
-  jg code
-  mov [rax+60],ecx
-
-code:
-  pop rdx
-  lea rsp,[rbp+00]
-  pop rbp
-  ret
-
-address:
-  jmp newmem
-
-[DISABLE]
-
-address:
-  db bytes
-  // mov [rax+60],ecx
-  // lea rsp,[rbp+00]
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: ItemInstance:set_Amount+32
-
-ItemInstance:set_Amount+8: 48 89 4D F8                    - mov [rbp-08],rcx
-ItemInstance:set_Amount+c: 48 89 55 F0                    - mov [rbp-10],rdx
-ItemInstance:set_Amount+10: 48 8B CA                       - mov rcx,rdx
-ItemInstance:set_Amount+13: 33 D2                          - xor edx,edx
-ItemInstance:set_Amount+15: 41 B8 FF FF FF 7F              - mov r8d,7FFFFFFF
-ItemInstance:set_Amount+1b: 66 66 90                       - nop 3
-ItemInstance:set_Amount+1e: 49 BB 70 73 77 5B 02 02 00 00  - mov r11,UnityEngine.Mathf:Clamp
-ItemInstance:set_Amount+28: 41 FF D3                       - call r11
-ItemInstance:set_Amount+2b: 48 8B C8                       - mov rcx,rax
-ItemInstance:set_Amount+2e: 48 8B 45 F8                    - mov rax,[rbp-08]
-// ---------- INJECTING HERE ----------
-ItemInstance:set_Amount+32: 89 48 60                       - mov [rax+60],ecx
-// ---------- DONE INJECTING  ----------
-ItemInstance:set_Amount+35: 48 8D 65 00                    - lea rsp,[rbp+00]
-ItemInstance:set_Amount+39: 5D                             - pop rbp
-ItemInstance:set_Amount+3a: C3                             - ret
-201D08B13AB: 00 00                          - add [rax],al
-201D08B13AD: 00 00                          - add [rax],al
-201D08B13AF: 00 01                          - add [rcx],al
-201D08B13B1: 04 02                          - add al,02
-201D08B13B3: 05 04 03 01 50                 - add eax,50010304
-201D08B13B8: 00 00                          - add [rax],al
-201D08B13BA: 00 00                          - add [rax],al
-}
-</AssemblerScript>
-          <Hotkeys>
-            <Hotkey>
-              <Action>Toggle Activation</Action>
-              <Keys>
-                <Key>71</Key>
-              </Keys>
-              <ID>0</ID>
-            </Hotkey>
-          </Hotkeys>
-        </CheatEntry>
-        <CheatEntry>
           <ID>4</ID>
-          <Description>"items touched count set to xxx"</Description>
+          <Description>"items touched count set to 19 (full injection, not working)"</Description>
           <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
@@ -209,7 +41,7 @@ ItemInstance:set_Amount+3a: C3                             - ret
   This script does blah blah blah
 }
 
-define(address,"ItemInstance:set_Amount"+32)
+define(address,ItemInstance:set_Amount+32)
 define(bytes,89 48 60 48 8D 65 00 5D C3)
 
 [ENABLE]
@@ -221,7 +53,7 @@ alloc(newmem,128)
 label(code)
 
 newmem:
-  mov ecx,(int)6
+  mov ecx,(int)19
 
 code:
   mov [rax+60],ecx
@@ -271,8 +103,73 @@ ItemInstance:set_Amount+3a: C3                             - ret
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
+          <ID>46</ID>
+          <Description>"Get POS"</Description>
+          <Options moHideChildren="1"/>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+alloc(newmem,1028,"UnityPlayer.dll"+DBA68A)
+alloc(posx,8)
+registersymbol(posx)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+posx:
+db 0
+
+newmem:
+cmp [rcx+rdx*8+10], (float)0
+jne originalcode
+push rax
+lea rax, [rcx+rdx*8]
+mov [posx], rax
+pop rax
+
+originalcode:
+movups xmm2,[rcx+rdx*8]
+movss [rsi],xmm2
+
+exit:
+jmp returnhere
+
+"UnityPlayer.dll"+DBA68A:
+jmp newmem
+nop 3
+returnhere:
+
+[DISABLE]
+"UnityPlayer.dll"+DBA68A:
+movups xmm2,[rcx+rdx*8]
+movss [rsi],xmm2
+dealloc(newmem)
+unregistersymbol(posx)
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>47</ID>
+              <Description>"pos-x"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posx]</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>48</ID>
+              <Description>"pos-y"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posx]+4</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>49</ID>
+              <Description>"pos-z"</Description>
+              <VariableType>Float</VariableType>
+              <Address>[posx]+8</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
           <ID>16</ID>
-          <Description>"Tank always full ??"</Description>
+          <Description>"Tank always full"</Description>
           <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>/* Tank Value float max = 50
@@ -310,7 +207,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>8</ID>
           <Description>"100% health/hunger/thirst player, 1 hit kill all"</Description>
-          <LastState/>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>define(address,Stat:ChangeValue+63)
 define(bytes,F3 0F 11 6E 1C 48 8B 75 F8 48 8D 65 00 5D C3)
@@ -355,502 +252,32 @@ address:
 dealloc(newmem)
 </AssemblerScript>
         </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>51</ID>
+      <Description>"x"</Description>
+      <VariableType>Float</VariableType>
+      <Address>1F68ac25430</Address>
+      <CheatEntries>
         <CheatEntry>
-          <ID>53</ID>
-          <Description>"Player Stats Base Hook"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version: 
-  Date   : 2022-08-08
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"PlayerStats:Updat"e+23)
-define(bytes,48 8B 86 20 01 00 00)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-registersymbol(PLAYER_STAT_BASE_PTR)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  mov [PLAYER_STAT_BASE_PTR],rsi
-  mov rax,[rsi+00000120]
-  jmp return
-
-PLAYER_STAT_BASE_PTR:
-  dq 0
-
-address:
-  jmp newmem
-  nop 2
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // mov rax,[rsi+00000120]
-
-dealloc(newmem)
-unregistersymbol(PLAYER_STAT_BASE_PTR)
-
-{
-// ORIGINAL CODE - INJECTION POINT: PlayerStats:Update+23
-
-137F9639B2E: 00 00                          - add [rax],al
-PlayerStats:Update: 55                             - push rbp
-PlayerStats:Update+1: 48 8B EC                       - mov rbp,rsp
-PlayerStats:Update+4: 48 83 EC 70                    - sub rsp,70
-PlayerStats:Update+8: 48 89 75 F0                    - mov [rbp-10],rsi
-PlayerStats:Update+c: 48 89 7D F8                    - mov [rbp-08],rdi
-PlayerStats:Update+10: 48 8B F1                       - mov rsi,rcx
-PlayerStats:Update+13: 66 66 90                       - nop 3
-PlayerStats:Update+16: 49 BB F0 A4 63 F9 37 01 00 00  - mov r11,Network_Entity:Update
-PlayerStats:Update+20: 41 FF D3                       - call r11
-// ---------- INJECTING HERE ----------
-PlayerStats:Update+23: 48 8B 86 20 01 00 00           - mov rax,[rsi+00000120]
-// ---------- DONE INJECTING  ----------
-PlayerStats:Update+2a: 48 8B C8                       - mov rcx,rax
-PlayerStats:Update+2d: 83 39 00                       - cmp dword ptr [rcx],00
-PlayerStats:Update+30: 0F B6 80 C8 01 00 00           - movzx eax,byte ptr [rax+000001C8]
-PlayerStats:Update+37: 85 C0                          - test eax,eax
-PlayerStats:Update+39: 0F 84 D4 07 00 00              - je PlayerStats:Update+813
-PlayerStats:Update+3f: 48 8B 86 90 00 00 00           - mov rax,[rsi+00000090]
-PlayerStats:Update+46: 48 89 45 D8                    - mov [rbp-28],rax
-PlayerStats:Update+4a: 48 8D 6D 00                    - lea rbp,[rbp+00]
-PlayerStats:Update+4e: 49 BB 60 F3 28 68 38 01 00 00  - mov r11,UnityEngine.Time:get_deltaTime
-PlayerStats:Update+58: 41 FF D3                       - call r11
-}
-</AssemblerScript>
+          <ID>50</ID>
+          <Description>"y"</Description>
+          <VariableType>Float</VariableType>
+          <Address>+4</Address>
           <CheatEntries>
             <CheatEntry>
-              <ID>54</ID>
-              <Description>"Player Stats Base Pointer"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>4 Bytes</VariableType>
-              <Address>PLAYER_STAT_BASE_PTR</Address>
-              <Offsets>
-                <Offset>0</Offset>
-              </Offsets>
-              <CheatEntries>
-                <CheatEntry>
-                  <ID>55</ID>
-                  <Description>"Health"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>1c</Offset>
-                    <Offset>30</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>56</ID>
-                  <Description>"Hunger"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>1c</Offset>
-                    <Offset>18</Offset>
-                    <Offset>68</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>57</ID>
-                  <Description>"Thirst"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>1c</Offset>
-                    <Offset>18</Offset>
-                    <Offset>70</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>58</ID>
-                  <Description>"Oxygen"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Float</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>1c</Offset>
-                    <Offset>80</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>59</ID>
-                  <Description>"Invulnerable"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Byte</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>5c</Offset>
-                  </Offsets>
-                </CheatEntry>
-                <CheatEntry>
-                  <ID>60</ID>
-                  <Description>"Death Prevention"</Description>
-                  <ShowAsSigned>0</ShowAsSigned>
-                  <VariableType>Byte</VariableType>
-                  <Address>PLAYER_STAT_BASE_PTR</Address>
-                  <Offsets>
-                    <Offset>140</Offset>
-                  </Offsets>
-                </CheatEntry>
-              </CheatEntries>
+              <ID>52</ID>
+              <Description>"z"</Description>
+              <VariableType>Float</VariableType>
+              <Address>+4</Address>
             </CheatEntry>
           </CheatEntries>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>62</ID>
-          <Description>"Melee Damage Modifier"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version: 
-  Date   : 2022-08-13
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"MeleeWeapon:OnHitEntity"+117)
-define(bytes,F2 0F 10 D8 F2 0F 5A DB)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-
-label(code)
-label(return)
-
-newmem:
-  push ecx
-  mov ecx,(float)100 // amount of damage
-  cvtsi2ss xmm0,ecx
-  cvtss2sd xmm0,xmm0
-  pop ecx
-code:
-  movsd xmm3,xmm0
-  cvtsd2ss xmm3,xmm3
-  jmp return
-
-address:
-  jmp newmem
-  nop 3
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // movsd xmm3,xmm0
-  // cvtsd2ss xmm3,xmm3
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: MeleeWeapon:OnHitEntity+117
-
-MeleeWeapon:OnHitEntity+ee: 4C 63 55 C8                    - movsxd  r10,dword ptr [rbp-38]
-MeleeWeapon:OnHitEntity+f2: 44 89 55 D8                    - mov [rbp-28],r10d
-MeleeWeapon:OnHitEntity+f6: 4C 89 4C 24 28                 - mov [rsp+28],r9
-MeleeWeapon:OnHitEntity+fb: 4C 8B CD                       - mov r9,rbp
-MeleeWeapon:OnHitEntity+fe: 49 83 C1 E0                    - add r9,-20
-MeleeWeapon:OnHitEntity+102: 4C 8B 55 B0                    - mov r10,[rbp-50]
-MeleeWeapon:OnHitEntity+106: 4C 89 55 E0                    - mov [rbp-20],r10
-MeleeWeapon:OnHitEntity+10a: 4C 63 55 B8                    - movsxd  r10,dword ptr [rbp-48]
-MeleeWeapon:OnHitEntity+10e: 44 89 55 E8                    - mov [rbp-18],r10d
-MeleeWeapon:OnHitEntity+112: 4C 89 4C 24 20                 - mov [rsp+20],r9
-// ---------- INJECTING HERE ----------
-MeleeWeapon:OnHitEntity+117: F2 0F 10 D8                    - movsd xmm3,xmm0
-// ---------- DONE INJECTING  ----------
-MeleeWeapon:OnHitEntity+11b: F2 0F 5A DB                    - cvtsd2ss xmm3,xmm3
-MeleeWeapon:OnHitEntity+11f: 83 38 00                       - cmp dword ptr [rax],00
-MeleeWeapon:OnHitEntity+122: 48 8D 6D 00                    - lea rbp,[rbp+00]
-MeleeWeapon:OnHitEntity+126: 49 BB 80 68 4A 51 BF 02 00 00  - mov r11,Network_Host:DamageEntity
-MeleeWeapon:OnHitEntity+130: 41 FF D3                       - call r11
-MeleeWeapon:OnHitEntity+133: 0F B6 46 5C                    - movzx eax,byte ptr [rsi+5C]
-MeleeWeapon:OnHitEntity+137: 85 C0                          - test eax,eax
-MeleeWeapon:OnHitEntity+139: 0F 85 34 00 00 00              - jne MeleeWeapon:OnHitEntity+173
-MeleeWeapon:OnHitEntity+13f: 0F B6 46 5D                    - movzx eax,byte ptr [rsi+5D]
-MeleeWeapon:OnHitEntity+143: 85 C0                          - test eax,eax
-}
-</AssemblerScript>
-          <Hotkeys>
-            <Hotkey>
-              <Action>Toggle Activation</Action>
-              <Keys>
-                <Key>72</Key>
-              </Keys>
-              <ID>0</ID>
-            </Hotkey>
-          </Hotkeys>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>64</ID>
-          <Description>"Unlimited Item Durability"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version: 
-  Date   : 2022-08-13
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"ItemInstance:set_Uses"+3b)
-define(bytes,89 47 64 48 8B 7D F8)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-
-label(code)
-label(return)
-
-newmem:
-  push rdx
-  mov edx,[rdi+64]
-  cmp eax,edx
-  jl code
-  mov [rdi+64],eax
-code:
-  pop rdx
-  mov rdi,[rbp-08]
-  jmp return
-
-address:
-  jmp newmem
-  nop 2
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // mov [rdi+64],eax
-  // mov rdi,[rbp-08]
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: ItemInstance:set_Uses+3b
-
-ItemInstance:set_Uses+f: 48 89 55 F0                    - mov [rbp-10],rdx
-ItemInstance:set_Uses+13: 66 66 90                       - nop 3
-ItemInstance:set_Uses+16: 49 BB 20 32 39 51 BF 02 00 00  - mov r11,ItemInstance:get_BaseItemMaxUses
-ItemInstance:set_Uses+20: 41 FF D3                       - call r11
-ItemInstance:set_Uses+23: 4C 8B C0                       - mov r8,rax
-ItemInstance:set_Uses+26: 48 63 4D F0                    - movsxd  rcx,dword ptr [rbp-10]
-ItemInstance:set_Uses+2a: 33 D2                          - xor edx,edx
-ItemInstance:set_Uses+2c: 66 90                          - nop 2
-ItemInstance:set_Uses+2e: 49 BB 70 73 19 FC BE 02 00 00  - mov r11,UnityEngine.Mathf:Clamp
-ItemInstance:set_Uses+38: 41 FF D3                       - call r11
-// ---------- INJECTING HERE ----------
-ItemInstance:set_Uses+3b: 89 47 64                       - mov [rdi+64],eax
-// ---------- DONE INJECTING  ----------
-ItemInstance:set_Uses+3e: 48 8B 7D F8                    - mov rdi,[rbp-08]
-ItemInstance:set_Uses+42: 48 8D 65 00                    - lea rsp,[rbp+00]
-ItemInstance:set_Uses+46: 5D                             - pop rbp
-ItemInstance:set_Uses+47: C3                             - ret 
-2BF513931D8: 01 04 02                       - add [rdx+rax],eax
-2BF513931DB: 05 04 03 01 50                 - add eax,50010304
-2BF513931E0: 00 00                          - add [rax],al
-2BF513931E2: 00 00                          - add [rax],al
-2BF513931E4: 00 00                          - add [rax],al
-2BF513931E6: 00 00                          - add [rax],al
-}
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>69</ID>
-          <Description>"Arrow Damage Modifier"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version: 
-  Date   : 2022-08-15
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"Arrow:OnCollisionEvent"+1d4)
-define(bytes,F2 0F 10 D8 F2 0F 5A DB)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-
-label(code)
-label(return)
-
-newmem:
-  push rax
-  mov eax,(float)500
-  cvtsi2ss xmm0,eax
-  cvtss2sd xmm0,xmm0
-  pop rax
-
-code:
-  movsd xmm3,xmm0
-  cvtsd2ss xmm3,xmm3
-  jmp return
-
-address:
-  jmp newmem
-  nop 3
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // movsd xmm3,xmm0
-  // cvtsd2ss xmm3,xmm3
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Arrow:OnCollisionEvent+1d4
-
-Arrow:OnCollisionEvent+1ab: 4C 63 55 C0                    - movsxd  r10,dword ptr [rbp-40]
-Arrow:OnCollisionEvent+1af: 44 89 55 D0                    - mov [rbp-30],r10d
-Arrow:OnCollisionEvent+1b3: 4C 89 4C 24 28                 - mov [rsp+28],r9
-Arrow:OnCollisionEvent+1b8: 4C 8B CD                       - mov r9,rbp
-Arrow:OnCollisionEvent+1bb: 49 83 C1 D8                    - add r9,-28
-Arrow:OnCollisionEvent+1bf: 4C 8B 55 A8                    - mov r10,[rbp-58]
-Arrow:OnCollisionEvent+1c3: 4C 89 55 D8                    - mov [rbp-28],r10
-Arrow:OnCollisionEvent+1c7: 4C 63 55 B0                    - movsxd  r10,dword ptr [rbp-50]
-Arrow:OnCollisionEvent+1cb: 44 89 55 E0                    - mov [rbp-20],r10d
-Arrow:OnCollisionEvent+1cf: 4C 89 4C 24 20                 - mov [rsp+20],r9
-// ---------- INJECTING HERE ----------
-Arrow:OnCollisionEvent+1d4: F2 0F 10 D8                    - movsd xmm3,xmm0
-// ---------- DONE INJECTING  ----------
-Arrow:OnCollisionEvent+1d8: F2 0F 5A DB                    - cvtsd2ss xmm3,xmm3
-Arrow:OnCollisionEvent+1dc: 83 38 00                       - cmp dword ptr [rax],00
-Arrow:OnCollisionEvent+1df: 48 8D AD 00 00 00 00           - lea rbp,[rbp+00000000]
-Arrow:OnCollisionEvent+1e6: 49 BB 20 F4 B0 F0 60 01 00 00  - mov r11,Network_Host:DamageEntity
-Arrow:OnCollisionEvent+1f0: 41 FF D3                       - call r11
-Arrow:OnCollisionEvent+1f3: 41 C6 87 CC 00 00 00 01        - mov byte ptr [r15+000000CC],01
-Arrow:OnCollisionEvent+1fb: 48 8B 75 E8                    - mov rsi,[rbp-18]
-Arrow:OnCollisionEvent+1ff: 48 8B 7D F0                    - mov rdi,[rbp-10]
-Arrow:OnCollisionEvent+203: 4C 8B 7D F8                    - mov r15,[rbp-08]
-Arrow:OnCollisionEvent+207: 48 8D 65 00                    - lea rsp,[rbp+00]
-}
-</AssemblerScript>
-          <Hotkeys>
-            <Hotkey>
-              <Action>Toggle Activation</Action>
-              <Keys>
-                <Key>75</Key>
-              </Keys>
-              <ID>0</ID>
-            </Hotkey>
-          </Hotkeys>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>68</ID>
-          <Description>"Arrow Damage Modifer (broken)"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Raft.exe
-  Version: 
-  Date   : 2022-08-15
-  Author : Edgar Han
-
-  This script does blah blah blah
-}
-
-define(address,"Arrow:OnCollisionEvent"+bf)
-define(bytes,F3 41 0F 10 87 C8 00 00 00)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,address)
-
-label(code)
-label(return)
-
-newmem:
-  push rax
-  mov eax,(float)500
-  cvtsi2ss xmm0,eax
-  pop rax
-
-code:
-  //movss xmm0,[r15+000000C8]
-  jmp return
-
-address:
-  jmp newmem
-  nop 4
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // movss xmm0,[r15+000000C8]
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Arrow:OnCollisionEvent+bf
-
-Arrow:OnCollisionEvent+8f: 85 C0                          - test eax,eax
-Arrow:OnCollisionEvent+91: 0F 85 64 01 00 00              - jne Arrow:OnCollisionEvent+1fb
-Arrow:OnCollisionEvent+97: 48 B8 A0 5C DB 1F 61 01 00 00  - mov rax,000001611FDB5CA0
-Arrow:OnCollisionEvent+a1: 48 8B 00                       - mov rax,[rax]
-Arrow:OnCollisionEvent+a4: 48 89 45 90                    - mov [rbp-70],rax
-Arrow:OnCollisionEvent+a8: 48 8B CF                       - mov rcx,rdi
-Arrow:OnCollisionEvent+ab: 83 3F 00                       - cmp dword ptr [rdi],00
-Arrow:OnCollisionEvent+ae: 49 BB 80 F3 B0 F0 60 01 00 00  - mov r11,UnityEngine.Collision:get_transform
-Arrow:OnCollisionEvent+b8: 41 FF D3                       - call r11
-Arrow:OnCollisionEvent+bb: 48 89 45 88                    - mov [rbp-78],rax
-// ---------- INJECTING HERE ----------
-Arrow:OnCollisionEvent+bf: F3 41 0F 10 87 C8 00 00 00     - movss xmm0,[r15+000000C8]
-// ---------- DONE INJECTING  ----------
-Arrow:OnCollisionEvent+c8: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
-Arrow:OnCollisionEvent+cc: F2 0F 11 45 80                 - movsd [rbp-80],xmm0
-Arrow:OnCollisionEvent+d1: 48 8B CF                       - mov rcx,rdi
-Arrow:OnCollisionEvent+d4: 83 3F 00                       - cmp dword ptr [rdi],00
-Arrow:OnCollisionEvent+d7: 48 8D AD 00 00 00 00           - lea rbp,[rbp+00000000]
-Arrow:OnCollisionEvent+de: 49 BB 40 E7 B0 F0 60 01 00 00  - mov r11,UnityEngine.Collision:get_contacts
-Arrow:OnCollisionEvent+e8: 41 FF D3                       - call r11
-Arrow:OnCollisionEvent+eb: 33 C9                          - xor ecx,ecx
-Arrow:OnCollisionEvent+ed: 48 63 C9                       - movsxd  rcx,ecx
-Arrow:OnCollisionEvent+f0: 39 48 18                       - cmp [rax+18],ecx
-}
-</AssemblerScript>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <UserdefinedSymbols>
-    <SymbolEntry>
-      <Name>newmem</Name>
-      <Address>1F0718D0000</Address>
-    </SymbolEntry>
-  </UserdefinedSymbols>
+  <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
       <Elements>
@@ -20618,571 +20045,5 @@ Arrow:OnCollisionEvent+f0: 39 48 18                       - cmp [rax+18],ecx
         <Element Offset="197380" Vartype="String" Bytesize="4" OffsetHex="00030304" DisplayMethod="unsigned integer"/>
       </Elements>
     </Structure>
-    <Structure Name="PlayerStats" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-      <Elements>
-        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="objectIndex" DisplayMethod="unsigned integer"/>
-        <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="messages" DisplayMethod="unsigned integer">
-          <Structure Name="List`1" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="_items" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="_size" DisplayMethod="unsigned integer"/>
-              <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="_version" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="_syncRoot" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="OnDamageTakenEvent" DisplayMethod="unsigned integer"/>
-        <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="stat_health" DisplayMethod="unsigned integer">
-          <Structure Name="Stat_Health" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-              <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="statTarget" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Float" Bytesize="4" OffsetHex="00000030" Description="regenPerSecond" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="buffManager" DisplayMethod="unsigned integer">
-          <Structure Name="PlayerBuffManager" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="networkPlayer" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffs" DisplayMethod="unsigned integer">
-                <Structure Name="List`1" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                  <Elements>
-                    <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="_items" DisplayMethod="unsigned integer">
-                      <Structure Name="Buff[]" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                        <Elements>
-                          <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="Count" DisplayMethod="unsigned integer"/>
-                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="Item[0]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="Item[1]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="Item[2]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="Item[3]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="Item[4]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="Item[5]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="Item[6]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="Item[7]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="Item[8]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                          <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="Item[9]" DisplayMethod="unsigned integer">
-                            <Structure Name="Buff" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                              <Elements>
-                                <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="buffAsset" DisplayMethod="unsigned integer"/>
-                                <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="buffManager" DisplayMethod="unsigned integer"/>
-                                <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="buffDisplayObject" DisplayMethod="unsigned integer"/>
-                                <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="durationTimer" DisplayMethod="unsigned integer"/>
-                              </Elements>
-                            </Structure>
-                          </Element>
-                        </Elements>
-                      </Structure>
-                    </Element>
-                    <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="_size" DisplayMethod="unsigned integer"/>
-                    <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="_version" DisplayMethod="unsigned integer"/>
-                    <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="_syncRoot" DisplayMethod="unsigned integer"/>
-                  </Elements>
-                </Structure>
-              </Element>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="entity" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="result" DisplayMethod="unsigned integer"/>
-              <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="networkHost" DisplayMethod="unsigned integer"/>
-              <Element Offset="64" Vartype="Byte" Bytesize="1" OffsetHex="00000040" Description="isAttachedToPlayer" DisplayMethod="unsigned integer"/>
-              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="screenEffectManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="player" DisplayMethod="unsigned integer">
-                <Structure Name="Network_Player" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                  <Elements>
-                    <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-                    <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="objectIndex" DisplayMethod="unsigned integer"/>
-                    <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="messages" DisplayMethod="unsigned integer"/>
-                    <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="behaviourIndex" DisplayMethod="unsigned integer"/>
-                    <Element Offset="44" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000002C" Description="currentSendIndex" DisplayMethod="unsigned integer"/>
-                    <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="lastSentIndex" DisplayMethod="unsigned integer"/>
-                    <Element Offset="52" Vartype="Byte" Bytesize="1" OffsetHex="00000034" Description="dead" DisplayMethod="unsigned integer"/>
-                    <Element Offset="56" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000038" Description="ticksPerSecond" DisplayMethod="unsigned integer"/>
-                    <Element Offset="60" Vartype="Float" Bytesize="4" OffsetHex="0000003C" Description="tickTimer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="network" DisplayMethod="unsigned integer"/>
-                    <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="playerNameTextMesh" DisplayMethod="unsigned integer"/>
-                    <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="nameBillboard" DisplayMethod="unsigned integer"/>
-                    <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="playerPivot" DisplayMethod="unsigned integer"/>
-                    <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="leftHandParent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="rightHandParent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="flightCamera" DisplayMethod="unsigned integer"/>
-                    <Element Offset="120" Vartype="Pointer" Bytesize="8" OffsetHex="00000078" Description="characterSettings" DisplayMethod="unsigned integer"/>
-                    <Element Offset="128" Vartype="Pointer" Bytesize="8" OffsetHex="00000080" Description="canvas" DisplayMethod="unsigned integer"/>
-                    <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="cameraBobAnimator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="smallSteamProfile" DisplayMethod="unsigned integer"/>
-                    <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="localBehaviours" DisplayMethod="unsigned integer"/>
-                    <Element Offset="160" Vartype="Pointer" Bytesize="8" OffsetHex="000000A0" Description="localObjects" DisplayMethod="unsigned integer"/>
-                    <Element Offset="168" Vartype="Pointer" Bytesize="8" OffsetHex="000000A8" Description="currentModel" DisplayMethod="unsigned integer"/>
-                    <Element Offset="176" Vartype="Pointer" Bytesize="8" OffsetHex="000000B0" Description="camera" DisplayMethod="unsigned integer"/>
-                    <Element Offset="184" Vartype="Pointer" Bytesize="8" OffsetHex="000000B8" Description="handCamera" DisplayMethod="unsigned integer"/>
-                    <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="cameraTransform" DisplayMethod="unsigned integer"/>
-                    <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="controller" DisplayMethod="unsigned integer"/>
-                    <Element Offset="208" Vartype="Pointer" Bytesize="8" OffsetHex="000000D0" Description="animator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="playerItemManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="blockCreator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="ziplinePlayer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="playerNetworkManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="playerScript" DisplayMethod="unsigned integer"/>
-                    <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="bedComponent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="stats" DisplayMethod="unsigned integer"/>
-                    <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="plantManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="280" Vartype="Pointer" Bytesize="8" OffsetHex="00000118" Description="storageManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="ressurectComponent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="blueprintComponent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="carryingComponent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="312" Vartype="Pointer" Bytesize="8" OffsetHex="00000138" Description="inventory" DisplayMethod="unsigned integer"/>
-                    <Element Offset="320" Vartype="Pointer" Bytesize="8" OffsetHex="00000140" Description="pickupScript" DisplayMethod="unsigned integer"/>
-                    <Element Offset="328" Vartype="Pointer" Bytesize="8" OffsetHex="00000148" Description="axeScript" DisplayMethod="unsigned integer"/>
-                    <Element Offset="336" Vartype="Pointer" Bytesize="8" OffsetHex="00000150" Description="hammerScript" DisplayMethod="unsigned integer"/>
-                    <Element Offset="344" Vartype="Pointer" Bytesize="8" OffsetHex="00000158" Description="paddleScript" DisplayMethod="unsigned integer"/>
-                    <Element Offset="352" Vartype="Pointer" Bytesize="8" OffsetHex="00000160" Description="sharkBaitThrower" DisplayMethod="unsigned integer"/>
-                    <Element Offset="360" Vartype="Pointer" Bytesize="8" OffsetHex="00000168" Description="paintBrush" DisplayMethod="unsigned integer"/>
-                    <Element Offset="368" Vartype="Pointer" Bytesize="8" OffsetHex="00000170" Description="playerEquipment" DisplayMethod="unsigned integer"/>
-                    <Element Offset="376" Vartype="Pointer" Bytesize="8" OffsetHex="00000178" Description="bow" DisplayMethod="unsigned integer"/>
-                    <Element Offset="384" Vartype="Pointer" Bytesize="8" OffsetHex="00000180" Description="shovel" DisplayMethod="unsigned integer"/>
-                    <Element Offset="392" Vartype="Pointer" Bytesize="8" OffsetHex="00000188" Description="fireworkHand" DisplayMethod="unsigned integer"/>
-                    <Element Offset="400" Vartype="Pointer" Bytesize="8" OffsetHex="00000190" Description="noteBookUI" DisplayMethod="unsigned integer"/>
-                    <Element Offset="408" Vartype="Pointer" Bytesize="8" OffsetHex="00000198" Description="movementDeltaTracker" DisplayMethod="unsigned integer"/>
-                    <Element Offset="416" Vartype="Pointer" Bytesize="8" OffsetHex="000001A0" Description="unstuckTracker" DisplayMethod="unsigned integer"/>
-                    <Element Offset="424" Vartype="Pointer" Bytesize="8" OffsetHex="000001A8" Description="hazmatSuit" DisplayMethod="unsigned integer"/>
-                    <Element Offset="432" Vartype="Pointer" Bytesize="8" OffsetHex="000001B0" Description="fishingBaitHandler" DisplayMethod="unsigned integer"/>
-                    <Element Offset="440" Vartype="Pointer" Bytesize="8" OffsetHex="000001B8" Description="buffManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="448" Vartype="Pointer" Bytesize="8" OffsetHex="000001C0" Description="shakerAsset" DisplayMethod="unsigned integer"/>
-                    <Element Offset="456" Vartype="Byte" Bytesize="1" OffsetHex="000001C8" Description="isLocalPlayer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="460" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001CC" Description="steamID" DisplayMethod="unsigned integer"/>
-                  </Elements>
-                </Structure>
-              </Element>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="renderer" DisplayMethod="unsigned integer"/>
-        <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="network" DisplayMethod="unsigned integer"/>
-        <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="materialPropertyBlock" DisplayMethod="unsigned integer"/>
-        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="entityType" DisplayMethod="unsigned integer"/>
-        <Element Offset="92" Vartype="Byte" Bytesize="1" OffsetHex="0000005C" Description="IsInvurnerable" DisplayMethod="unsigned integer"/>
-        <Element Offset="93" Vartype="Byte" Bytesize="1" OffsetHex="0000005D" Description="removesDurabilityWhenHit" DisplayMethod="unsigned integer"/>
-        <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="bloodParticles" DisplayMethod="unsigned integer"/>
-        <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="stat_hunger" DisplayMethod="unsigned integer">
-          <Structure Name="Stat_Bonus_Consumable" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="Normal" DisplayMethod="unsigned integer">
-                <Structure Name="Stat_Consumable" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                  <Elements>
-                    <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-                    <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-                    <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="unsigned integer"/>
-                    <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-                    <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-                    <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="statTarget" DisplayMethod="unsigned integer"/>
-                    <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="rawManipulator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="cookedManipulator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="64" Vartype="Byte" Bytesize="1" OffsetHex="00000040" Description="_consuming" DisplayMethod="unsigned integer"/>
-                    <Element Offset="65" Vartype="Byte" Bytesize="1" OffsetHex="00000041" Description="autoHandle" DisplayMethod="unsigned integer"/>
-                    <Element Offset="68" Vartype="Float" Bytesize="4" OffsetHex="00000044" Description="lostPerSecondDefault" DisplayMethod="unsigned integer"/>
-                    <Element Offset="72" Vartype="Float" Bytesize="4" OffsetHex="00000048" Description="consumeTime" DisplayMethod="unsigned integer"/>
-                    <Element Offset="76" Vartype="Float" Bytesize="4" OffsetHex="0000004C" Description="timer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="80" Vartype="Float" Bytesize="4" OffsetHex="00000050" Description="startConsumeValue" DisplayMethod="unsigned integer"/>
-                  </Elements>
-                </Structure>
-              </Element>
-              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="Bonus" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="normalConsumable" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="bonusConsumable" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="stat_thirst" DisplayMethod="unsigned integer">
-          <Structure Name="Stat_Bonus_Consumable" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="Normal" DisplayMethod="unsigned integer">
-                <Structure Name="Stat_Consumable" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                  <Elements>
-                    <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-                    <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-                    <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="unsigned integer"/>
-                    <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-                    <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-                    <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="statTarget" DisplayMethod="unsigned integer"/>
-                    <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="rawManipulator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="cookedManipulator" DisplayMethod="unsigned integer"/>
-                    <Element Offset="64" Vartype="Byte" Bytesize="1" OffsetHex="00000040" Description="_consuming" DisplayMethod="unsigned integer"/>
-                    <Element Offset="65" Vartype="Byte" Bytesize="1" OffsetHex="00000041" Description="autoHandle" DisplayMethod="unsigned integer"/>
-                    <Element Offset="68" Vartype="Float" Bytesize="4" OffsetHex="00000044" Description="lostPerSecondDefault" DisplayMethod="unsigned integer"/>
-                    <Element Offset="72" Vartype="Float" Bytesize="4" OffsetHex="00000048" Description="consumeTime" DisplayMethod="unsigned integer"/>
-                    <Element Offset="76" Vartype="Float" Bytesize="4" OffsetHex="0000004C" Description="timer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="80" Vartype="Float" Bytesize="4" OffsetHex="00000050" Description="startConsumeValue" DisplayMethod="unsigned integer"/>
-                  </Elements>
-                </Structure>
-              </Element>
-              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="Bonus" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="normalConsumable" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="bonusConsumable" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="120" Vartype="Pointer" Bytesize="8" OffsetHex="00000078" Description="stat_BonusHealth" DisplayMethod="unsigned integer">
-          <Structure Name="Stat_Health" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-              <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="statTarget" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Float" Bytesize="4" OffsetHex="00000030" Description="regenPerSecond" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="128" Vartype="Pointer" Bytesize="8" OffsetHex="00000080" Description="stat_oxygen" DisplayMethod="unsigned integer">
-          <Structure Name="Stat_Oxygen" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-              <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="personController" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Float" Bytesize="4" OffsetHex="00000030" Description="oxygenLostPerSecond" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="OnDeath" DisplayMethod="unsigned integer">
-          <Structure Name="Action" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="method_ptr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="invoke_impl" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="m_target" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="method" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="delegate_trampoline" DisplayMethod="unsigned integer"/>
-              <Element Offset="56" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000038" Description="extra_arg" DisplayMethod="unsigned integer"/>
-              <Element Offset="64" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000040" Description="method_code" DisplayMethod="unsigned integer"/>
-              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="method_info" DisplayMethod="unsigned integer"/>
-              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="original_method_info" DisplayMethod="unsigned integer"/>
-              <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="data" DisplayMethod="unsigned integer"/>
-              <Element Offset="96" Vartype="Byte" Bytesize="1" OffsetHex="00000060" Description="method_is_virtual" DisplayMethod="unsigned integer"/>
-              <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="delegates" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="updateUISliderTimer" DisplayMethod="unsigned integer"/>
-        <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="deathPreventionTriggeredInvurnabilityBuff" DisplayMethod="unsigned integer"/>
-        <Element Offset="160" Vartype="Pointer" Bytesize="8" OffsetHex="000000A0" Description="deathPreventionTriggeredHealEffect" DisplayMethod="unsigned integer"/>
-        <Element Offset="168" Vartype="Pointer" Bytesize="8" OffsetHex="000000A8" Description="vignetteInterval" DisplayMethod="unsigned integer"/>
-        <Element Offset="176" Vartype="Pointer" Bytesize="8" OffsetHex="000000B0" Description="aberationInterval" DisplayMethod="unsigned integer"/>
-        <Element Offset="184" Vartype="Pointer" Bytesize="8" OffsetHex="000000B8" Description="saturationInterval" DisplayMethod="unsigned integer"/>
-        <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="bloodSplatterSettings" DisplayMethod="unsigned integer"/>
-        <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="cameraShakeSettings" DisplayMethod="unsigned integer"/>
-        <Element Offset="208" Vartype="Pointer" Bytesize="8" OffsetHex="000000D0" Description="eventEmitter_Damaged" DisplayMethod="unsigned integer"/>
-        <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="eventEmitter_Drowning" DisplayMethod="unsigned integer"/>
-        <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="eventEmitter_Thirsty" DisplayMethod="unsigned integer"/>
-        <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="eventEmitter_Hungry" DisplayMethod="unsigned integer"/>
-        <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="eventEmitter_LowBreath" DisplayMethod="unsigned integer"/>
-        <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="coroutine_hungrySound" DisplayMethod="unsigned integer"/>
-        <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="coroutine_thirstySound" DisplayMethod="unsigned integer"/>
-        <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="coroutine_lowBreathSound" DisplayMethod="unsigned integer"/>
-        <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="coroutine_drowningSound" DisplayMethod="unsigned integer"/>
-        <Element Offset="280" Vartype="Pointer" Bytesize="8" OffsetHex="00000118" Description="canvas" DisplayMethod="unsigned integer">
-          <Structure Name="CanvasHelper" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="gameMenus" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="canvases" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="StatSliderParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="bonusHealthBackground" DisplayMethod="unsigned integer"/>
-              <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="bonusHungerBackground" DisplayMethod="unsigned integer"/>
-              <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="bonusThirstBackground" DisplayMethod="unsigned integer"/>
-              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="healthSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="bonusHealthSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="thirstSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="bonusThirstSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="hungerSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="bonusHungerSlider" DisplayMethod="unsigned integer"/>
-              <Element Offset="120" Vartype="Pointer" Bytesize="8" OffsetHex="00000078" Description="fatigueParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="128" Vartype="Pointer" Bytesize="8" OffsetHex="00000080" Description="fatigueBackground" DisplayMethod="unsigned integer"/>
-              <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="fatigueRadial" DisplayMethod="unsigned integer"/>
-              <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="fatigueBackgroundMaterialInst" DisplayMethod="unsigned integer"/>
-              <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="fatigueMeterMaterialInst" DisplayMethod="unsigned integer"/>
-              <Element Offset="160" Vartype="Pointer" Bytesize="8" OffsetHex="000000A0" Description="removeBlockRadialImage" DisplayMethod="unsigned integer"/>
-              <Element Offset="168" Vartype="Pointer" Bytesize="8" OffsetHex="000000A8" Description="loadCircleAnimator" DisplayMethod="unsigned integer"/>
-              <Element Offset="176" Vartype="Pointer" Bytesize="8" OffsetHex="000000B0" Description="aimCircleAnimator" DisplayMethod="unsigned integer"/>
-              <Element Offset="184" Vartype="Pointer" Bytesize="8" OffsetHex="000000B8" Description="displayTextManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="centerAim" DisplayMethod="unsigned integer"/>
-              <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="defaultAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="208" Vartype="Pointer" Bytesize="8" OffsetHex="000000D0" Description="gatherHookAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="gatherShovelAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="gatherShearAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="gatherBucketAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="gatherMacheteAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="gatherWoodAimSprite" DisplayMethod="unsigned integer"/>
-              <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="binocularImage" DisplayMethod="unsigned integer"/>
-              <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="hazmatSuitImage" DisplayMethod="unsigned integer"/>
-              <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="saveGameIcon" DisplayMethod="unsigned integer"/>
-              <Element Offset="280" Vartype="Pointer" Bytesize="8" OffsetHex="00000118" Description="dropText" DisplayMethod="unsigned integer"/>
-              <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="genericBlackFade" DisplayMethod="unsigned integer"/>
-              <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="notebookHelpHotkeyParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="craftingMenuHelpHotkeyParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="312" Vartype="Pointer" Bytesize="8" OffsetHex="00000138" Description="notebookHotkeyText" DisplayMethod="unsigned integer"/>
-              <Element Offset="320" Vartype="Pointer" Bytesize="8" OffsetHex="00000140" Description="craftingMenuHotkeyText" DisplayMethod="unsigned integer"/>
-              <Element Offset="328" Vartype="Pointer" Bytesize="8" OffsetHex="00000148" Description="soundManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="336" Vartype="Pointer" Bytesize="8" OffsetHex="00000150" Description="playerNetwork" DisplayMethod="unsigned integer"/>
-              <Element Offset="344" Vartype="Byte" Bytesize="1" OffsetHex="00000158" Description="hardOverwriteNoteBookUIDisplayed" DisplayMethod="unsigned integer"/>
-              <Element Offset="345" Vartype="Byte" Bytesize="1" OffsetHex="00000159" Description="hostDisconnected" DisplayMethod="unsigned integer"/>
-              <Element Offset="346" Vartype="Byte" Bytesize="1" OffsetHex="0000015A" Description="canOpenMenu" DisplayMethod="unsigned integer"/>
-              <Element Offset="347" Vartype="Byte" Bytesize="1" OffsetHex="0000015B" Description="UIState" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="playerNetwork" DisplayMethod="unsigned integer">
-          <Structure Name="Network_Player" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-            <Elements>
-              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-              <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="objectIndex" DisplayMethod="unsigned integer"/>
-              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="messages" DisplayMethod="unsigned integer"/>
-              <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="behaviourIndex" DisplayMethod="unsigned integer"/>
-              <Element Offset="44" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000002C" Description="currentSendIndex" DisplayMethod="unsigned integer"/>
-              <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="lastSentIndex" DisplayMethod="unsigned integer"/>
-              <Element Offset="52" Vartype="Byte" Bytesize="1" OffsetHex="00000034" Description="dead" DisplayMethod="unsigned integer"/>
-              <Element Offset="56" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000038" Description="ticksPerSecond" DisplayMethod="unsigned integer"/>
-              <Element Offset="60" Vartype="Float" Bytesize="4" OffsetHex="0000003C" Description="tickTimer" DisplayMethod="unsigned integer"/>
-              <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="network" DisplayMethod="unsigned integer"/>
-              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="playerNameTextMesh" DisplayMethod="unsigned integer"/>
-              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="nameBillboard" DisplayMethod="unsigned integer"/>
-              <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="playerPivot" DisplayMethod="unsigned integer"/>
-              <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="leftHandParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="rightHandParent" DisplayMethod="unsigned integer"/>
-              <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="flightCamera" DisplayMethod="unsigned integer"/>
-              <Element Offset="120" Vartype="Pointer" Bytesize="8" OffsetHex="00000078" Description="characterSettings" DisplayMethod="unsigned integer"/>
-              <Element Offset="128" Vartype="Pointer" Bytesize="8" OffsetHex="00000080" Description="canvas" DisplayMethod="unsigned integer"/>
-              <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="cameraBobAnimator" DisplayMethod="unsigned integer"/>
-              <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="smallSteamProfile" DisplayMethod="unsigned integer"/>
-              <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="localBehaviours" DisplayMethod="unsigned integer"/>
-              <Element Offset="160" Vartype="Pointer" Bytesize="8" OffsetHex="000000A0" Description="localObjects" DisplayMethod="unsigned integer"/>
-              <Element Offset="168" Vartype="Pointer" Bytesize="8" OffsetHex="000000A8" Description="currentModel" DisplayMethod="unsigned integer"/>
-              <Element Offset="176" Vartype="Pointer" Bytesize="8" OffsetHex="000000B0" Description="camera" DisplayMethod="unsigned integer"/>
-              <Element Offset="184" Vartype="Pointer" Bytesize="8" OffsetHex="000000B8" Description="handCamera" DisplayMethod="unsigned integer"/>
-              <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="cameraTransform" DisplayMethod="unsigned integer"/>
-              <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="controller" DisplayMethod="unsigned integer"/>
-              <Element Offset="208" Vartype="Pointer" Bytesize="8" OffsetHex="000000D0" Description="animator" DisplayMethod="unsigned integer"/>
-              <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="playerItemManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="blockCreator" DisplayMethod="unsigned integer"/>
-              <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="ziplinePlayer" DisplayMethod="unsigned integer"/>
-              <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="playerNetworkManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="playerScript" DisplayMethod="unsigned integer"/>
-              <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="bedComponent" DisplayMethod="unsigned integer"/>
-              <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="stats" DisplayMethod="unsigned integer">
-                <Structure Name="PlayerStats" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-                  <Elements>
-                    <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-                    <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="objectIndex" DisplayMethod="unsigned integer"/>
-                    <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="messages" DisplayMethod="unsigned integer"/>
-                    <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="OnDamageTakenEvent" DisplayMethod="unsigned integer"/>
-                    <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="stat_health" DisplayMethod="unsigned integer"/>
-                    <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="buffManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="renderer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="network" DisplayMethod="unsigned integer"/>
-                    <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="materialPropertyBlock" DisplayMethod="unsigned integer"/>
-                    <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="entityType" DisplayMethod="unsigned integer"/>
-                    <Element Offset="92" Vartype="Byte" Bytesize="1" OffsetHex="0000005C" Description="IsInvurnerable" DisplayMethod="unsigned integer"/>
-                    <Element Offset="93" Vartype="Byte" Bytesize="1" OffsetHex="0000005D" Description="removesDurabilityWhenHit" DisplayMethod="unsigned integer"/>
-                    <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="bloodParticles" DisplayMethod="unsigned integer"/>
-                    <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="stat_hunger" DisplayMethod="unsigned integer"/>
-                    <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="stat_thirst" DisplayMethod="unsigned integer"/>
-                    <Element Offset="120" Vartype="Pointer" Bytesize="8" OffsetHex="00000078" Description="stat_BonusHealth" DisplayMethod="unsigned integer"/>
-                    <Element Offset="128" Vartype="Pointer" Bytesize="8" OffsetHex="00000080" Description="stat_oxygen" DisplayMethod="unsigned integer"/>
-                    <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="OnDeath" DisplayMethod="unsigned integer"/>
-                    <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="updateUISliderTimer" DisplayMethod="unsigned integer"/>
-                    <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="deathPreventionTriggeredInvurnabilityBuff" DisplayMethod="unsigned integer"/>
-                    <Element Offset="160" Vartype="Pointer" Bytesize="8" OffsetHex="000000A0" Description="deathPreventionTriggeredHealEffect" DisplayMethod="unsigned integer"/>
-                    <Element Offset="168" Vartype="Pointer" Bytesize="8" OffsetHex="000000A8" Description="vignetteInterval" DisplayMethod="unsigned integer"/>
-                    <Element Offset="176" Vartype="Pointer" Bytesize="8" OffsetHex="000000B0" Description="aberationInterval" DisplayMethod="unsigned integer"/>
-                    <Element Offset="184" Vartype="Pointer" Bytesize="8" OffsetHex="000000B8" Description="saturationInterval" DisplayMethod="unsigned integer"/>
-                    <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="bloodSplatterSettings" DisplayMethod="unsigned integer"/>
-                    <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="cameraShakeSettings" DisplayMethod="unsigned integer"/>
-                    <Element Offset="208" Vartype="Pointer" Bytesize="8" OffsetHex="000000D0" Description="eventEmitter_Damaged" DisplayMethod="unsigned integer"/>
-                    <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="eventEmitter_Drowning" DisplayMethod="unsigned integer"/>
-                    <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="eventEmitter_Thirsty" DisplayMethod="unsigned integer"/>
-                    <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="eventEmitter_Hungry" DisplayMethod="unsigned integer"/>
-                    <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="eventEmitter_LowBreath" DisplayMethod="unsigned integer"/>
-                    <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="coroutine_hungrySound" DisplayMethod="unsigned integer"/>
-                    <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="coroutine_thirstySound" DisplayMethod="unsigned integer"/>
-                    <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="coroutine_lowBreathSound" DisplayMethod="unsigned integer"/>
-                    <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="coroutine_drowningSound" DisplayMethod="unsigned integer"/>
-                    <Element Offset="280" Vartype="Pointer" Bytesize="8" OffsetHex="00000118" Description="canvas" DisplayMethod="unsigned integer"/>
-                    <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="playerNetwork" DisplayMethod="unsigned integer"/>
-                    <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="postEffects" DisplayMethod="unsigned integer"/>
-                    <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="screenEffectManager" DisplayMethod="unsigned integer"/>
-                    <Element Offset="312" Vartype="Pointer" Bytesize="8" OffsetHex="00000138" Description="armorHandler" DisplayMethod="unsigned integer"/>
-                    <Element Offset="320" Vartype="Byte" Bytesize="1" OffsetHex="00000140" Description="hasDeathPrevention" DisplayMethod="unsigned integer"/>
-                    <Element Offset="324" Vartype="Float" Bytesize="4" OffsetHex="00000144" Description="healthLostPerSecondDrowning" DisplayMethod="unsigned integer"/>
-                    <Element Offset="328" Vartype="Float" Bytesize="4" OffsetHex="00000148" Description="healthLostPerSecondWellbeing" DisplayMethod="unsigned integer"/>
-                    <Element Offset="332" Vartype="Float" Bytesize="4" OffsetHex="0000014C" Description="healthLostPerSecondZeroed" DisplayMethod="unsigned integer"/>
-                    <Element Offset="336" Vartype="Float" Bytesize="4" OffsetHex="00000150" Description="sineFrequency" DisplayMethod="unsigned integer"/>
-                    <Element Offset="340" Vartype="Float" Bytesize="4" OffsetHex="00000154" Description="soundIntervall" DisplayMethod="unsigned integer"/>
-                    <Element Offset="344" Vartype="Float" Bytesize="4" OffsetHex="00000158" Description="sineTime" DisplayMethod="unsigned integer"/>
-                  </Elements>
-                </Structure>
-              </Element>
-              <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="plantManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="280" Vartype="Pointer" Bytesize="8" OffsetHex="00000118" Description="storageManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="ressurectComponent" DisplayMethod="unsigned integer"/>
-              <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="blueprintComponent" DisplayMethod="unsigned integer"/>
-              <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="carryingComponent" DisplayMethod="unsigned integer"/>
-              <Element Offset="312" Vartype="Pointer" Bytesize="8" OffsetHex="00000138" Description="inventory" DisplayMethod="unsigned integer"/>
-              <Element Offset="320" Vartype="Pointer" Bytesize="8" OffsetHex="00000140" Description="pickupScript" DisplayMethod="unsigned integer"/>
-              <Element Offset="328" Vartype="Pointer" Bytesize="8" OffsetHex="00000148" Description="axeScript" DisplayMethod="unsigned integer"/>
-              <Element Offset="336" Vartype="Pointer" Bytesize="8" OffsetHex="00000150" Description="hammerScript" DisplayMethod="unsigned integer"/>
-              <Element Offset="344" Vartype="Pointer" Bytesize="8" OffsetHex="00000158" Description="paddleScript" DisplayMethod="unsigned integer"/>
-              <Element Offset="352" Vartype="Pointer" Bytesize="8" OffsetHex="00000160" Description="sharkBaitThrower" DisplayMethod="unsigned integer"/>
-              <Element Offset="360" Vartype="Pointer" Bytesize="8" OffsetHex="00000168" Description="paintBrush" DisplayMethod="unsigned integer"/>
-              <Element Offset="368" Vartype="Pointer" Bytesize="8" OffsetHex="00000170" Description="playerEquipment" DisplayMethod="unsigned integer"/>
-              <Element Offset="376" Vartype="Pointer" Bytesize="8" OffsetHex="00000178" Description="bow" DisplayMethod="unsigned integer"/>
-              <Element Offset="384" Vartype="Pointer" Bytesize="8" OffsetHex="00000180" Description="shovel" DisplayMethod="unsigned integer"/>
-              <Element Offset="392" Vartype="Pointer" Bytesize="8" OffsetHex="00000188" Description="fireworkHand" DisplayMethod="unsigned integer"/>
-              <Element Offset="400" Vartype="Pointer" Bytesize="8" OffsetHex="00000190" Description="noteBookUI" DisplayMethod="unsigned integer"/>
-              <Element Offset="408" Vartype="Pointer" Bytesize="8" OffsetHex="00000198" Description="movementDeltaTracker" DisplayMethod="unsigned integer"/>
-              <Element Offset="416" Vartype="Pointer" Bytesize="8" OffsetHex="000001A0" Description="unstuckTracker" DisplayMethod="unsigned integer"/>
-              <Element Offset="424" Vartype="Pointer" Bytesize="8" OffsetHex="000001A8" Description="hazmatSuit" DisplayMethod="unsigned integer"/>
-              <Element Offset="432" Vartype="Pointer" Bytesize="8" OffsetHex="000001B0" Description="fishingBaitHandler" DisplayMethod="unsigned integer"/>
-              <Element Offset="440" Vartype="Pointer" Bytesize="8" OffsetHex="000001B8" Description="buffManager" DisplayMethod="unsigned integer"/>
-              <Element Offset="448" Vartype="Pointer" Bytesize="8" OffsetHex="000001C0" Description="shakerAsset" DisplayMethod="unsigned integer"/>
-              <Element Offset="456" Vartype="Byte" Bytesize="1" OffsetHex="000001C8" Description="isLocalPlayer" DisplayMethod="unsigned integer"/>
-              <Element Offset="460" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001CC" Description="steamID" DisplayMethod="unsigned integer"/>
-            </Elements>
-          </Structure>
-        </Element>
-        <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="postEffects" DisplayMethod="unsigned integer"/>
-        <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="screenEffectManager" DisplayMethod="unsigned integer"/>
-        <Element Offset="312" Vartype="Pointer" Bytesize="8" OffsetHex="00000138" Description="armorHandler" DisplayMethod="unsigned integer"/>
-        <Element Offset="320" Vartype="Byte" Bytesize="1" OffsetHex="00000140" Description="hasDeathPrevention" DisplayMethod="unsigned integer"/>
-        <Element Offset="324" Vartype="Float" Bytesize="4" OffsetHex="00000144" Description="healthLostPerSecondDrowning" DisplayMethod="unsigned integer"/>
-        <Element Offset="328" Vartype="Float" Bytesize="4" OffsetHex="00000148" Description="healthLostPerSecondWellbeing" DisplayMethod="unsigned integer"/>
-        <Element Offset="332" Vartype="Float" Bytesize="4" OffsetHex="0000014C" Description="healthLostPerSecondZeroed" DisplayMethod="unsigned integer"/>
-        <Element Offset="336" Vartype="Float" Bytesize="4" OffsetHex="00000150" Description="sineFrequency" DisplayMethod="unsigned integer"/>
-        <Element Offset="340" Vartype="Float" Bytesize="4" OffsetHex="00000154" Description="soundIntervall" DisplayMethod="unsigned integer"/>
-        <Element Offset="344" Vartype="Float" Bytesize="4" OffsetHex="00000158" Description="sineTime" DisplayMethod="unsigned integer"/>
-      </Elements>
-    </Structure>
-    <Structure Name="Stat_Health" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
-      <Elements>
-        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
-        <Element Offset="24" Vartype="Float" Bytesize="4" OffsetHex="00000018" Description="max" DisplayMethod="unsigned integer"/>
-        <Element Offset="28" Vartype="Float" Bytesize="4" OffsetHex="0000001C" Description="value" DisplayMethod="signed integer"/>
-        <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="maxValue" DisplayMethod="unsigned integer"/>
-        <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="startValue" DisplayMethod="unsigned integer"/>
-        <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="statTarget" DisplayMethod="unsigned integer"/>
-        <Element Offset="48" Vartype="Float" Bytesize="4" OffsetHex="00000030" Description="regenPerSecond" DisplayMethod="unsigned integer"/>
-      </Elements>
-    </Structure>
   </Structures>
-  <LuaScript>function UpdateForm()
--- updates the content of our form
-addressList = getAddressList()
-item_usage = addressList.getMemoryRecordByDescription("Item Usage does not decrease")
-melee_dam_mod = addressList.getMemoryRecordByDescription("Melee Damage Modifier")
-label1.caption=string.format('Inf Item (g): %s\nMelee Damage Mod(h): %s\n',
-  item_usage.Active,
-  melee_dam_mod.Active)
-end
-
-function UDF1_FormActivate(sender)
-  if t_UPDATE then t_UPDATE.destroy(); t_UPDATE=nil end
-  t_UPDATE = createTimer()
-  t_UPDATE.Interval = 200
-  t_UPDATE.onTimer = UpdateForm
-end
-
-
-function UDF1_FormDeactivate(sender)
-  if t_UPDATE then t_UPDATE.destroy(); t_UPDATE=nil end
-end
-
-</LuaScript>
 </CheatTable>

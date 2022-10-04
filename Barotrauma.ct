@@ -2,9 +2,37 @@
 <CheatTable CheatEngineTableVersion="42">
   <CheatEntries>
     <CheatEntry>
+      <ID>5</ID>
+      <Description>"Barotrauma v0.18.15.1"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Requires Windows Debugger Mode"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0000FF</Color>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Enable"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+{$lua}
+reinitializeDotNetSymbolhandler()
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>4</ID>
       <Description>"Get Wallet (Press Tab)"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Barotrauma.exe
   Version: 
@@ -81,7 +109,6 @@ Barotrauma.TabMenu::CreateInfoFrame+15D4: 4C 8B 45 A0                    - mov r
         <CheatEntry>
           <ID>2</ID>
           <Description>"Money Pointer"</Description>
-          <LastState Value="99999" RealAddress="234551B6020"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>WALLET</Address>
@@ -90,6 +117,84 @@ Barotrauma.TabMenu::CreateInfoFrame+15D4: 4C 8B 45 A0                    - mov r
           </Offsets>
         </CheatEntry>
       </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Get Wallet Balance (broken)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Barotrauma.exe
+  Version: 
+  Date   : 2022-08-15
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,"Barotrauma.Wallet::get_Balance"+8)
+define(bytes,48 8B 45 10 8B 40 10 5D C3)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,128,address)
+registersymbol(WALLET)
+
+label(return)
+
+newmem:
+  mov rax,[rbp+10]
+  lea eax,[rax+10]
+  mov [WALLET],eax
+  mov eax,[rax+10]
+  jmp return
+
+WALLET:
+  dw 0
+
+address:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov rax,[rbp+10]
+  // mov eax,[rax+10]
+
+unregistersymbol(WALLET)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Barotrauma.Wallet::get_Balance+8
+
+7FF925CBCD6F: 00 00              - add [rax],al
+7FF925CBCD71: 00 00              - add [rax],al
+7FF925CBCD73: 00 00              - add [rax],al
+7FF925CBCD75: 00 00              - add [rax],al
+7FF925CBCD77: 00 18              - add [rax],bl
+7FF925CBCD79: 69 2B 26 F9 7F 00  - imul ebp,[rbx],007FF926
+7FF925CBCD7F: 00 55 48           - add [rbp+48],dl
+Barotrauma.Wallet::get_Balance+2: 8B EC              - mov ebp,esp
+Barotrauma.Wallet::get_Balance+4: 48 89 4D 10        - mov [rbp+10],rcx
+Barotrauma.Wallet::get_Balance+8: 48 8B 45 10        - mov rax,[rbp+10]
+// ---------- INJECTING HERE ----------
+Barotrauma.Wallet::get_Balance+C: 8B 40 10           - mov eax,[rax+10]
+// ---------- DONE INJECTING  ----------
+Barotrauma.Wallet::get_Balance+F: 5D                 - pop rbp
+Barotrauma.Wallet::get_Balance+10: C3                 - ret 
+Barotrauma.Wallet::get_Balance+11: 00 00              - add [rax],al
+7FF925CBCD93: 00 19              - add [rcx],bl
+7FF925CBCD95: 01 01              - add [rcx],eax
+7FF925CBCD97: 00 01              - add [rcx],al
+7FF925CBCD99: 50                 - push rax
+7FF925CBCD9A: 00 00              - add [rax],al
+7FF925CBCD9C: 40 00 00           - add [rax],al
+7FF925CBCD9F: 00 00              - add [rax],al
+}
+</AssemblerScript>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
@@ -113,5 +218,6 @@ Barotrauma.TabMenu::CreateInfoFrame+15D4: 4C 8B 45 A0                    - mov r
 </Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
+print("hello")
 </LuaScript>
 </CheatTable>
