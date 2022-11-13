@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Attach Process"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+{$lua}
+getAutoAttachList().add("Terraria.exe")
+ 
+ 
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"AOB Versions"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"Don't Take Damage"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-06
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(HP_DEC,29 82 04 04 00 00) // should be unique
+HP_DEC:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+registersymbol(HP_DEC)
+
+[DISABLE]
+
+HP_DEC:
+  db 29 82 04 04 00 00
+
+unregistersymbol(HP_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::Hurt+1201
+
+Terraria.Player::Hurt+11D7: 0F B6 45 10           - movzx eax,byte ptr [ebp+10]
+Terraria.Player::Hurt+11DB: 50                    - push eax
+Terraria.Player::Hurt+11DC: 6A 00                 - push 00
+Terraria.Player::Hurt+11DE: F2 0F 10 45 DC        - movsd xmm0,[ebp-24]
+Terraria.Player::Hurt+11E3: F2 0F 2C D0           - cvttsd2si edx,xmm0
+Terraria.Player::Hurt+11E7: 8B 8D 44 FF FF FF     - mov ecx,[ebp-000000BC]
+Terraria.Player::Hurt+11ED: E8 D6 01 42 06        - call Terraria.CombatText::NewText
+Terraria.Player::Hurt+11F2: F2 0F 10 45 DC        - movsd xmm0,[ebp-24]
+Terraria.Player::Hurt+11F7: F2 0F 2C C0           - cvttsd2si eax,xmm0
+Terraria.Player::Hurt+11FB: 8B 95 9C FD FF FF     - mov edx,[ebp-00000264]
+// ---------- INJECTING HERE ----------
+Terraria.Player::Hurt+1201: 29 82 04 04 00 00     - sub [edx+00000404],eax
+// ---------- DONE INJECTING  ----------
+Terraria.Player::Hurt+1207: 83 7D 0C FF           - cmp dword ptr [ebp+0C],-01
+Terraria.Player::Hurt+120B: 0F 85 A2 00 00 00     - jne Terraria.Player::Hurt+12B3
+Terraria.Player::Hurt+1211: 8B 85 9C FD FF FF     - mov eax,[ebp-00000264]
+Terraria.Player::Hurt+1217: C6 80 ED 06 00 00 01  - mov byte ptr [eax+000006ED],01
+Terraria.Player::Hurt+121E: 33 D2                 - xor edx,edx
+Terraria.Player::Hurt+1220: 89 55 8C              - mov [ebp-74],edx
+Terraria.Player::Hurt+1223: 0F B6 45 18           - movzx eax,byte ptr [ebp+18]
+Terraria.Player::Hurt+1227: 85 C0                 - test eax,eax
+Terraria.Player::Hurt+1229: 74 09                 - je Terraria.Player::Hurt+1234
+Terraria.Player::Hurt+122B: C7 45 8C 08 00 00 00  - mov [ebp-74],00000008
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>13</ID>
+          <Description>"Unlimited Crafting Items"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-06
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(CREATE_SUB,29 9E B4 00 00 00 33) // should be unique
+CREATE_SUB:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+registersymbol(CREATE_SUB)
+
+[DISABLE]
+
+CREATE_SUB:
+  db 29 9E B4 00 00 00
+
+unregistersymbol(CREATE_SUB)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Recipe::Create+1EC
+
+Terraria.Recipe::Create+1C8: 75 18              - jne Terraria.Recipe::Create+1E2
+Terraria.Recipe::Create+1CA: 8B 96 A0 00 00 00  - mov edx,[esi+000000A0]
+Terraria.Recipe::Create+1D0: FF B7 A0 00 00 00  - push [edi+000000A0]
+Terraria.Recipe::Create+1D6: 8B 4D DC           - mov ecx,[ebp-24]
+Terraria.Recipe::Create+1D9: E8 7A FD FF FF     - call Terraria.Recipe::AcceptedByItemGroups
+Terraria.Recipe::Create+1DE: 85 C0              - test eax,eax
+Terraria.Recipe::Create+1E0: 74 35              - je Terraria.Recipe::Create+217
+Terraria.Recipe::Create+1E2: 8B 86 B4 00 00 00  - mov eax,[esi+000000B4]
+Terraria.Recipe::Create+1E8: 3B C3              - cmp eax,ebx
+Terraria.Recipe::Create+1EA: 7E 0A              - jle Terraria.Recipe::Create+1F6
+// ---------- INJECTING HERE ----------
+Terraria.Recipe::Create+1EC: 29 9E B4 00 00 00  - sub [esi+000000B4],ebx
+// ---------- DONE INJECTING  ----------
+Terraria.Recipe::Create+1F2: 33 DB              - xor ebx,ebx
+Terraria.Recipe::Create+1F4: EB 21              - jmp Terraria.Recipe::Create+217
+Terraria.Recipe::Create+1F6: 2B D8              - sub ebx,eax
+Terraria.Recipe::Create+1F8: B9 20 A5 82 07     - mov ecx,0782A520
+Terraria.Recipe::Create+1FD: E8 F6 A4 26 E4     - call 022B30C8
+Terraria.Recipe::Create+202: 8B F0              - mov esi,eax
+Terraria.Recipe::Create+204: 8B CE              - mov ecx,esi
+Terraria.Recipe::Create+206: E8 1D 3A 0E E7     - call Terraria.Item::.ctor
+Terraria.Recipe::Create+20B: 56                 - push esi
+Terraria.Recipe::Create+20C: 8B 4D D8           - mov ecx,[ebp-28]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12</ID>
+          <Description>"Unlimited Items"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-06
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(ITEM_DEC,FF 88 B4 00 00 00 8B 85 14 FD FF FF 83) // should be unique
+ITEM_DEC:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+registersymbol(ITEM_DEC)
+
+[DISABLE]
+
+ITEM_DEC:
+  db FF 88 B4 00 00 00
+
+unregistersymbol(ITEM_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::ItemCheck+2AA8
+
+Terraria.Player::ItemCheck+2A73: B9 26 00 00 00        - mov ecx,00000026
+Terraria.Player::ItemCheck+2A78: E8 9B 30 F4 53        - call System.ThrowHelper::ThrowInvalidOperationException
+Terraria.Player::ItemCheck+2A7D: 0F B6 85 21 FF FF FF  - movzx eax,byte ptr [ebp-000000DF]
+Terraria.Player::ItemCheck+2A84: 89 85 24 FF FF FF     - mov [ebp-000000DC],eax
+Terraria.Player::ItemCheck+2A8A: 83 BD 24 FF FF FF 00  - cmp dword ptr [ebp-000000DC],00
+Terraria.Player::ItemCheck+2A91: 74 49                 - je Terraria.Player::ItemCheck+2ADC
+Terraria.Player::ItemCheck+2A93: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2A99: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+Terraria.Player::ItemCheck+2AA0: 7E 0C                 - jle Terraria.Player::ItemCheck+2AAE
+Terraria.Player::ItemCheck+2AA2: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+// ---------- INJECTING HERE ----------
+Terraria.Player::ItemCheck+2AA8: FF 88 B4 00 00 00     - dec [eax+000000B4]
+// ---------- DONE INJECTING  ----------
+Terraria.Player::ItemCheck+2AAE: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2AB4: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+Terraria.Player::ItemCheck+2ABB: 7F 1F                 - jg Terraria.Player::ItemCheck+2ADC
+Terraria.Player::ItemCheck+2ABD: 8B 85 18 FD FF FF     - mov eax,[ebp-000002E8]
+Terraria.Player::ItemCheck+2AC3: 8B 80 F4 05 00 00     - mov eax,[eax+000005F4]
+Terraria.Player::ItemCheck+2AC9: 8B 95 18 FD FF FF     - mov edx,[ebp-000002E8]
+Terraria.Player::ItemCheck+2ACF: 89 82 FC 05 00 00     - mov [edx+000005FC],eax
+Terraria.Player::ItemCheck+2AD5: C6 05 C7 12 19 05 01  - mov byte ptr [051912C7],01
+Terraria.Player::ItemCheck+2ADC: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2AE2: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Unlimited items"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-05
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,Terraria.Player::ItemCheck+2AA8)
+define(bytes,FF 88 B4 00 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+address:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // dec [eax+000000B4]
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::ItemCheck+2AA8
+
+Terraria.Player::ItemCheck+2A73: B9 26 00 00 00        - mov ecx,00000026
+Terraria.Player::ItemCheck+2A78: E8 4B 42 E9 4D        - call System.ThrowHelper::ThrowInvalidOperationException
+Terraria.Player::ItemCheck+2A7D: 0F B6 85 21 FF FF FF  - movzx eax,byte ptr [ebp-000000DF]
+Terraria.Player::ItemCheck+2A84: 89 85 24 FF FF FF     - mov [ebp-000000DC],eax
+Terraria.Player::ItemCheck+2A8A: 83 BD 24 FF FF FF 00  - cmp dword ptr [ebp-000000DC],00
+Terraria.Player::ItemCheck+2A91: 74 49                 - je Terraria.Player::ItemCheck+2ADC
+Terraria.Player::ItemCheck+2A93: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2A99: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+Terraria.Player::ItemCheck+2AA0: 7E 0C                 - jle Terraria.Player::ItemCheck+2AAE
+Terraria.Player::ItemCheck+2AA2: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+// ---------- INJECTING HERE ----------
+Terraria.Player::ItemCheck+2AA8: FF 88 B4 00 00 00     - dec [eax+000000B4]
+// ---------- DONE INJECTING  ----------
+Terraria.Player::ItemCheck+2AAE: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2AB4: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+Terraria.Player::ItemCheck+2ABB: 7F 1F                 - jg Terraria.Player::ItemCheck+2ADC
+Terraria.Player::ItemCheck+2ABD: 8B 85 18 FD FF FF     - mov eax,[ebp-000002E8]
+Terraria.Player::ItemCheck+2AC3: 8B 80 F4 05 00 00     - mov eax,[eax+000005F4]
+Terraria.Player::ItemCheck+2AC9: 8B 95 18 FD FF FF     - mov edx,[ebp-000002E8]
+Terraria.Player::ItemCheck+2ACF: 89 82 FC 05 00 00     - mov [edx+000005FC],eax
+Terraria.Player::ItemCheck+2AD5: C6 05 C7 12 76 05 01  - mov byte ptr [057612C7],01
+Terraria.Player::ItemCheck+2ADC: 8B 85 14 FD FF FF     - mov eax,[ebp-000002EC]
+Terraria.Player::ItemCheck+2AE2: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+000000B4],00
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Unlimited Crafting Items"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-05
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,Terraria.Recipe::Create+1EC)
+define(bytes,29 9E B4 00 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+address:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // sub [esi+000000B4],ebx
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Recipe::Create+1EC
+
+Terraria.Recipe::Create+1CB: 96                    - xchg eax,esi
+Terraria.Recipe::Create+1CC: A0 00 00 00 FF        - mov al,[FF000000]
+Terraria.Recipe::Create+1D1: B7 A0                 - mov bh,-60
+Terraria.Recipe::Create+1D3: 00 00                 - add [eax],al
+Terraria.Recipe::Create+1D5: 00 8B 4D DC E8 7A     - add [ebx+System.Xml.ni.dll+3CDC4D],cl
+Terraria.Recipe::Create+1DB: FD                    - std 
+Terraria.Recipe::Create+1DC: FF                    - db -01
+Terraria.Recipe::Create+1DD: FF 85 C0 74 35 8B     - inc [ebp-74CA8B40]
+Terraria.Recipe::Create+1E3: 86 B4 00 00 00 3B C3  - xchg [eax+eax-3CC50000],dh
+Terraria.Recipe::Create+1EA: 7E 0A                 - jle Terraria.Recipe::Create+1F6
+// ---------- INJECTING HERE ----------
+Terraria.Recipe::Create+1EC: 29 9E B4 00 00 00     - sub [esi+000000B4],ebx
+// ---------- DONE INJECTING  ----------
+Terraria.Recipe::Create+1F2: 33 DB                 - xor ebx,ebx
+Terraria.Recipe::Create+1F4: EB 21                 - jmp Terraria.Recipe::Create+217
+Terraria.Recipe::Create+1F6: 2B D8                 - sub ebx,eax
+Terraria.Recipe::Create+1F8: B9 20 A5 FC 07        - mov ecx,07FCA520
+Terraria.Recipe::Create+1FD: E8 F6 A4 32 D2        - call 028130C8
+Terraria.Recipe::Create+202: 8B F0                 - mov esi,eax
+Terraria.Recipe::Create+204: 8B CE                 - mov ecx,esi
+Terraria.Recipe::Create+206: E8 1D 3A 1A D5        - call Terraria.Item::.ctor
+Terraria.Recipe::Create+20B: 56                    - push esi
+Terraria.Recipe::Create+20C: 8B 4D D8              - mov ecx,[ebp-28]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Don't take damage"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Terraria.exe (paused)
+  Version: 
+  Date   : 2022-10-05
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,Terraria.Player::Hurt+1201)
+define(bytes,29 82 04 04 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+address:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+address:
+  db bytes
+  // sub [edx+00000404],eax
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.Player::Hurt+1201
+
+Terraria.Player::Hurt+11D7: 0F B6 45 10           - movzx eax,byte ptr [ebp+10]
+Terraria.Player::Hurt+11DB: 50                    - push eax
+Terraria.Player::Hurt+11DC: 6A 00                 - push 00
+Terraria.Player::Hurt+11DE: F2 0F 10 45 DC        - movsd xmm0,[ebp-24]
+Terraria.Player::Hurt+11E3: F2 0F 2C D0           - cvttsd2si edx,xmm0
+Terraria.Player::Hurt+11E7: 8B 8D 44 FF FF FF     - mov ecx,[ebp-000000BC]
+Terraria.Player::Hurt+11ED: E8 D6 C8 F1 FC        - call Terraria.CombatText::NewText
+Terraria.Player::Hurt+11F2: F2 0F 10 45 DC        - movsd xmm0,[ebp-24]
+Terraria.Player::Hurt+11F7: F2 0F 2C C0           - cvttsd2si eax,xmm0
+Terraria.Player::Hurt+11FB: 8B 95 9C FD FF FF     - mov edx,[ebp-00000264]
+// ---------- INJECTING HERE ----------
+Terraria.Player::Hurt+1201: 29 82 04 04 00 00     - sub [edx+00000404],eax
+// ---------- DONE INJECTING  ----------
+Terraria.Player::Hurt+1207: 83 7D 0C FF           - cmp dword ptr [ebp+0C],-01
+Terraria.Player::Hurt+120B: 0F 85 A2 00 00 00     - jne Terraria.Player::Hurt+12B3
+Terraria.Player::Hurt+1211: 8B 85 9C FD FF FF     - mov eax,[ebp-00000264]
+Terraria.Player::Hurt+1217: C6 80 ED 06 00 00 01  - mov byte ptr [eax+000006ED],01
+Terraria.Player::Hurt+121E: 33 D2                 - xor edx,edx
+Terraria.Player::Hurt+1220: 89 55 8C              - mov [ebp-74],edx
+Terraria.Player::Hurt+1223: 0F B6 45 18           - movzx eax,byte ptr [ebp+18]
+Terraria.Player::Hurt+1227: 85 C0                 - test eax,eax
+Terraria.Player::Hurt+1229: 74 09                 - je Terraria.Player::Hurt+1234
+Terraria.Player::Hurt+122B: C7 45 8C 08 00 00 00  - mov [ebp-74],00000008
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"Version: 1.4.4.4"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+</LuaScript>
+</CheatTable>
