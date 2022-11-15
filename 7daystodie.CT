@@ -4,12 +4,14 @@
     <CheatEntry>
       <ID>2</ID>
       <Description>"7 Days to Die ver. Alpha 20.6 (b9)"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -25,6 +27,7 @@
           <ID>4</ID>
           <Description>"Entity Player Local Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -227,7 +230,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
                       <Value>1</Value>
                       <Description>enable fly</Description>
                       <ID>0</ID>
-                      <ActivateSound TTS="EN">{MRDescription} Activated</ActivateSound>
+                      <ActivateSound>Activate</ActivateSound>
                     </Hotkey>
                     <Hotkey>
                       <Action>Set Value</Action>
@@ -237,7 +240,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
                       <Value>0</Value>
                       <Description>disable fly</Description>
                       <ID>1</ID>
-                      <ActivateSound TTS="EN">{MRDescription} deactivated</ActivateSound>
+                      <ActivateSound>Deactivate</ActivateSound>
                     </Hotkey>
                   </Hotkeys>
                 </CheatEntry>
@@ -246,7 +249,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
                   <Description>"God Mode Speed Modifier"</Description>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
-                  <Address>+d08</Address>
+                  <Address>+cd8</Address>
                 </CheatEntry>
                 <CheatEntry>
                   <ID>8</ID>
@@ -487,6 +490,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
           <ID>41</ID>
           <Description>"Ranged Weapon Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -602,6 +606,7 @@ ItemActionRanged:OnHoldingUpdate+2e: 74 21                 - je ItemActionRanged
           <ID>15</ID>
           <Description>"Speed Modifier"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -698,6 +703,7 @@ EntityPlayerLocal:GetSpeedModifier+b4: C3                             - ret
         <CheatEntry>
           <ID>36</ID>
           <Description>"Instant Scrap [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -816,6 +822,7 @@ ItemActionEntryScrap:OnActivated+4cd: 90                             - nop
         <CheatEntry>
           <ID>39</ID>
           <Description>"Damage Multiplier [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -894,6 +901,7 @@ unregistersymbol(*)
         <CheatEntry>
           <ID>52</ID>
           <Description>"Press G to drop inf (Like drinking water)"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -964,6 +972,7 @@ Inventory:DecHoldingItem+23: 48 8B 07        - mov rax,[rdi]
     <CheatEntry>
       <ID>44</ID>
       <Description>"CE Window Usermode"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>/*
   make a copy of the cheat engine.exe as csrss.exe
@@ -18812,5 +18821,6 @@ dealloc(newmem)
   </Structures>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
+getAutoAttachList().add("7DaysToDie.exe")
 </LuaScript>
 </CheatTable>
