@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"version 0.211.11"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Enable"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  mono_initialize()
+  LaunchMonoDataCollector()
+{$asm}
+[DISABLE]
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>129</ID>
+          <Description>"Inf Item"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2022-11-26
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(address,Inventory:RemoveItem)
+define(bytes,55 48 8B EC 48 81 EC D0 00 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+
+address:
+  ret
+
+[DISABLE]
+
+address:
+  db bytes
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,000000D0
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
+
+220930D24DD: 00 00                 - add [rax],al
+220930D24DF: 00 00                 - add [rax],al
+220930D24E1: 00 00                 - add [rax],al
+220930D24E3: 00 00                 - add [rax],al
+220930D24E5: 00 00                 - add [rax],al
+220930D24E7: 00 00                 - add [rax],al
+220930D24E9: 00 00                 - add [rax],al
+220930D24EB: 00 00                 - add [rax],al
+220930D24ED: 00 00                 - add [rax],al
+220930D24EF: 00                    - db 00 
+// ---------- INJECTING HERE ----------
+Inventory:RemoveItem: 55                    - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveItem+1: 48 8B EC              - mov rbp,rsp
+Inventory:RemoveItem+4: 48 81 EC D0 00 00 00  - sub rsp,000000D0
+Inventory:RemoveItem+b: 48 89 5D C8           - mov [rbp-38],rbx
+Inventory:RemoveItem+f: 48 89 75 D0           - mov [rbp-30],rsi
+Inventory:RemoveItem+13: 48 89 7D D8           - mov [rbp-28],rdi
+Inventory:RemoveItem+17: 4C 89 65 E0           - mov [rbp-20],r12
+Inventory:RemoveItem+1b: 4C 89 6D E8           - mov [rbp-18],r13
+Inventory:RemoveItem+1f: 4C 89 75 F0           - mov [rbp-10],r14
+Inventory:RemoveItem+23: 4C 89 7D F8           - mov [rbp-08],r15
+Inventory:RemoveItem+27: 48 89 4D 80           - mov [rbp-80],rcx
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("valheim.exe")
+</LuaScript>
+</CheatTable>

@@ -8,9 +8,134 @@
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
+      <ID>22</ID>
+      <Description>"Inf Ammo and Inventory"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 
+  Date   : 2022-11-27
+  Author : Edgar Han
+
+  This script includes the Inventory Items count freeze
+}
+
+[ENABLE]
+
+aobscanmodule(CLIP_UPDATE,Fallout4.exe,74 03 89 59 18) // should be unique
+aobscanmodule(UPDATE_MAG,Fallout4.exe,FF 10 48 8D 0D D5 C1 72 05) // should be unique
+
+CLIP_UPDATE:
+  db EB 03
+registersymbol(CLIP_UPDATE)
+
+UPDATE_MAG:
+  nop
+  nop
+registersymbol(UPDATE_MAG)
+
+[DISABLE]
+
+CLIP_UPDATE:
+  db 74 03 89 59 18
+
+UPDATE_MAG:
+  db FF 10 48 8D 0D D5 C1 72 05
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+E70873
+
+Fallout4.exe+E7084E: CC                          - int 3 
+Fallout4.exe+E7084F: CC                          - int 3 
+Fallout4.exe+E70850: 40 53                       - push rbx
+Fallout4.exe+E70852: 48 83 EC 30                 - sub rsp,30
+Fallout4.exe+E70856: 41 8B D8                    - mov ebx,r8d
+Fallout4.exe+E70859: 4C 8D 44 24 20              - lea r8,[rsp+20]
+Fallout4.exe+E7085E: 48 C7 44 24 20 00 00 00 00  - mov qword ptr [rsp+20],00000000
+Fallout4.exe+E70867: E8 44 D0 01 00              - call Fallout4.exe+E8D8B0
+Fallout4.exe+E7086C: 48 8B 4C 24 20              - mov rcx,[rsp+20]
+Fallout4.exe+E70871: 84 C0                       - test al,al
+// ---------- INJECTING HERE ----------
+Fallout4.exe+E70873: 74 03                       - je Fallout4.exe+E70878
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+E70875: 89 59 18                    - mov [rcx+18],ebx
+Fallout4.exe+E70878: 48 85 C9                    - test rcx,rcx
+Fallout4.exe+E7087B: 74 11                       - je Fallout4.exe+E7088E
+Fallout4.exe+E7087D: F0 FF 49 08                 - lock dec [rcx+08]
+Fallout4.exe+E70881: 75 0B                       - jne Fallout4.exe+E7088E
+Fallout4.exe+E70883: 48 8B 4C 24 20              - mov rcx,[rsp+20]
+Fallout4.exe+E70888: 48 8B 01                    - mov rax,[rcx]
+Fallout4.exe+E7088B: FF 50 08                    - call qword ptr [rax+08]
+Fallout4.exe+E7088E: 48 83 C4 30                 - add rsp,30
+Fallout4.exe+E70892: 5B                          - pop rbx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Inventory Items count freeze"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 
+  Date   : 2022-11-27
+  Author : Edgar Han
+
+  This script prevents inventory item count updates when items are
+  dropped or moved
+}
+
+[ENABLE]
+
+aobscanmodule(INV_UPDATE,Fallout4.exe,FF 10 48 8D 0D D5 C1 72 05) // should be unique
+
+INV_UPDATE:
+  nop
+  nop
+registersymbol(INV_UPDATE)
+
+[DISABLE]
+
+INV_UPDATE:
+  db FF 10 48 8D 0D D5 C1 72 05
+
+unregistersymbol(INV_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+1A87D2
+
+Fallout4.exe+1A87AE: 48 8B CB              - mov rcx,rbx
+Fallout4.exe+1A87B1: FF 10                 - call qword ptr [rax]
+Fallout4.exe+1A87B3: 48 8B 1E              - mov rbx,[rsi]
+Fallout4.exe+1A87B6: 49 8B 3F              - mov rdi,[r15]
+Fallout4.exe+1A87B9: 48 8D 0D F0 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
+Fallout4.exe+1A87C0: FF 15 72 ED A6 02     - call qword ptr [Fallout4.exe+2C17538]
+Fallout4.exe+1A87C6: 49 8B 06              - mov rax,[r14]
+Fallout4.exe+1A87C9: 4C 8B C3              - mov r8,rbx
+Fallout4.exe+1A87CC: 48 8B D7              - mov rdx,rdi
+Fallout4.exe+1A87CF: 49 8B CE              - mov rcx,r14
+// ---------- INJECTING HERE ----------
+Fallout4.exe+1A87D2: FF 10                 - call qword ptr [rax]
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+1A87D4: 48 8D 0D D5 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
+Fallout4.exe+1A87DB: FF 15 4F ED A6 02     - call qword ptr [Fallout4.exe+2C17530]
+Fallout4.exe+1A87E1: 48 8B 7C 24 50        - mov rdi,[rsp+50]
+Fallout4.exe+1A87E6: 48 8B 5C 24 40        - mov rbx,[rsp+40]
+Fallout4.exe+1A87EB: 48 8B 0E              - mov rcx,[rsi]
+Fallout4.exe+1A87EE: 4C 8B 7C 24 20        - mov r15,[rsp+20]
+Fallout4.exe+1A87F3: 4C 8B 74 24 28        - mov r14,[rsp+28]
+Fallout4.exe+1A87F8: 48 8B 74 24 48        - mov rsi,[rsp+48]
+Fallout4.exe+1A87FD: 48 85 C9              - test rcx,rcx
+Fallout4.exe+1A8800: 74 16                 - je Fallout4.exe+1A8818
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>4</ID>
       <Description>"Player Current Weight"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
@@ -95,11 +220,18 @@ Fallout4.exe+1AC9D2: C3              - ret
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>7</ID>
-      <Description>"Inventory does not decrease"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Fallout4.exe
+      <ID>10</ID>
+      <Description>"not working"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"Inventory does not decrease"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
   Date   : 2022-08-15
   Author : Edgar Han
@@ -162,8 +294,96 @@ Fallout4.exe+1A81A7: CC                       - int 3
 Fallout4.exe+1A81A8: CC                       - int 3 
 }
 </AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>8</ID>
+          <Description>"LUA Inventory"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>/*
+  Finds all occurrences of the inventory update function and replaces
+  it with none subtracting function.
+*/
+
+{$lua}
+if syntaxcheck then return end
+cheat_name = "Inventory"
+[ENABLE]
+local pattern = "8B 51 10 45 8B 48 20 44 03 CA 79 0F 41 2B D1 89 51 10 41 C7 40 20 00 00 00 00 C3 45 89 48 20 C3"
+local replace = "8B 51 10 45 8B 48 20 41 01 D1 50 49 8B 40 20 49 39 C1 0F 8C 04 00 00 00 45 89 48 20 58 C3"
+-- edit the name of the cheat
+-- edit the pattern to search
+-- edit the replacement bytes
+-- use ?? to ignore the bytes
+-- do not edit the code below
+local scans = AOBScan(pattern)
+if scans == nil then
+  showMessage("Unable to find pattern:\n"..pattern)
+else
+  local saved = {}
+  local length = (#replace + 1) / 3
+  for i = 0, scans.Count - 1 do
+    local backup = readBytes(scans[i], length, true)
+    local bytes = {}
+    for hex in string.gmatch(replace, "%S+") do
+      local size = #bytes + 1
+      if hex == "??" then
+        bytes[size] = backup[size]
+      else
+        bytes[size] = tonumber(hex, 16)
+      end
+    end
+    saved[i] = backup
+    writeBytes(scans[i], bytes)
+  end
+  _G[cheat_name] = {
+    ["scans"] = scans,
+    ["saved"] = saved
+  }
+end
+[DISABLE]
+local vars = _G[cheat_name]
+if vars ~= nil then
+  local scans = vars.scans
+  local saved = vars.saved
+  for i = 0, scans.Count - 1 do
+    writeBytes(scans[i], saved[i])
+  end
+  scans.Destroy()
+  vars.scans = nil
+  vars.saved = nil
+  vars = nil
+  _G[cheat_name] = nil
+end
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call qword ptr [rax]</Description>
+      <AddressString>Fallout4.exe+1A87D2</AddressString>
+      <Before>
+        <Byte>8B</Byte>
+        <Byte>D7</Byte>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+        <Byte>CE</Byte>
+      </Before>
+      <Actual>
+        <Byte>FF</Byte>
+        <Byte>10</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8D</Byte>
+        <Byte>0D</Byte>
+        <Byte>D5</Byte>
+        <Byte>C1</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
@@ -458,4 +678,8 @@ Fallout4.exe+1A81A8: CC                       - int 3
       </Elements>
     </Structure>
   </Structures>
+  <LuaScript>getApplication().Title="FalloutFour"
+getMainForm().Caption="FalloutFour"
+getAutoAttachList().add("Fallout4.exe")
+</LuaScript>
 </CheatTable>

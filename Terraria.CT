@@ -4,7 +4,6 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Attach Process"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 //code from here to '[DISABLE]' will be used to enable the cheat
@@ -17,16 +16,361 @@ getAutoAttachList().add("Terraria.exe")
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
+      <ID>18</ID>
+      <Description>"AOB Steam Version Activates all"</Description>
+      <Options moHideChildren="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>31</ID>
+          <Description>"Unlimited Arrows"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-14
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(ARROW_CONSUME,74 2E 8B 86 E0 00 00 00) // should be unique
+
+ARROW_CONSUME:
+  db EB
+registersymbol(ARROW_CONSUME)
+
+[DISABLE]
+
+ARROW_CONSUME:
+  db 74 2E 8B 86 E0 00 00 00
+
+unregistersymbol(ARROW_CONSUME)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 27067240
+
+27067221: 2B CA                    - sub ecx,edx
+27067223: 3B C1                    - cmp eax,ecx
+27067225: 7D 08                    - jnl 2706722F
+27067227: B8 01 00 00 00           - mov eax,00000001
+2706722C: 88 45 D0                 - mov [ebp-30],al
+2706722F: 0F B6 45 D0              - movzx eax,byte ptr [ebp-30]
+27067233: 85 C0                    - test eax,eax
+27067235: 75 39                    - jne 27067270
+27067237: 0F B6 86 15 01 00 00     - movzx eax,byte ptr [esi+00000115]
+2706723E: 85 C0                    - test eax,eax
+// ---------- INJECTING HERE ----------
+27067240: 74 2E                    - je 27067270
+// ---------- DONE INJECTING  ----------
+27067242: 8B 86 E0 00 00 00        - mov eax,[esi+000000E0]
+27067248: 48                       - dec eax
+27067249: 89 86 E0 00 00 00        - mov [esi+000000E0],eax
+2706724F: 8B 86 E0 00 00 00        - mov eax,[esi+000000E0]
+27067255: 85 C0                    - test eax,eax
+27067257: 7F 17                    - jg 27067270
+27067259: C6 46 0C 00              - mov byte ptr [esi+0C],00
+2706725D: C7 44 24 04 00 00 00 00  - mov [esp+04],00000000
+27067265: 89 34 24                 - mov [esp],esi
+27067268: 39 36                    - cmp [esi],esi
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"INF MANA"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-14
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(MANA_USE_DEC,7C 1C 85 FF 0F 85 5B 00 00 00) // should be unique
+
+MANA_USE_DEC:
+  db EB 17
+registersymbol(MANA_USE_DEC)
+
+[DISABLE]
+
+MANA_USE_DEC:
+  db 7C 1C 85 FF 0F 85 5B 00 00 00
+
+unregistersymbol(MANA_USE_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1D2605E9
+
+1D2605B3: 3D 7F 00 00 00        - cmp eax,0000007F
+1D2605B8: 0F 84 90 00 00 00     - je 1D26064E
+1D2605BE: 8B 86 C4 00 00 00     - mov eax,[esi+000000C4]
+1D2605C4: 3D FB 10 00 00        - cmp eax,000010FB
+1D2605C9: 0F 84 7F 00 00 00     - je 1D26064E
+1D2605CF: 8B 86 C4 00 00 00     - mov eax,[esi+000000C4]
+1D2605D5: 3D FC 10 00 00        - cmp eax,000010FC
+1D2605DA: 0F 84 6E 00 00 00     - je 1D26064E
+1D2605E0: 8B 83 6C 06 00 00     - mov eax,[ebx+0000066C]
+1D2605E6: 3B 45 E0              - cmp eax,[ebp-20]
+// ---------- INJECTING HERE ----------
+1D2605E9: 7C 1C                 - jl 1D260607
+// ---------- DONE INJECTING  ----------
+1D2605EB: 85 FF                 - test edi,edi
+1D2605ED: 0F 85 5B 00 00 00     - jne 1D26064E
+1D2605F3: 8B 83 6C 06 00 00     - mov eax,[ebx+0000066C]
+1D2605F9: 2B 45 E0              - sub eax,[ebp-20]
+1D2605FC: 89 83 6C 06 00 00     - mov [ebx+0000066C],eax
+1D260602: E9 47 00 00 00        - jmp 1D26064E
+1D260607: 0F B6 83 8B 07 00 00  - movzx eax,byte ptr [ebx+0000078B]
+1D26060E: 85 C0                 - test eax,eax
+1D260610: 74 34                 - je 1D260646
+1D260612: 89 1C 24              - mov [esp],ebx
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>28</ID>
+          <Description>"Unlimited Potion Consumption"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2022-10-14
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(USE_POTION,7E 0D 8B 86 E0 00 00 00 48 89 86 E0 00 00 00 8B 86 C4 00 00 00 3D 06) // should be unique
+
+USE_POTION:
+  db EB
+registersymbol(USE_POTION)
+
+[DISABLE]
+
+USE_POTION:
+  db 7E 0D 8B 86 E0 00 00 00
+
+unregistersymbol(USE_POTION)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 2705D139
+
+2705D107: 05 1C 00 00 00        - add eax,0000001C
+2705D10C: 8B 8D 44 FF FF FF     - mov ecx,[ebp-000000BC]
+2705D112: 89 08                 - mov [eax],ecx
+2705D114: 8B 8D 48 FF FF FF     - mov ecx,[ebp-000000B8]
+2705D11A: 89 48 04              - mov [eax+04],ecx
+2705D11D: 83 85 04 FD FF FF 01  - add dword ptr [ebp-000002FC],01
+2705D124: 83 BD 04 FD FF FF 46  - cmp dword ptr [ebp-000002FC],46
+2705D12B: 0F 8C C7 FE FF FF     - jl 2705CFF8
+2705D131: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+2705D137: 85 C0                 - test eax,eax
+// ---------- INJECTING HERE ----------
+2705D139: 7E 0D                 - jle 2705D148
+// ---------- DONE INJECTING  ----------
+2705D13B: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+2705D141: 48                    - dec eax
+2705D142: 89 86 E0 00 00 00     - mov [esi+000000E0],eax
+2705D148: 8B 86 C4 00 00 00     - mov eax,[esi+000000C4]
+2705D14E: 3D 06 13 00 00        - cmp eax,00001306
+2705D153: 0F 85 E9 04 00 00     - jne 2705D642
+2705D159: 8B 87 98 0A 00 00     - mov eax,[edi+00000A98]
+2705D15F: 85 C0                 - test eax,eax
+2705D161: 0F 8E DB 04 00 00     - jng 2705D642
+2705D167: 8B 87 A0 0A 00 00     - mov eax,[edi+00000AA0]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"Unlimited Item Use"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: Steam Deck
+  Date   : 2022-10-09
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(ITEM_USE_DEC,48 89 86 E0 00 00 00 8B 86 E0 00 00 00 85 C0 7F 14) // should be unique
+
+ITEM_USE_DEC:
+  nop
+registersymbol(ITEM_USE_DEC)
+
+[DISABLE]
+
+ITEM_USE_DEC:
+  db 48 89 86 E0 00 00 00
+
+unregistersymbol(ITEM_USE_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1EF34E01
+
+1EF34DD8: 8D 6D 00              - lea ebp,[ebp+00]
+1EF34DDB: E8 EC 74 29 E6        - call 051CC2CC
+1EF34DE0: 88 85 D4 FC FF FF     - mov [ebp-0000032C],al
+1EF34DE6: 0F B6 85 D4 FC FF FF  - movzx eax,byte ptr [ebp-0000032C]
+1EF34DED: 85 C0                 - test eax,eax
+1EF34DEF: 74 35                 - je 1EF34E26
+1EF34DF1: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+1EF34DF7: 85 C0                 - test eax,eax
+1EF34DF9: 7E 0D                 - jle 1EF34E08
+1EF34DFB: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+// ---------- INJECTING HERE ----------
+1EF34E01: 48                    - dec eax
+// ---------- DONE INJECTING  ----------
+1EF34E02: 89 86 E0 00 00 00     - mov [esi+000000E0],eax
+1EF34E08: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+1EF34E0E: 85 C0                 - test eax,eax
+1EF34E10: 7F 14                 - jg 1EF34E26
+1EF34E12: 8B 87 98 0A 00 00     - mov eax,[edi+00000A98]
+1EF34E18: 89 87 A0 0A 00 00     - mov [edi+00000AA0],eax
+1EF34E1E: B8 DC 7E BC 01        - mov eax,01BC7EDC
+1EF34E23: C6 00 01              - mov byte ptr [eax],01
+1EF34E26: 8B 86 E0 00 00 00     - mov eax,[esi+000000E0]
+1EF34E2C: 85 C0                 - test eax,eax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>23</ID>
+          <Description>"Unlimited Item Craft"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: steam deck
+  Date   : 2022-10-09
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(ITEM_CRAFT_DEC,2B 45 F0 89 86 E0 00 00 00 C7) // should be unique
+
+ITEM_CRAFT_DEC:
+  nop
+  nop
+  nop
+registersymbol(ITEM_CRAFT_DEC)
+
+[DISABLE]
+
+ITEM_CRAFT_DEC:
+  db 2B 45 F0 89 86 E0 00 00 00
+
+unregistersymbol(ITEM_CRAFT_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 0F39C2CD
+
+0F39C2A8: 8B 45 08                 - mov eax,[ebp+08]
+0F39C2AB: 89 04 24                 - mov [esp],eax
+0F39C2AE: 90                       - nop 
+0F39C2AF: E8 64 FC FF FF           - call 0F39BF18
+0F39C2B4: 85 C0                    - test eax,eax
+0F39C2B6: 0F 84 69 00 00 00        - je 0F39C325
+0F39C2BC: 8B 86 E0 00 00 00        - mov eax,[esi+000000E0]
+0F39C2C2: 3B 45 F0                 - cmp eax,[ebp-10]
+0F39C2C5: 7E 1B                    - jle 0F39C2E2
+0F39C2C7: 8B 86 E0 00 00 00        - mov eax,[esi+000000E0]
+// ---------- INJECTING HERE ----------
+0F39C2CD: 2B 45 F0                 - sub eax,[ebp-10]
+// ---------- DONE INJECTING  ----------
+0F39C2D0: 89 86 E0 00 00 00        - mov [esi+000000E0],eax
+0F39C2D6: C7 45 F0 00 00 00 00     - mov [ebp-10],00000000
+0F39C2DD: E9 43 00 00 00           - jmp 0F39C325
+0F39C2E2: 8B 86 E0 00 00 00        - mov eax,[esi+000000E0]
+0F39C2E8: 29 45 F0                 - sub [ebp-10],eax
+0F39C2EB: C7 44 24 04 C8 01 00 00  - mov [esp+04],000001C8
+0F39C2F3: C7 04 24 F8 45 C7 05     - mov [esp],05C745F8
+0F39C2FA: 90                       - nop 
+0F39C2FB: E8 A8 4C E2 F5           - call 051C0FA8
+0F39C300: 89 45 D4                 - mov [ebp-2C],eax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"No Damage"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: Steam Deck
+  Date   : 2022-10-09
+  Author : steamuser
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(PLAYER_HEALTH_DAMAGE,2B C1 89 87 68 06 00 00) // should be unique
+
+PLAYER_HEALTH_DAMAGE:
+  nop
+  nop
+registersymbol(PLAYER_HEALTH_DAMAGE)
+
+[DISABLE]
+
+PLAYER_HEALTH_DAMAGE:
+  db 2B C1 89 87 68 06 00 00
+
+unregistersymbol(PLAYER_HEALTH_DAMAGE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1EF2C81C
+
+1EF2C7F1: 8B 45 90                       - mov eax,[ebp-70]
+1EF2C7F4: 89 44 24 08                    - mov [esp+08],eax
+1EF2C7F8: 8B 45 94                       - mov eax,[ebp-6C]
+1EF2C7FB: 89 44 24 0C                    - mov [esp+0C],eax
+1EF2C7FF: E8 6C 46 8A FE                 - call 1D7D0E70
+1EF2C804: 8B 87 68 06 00 00              - mov eax,[edi+00000668]
+1EF2C80A: DD 85 E0 FE FF FF              - fld qword ptr [ebp-00000120]
+1EF2C810: DD 5D E0                       - fstp qword ptr [ebp-20]
+1EF2C813: F2 0F 10 45 E0                 - movsd xmm0,[ebp-20]
+1EF2C818: F2 0F 2C C8                    - cvttsd2si ecx,xmm0
+// ---------- INJECTING HERE ----------
+1EF2C81C: 2B C1                          - sub eax,ecx
+// ---------- DONE INJECTING  ----------
+1EF2C81E: 89 87 68 06 00 00              - mov [edi+00000668],eax
+1EF2C824: 83 7D 24 FF                    - cmp dword ptr [ebp+24],-01
+1EF2C828: 0F 85 A7 00 00 00              - jne 1EF2C8D5
+1EF2C82E: C6 87 20 04 00 00 01           - mov byte ptr [edi+00000420],01
+1EF2C835: C7 85 90 FE FF FF 00 00 00 00  - mov [ebp-00000170],00000000
+1EF2C83F: 0F B6 45 18                    - movzx eax,byte ptr [ebp+18]
+1EF2C843: 85 C0                          - test eax,eax
+1EF2C845: 74 0F                          - je 1EF2C856
+1EF2C847: C7 85 90 FE FF FF 08 00 00 00  - mov [ebp-00000170],00000008
+1EF2C851: E9 6E 00 00 00                 - jmp 1EF2C8C4
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
       <ID>11</ID>
       <Description>"AOB Versions"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>14</ID>
           <Description>"Don't Take Damage"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -87,7 +431,6 @@ Terraria.Player::Hurt+122B: C7 45 8C 08 00 00 00  - mov [ebp-74],00000008
         <CheatEntry>
           <ID>13</ID>
           <Description>"Unlimited Crafting Items"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -148,7 +491,6 @@ Terraria.Recipe::Create+20C: 8B 4D D8           - mov ecx,[ebp-28]
         <CheatEntry>
           <ID>12</ID>
           <Description>"Unlimited Items"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -211,7 +553,6 @@ Terraria.Player::ItemCheck+2AE2: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+0000
     <CheatEntry>
       <ID>4</ID>
       <Description>"Unlimited items"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -274,7 +615,6 @@ Terraria.Player::ItemCheck+2AE2: 83 B8 B4 00 00 00 00  - cmp dword ptr [eax+0000
     <CheatEntry>
       <ID>6</ID>
       <Description>"Unlimited Crafting Items"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -337,7 +677,6 @@ Terraria.Recipe::Create+20C: 8B 4D D8              - mov ecx,[ebp-28]
     <CheatEntry>
       <ID>9</ID>
       <Description>"Don't take damage"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Terraria.exe (paused)
   Version: 
@@ -400,11 +739,12 @@ Terraria.Player::Hurt+122B: C7 45 8C 08 00 00 00  - mov [ebp-74],00000008
     <CheatEntry>
       <ID>10</ID>
       <Description>"Version: 1.4.4.4"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <Comments>1D2605E9 - 7C 1C                 - jl 1D260607
+</Comments>
   <LuaScript>getApplication().Title="framerates"
   getMainForm().Caption="framerates"
 </LuaScript>
