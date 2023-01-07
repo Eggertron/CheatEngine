@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version 1.08"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"Drink Canteen fills canteen"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeathStranding.exe
+  Version: 
+  Date   : 2023-01-07
+  Author : Edgar Han
+
+  When you drink canteen
+}
+
+define(bytes,C5 FA 11 00 76 10 48 8B 0D 00 31 F2 04)
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(DRINK_CANTEEN,DeathStranding.exe,C5 FA 11 00 76 10) // should be unique
+alloc(newmem,$1000,DRINK_CANTEEN)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  vmovss xmm0,[rax+4]
+  vmovss [rax],xmm0
+  jna DeathStranding.exe+262DBC9
+  jmp return
+
+DRINK_CANTEEN:
+  jmp newmem
+  nop
+return:
+registersymbol(DRINK_CANTEEN)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+DRINK_CANTEEN:
+  db C5 FA 11 00 76 10
+
+unregistersymbol(DRINK_CANTEEN)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: DeathStranding.exe+262DBB3
+
+DeathStranding.exe+262DB8B: EB 12                    - jmp DeathStranding.exe+262DB9F
+DeathStranding.exe+262DB8D: 49 63 C0                 - movsxd  rax,r8d
+DeathStranding.exe+262DB90: 48 8D 04 C0              - lea rax,[rax+rax*8]
+DeathStranding.exe+262DB94: 48 8D 80 76 04 00 00     - lea rax,[rax+00000476]
+DeathStranding.exe+262DB9B: 48 8D 04 C1              - lea rax,[rcx+rax*8]
+DeathStranding.exe+262DB9F: C5 FA 10 00              - vmovss xmm0,[rax]
+DeathStranding.exe+262DBA3: C5 F2 5D F8              - vminss xmm7,xmm1,xmm0
+DeathStranding.exe+262DBA7: C5 C8 57 F6              - vxorps xmm6,xmm6,xmm6
+DeathStranding.exe+262DBAB: C5 F8 2F FE              - vcomiss xmm7,xmm6
+DeathStranding.exe+262DBAF: C5 FA 5C C7              - vsubss xmm0,xmm0,xmm7
+// ---------- INJECTING HERE ----------
+DeathStranding.exe+262DBB3: C5 FA 11 00              - vmovss [rax],xmm0
+// ---------- DONE INJECTING  ----------
+DeathStranding.exe+262DBB7: 76 10                    - jna DeathStranding.exe+262DBC9
+DeathStranding.exe+262DBB9: 48 8B 0D 00 31 F2 04     - mov rcx,[DeathStranding.exe+7550CC0]
+DeathStranding.exe+262DBC0: C5 C2 5A CF              - vcvtss2sd xmm1,xmm7,xmm7
+DeathStranding.exe+262DBC4: E8 07 8B 61 00           - call DeathStranding.exe+2C466D0
+DeathStranding.exe+262DBC9: C5 C2 59 05 4B 07 1D 01  - vmulss xmm0,xmm7,[DeathStranding.exe+37FE31C]
+DeathStranding.exe+262DBD1: C5 FA 58 8B EC 47 00 00  - vaddss xmm1,xmm0,[rbx+000047EC]
+DeathStranding.exe+262DBD9: C5 F8 2F F1              - vcomiss xmm6,xmm1
+DeathStranding.exe+262DBDD: 77 0C                    - ja DeathStranding.exe+262DBEB
+DeathStranding.exe+262DBDF: C5 FA 10 05 89 D6 1B 01  - vmovss xmm0,[DeathStranding.exe+37EB270]
+DeathStranding.exe+262DBE7: C5 FA 5D F1              - vminss xmm6,xmm0,xmm1
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Inf Health"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeathStranding.exe
+  Version: 
+  Date   : 2023-01-07
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(bytes,C5 FA 11 83 C0 00 00 00 76 59 41 83 F9 01 74 1F)
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,DeathStranding.exe,C5 FA 11 83 C0 00 00 00 76) // should be unique
+alloc(newmem,$1000,HEALTH_UPDATE)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  vmovss xmm0,[rbx+000000C4]
+  vmovss [rbx+000000C0],xmm0
+  jmp return
+
+HEALTH_UPDATE:
+  jmp newmem
+  nop 3
+return:
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db bytes
+
+unregistersymbol(HEALTH_UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: DeathStranding.exe+253302B
+
+DeathStranding.exe+2533009: 76 04                    - jna DeathStranding.exe+253300F
+DeathStranding.exe+253300B: C5 FA 5F CA              - vmaxss xmm1,xmm0,xmm2
+DeathStranding.exe+253300F: C5 E2 5F D8              - vmaxss xmm3,xmm3,xmm0
+DeathStranding.exe+2533013: C5 C8 57 F6              - vxorps xmm6,xmm6,xmm6
+DeathStranding.exe+2533017: C5 F8 2F F1              - vcomiss xmm6,xmm1
+DeathStranding.exe+253301B: 76 06                    - jna DeathStranding.exe+2533023
+DeathStranding.exe+253301D: C5 F8 57 C0              - vxorps xmm0,xmm0,xmm0
+DeathStranding.exe+2533021: EB 04                    - jmp DeathStranding.exe+2533027
+DeathStranding.exe+2533023: C5 E2 5D C1              - vminss xmm0,xmm3,xmm1
+DeathStranding.exe+2533027: C5 F8 2F D0              - vcomiss xmm2,xmm0
+// ---------- INJECTING HERE ----------
+DeathStranding.exe+253302B: C5 FA 11 83 C0 00 00 00  - vmovss [rbx+000000C0],xmm0
+// ---------- DONE INJECTING  ----------
+DeathStranding.exe+2533033: 76 59                    - jna DeathStranding.exe+253308E
+DeathStranding.exe+2533035: 41 83 F9 01              - cmp r9d,01
+DeathStranding.exe+2533039: 74 1F                    - je DeathStranding.exe+253305A
+DeathStranding.exe+253303B: 48 8B 0D B6 86 02 05     - mov rcx,[DeathStranding.exe+755B6F8]
+DeathStranding.exe+2533042: 48 81 C1 A8 00 00 00     - add rcx,000000A8
+DeathStranding.exe+2533049: C5 EA 5C C8              - vsubss xmm1,xmm2,xmm0
+DeathStranding.exe+253304D: E8 1E E8 A7 00           - call DeathStranding.exe+2FB1870
+DeathStranding.exe+2533052: C5 FA 10 83 C0 00 00 00  - vmovss xmm0,[rbx+000000C0]
+DeathStranding.exe+253305A: C5 F8 2F F0              - vcomiss xmm6,xmm0
+DeathStranding.exe+253305E: 72 2E                    - jb DeathStranding.exe+253308E
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
