@@ -87,7 +87,7 @@ DeathStranding.exe+262DBE7: C5 FA 5D F1              - vminss xmm6,xmm0,xmm1
     <CheatEntry>
       <ID>13</ID>
       <Description>"Inf Health"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DeathStranding.exe
   Version: 
@@ -108,24 +108,31 @@ label(code)
 label(return)
 
 newmem:
+  push rcx
+  lea rcx,[rbx+C0]
+  mov [HEALTH_PTR],rcx
+  pop rcx
 
 code:
   vmovss xmm0,[rbx+000000C4]
   vmovss [rbx+000000C0],xmm0
   jmp return
+HEALTH_PTR:
+  dw 0
 
 HEALTH_UPDATE:
   jmp newmem
   nop 3
 return:
 registersymbol(HEALTH_UPDATE)
+registersymbol(HEALTH_PTR)
 
 [DISABLE]
 
 HEALTH_UPDATE:
   db bytes
 
-unregistersymbol(HEALTH_UPDATE)
+unregistersymbol(*)
 dealloc(newmem)
 
 {
@@ -156,7 +163,218 @@ DeathStranding.exe+253305A: C5 F8 2F F0              - vcomiss xmm6,xmm0
 DeathStranding.exe+253305E: 72 2E                    - jb DeathStranding.exe+253308E
 }
 </AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"Health"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>HEALTH_PTR</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>38</ID>
+      <Description>"Weight Always Zero"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeathStranding.exe
+  Version: 
+  Date   : 2023-01-08
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+define(bytes,C5 FA 11 41 0C 49 8B 86 C0 00 00 00 48 8B CB)
+
+[ENABLE]
+
+aobscanmodule(WEIGHT_UPDATE,DeathStranding.exe,C5 FA 11 41 0C * 8B 86) // should be unique
+alloc(newmem,$1000,WEIGHT_UPDATE)
+
+label(code)
+label(return)
+
+newmem:
+  push rax
+  lea rax,[rcx+C]
+  mov [WEIGHT_PTR],rax
+  pop rax
+
+code:
+  vmovss [rcx+0C],xmm0
+  jmp return
+WEIGHT_PTR:
+  dw 0
+
+WEIGHT_UPDATE:
+  jmp newmem
+return:
+registersymbol(WEIGHT_UPDATE)
+registersymbol(WEIGHT_PTR)
+
+[DISABLE]
+
+WEIGHT_UPDATE:
+  db C5 FA 11 41 0C
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: DeathStranding.exe+29C8C4C
+
+DeathStranding.exe+29C8C1A: 01 41 04                    - add [rcx+04],eax
+DeathStranding.exe+29C8C1D: 49 8B 8E C0 00 00 00        - mov rcx,[r14+000000C0]
+DeathStranding.exe+29C8C24: C5 CA 58 41 14              - vaddss xmm0,xmm6,[rcx+14]
+DeathStranding.exe+29C8C29: C5 FA 11 41 14              - vmovss [rcx+14],xmm0
+DeathStranding.exe+29C8C2E: 49 8B 86 C0 00 00 00        - mov rax,[r14+000000C0]
+DeathStranding.exe+29C8C35: 48 8B 48 28                 - mov rcx,[rax+28]
+DeathStranding.exe+29C8C39: 01 51 04                    - add [rcx+04],edx
+DeathStranding.exe+29C8C3C: 49 8B 86 C0 00 00 00        - mov rax,[r14+000000C0]
+DeathStranding.exe+29C8C43: 48 8B 48 28                 - mov rcx,[rax+28]
+DeathStranding.exe+29C8C47: C5 CA 58 41 0C              - vaddss xmm0,xmm6,[rcx+0C]
+// ---------- INJECTING HERE ----------
+DeathStranding.exe+29C8C4C: C5 FA 11 41 0C              - vmovss [rcx+0C],xmm0
+// ---------- DONE INJECTING  ----------
+DeathStranding.exe+29C8C51: 49 8B 86 C0 00 00 00        - mov rax,[r14+000000C0]
+DeathStranding.exe+29C8C58: 48 8B CB                    - mov rcx,rbx
+DeathStranding.exe+29C8C5B: FF 40 0C                    - inc [rax+0C]
+DeathStranding.exe+29C8C5E: 4D 8B BE C0 00 00 00        - mov r15,[r14+000000C0]
+DeathStranding.exe+29C8C65: 49 8B 47 28                 - mov rax,[r15+28]
+DeathStranding.exe+29C8C69: 45 0F B6 2F                 - movzx r13d,byte ptr [r15]
+DeathStranding.exe+29C8C6D: 8B 78 38                    - mov edi,[rax+38]
+DeathStranding.exe+29C8C70: FF 15 42 8A DD 00           - call qword ptr [DeathStranding.exe+37A16B8]
+DeathStranding.exe+29C8C76: C5 F8 28 B4 24 F0 00 00 00  - vmovaps xmm6,[rsp+000000F0]
+DeathStranding.exe+29C8C7F: 85 C0                       - test eax,eax
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>39</ID>
+          <Description>"Weight"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>WEIGHT_PTR</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>41</ID>
+      <Description>"Hook Likes Value (open menu)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeathStranding.exe
+  Version: 
+  Date   : 2023-01-08
+  Author : Edgar Han
+
+  fix this script
+}
+
+define(bytes,48 3B C8 48 8B D9 48 0F 4F D8)
+
+[ENABLE]
+
+aobscanmodule(LIKES_HOOK,DeathStranding.exe,bytes) // should be unique
+alloc(newmem,$1000,LIKES_HOOK)
+
+label(code)
+label(return)
+label(LIKES_PTR)
+
+newmem:
+
+code:
+  cmp rcx,rax
+  mov rbx,rcx
+  cmovg rbx,rax
+
+  push rax
+  lea rax,[rbx+18]
+  mov [LIKES_PTR],rax
+  pop rax
+
+  jmp return
+LIKES_PTR:
+  dd 0
+
+LIKES_HOOK:
+  jmp newmem
+  nop
+  nop
+  nop
+  nop
+  nop
+return:
+registersymbol(LIKES_HOOK)
+registersymbol(LIKES_PTR)
+
+[DISABLE]
+
+LIKES_HOOK:
+  db bytes
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: DeathStranding.exe+2B6DD77
+
+DeathStranding.exe+2B6DD58: 48 8B 42 28        - mov rax,[rdx+28]
+DeathStranding.exe+2B6DD5C: 48 8B 5A 30        - mov rbx,[rdx+30]
+DeathStranding.exe+2B6DD60: 48 3B CB           - cmp rcx,rbx
+DeathStranding.exe+2B6DD63: 7C 16              - jl DeathStranding.exe+2B6DD7B
+DeathStranding.exe+2B6DD65: 48 3B C8           - cmp rcx,rax
+DeathStranding.exe+2B6DD68: 48 8B D9           - mov rbx,rcx
+DeathStranding.exe+2B6DD6B: 48 0F 4F D8        - cmovg rbx,rax
+DeathStranding.exe+2B6DD6F: EB 0A              - jmp DeathStranding.exe+2B6DD7B
+DeathStranding.exe+2B6DD71: 48 8B 5B 20        - mov rbx,[rbx+20]
+DeathStranding.exe+2B6DD75: EB 04              - jmp DeathStranding.exe+2B6DD7B
+// ---------- INJECTING HERE ----------
+DeathStranding.exe+2B6DD77: 48 8B 5B 18        - mov rbx,[rbx+18]
+// ---------- DONE INJECTING  ----------
+DeathStranding.exe+2B6DD7B: 48 85 FF           - test rdi,rdi
+DeathStranding.exe+2B6DD7E: 74 09              - je DeathStranding.exe+2B6DD89
+DeathStranding.exe+2B6DD80: 48 8B CF           - mov rcx,rdi
+DeathStranding.exe+2B6DD83: FF 15 EF 38 C3 00  - call qword ptr [DeathStranding.exe+37A1678]
+DeathStranding.exe+2B6DD89: 48 8B 74 24 38     - mov rsi,[rsp+38]
+DeathStranding.exe+2B6DD8E: 48 8B C3           - mov rax,rbx
+DeathStranding.exe+2B6DD91: 48 8B 5C 24 30     - mov rbx,[rsp+30]
+DeathStranding.exe+2B6DD96: 48 83 C4 20        - add rsp,20
+DeathStranding.exe+2B6DD9A: 5F                 - pop rdi
+DeathStranding.exe+2B6DD9B: C3                 - ret 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>42</ID>
+          <Description>"Likes"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>LIKES_PTR</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <UserdefinedSymbols/>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>newmem</Name>
+      <Address>1F0718D0000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("DeathStranding.exe")
+</LuaScript>
 </CheatTable>
