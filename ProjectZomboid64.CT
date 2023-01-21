@@ -3,9 +3,124 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Version: 41.77"</Description>
+      <Description>"Version: 41.78.16 (steam)"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>30</ID>
+      <Description>"Keep base health at 100%"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  This tries to keep base health at 100
+}
+
+[ENABLE]
+
+aobscan(HEALTH_UPDATE,C5 FA 11 45 18 * * * * 07) // should be unique
+
+HEALTH_UPDATE:
+  vmovss [rbp+18],xmm4
+
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db C5 FA 11 45 18
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F02871E2EC
+
+1F02871E2BD: 44 8B 44 B0 10           - mov r8d,[rax+rsi*4+10]
+1F02871E2C2: 47 8B 5C C4 08           - mov r11d,[r12+r8*8+08]
+1F02871E2C7: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
+1F02871E2CB: 41 81 FB 60 46 E8 00     - cmp r11d,00E84660
+1F02871E2D2: 0F 85 0E 02 00 00        - jne 1F02871E4E6
+1F02871E2D8: 44 8B 44 B0 14           - mov r8d,[rax+rsi*4+14]
+1F02871E2DD: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
+1F02871E2E2: C5 F8 2E E0              - vucomiss xmm4,xmm0
+1F02871E2E6: 76 1A                    - jna 1F02871E302
+1F02871E2E8: C5 FA 58 C5              - vaddss xmm0,xmm0,xmm5
+// ---------- INJECTING HERE ----------
+1F02871E2EC: C5 FA 11 45 18           - vmovss [rbp+18],xmm0
+// ---------- DONE INJECTING  ----------
+1F02871E2F1: C5 F8 2E 05 07 FA FF FF  - vucomiss xmm0,[1F02871DD00]
+1F02871E2F9: 76 07                    - jna 1F02871E302
+1F02871E2FB: C7 45 18 00 00 C8 42     - mov [rbp+18],42C80000
+1F02871E302: 45 85 C0                 - test r8d,r8d
+1F02871E305: 0F 84 49 01 00 00        - je 1F02871E454
+1F02871E30B: 47 8B 4C C4 08           - mov r9d,[r12+r8*8+08]
+1F02871E310: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
+1F02871E314: 41 81 F9 60 46 E8 00     - cmp r9d,00E84660
+1F02871E31B: 0F 85 BF 01 00 00        - jne 1F02871E4E0
+1F02871E321: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>35</ID>
+      <Description>"Unlimited ShotgunAmmo"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(SHOTGUN_SHELL_UPDATE,48 3B 01 85 D2 0F 84 0E 00 00 00 89) // should be unique
+
+SHOTGUN_SHELL_UPDATE:
+  inc rax
+registersymbol(SHOTGUN_SHELL_UPDATE)
+
+[DISABLE]
+
+SHOTGUN_SHELL_UPDATE:
+  db 48 3B 01 85 D2
+
+unregistersymbol(SHOTGUN_SHELL_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F01FAFDA83
+
+1F01FAFDA60: 8B 04 24                       - mov eax,[rsp]
+1F01FAFDA63: 48 83 C4 08                    - add rsp,08
+1F01FAFDA67: 41 0F B7 5D 01                 - movzx ebx,word ptr [r13+01]
+1F01FAFDA6C: 48 8B 4D D0                    - mov rcx,[rbp-30]
+1F01FAFDA70: C1 E3 02                       - shl ebx,02
+1F01FAFDA73: 8B 54 D9 38                    - mov edx,[rcx+rbx*8+38]
+1F01FAFDA77: 48 8B 5C D9 30                 - mov rbx,[rcx+rbx*8+30]
+1F01FAFDA7C: C1 EA 15                       - shr edx,15
+1F01FAFDA7F: 83 E2 01                       - and edx,01
+1F01FAFDA82: 59                             - pop rcx
+// ---------- INJECTING HERE ----------
+1F01FAFDA83: 48 3B 01                       - cmp rax,[rcx]
+// ---------- DONE INJECTING  ----------
+1F01FAFDA86: 85 D2                          - test edx,edx
+1F01FAFDA88: 0F 84 0E 00 00 00              - je 1F01FAFDA9C
+1F01FAFDA8E: 89 04 19                       - mov [rcx+rbx],eax
+1F01FAFDA91: F0 83 44 24 C0 00              - lock add dword ptr [rsp-40],00
+1F01FAFDA97: E9 03 00 00 00                 - jmp 1F01FAFDA9F
+1F01FAFDA9C: 89 04 19                       - mov [rcx+rbx],eax
+1F01FAFDA9F: 41 0F B6 5D 03                 - movzx ebx,byte ptr [r13+03]
+1F01FAFDAA4: 49 83 C5 03                    - add r13,03
+1F01FAFDAA8: 49 BA 20 1C 17 A5 FA 7F 00 00  - mov r10,jvm.dll+B91C20
+1F01FAFDAB2: 41 FF 24 DA                    - jmp qword ptr [r10+rbx*8]
+}
+</AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>24</ID>
@@ -73,43 +188,228 @@ for i=1, resultsTotal, 1 do
 end
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"prevent buff health dec (effects only one of the buffs, scratched?)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  Related to buff health updates from stuff like bleeding out
+}
+
+[ENABLE]
+
+aobscan(BUFF_HEALTH_UPDATE,C5 FA 11 41 18 E9) // should be unique
+
+BUFF_HEALTH_UPDATE:
+  nop
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+
+BUFF_HEALTH_UPDATE:
+  db C5 FA 11 41 18
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F028C5B7A5
+
+1F028C5B774: 43 0F B6 5C D4 12              - movzx ebx,byte ptr [r12+r10*8+12]
+1F028C5B77A: 85 DB                          - test ebx,ebx
+1F028C5B77C: 0F 84 AB 20 00 00              - je 1F028C5D82D
+1F028C5B782: 43 0F B6 6C D4 11              - movzx ebp,byte ptr [r12+r10*8+11]
+1F028C5B788: 85 ED                          - test ebp,ebp
+1F028C5B78A: 0F 85 7C 34 00 00              - jne 1F028C5EC0C
+1F028C5B790: C5 FA 59 15 2C F2 FF FF        - vmulss xmm2,xmm0,[1F028C5A9C4]
+1F028C5B798: C5 EA 59 C1                    - vmulss xmm0,xmm2,xmm1
+1F028C5B79C: C5 D2 5C C0                    - vsubss xmm0,xmm5,xmm0
+1F028C5B7A0: 48 8B 4C 24 20                 - mov rcx,[rsp+20]
+// ---------- INJECTING HERE ----------
+1F028C5B7A5: C5 FA 11 41 18                 - vmovss [rcx+18],xmm0
+// ---------- DONE INJECTING  ----------
+1F028C5B7AA: E9 BC F9 FF FF                 - jmp 1F028C5B16B
+1F028C5B7AF: 33 DB                          - xor ebx,ebx
+1F028C5B7B1: 89 5C 24 50                    - mov [rsp+50],ebx
+1F028C5B7B5: E9 B1 F9 FF FF                 - jmp 1F028C5B16B
+1F028C5B7BA: 49 BA 88 70 D0 40 07 00 00 00  - mov r10,0000000740D07088
+1F028C5B7C4: 45 8B 82 A4 01 00 00           - mov r8d,[r10+000001A4]
+1F028C5B7CB: 49 BA E0 D5 67 40 07 00 00 00  - mov r10,000000074067D5E0
+1F028C5B7D5: 41 0F B6 B2 BD 01 00 00        - movzx esi,byte ptr [r10+000001BD]
+1F028C5B7DD: 49 BA 70 E1 67 40 07 00 00 00  - mov r10,000000074067E170
+1F028C5B7E7: 45 0F B6 92 55 01 00 00        - movzx r10d,byte ptr [r10+00000155]
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
+    <CheatEntry>
+      <ID>34</ID>
+      <Description>"Unlimited Shotgun Ammo in mag (not working)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  The shotgun mag dec prevent, but not the one in the chamber
+}
+
+[ENABLE]
+
+aobscan(SHOTGUN_DEC,00 89 04 19 41 0F B6 5D 03) // should be unique
+alloc(newmem,$1000,SHOTGUN_DEC)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [rcx+rbx],eax
+  movzx ebx,byte ptr [r13+03]
+  jmp return
+
+SHOTGUN_DEC+01:
+  jmp newmem
+  nop 3
+return:
+registersymbol(SHOTGUN_DEC)
+
+[DISABLE]
+
+SHOTGUN_DEC+01:
+  db 89 04 19 41 0F B6 5D 03
+
+unregistersymbol(SHOTGUN_DEC)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F01FAFDA9C
+
+1F01FAFDA77: 48 8B 5C D9 30                 - mov rbx,[rcx+rbx*8+30]
+1F01FAFDA7C: C1 EA 15                       - shr edx,15
+1F01FAFDA7F: 83 E2 01                       - and edx,01
+1F01FAFDA82: 59                             - pop rcx
+1F01FAFDA83: 48 3B 01                       - cmp rax,[rcx]
+1F01FAFDA86: 85 D2                          - test edx,edx
+1F01FAFDA88: 0F 84 0E 00 00 00              - je 1F01FAFDA9C
+1F01FAFDA8E: 89 04 19                       - mov [rcx+rbx],eax
+1F01FAFDA91: F0 83 44 24 C0 00              - lock add dword ptr [rsp-40],00
+1F01FAFDA97: E9 03 00 00 00                 - jmp 1F01FAFDA9F
+// ---------- INJECTING HERE ----------
+1F01FAFDA9C: 89 04 19                       - mov [rcx+rbx],eax
+// ---------- DONE INJECTING  ----------
+1F01FAFDA9F: 41 0F B6 5D 03                 - movzx ebx,byte ptr [r13+03]
+1F01FAFDAA4: 49 83 C5 03                    - add r13,03
+1F01FAFDAA8: 49 BA 20 1C 17 A5 FA 7F 00 00  - mov r10,jvm.dll+B91C20
+1F01FAFDAB2: 41 FF 24 DA                    - jmp qword ptr [r10+rbx*8]
+1F01FAFDAB6: 66 90                          - nop 2
+1F01FAFDAB8: 00 00                          - add [rax],al
+1F01FAFDABA: 00 00                          - add [rax],al
+1F01FAFDABC: 00 00                          - add [rax],al
+1F01FAFDABE: 00 00                          - add [rax],al
+1F01FAFDAC0: 80 00 00                       - add byte ptr [rax],00
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of vmovss [rcx+18],xmm0</Description>
+      <AddressString>1F028C5B7A5</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>4C</Byte>
+        <Byte>24</Byte>
+        <Byte>20</Byte>
+      </Before>
+      <Actual>
+        <Byte>C5</Byte>
+        <Byte>FA</Byte>
+        <Byte>11</Byte>
+        <Byte>41</Byte>
+        <Byte>18</Byte>
+      </Actual>
+      <After>
+        <Byte>E9</Byte>
+        <Byte>BC</Byte>
+        <Byte>F9</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [rcx+rbx],eax</Description>
+      <AddressString>1F01FAFDA9C</AddressString>
+      <Before>
+        <Byte>E9</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>04</Byte>
+        <Byte>19</Byte>
+      </Actual>
+      <After>
+        <Byte>41</Byte>
+        <Byte>0F</Byte>
+        <Byte>B6</Byte>
+        <Byte>5D</Byte>
+        <Byte>03</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>bla</Name>
-      <Address>22983000000</Address>
+      <Address>1B15B030000</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>cmd</Name>
-      <Address>22983000400</Address>
+      <Address>1B15B030400</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>arg0</Name>
-      <Address>22983000410</Address>
+      <Address>1B15B030410</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>arg1</Name>
-      <Address>22983000510</Address>
+      <Address>1B15B030510</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>arg2</Name>
-      <Address>22983000610</Address>
+      <Address>1B15B030610</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>result</Name>
-      <Address>22983000710</Address>
+      <Address>1B15B030710</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>pipename</Name>
-      <Address>22983000720</Address>
+      <Address>1B15B030720</Address>
     </SymbolEntry>
   </UserdefinedSymbols>
   <Comments>Find Health:
 - break glass and jump through to get scratch
 - search float between 100 - 70
 - keep searching for a decreased value
+There will be 3 values related to health fairly close to each other
+1. health percentage display
+2. actual health?
+3. health affected by buffs?
 probably called at loading world
 jvm.dll+40D49C - E8 9F9DF7FF           - call jvm.dll+387240
 </Comments>

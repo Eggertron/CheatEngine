@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Epic Games Version: 1.0.17.0.23"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Enable"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  mono_initialize()
+  LaunchMonoDataCollector()
+{$asm}
+[DISABLE]
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("Stranded_Deep.exe")
+</LuaScript>
+</CheatTable>
