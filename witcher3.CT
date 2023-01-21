@@ -224,7 +224,7 @@ witcher3.exe+E9AEBE: 48 83 C4 40        - add rsp,40
       <ID>19</ID>
       <Description>"Enable (Disable before saving game or quitting)"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -685,7 +685,7 @@ dealloc(hundred)
       <ID>14</ID>
       <Description>"Old Codes"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -783,6 +783,10 @@ dealloc(newmem)
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>newmem</Name>
+      <Address>1F0718D0000</Address>
+    </SymbolEntry>
     <SymbolEntry>
       <Name>bla</Name>
       <Address>1B15B030000</Address>
@@ -10284,8 +10288,8 @@ dealloc(newmem)
               <Element Offset="48" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000030" DisplayMethod="signed integer"/>
               <Element Offset="58" Vartype="Byte" Bytesize="1" RLECount="2" OffsetHex="0000003A" DisplayMethod="unsigned integer"/>
               <Element Offset="60" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="0000003C" DisplayMethod="signed integer"/>
-              <Element Offset="72" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000048" DisplayMethod="hexadecimal"/>
               <Element Offset="72" Vartype="Unicode String" Bytesize="32" OffsetHex="00000048" DisplayMethod="unsigned integer"/>
+              <Element Offset="72" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000048" DisplayMethod="hexadecimal"/>
               <Element Offset="76" Vartype="Unicode String" Bytesize="32" OffsetHex="0000004C" DisplayMethod="unsigned integer"/>
               <Element Offset="80" Vartype="Unicode String" Bytesize="32" OffsetHex="00000050" DisplayMethod="unsigned integer"/>
               <Element Offset="84" Vartype="Unicode String" Bytesize="32" OffsetHex="00000054" DisplayMethod="unsigned integer"/>
@@ -12943,6 +12947,8 @@ dealloc(newmem)
       </Elements>
     </Structure>
   </Structures>
+  <LuaScript>getAutoAttachList().add("witcher3.exe")
+</LuaScript>
   <DisassemblerComments>
     <DisassemblerComment>
       <Address>"witcher3.exe"+E9ADAE</Address>
