@@ -8,252 +8,151 @@
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
-      <ID>30</ID>
-      <Description>"Keep base health at 100%"</Description>
-      <LastState/>
+      <ID>39</ID>
+      <Description>"Health Base 100%"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : ProjectZomboid64.exe
   Version: 
-  Date   : 2023-01-16
+  Date   : 2023-01-21
   Author : Edgar Han
 
-  This tries to keep base health at 100
+  This might be a general health read function but haven't checked if
+  it also checks enemy health.
 }
 
 [ENABLE]
 
-aobscan(HEALTH_UPDATE,C5 FA 11 45 18 * * * * 07) // should be unique
+aobscan(HEALTH_READ,C4 C1 7A 10 54 DC 24 * * * * * * * * 0F 83 4C) // should be unique
+alloc(newmem,$1000,HEALTH_READ)
 
-HEALTH_UPDATE:
-  vmovss [rbp+18],xmm4
+label(code)
+label(return)
 
-registersymbol(HEALTH_UPDATE)
+newmem:
+  mov [r12+rbx*8+24],(float)100
+
+code:
+  //vmovss xmm2,[r12+rbx*8+24]
+  jmp return
+
+HEALTH_READ:
+  jmp newmem
+  nop 2
+return:
+registersymbol(HEALTH_READ)
 
 [DISABLE]
 
-HEALTH_UPDATE:
-  db C5 FA 11 45 18
+HEALTH_READ:
+  db C4 C1 7A 10 54 DC 24
 
-unregistersymbol(*)
+unregistersymbol(HEALTH_READ)
+dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 1F02871E2EC
+// ORIGINAL CODE - INJECTION POINT: 17E8855F59F
 
-1F02871E2BD: 44 8B 44 B0 10           - mov r8d,[rax+rsi*4+10]
-1F02871E2C2: 47 8B 5C C4 08           - mov r11d,[r12+r8*8+08]
-1F02871E2C7: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
-1F02871E2CB: 41 81 FB 60 46 E8 00     - cmp r11d,00E84660
-1F02871E2D2: 0F 85 0E 02 00 00        - jne 1F02871E4E6
-1F02871E2D8: 44 8B 44 B0 14           - mov r8d,[rax+rsi*4+14]
-1F02871E2DD: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
-1F02871E2E2: C5 F8 2E E0              - vucomiss xmm4,xmm0
-1F02871E2E6: 76 1A                    - jna 1F02871E302
-1F02871E2E8: C5 FA 58 C5              - vaddss xmm0,xmm0,xmm5
+17E8855F56B: 0F 4C FA                       - cmovl edi,edx
+17E8855F56E: 81 FF E8 03 00 00              - cmp edi,000003E8
+17E8855F574: 0F 47 F9                       - cmova edi,ecx
+17E8855F577: 41 03 FB                       - add edi,r11d
+17E8855F57A: 46 8B 4C 9E 10                 - mov r9d,[rsi+r11*4+10]
+17E8855F57F: C4 81 7A 10 94 CC 1C 02 00 00  - vmovss xmm2,[r12+r9*8+0000021C]
+17E8855F589: C5 D0 57 ED                    - vxorps xmm5,xmm5,xmm5
+17E8855F58D: C5 F8 2E EA                    - vucomiss xmm5,xmm2
+17E8855F591: 0F 83 E3 09 00 00              - jae 17E8855FF7A
+17E8855F597: 43 8B 9C CC D4 03 00 00        - mov ebx,[r12+r9*8+000003D4]
 // ---------- INJECTING HERE ----------
-1F02871E2EC: C5 FA 11 45 18           - vmovss [rbp+18],xmm0
+17E8855F59F: C4 C1 7A 10 54 DC 24           - vmovss xmm2,[r12+rbx*8+24]
 // ---------- DONE INJECTING  ----------
-1F02871E2F1: C5 F8 2E 05 07 FA FF FF  - vucomiss xmm0,[1F02871DD00]
-1F02871E2F9: 76 07                    - jna 1F02871E302
-1F02871E2FB: C7 45 18 00 00 C8 42     - mov [rbp+18],42C80000
-1F02871E302: 45 85 C0                 - test r8d,r8d
-1F02871E305: 0F 84 49 01 00 00        - je 1F02871E454
-1F02871E30B: 47 8B 4C C4 08           - mov r9d,[r12+r8*8+08]
-1F02871E310: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
-1F02871E314: 41 81 F9 60 46 E8 00     - cmp r9d,00E84660
-1F02871E31B: 0F 85 BF 01 00 00        - jne 1F02871E4E0
-1F02871E321: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
+17E8855F5A6: C5 F0 57 C9                    - vxorps xmm1,xmm1,xmm1
+17E8855F5AA: C5 F8 2E CA                    - vucomiss xmm1,xmm2
+17E8855F5AE: 0F 83 4C 0A 00 00              - jae 17E88560000
+17E8855F5B4: 47 0F B6 8C CC 0E 03 00 00     - movzx r9d,byte ptr [r12+r9*8+0000030E]
+17E8855F5BD: 45 85 C9                       - test r9d,r9d
+17E8855F5C0: 0F 85 B6 0A 00 00              - jne 17E8856007C
+17E8855F5C6: 45 8B CB                       - mov r9d,r11d
+17E8855F5C9: 41 FF C1                       - inc r9d
+17E8855F5CC: 44 3B CF                       - cmp r9d,edi
+17E8855F5CF: 7D 05                          - jnl 17E8855F5D6
 }
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>35</ID>
-      <Description>"Unlimited ShotgunAmmo"</Description>
-      <LastState/>
+      <ID>41</ID>
+      <Description>"Health Buff 100%"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : ProjectZomboid64.exe
   Version: 
-  Date   : 2023-01-16
+  Date   : 2023-01-21
   Author : Edgar Han
 
-  This script does blah blah blah
+  This might be the read of the buff health, needs to check for zombie health read
 }
 
 [ENABLE]
 
-aobscan(SHOTGUN_SHELL_UPDATE,48 3B 01 85 D2 0F 84 0E 00 00 00 89) // should be unique
+aobscan(HEALTH_BUFF_READ,C5 F8 2E 5E 18 * 0F 46 D3 85 C9 0F 84 62) // should be unique
+alloc(newmem,$1000,HEALTH_BUFF_READ)
 
-SHOTGUN_SHELL_UPDATE:
-  inc rax
-registersymbol(SHOTGUN_SHELL_UPDATE)
+label(code)
+label(return)
+
+newmem:
+  mov [rsi+18],(float)100
+
+code:
+  vucomiss xmm3,[rsi+18]
+  jmp return
+
+HEALTH_BUFF_READ:
+  jmp newmem
+return:
+registersymbol(HEALTH_BUFF_READ)
 
 [DISABLE]
 
-SHOTGUN_SHELL_UPDATE:
-  db 48 3B 01 85 D2
+HEALTH_BUFF_READ:
+  db C5 F8 2E 5E 18
 
-unregistersymbol(SHOTGUN_SHELL_UPDATE)
+unregistersymbol(HEALTH_BUFF_READ)
+dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 1F01FAFDA83
+// ORIGINAL CODE - INJECTION POINT: 17E88983EA7
 
-1F01FAFDA60: 8B 04 24                       - mov eax,[rsp]
-1F01FAFDA63: 48 83 C4 08                    - add rsp,08
-1F01FAFDA67: 41 0F B7 5D 01                 - movzx ebx,word ptr [r13+01]
-1F01FAFDA6C: 48 8B 4D D0                    - mov rcx,[rbp-30]
-1F01FAFDA70: C1 E3 02                       - shl ebx,02
-1F01FAFDA73: 8B 54 D9 38                    - mov edx,[rcx+rbx*8+38]
-1F01FAFDA77: 48 8B 5C D9 30                 - mov rbx,[rcx+rbx*8+30]
-1F01FAFDA7C: C1 EA 15                       - shr edx,15
-1F01FAFDA7F: 83 E2 01                       - and edx,01
-1F01FAFDA82: 59                             - pop rcx
+17E88983E75: 66 66 66 0F 1F 84 00 00 00 00 00  - nop word ptr [rax+rax+00000000]
+17E88983E80: 41 8B DA                          - mov ebx,r10d
+17E88983E83: 8B 4C 9A 10                       - mov ecx,[rdx+rbx*4+10]
+17E88983E87: 45 8B 54 CC 08                    - mov r10d,[r12+rcx*8+08]
+17E88983E8C: 49 8D 34 CC                       - lea rsi,[r12+rcx*8]
+17E88983E90: 41 81 FA 60 46 E8 00              - cmp r10d,00E84660
+17E88983E97: 0F 85 A1 04 00 00                 - jne 17E8898433E
+17E88983E9D: 8B 4C 9A 14                       - mov ecx,[rdx+rbx*4+14]
+17E88983EA1: 45 8B D3                          - mov r10d,r11d
+17E88983EA4: 41 FF C2                          - inc r10d
 // ---------- INJECTING HERE ----------
-1F01FAFDA83: 48 3B 01                       - cmp rax,[rcx]
+17E88983EA7: C5 F8 2E 5E 18                    - vucomiss xmm3,[rsi+18]
 // ---------- DONE INJECTING  ----------
-1F01FAFDA86: 85 D2                          - test edx,edx
-1F01FAFDA88: 0F 84 0E 00 00 00              - je 1F01FAFDA9C
-1F01FAFDA8E: 89 04 19                       - mov [rcx+rbx],eax
-1F01FAFDA91: F0 83 44 24 C0 00              - lock add dword ptr [rsp-40],00
-1F01FAFDA97: E9 03 00 00 00                 - jmp 1F01FAFDA9F
-1F01FAFDA9C: 89 04 19                       - mov [rcx+rbx],eax
-1F01FAFDA9F: 41 0F B6 5D 03                 - movzx ebx,byte ptr [r13+03]
-1F01FAFDAA4: 49 83 C5 03                    - add r13,03
-1F01FAFDAA8: 49 BA 20 1C 17 A5 FA 7F 00 00  - mov r10,jvm.dll+B91C20
-1F01FAFDAB2: 41 FF 24 DA                    - jmp qword ptr [r10+rbx*8]
+17E88983EAC: 45 0F 46 D3                       - cmovbe r10d,r11d
+17E88983EB0: 85 C9                             - test ecx,ecx
+17E88983EB2: 0F 84 62 03 00 00                 - je 17E8898421A
+17E88983EB8: 45 8B 5C CC 08                    - mov r11d,[r12+rcx*8+08]
+17E88983EBD: 49 8D 34 CC                       - lea rsi,[r12+rcx*8]
+17E88983EC1: 41 81 FB 60 46 E8 00              - cmp r11d,00E84660
+17E88983EC8: 0F 85 69 04 00 00                 - jne 17E88984337
+17E88983ECE: 8B 4C 9A 18                       - mov ecx,[rdx+rbx*4+18]
+17E88983ED2: 45 8B DA                          - mov r11d,r10d
+17E88983ED5: 41 FF C3                          - inc r11d
 }
 </AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>24</ID>
-      <Description>"Health Dec Values Scan"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{$lua}
-if syntaxcheck then return end
-
-[ENABLE]
-
-scan = AOBScan("C5 FA 11 04 19 41 0F B6 5D 03") -- gets list of scan results
-resultsTotal = scan.Count
-registerSymbol("resultsTotal", resultsTotal)
-
-function health_scan_symbols(t)
-  print("registering symbols")
-  for i=1, resultsTotal, 1 do
-    registerSymbol("health_dec" .. tostring(i),scan[i-1])
-  end
-
-  scan.destroy()
-  t.destroy()
-end
-
-print("remove existing timers")
-if heath_scan_timer then heath_scan_timer.destroy(); heath_scan_timer=nil end
-
-print("create timer")
-local health_scan_timer = createTimer()
-
-health_scan_timer.Interval = 1
-health_scan_timer.OnTimer = health_scan_symbols
-
-[DISABLE]
-
-for i=1, resultsTotal, 1 do
-  unregisterSymbol("health_dec" .. tostring(i))
-end
-
-resultsTotal = nil
-unregisterSymbol("resultsTotal")
-
-{$asm}
-</AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>25</ID>
-          <Description>"Disable Health Dec"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{$lua}
-if syntaxcheck then return end
-
-[ENABLE]
-for i=1, resultsTotal, 1 do
-  -- nop operation
-  writeBytes("health_dec" .. tostring(i), 0x90, 0x90, 0x90, 0x90, 0x90)
-end
- 
-[DISABLE]
-for i=1, resultsTotal, 1 do
-  -- nop operation
-  writeBytes("health_dec" .. tostring(i), 0x41, 0x0F, 0xB6, 0x5D, 0x03)
-end
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>29</ID>
-          <Description>"prevent buff health dec (effects only one of the buffs, scratched?)"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : ProjectZomboid64.exe
-  Version: 
-  Date   : 2023-01-16
-  Author : Edgar Han
-
-  Related to buff health updates from stuff like bleeding out
-}
-
-[ENABLE]
-
-aobscan(BUFF_HEALTH_UPDATE,C5 FA 11 41 18 E9) // should be unique
-
-BUFF_HEALTH_UPDATE:
-  nop
-  nop
-  nop
-  nop
-  nop
-
-[DISABLE]
-
-BUFF_HEALTH_UPDATE:
-  db C5 FA 11 41 18
-
-unregistersymbol(*)
-
-{
-// ORIGINAL CODE - INJECTION POINT: 1F028C5B7A5
-
-1F028C5B774: 43 0F B6 5C D4 12              - movzx ebx,byte ptr [r12+r10*8+12]
-1F028C5B77A: 85 DB                          - test ebx,ebx
-1F028C5B77C: 0F 84 AB 20 00 00              - je 1F028C5D82D
-1F028C5B782: 43 0F B6 6C D4 11              - movzx ebp,byte ptr [r12+r10*8+11]
-1F028C5B788: 85 ED                          - test ebp,ebp
-1F028C5B78A: 0F 85 7C 34 00 00              - jne 1F028C5EC0C
-1F028C5B790: C5 FA 59 15 2C F2 FF FF        - vmulss xmm2,xmm0,[1F028C5A9C4]
-1F028C5B798: C5 EA 59 C1                    - vmulss xmm0,xmm2,xmm1
-1F028C5B79C: C5 D2 5C C0                    - vsubss xmm0,xmm5,xmm0
-1F028C5B7A0: 48 8B 4C 24 20                 - mov rcx,[rsp+20]
-// ---------- INJECTING HERE ----------
-1F028C5B7A5: C5 FA 11 41 18                 - vmovss [rcx+18],xmm0
-// ---------- DONE INJECTING  ----------
-1F028C5B7AA: E9 BC F9 FF FF                 - jmp 1F028C5B16B
-1F028C5B7AF: 33 DB                          - xor ebx,ebx
-1F028C5B7B1: 89 5C 24 50                    - mov [rsp+50],ebx
-1F028C5B7B5: E9 B1 F9 FF FF                 - jmp 1F028C5B16B
-1F028C5B7BA: 49 BA 88 70 D0 40 07 00 00 00  - mov r10,0000000740D07088
-1F028C5B7C4: 45 8B 82 A4 01 00 00           - mov r8d,[r10+000001A4]
-1F028C5B7CB: 49 BA E0 D5 67 40 07 00 00 00  - mov r10,000000074067D5E0
-1F028C5B7D5: 41 0F B6 B2 BD 01 00 00        - movzx esi,byte ptr [r10+000001BD]
-1F028C5B7DD: 49 BA 70 E1 67 40 07 00 00 00  - mov r10,000000074067E170
-1F028C5B7E7: 45 0F B6 92 55 01 00 00        - movzx r10d,byte ptr [r10+00000155]
-}
-</AssemblerScript>
-        </CheatEntry>
-      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>34</ID>
       <Description>"Unlimited Shotgun Ammo in mag (not working)"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : ProjectZomboid64.exe
   Version: 
@@ -320,6 +219,129 @@ dealloc(newmem)
 1F01FAFDAC0: 80 00 00                       - add byte ptr [rax],00
 }
 </AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>40</ID>
+      <Description>"Not working"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>30</ID>
+          <Description>"Keep base health at 100% (not working)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  This tries to keep base health at 100
+}
+
+[ENABLE]
+
+aobscan(HEALTH_UPDATE,C5 FA 11 45 18 * * * * 07) // should be unique
+
+HEALTH_UPDATE:
+  vmovss [rbp+18],xmm4
+
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db C5 FA 11 45 18
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F02871E2EC
+
+1F02871E2BD: 44 8B 44 B0 10           - mov r8d,[rax+rsi*4+10]
+1F02871E2C2: 47 8B 5C C4 08           - mov r11d,[r12+r8*8+08]
+1F02871E2C7: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
+1F02871E2CB: 41 81 FB 60 46 E8 00     - cmp r11d,00E84660
+1F02871E2D2: 0F 85 0E 02 00 00        - jne 1F02871E4E6
+1F02871E2D8: 44 8B 44 B0 14           - mov r8d,[rax+rsi*4+14]
+1F02871E2DD: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
+1F02871E2E2: C5 F8 2E E0              - vucomiss xmm4,xmm0
+1F02871E2E6: 76 1A                    - jna 1F02871E302
+1F02871E2E8: C5 FA 58 C5              - vaddss xmm0,xmm0,xmm5
+// ---------- INJECTING HERE ----------
+1F02871E2EC: C5 FA 11 45 18           - vmovss [rbp+18],xmm0
+// ---------- DONE INJECTING  ----------
+1F02871E2F1: C5 F8 2E 05 07 FA FF FF  - vucomiss xmm0,[1F02871DD00]
+1F02871E2F9: 76 07                    - jna 1F02871E302
+1F02871E2FB: C7 45 18 00 00 C8 42     - mov [rbp+18],42C80000
+1F02871E302: 45 85 C0                 - test r8d,r8d
+1F02871E305: 0F 84 49 01 00 00        - je 1F02871E454
+1F02871E30B: 47 8B 4C C4 08           - mov r9d,[r12+r8*8+08]
+1F02871E310: 4B 8D 2C C4              - lea rbp,[r12+r8*8]
+1F02871E314: 41 81 F9 60 46 E8 00     - cmp r9d,00E84660
+1F02871E31B: 0F 85 BF 01 00 00        - jne 1F02871E4E0
+1F02871E321: C5 FA 10 45 18           - vmovss xmm0,[rbp+18]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>35</ID>
+          <Description>"Unlimited ShotgunAmmo"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : ProjectZomboid64.exe
+  Version: 
+  Date   : 2023-01-16
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(SHOTGUN_SHELL_UPDATE,48 3B 01 85 D2 0F 84 0E 00 00 00 89) // should be unique
+
+SHOTGUN_SHELL_UPDATE:
+  inc rax
+registersymbol(SHOTGUN_SHELL_UPDATE)
+
+[DISABLE]
+
+SHOTGUN_SHELL_UPDATE:
+  db 48 3B 01 85 D2
+
+unregistersymbol(SHOTGUN_SHELL_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1F01FAFDA83
+
+1F01FAFDA60: 8B 04 24                       - mov eax,[rsp]
+1F01FAFDA63: 48 83 C4 08                    - add rsp,08
+1F01FAFDA67: 41 0F B7 5D 01                 - movzx ebx,word ptr [r13+01]
+1F01FAFDA6C: 48 8B 4D D0                    - mov rcx,[rbp-30]
+1F01FAFDA70: C1 E3 02                       - shl ebx,02
+1F01FAFDA73: 8B 54 D9 38                    - mov edx,[rcx+rbx*8+38]
+1F01FAFDA77: 48 8B 5C D9 30                 - mov rbx,[rcx+rbx*8+30]
+1F01FAFDA7C: C1 EA 15                       - shr edx,15
+1F01FAFDA7F: 83 E2 01                       - and edx,01
+1F01FAFDA82: 59                             - pop rcx
+// ---------- INJECTING HERE ----------
+1F01FAFDA83: 48 3B 01                       - cmp rax,[rcx]
+// ---------- DONE INJECTING  ----------
+1F01FAFDA86: 85 D2                          - test edx,edx
+1F01FAFDA88: 0F 84 0E 00 00 00              - je 1F01FAFDA9C
+1F01FAFDA8E: 89 04 19                       - mov [rcx+rbx],eax
+1F01FAFDA91: F0 83 44 24 C0 00              - lock add dword ptr [rsp-40],00
+1F01FAFDA97: E9 03 00 00 00                 - jmp 1F01FAFDA9F
+1F01FAFDA9C: 89 04 19                       - mov [rcx+rbx],eax
+1F01FAFDA9F: 41 0F B6 5D 03                 - movzx ebx,byte ptr [r13+03]
+1F01FAFDAA4: 49 83 C5 03                    - add r13,03
+1F01FAFDAA8: 49 BA 20 1C 17 A5 FA 7F 00 00  - mov r10,jvm.dll+B91C20
+1F01FAFDAB2: 41 FF 24 DA                    - jmp qword ptr [r10+rbx*8]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
@@ -415,6 +437,6 @@ jvm.dll+40D49C - E8 9F9DF7FF           - call jvm.dll+387240
 </Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
-
+getAutoAttachList().add("ProjectZomboid64.exe")
 </LuaScript>
 </CheatTable>
