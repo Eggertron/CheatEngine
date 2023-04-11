@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"App Version: 1.03.2"</Description>
+      <Description>"App Version: 1.08.1"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
-      <Description>"Calibration Version: 1.03.3"</Description>
+      <Description>"Calibration Version: 1.08.1"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>33</ID>
       <Description>"Health Update on Damage"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -109,7 +109,7 @@ start_protected_game.exe+42EE27: 0F 84 9F 01 00 00  - je start_protected_game.ex
     </CheatEntry>
     <CheatEntry>
       <ID>44</ID>
-      <Description>"Rune Update"</Description>
+      <Description>"Rune Update (not working)"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
@@ -203,7 +203,7 @@ start_protected_game.exe+258BCC: 48 63 00              - movsxd  rax,dword ptr [
     <CheatEntry>
       <ID>60</ID>
       <Description>"Inf FP"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -285,7 +285,7 @@ start_protected_game.exe+430307: 80 E2 01                 - and dl,01
         <CheatEntry>
           <ID>70</ID>
           <Description>"Max Item Inventory on use?"</Description>
-          <LastState Activated="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -448,7 +448,7 @@ start_protected_game.exe+248C63: 48 8B D6        - mov rdx,rsi
     </CheatEntry>
     <CheatEntry>
       <ID>86</ID>
-      <Description>"Player Game Data Hook"</Description>
+      <Description>"Player Game Data Hook (not working?)"</Description>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
@@ -526,7 +526,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>94</ID>
           <Description>"Base"</Description>
-          <LastState Value="362F4650" RealAddress="7FF45B3B2BD0"/>
+          <LastState Value="699C2D30" RealAddress="7FF419CBD130"/>
           <ShowAsHex>1</ShowAsHex>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
@@ -538,7 +538,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>88</ID>
           <Description>"HP"</Description>
-          <LastState Value="522" RealAddress="7FF45B3B2BE0"/>
+          <LastState Value="474" RealAddress="7FF419CBD140"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -549,7 +549,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>89</ID>
           <Description>"HP Max"</Description>
-          <LastState Value="522" RealAddress="7FF45B3B2BE4"/>
+          <LastState Value="474" RealAddress="7FF419CBD144"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -560,7 +560,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>87</ID>
           <Description>"Faith"</Description>
-          <LastState Value="9" RealAddress="7FF45B3B2C24"/>
+          <LastState Value="29" RealAddress="7FF419CBD184"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -571,7 +571,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>90</ID>
           <Description>"Stamina (wrong, it's the third)"</Description>
-          <LastState Value="92" RealAddress="7FF45B3B2BFC"/>
+          <LastState Value="103" RealAddress="7FF419CBD15C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -582,7 +582,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>91</ID>
           <Description>"FP"</Description>
-          <LastState Value="68" RealAddress="7FF45B3B2BEC"/>
+          <LastState Value="95" RealAddress="7FF419CBD14C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -593,7 +593,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>92</ID>
           <Description>"Level"</Description>
-          <LastState Value="9" RealAddress="7FF45B3B2C38"/>
+          <LastState Value="81" RealAddress="7FF419CBD198"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -604,7 +604,7 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>93</ID>
           <Description>"Runes Held"</Description>
-          <LastState Value="65987" Activated="1" RealAddress="7FF45B3B2C3C"/>
+          <LastState Value="757575" RealAddress="7FF419CBD19C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -3747,4 +3747,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
       </Elements>
     </Structure>
   </Structures>
+  <Comments>To use cheat engine on this game, you'll need to find the game folder and locate eldenring.exe and rename it to start_protected_game.exe (you can rename the original start_protected_game.exe to anything else). Now, launch the game from Steam and it will start without EAC. 
+</Comments>
 </CheatTable>
