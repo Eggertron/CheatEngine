@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 100408"</Description>
+      <Description>"Version: 103250"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -24,7 +24,7 @@
     <CheatEntry>
       <ID>246</ID>
       <Description>"Inf Item Usage (recharging)"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -38,45 +38,43 @@
 
 [ENABLE]
 
-aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B A4 24 E0 00 00 00 4C 8B E8) // should be unique
+aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B BC 24 E0 00 00 00 4C 8B F0) // should be unique
 ITEM_DEC_RECHARGE:
-  mov r12d,0
+  mov r15d,0
   nop 2
 registersymbol(ITEM_DEC_RECHARGE)
 
 [DISABLE]
 
 ITEM_DEC_RECHARGE:
-  db 44 8B A4 24 E0 00 00 00
+  db 44 8B BC 24 E0 00 00 00 4C 8B F0
 
 unregistersymbol(ITEM_DEC_RECHARGE)
 
 {
 // ORIGINAL CODE - INJECTION POINT: NMS.exe+3CA318
 
-NMS.exe+3CA2E5: 48 8B 94 24 C8 00 00 00  - mov rdx,[rsp+000000C8]
-NMS.exe+3CA2ED: 49 8B CD                 - mov rcx,r13
-NMS.exe+3CA2F0: F3 0F 2C C0              - cvttss2si eax,xmm0
-NMS.exe+3CA2F4: 89 84 24 E0 00 00 00     - mov [rsp+000000E0],eax
-NMS.exe+3CA2FB: E8 D0 D8 01 00           - call NMS.exe+3E7BD0
-NMS.exe+3CA300: 48 8B 94 24 D8 00 00 00  - mov rdx,[rsp+000000D8]
-NMS.exe+3CA308: 49 8B CC                 - mov rcx,r12
-NMS.exe+3CA30B: 48 89 44 24 40           - mov [rsp+40],rax
-NMS.exe+3CA310: 01 58 18                 - add [rax+18],ebx
-NMS.exe+3CA313: E8 B8 D8 01 00           - call NMS.exe+3E7BD0
-// ---------- INJECTING HERE ----------
-NMS.exe+3CA318: 44 8B A4 24 E0 00 00 00  - mov r12d,[rsp+000000E0]
-// ---------- DONE INJECTING  ----------
-NMS.exe+3CA320: 4C 8B E8                 - mov r13,rax
-NMS.exe+3CA323: 44 29 60 18              - sub [rax+18],r12d
-NMS.exe+3CA327: 48 8B 44 24 30           - mov rax,[rsp+30]
-NMS.exe+3CA32C: 48 85 C0                 - test rax,rax
-NMS.exe+3CA32F: 74 6F                    - je NMS.exe+3CA3A0
-NMS.exe+3CA331: 83 B8 70 02 00 00 01     - cmp dword ptr [rax+00000270],01
-NMS.exe+3CA338: 75 66                    - jne NMS.exe+3CA3A0
-NMS.exe+3CA33A: 8B 88 90 02 00 00        - mov ecx,[rax+00000290]
-NMS.exe+3CA340: E8 EB E9 BD 00           - call NMS.exe+FA8D30
-NMS.exe+3CA345: 83 F8 13                 - cmp eax,13
+NMS.exe+3CF2F1 - E8 2AC00100           - call NMS.exe+3EB320
+NMS.exe+3CF2F6 - 48 8B 94 24 D8000000  - mov rdx,[rsp+000000D8]
+NMS.exe+3CF2FE - 49 8B CF              - mov rcx,r15
+NMS.exe+3CF301 - 48 89 44 24 30        - mov [rsp+30],rax
+NMS.exe+3CF306 - 01 58 18              - add [rax+18],ebx
+NMS.exe+3CF309 - E8 12C00100           - call NMS.exe+3EB320
+
+NMS.exe+3CF30E - 44 8B BC 24 E0000000  - mov r15d,[rsp+000000E0]
+
+NMS.exe+3CF316 - 4C 8B F0              - mov r14,rax
+NMS.exe+3CF319 - 44 29 78 18           - sub [rax+18],r15d
+NMS.exe+3CF31D - 4D 85 E4              - test r12,r12
+NMS.exe+3CF320 - 74 75                 - je NMS.exe+3CF397
+NMS.exe+3CF322 - 41 83 BC 24 70020000 01 - cmp dword ptr [r12+00000270],01
+NMS.exe+3CF32B - 75 6A                 - jne NMS.exe+3CF397
+NMS.exe+3CF32D - 41 8B 8C 24 90020000  - mov ecx,[r12+00000290]
+NMS.exe+3CF335 - E8 06E1BF00           - call NMS.exe+FCD440
+NMS.exe+3CF33A - 83 F8 13              - cmp eax,13
+NMS.exe+3CF33D - 74 58                 - je NMS.exe+3CF397
+NMS.exe+3CF33F - 48 8B 0D A2B25D04     - mov rcx,[NMS.exe+49AA5E8]
+
 }
 </AssemblerScript>
     </CheatEntry>
@@ -95,9 +93,10 @@ NMS.exe+3CA345: 83 F8 13                 - cmp eax,13
 
 [ENABLE]
 
-aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,39 69 18 0F 4C 71 18) // should be unique
+aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,44 39 65 18 44 0F 4C 75 18 48 3B DE) // should be unique
 ITEM_DEC_CRAFTING:
-  mov esi,0
+  mov r14d,0
+  nop
   nop
   nop
 registersymbol(ITEM_DEC_CRAFTING)
@@ -105,36 +104,42 @@ registersymbol(ITEM_DEC_CRAFTING)
 [DISABLE]
 
 ITEM_DEC_CRAFTING:
-  db 39 69 18 0F 4C 71 18
+  db 44 39 65 18 44 0F 4C 75 18 48 3B DE
 
 unregistersymbol(ITEM_DEC_CRAFTING)
 
 {
 // ORIGINAL CODE - INJECTION POINT: NMS.exe+3C33B5
 
-NMS.exe+3C3386: 49 8B CF                       - mov rcx,r15
-NMS.exe+3C3389: E8 62 F1 01 00                 - call NMS.exe+3E24F0
-NMS.exe+3C338E: 4D 8B F7                       - mov r14,r15
-NMS.exe+3C3391: 4C 3B FF                       - cmp r15,rdi
-NMS.exe+3C3394: 74 65                          - je NMS.exe+3C33FB
-NMS.exe+3C3396: 49 BD AB AA AA AA AA AA AA AA  - mov r13,AAAAAAAAAAAAAAAB
-NMS.exe+3C33A0: 49 8B 0E                       - mov rcx,[r14]
-NMS.exe+3C33A3: 8B F5                          - mov esi,ebp
-NMS.exe+3C33A5: 49 8B 9C 24 88 00 00 00        - mov rbx,[r12+00000088]
-NMS.exe+3C33AD: 49 8B 94 24 90 00 00 00        - mov rdx,[r12+00000090]
-// ---------- INJECTING HERE ----------
-NMS.exe+3C33B5: 39 69 18                       - cmp [rcx+18],ebp
-// ---------- DONE INJECTING  ----------
-NMS.exe+3C33B8: 0F 4C 71 18                    - cmovl esi,[rcx+18]
-NMS.exe+3C33BC: 48 3B DA                       - cmp rbx,rdx
-NMS.exe+3C33BF: 74 2A                          - je NMS.exe+3C33EB
-NMS.exe+3C33C1: 44 8B 41 2C                    - mov r8d,[rcx+2C]
-NMS.exe+3C33C5: 44 8B 49 28                    - mov r9d,[rcx+28]
-NMS.exe+3C33C9: 0F 1F 80 00 00 00 00           - nop dword ptr [rax+00000000]
-NMS.exe+3C33D0: 44 3B 4B 28                    - cmp r9d,[rbx+28]
-NMS.exe+3C33D4: 0F 94 C1                       - sete cl
-NMS.exe+3C33D7: 44 3B 43 2C                    - cmp r8d,[rbx+2C]
-NMS.exe+3C33DB: 0F 94 C0                       - sete al
+NMS.exe+3C86F6 - 4C 3B E7              - cmp r12,rdi
+NMS.exe+3C86F9 - 74 7F                 - je NMS.exe+3C877A
+NMS.exe+3C86FB - 44 8B A4 24 C0000000  - mov r12d,[rsp+000000C0]
+NMS.exe+3C8703 - 49 BD ABAAAAAAAAAAAAAA - mov r13,AAAAAAAAAAAAAAAB
+NMS.exe+3C870D - 0F1F 00               - nop dword ptr [rax]
+NMS.exe+3C8710 - 49 8B 2F              - mov rbp,[r15]
+NMS.exe+3C8713 - 45 8B F4              - mov r14d,r12d
+NMS.exe+3C8716 - 48 8B 9E 88000000     - mov rbx,[rsi+00000088]
+NMS.exe+3C871D - 48 8B B6 90000000     - mov rsi,[rsi+00000090]
+
+NMS.exe+3C8724 - 44 39 65 18           - cmp [rbp+18],r12d
+
+NMS.exe+3C8728 - 44 0F4C 75 18         - cmovl r14d,[rbp+18]
+NMS.exe+3C872D - 48 3B DE              - cmp rbx,rsi
+NMS.exe+3C8730 - 74 1E                 - je NMS.exe+3C8750
+NMS.exe+3C8732 - 48 8D 53 28           - lea rdx,[rbx+28]
+NMS.exe+3C8736 - 48 8D 4D 28           - lea rcx,[rbp+28]
+NMS.exe+3C873A - E8 F1C00501           - call NMS.exe+1424830
+NMS.exe+3C873F - 84 C0                 - test al,al
+NMS.exe+3C8741 - 0F85 8F000000         - jne NMS.exe+3C87D6
+NMS.exe+3C8747 - 48 83 C3 30           - add rbx,30
+NMS.exe+3C874B - 48 3B DE              - cmp rbx,rsi
+NMS.exe+3C874E - 75 E2                 - jne NMS.exe+3C8732
+NMS.exe+3C8750 - 48 8B B4 24 A8000000  - mov rsi,[rsp+000000A8]
+NMS.exe+3C8758 - 33 DB                 - xor ebx,ebx
+NMS.exe+3C875A - 44 29 73 18           - sub [rbx+18],r14d
+NMS.exe+3C875E - 45 2B E6              - sub r12d,r14d
+NMS.exe+3C8761 - 49 83 C7 08           - add r15,08
+                  - sete al
 }
 </AssemblerScript>
     </CheatEntry>
@@ -1179,7 +1184,8 @@ dealloc(newmem)
   </UserdefinedSymbols>
   <Comments>Always use the VEH debugger.
 The game seems to catch the use of memory allocation so try to avoid alloc().
-Items are 4 bytes dec.</Comments>
+Items are 4 bytes dec.
+</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("NMS.exe")
