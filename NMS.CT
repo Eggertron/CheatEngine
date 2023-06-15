@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 103250"</Description>
+      <Description>"Version: 105971"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -24,7 +24,7 @@
     <CheatEntry>
       <ID>246</ID>
       <Description>"Inf Item Usage (recharging)"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
@@ -140,6 +140,69 @@ NMS.exe+3C875A - 44 29 73 18           - sub [rbx+18],r14d
 NMS.exe+3C875E - 45 2B E6              - sub r12d,r14d
 NMS.exe+3C8761 - 49 83 C7 08           - add r15,08
                   - sete al
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>250</ID>
+      <Description>"Inf Items (consume)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : NMS.exe
+  Version: 
+  Date   : 2023-06-14
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_CONSUME,NMS.exe,8B 43 18 48 8D 94 24 B8 00 00 00) // should be unique
+
+ITEM_CONSUME:
+  mov eax,[rbx+18]
+  lea rdx,[rsp+000000B8]
+  cmp eax,esi
+  mov ebx,esi
+  mov rcx,rbp
+  xor ebx,ebx
+  nop
+registersymbol(ITEM_CONSUME)
+
+[DISABLE]
+
+ITEM_CONSUME:
+  db 8B 43 18 48 8D 94 24 B8 00 00 00 3B C6 8B DE 48 8B CD 0F 4C D8
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: NMS.exe+3C9845
+
+NMS.exe+3C982F: 8B C6                    - mov eax,esi
+NMS.exe+3C9831: 48 83 C4 70              - add rsp,70
+NMS.exe+3C9835: 41 5D                    - pop r13
+NMS.exe+3C9837: 5F                       - pop rdi
+NMS.exe+3C9838: 5E                       - pop rsi
+NMS.exe+3C9839: 5D                       - pop rbp
+NMS.exe+3C983A: 5B                       - pop rbx
+NMS.exe+3C983B: C3                       - ret 
+NMS.exe+3C983C: 48 85 DB                 - test rbx,rbx
+NMS.exe+3C983F: 0F 84 A4 02 00 00        - je NMS.exe+3C9AE9
+// ---------- INJECTING HERE ----------
+NMS.exe+3C9845: 8B 43 18                 - mov eax,[rbx+18]
+// ---------- DONE INJECTING  ----------
+NMS.exe+3C9848: 48 8D 94 24 B8 00 00 00  - lea rdx,[rsp+000000B8]
+NMS.exe+3C9850: 3B C6                    - cmp eax,esi
+NMS.exe+3C9852: 8B DE                    - mov ebx,esi
+NMS.exe+3C9854: 48 8B CD                 - mov rcx,rbp
+NMS.exe+3C9857: 0F 4C D8                 - cmovl ebx,eax
+NMS.exe+3C985A: E8 D1 2D 02 00           - call NMS.exe+3EC630
+NMS.exe+3C985F: 29 58 18                 - sub [rax+18],ebx
+NMS.exe+3C9862: 2B F3                    - sub esi,ebx
+NMS.exe+3C9864: 89 B4 24 C0 00 00 00     - mov [rsp+000000C0],esi
+NMS.exe+3C986B: 4C 89 64 24 68           - mov [rsp+68],r12
 }
 </AssemblerScript>
     </CheatEntry>
