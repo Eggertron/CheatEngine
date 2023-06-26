@@ -80,6 +80,66 @@ gamedll_x64_rwdi.dll+6801BA: 48 85 C0                    - test rax,rax
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
+      <ID>36</ID>
+      <Description>"No Damage"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,gamedll_x64_rwdi.dll,73 09 F3 0F 11 92 2C 0D 00 00) // should be unique
+
+HEALTH_UPDATE:
+  movss [rdx+00000D2C],xmm0
+  nop
+  nop
+
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db 73 09 F3 0F 11 92 2C 0D 00 00
+
+unregistersymbol(HEALTH_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+67275B
+
+gamedll_x64_rwdi.dll+67272B: 48 8B D1                 - mov rdx,rcx
+gamedll_x64_rwdi.dll+67272E: 75 07                    - jne gamedll_x64_rwdi.dll+672737
+gamedll_x64_rwdi.dll+672730: 48 8B 81 18 0A 00 00     - mov rax,[rcx+00000A18]
+gamedll_x64_rwdi.dll+672737: 48 8B 80 B0 00 00 00     - mov rax,[rax+000000B0]
+gamedll_x64_rwdi.dll+67273E: 0F 57 D2                 - xorps xmm2,xmm2
+gamedll_x64_rwdi.dll+672741: 0F 2F CA                 - comiss xmm1,xmm2
+gamedll_x64_rwdi.dll+672744: 48 8B 08                 - mov rcx,[rax]
+gamedll_x64_rwdi.dll+672747: 48 8B 81 68 0C 00 00     - mov rax,[rcx+00000C68]
+gamedll_x64_rwdi.dll+67274E: F3 0F 10 40 08           - movss xmm0,[rax+08]
+gamedll_x64_rwdi.dll+672753: F3 0F 58 82 A8 20 00 00  - addss xmm0,[rdx+000020A8]
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+67275B: 73 09                    - jae gamedll_x64_rwdi.dll+672766
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+67275D: F3 0F 11 92 2C 0D 00 00  - movss [rdx+00000D2C],xmm2
+gamedll_x64_rwdi.dll+672765: C3                       - ret 
+gamedll_x64_rwdi.dll+672766: 0F 2F C8                 - comiss xmm1,xmm0
+gamedll_x64_rwdi.dll+672769: 76 09                    - jna gamedll_x64_rwdi.dll+672774
+gamedll_x64_rwdi.dll+67276B: F3 0F 11 82 2C 0D 00 00  - movss [rdx+00000D2C],xmm0
+gamedll_x64_rwdi.dll+672773: C3                       - ret 
+gamedll_x64_rwdi.dll+672774: F3 0F 11 8A 2C 0D 00 00  - movss [rdx+00000D2C],xmm1
+gamedll_x64_rwdi.dll+67277C: C3                       - ret 
+gamedll_x64_rwdi.dll+67277D: CC                       - int 3 
+gamedll_x64_rwdi.dll+67277E: CC                       - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>6</ID>
       <Description>"Flash Light Instant Full"</Description>
       <LastState/>
@@ -251,63 +311,6 @@ gamedll_x64_rwdi.dll+65BDC3: 74 09                    - je gamedll_x64_rwdi.dll+
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>25</ID>
-      <Description>"No Damage"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : DeadIslandGame.exe
-  Version: 
-  Date   : 2023-06-25
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscanmodule(HEALTH_UPDATE,gamedll_x64_rwdi.dll,76 09 F3 0F 11 82 2C 0D 00 00) // should be unique
-
-HEALTH_UPDATE:
-  db 90 90
-registersymbol(HEALTH_UPDATE)
-
-[DISABLE]
-
-HEALTH_UPDATE:
-  db 76 09 F3 0F 11 82 2C 0D 00 00
-
-unregistersymbol(HEALTH_UPDATE)
-
-{
-// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+672769
-
-gamedll_x64_rwdi.dll+67273E: 0F 57 D2                 - xorps xmm2,xmm2
-gamedll_x64_rwdi.dll+672741: 0F 2F CA                 - comiss xmm1,xmm2
-gamedll_x64_rwdi.dll+672744: 48 8B 08                 - mov rcx,[rax]
-gamedll_x64_rwdi.dll+672747: 48 8B 81 68 0C 00 00     - mov rax,[rcx+00000C68]
-gamedll_x64_rwdi.dll+67274E: F3 0F 10 40 08           - movss xmm0,[rax+08]
-gamedll_x64_rwdi.dll+672753: F3 0F 58 82 A8 20 00 00  - addss xmm0,[rdx+000020A8]
-gamedll_x64_rwdi.dll+67275B: 73 09                    - jae gamedll_x64_rwdi.dll+672766
-gamedll_x64_rwdi.dll+67275D: F3 0F 11 92 2C 0D 00 00  - movss [rdx+00000D2C],xmm2
-gamedll_x64_rwdi.dll+672765: C3                       - ret 
-gamedll_x64_rwdi.dll+672766: 0F 2F C8                 - comiss xmm1,xmm0
-// ---------- INJECTING HERE ----------
-gamedll_x64_rwdi.dll+672769: 76 09                    - jna gamedll_x64_rwdi.dll+672774
-// ---------- DONE INJECTING  ----------
-gamedll_x64_rwdi.dll+67276B: F3 0F 11 82 2C 0D 00 00  - movss [rdx+00000D2C],xmm0
-gamedll_x64_rwdi.dll+672773: C3                       - ret 
-gamedll_x64_rwdi.dll+672774: F3 0F 11 8A 2C 0D 00 00  - movss [rdx+00000D2C],xmm1
-gamedll_x64_rwdi.dll+67277C: C3                       - ret 
-gamedll_x64_rwdi.dll+67277D: CC                       - int 3 
-gamedll_x64_rwdi.dll+67277E: CC                       - int 3 
-gamedll_x64_rwdi.dll+67277F: CC                       - int 3 
-gamedll_x64_rwdi.dll+672780: 80 79 50 00              - cmp byte ptr [rcx+50],00
-gamedll_x64_rwdi.dll+672784: 48 8B 05 FD F3 C0 00     - mov rax,[gamedll_x64_rwdi.dll+1281B88]
-gamedll_x64_rwdi.dll+67278B: 48 8B D1                 - mov rdx,rcx
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
       <ID>31</ID>
       <Description>"All Pickups x10"</Description>
       <LastState Activated="1"/>
@@ -383,7 +386,7 @@ gamedll_x64_rwdi.dll+6732C6: 41 FF C4           - inc r12d
     <CheatEntry>
       <ID>32</ID>
       <Description>"Unlimited Item Drops"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DeadIslandGame.exe
   Version: 
@@ -438,25 +441,61 @@ gamedll_x64_rwdi.dll+674887: 75 6C              - jne gamedll_x64_rwdi.dll+6748F
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>18</ID>
-      <Description>"stamina"</Description>
-      <LastState Value="1" RealAddress="10EB313FC"/>
-      <VariableType>Float</VariableType>
-      <Address>10EB313FC</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>23</ID>
-      <Description>"health"</Description>
-      <LastState Value="110" RealAddress="10EB3136C"/>
-      <VariableType>Float</VariableType>
-      <Address>10EB3136C</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>30</ID>
-      <Description>"No description"</Description>
-      <LastState Value="18" RealAddress="FBF14B90"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>FBF14B90</Address>
+      <ID>35</ID>
+      <Description>"Inf Weapon Durability"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(WEAPON_DURABILITY_UPDATE,gamedll_x64_rwdi.dll,76 23 48 8B 43 10) // should be unique
+
+WEAPON_DURABILITY_UPDATE:
+  db 90 90
+registersymbol(WEAPON_DURABILITY_UPDATE)
+
+[DISABLE]
+
+WEAPON_DURABILITY_UPDATE:
+  db 76 23 48 8B 43 10
+
+unregistersymbol(WEAPON_DURABILITY_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+361E74
+
+gamedll_x64_rwdi.dll+361E53: 0F 57 C9           - xorps xmm1,xmm1
+gamedll_x64_rwdi.dll+361E56: 0F 2F C1           - comiss xmm0,xmm1
+gamedll_x64_rwdi.dll+361E59: 76 3E              - jna gamedll_x64_rwdi.dll+361E99
+gamedll_x64_rwdi.dll+361E5B: 0F 2F F1           - comiss xmm6,xmm1
+gamedll_x64_rwdi.dll+361E5E: 73 03              - jae gamedll_x64_rwdi.dll+361E63
+gamedll_x64_rwdi.dll+361E60: 0F 28 F1           - movaps xmm6,xmm1
+gamedll_x64_rwdi.dll+361E63: 48 8B 43 10        - mov rax,[rbx+10]
+gamedll_x64_rwdi.dll+361E67: 48 8D 4B 10        - lea rcx,[rbx+10]
+gamedll_x64_rwdi.dll+361E6B: FF 90 E8 05 00 00  - call qword ptr [rax+000005E8]
+gamedll_x64_rwdi.dll+361E71: 0F 2F F0           - comiss xmm6,xmm0
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+361E74: 76 23              - jna gamedll_x64_rwdi.dll+361E99
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+361E76: 48 8B 43 10        - mov rax,[rbx+10]
+gamedll_x64_rwdi.dll+361E7A: 48 8D 4B 10        - lea rcx,[rbx+10]
+gamedll_x64_rwdi.dll+361E7E: FF 90 E8 05 00 00  - call qword ptr [rax+000005E8]
+gamedll_x64_rwdi.dll+361E84: F3 0F 11 43 04     - movss [rbx+04],xmm0
+gamedll_x64_rwdi.dll+361E89: 48 8B 5C 24 40     - mov rbx,[rsp+40]
+gamedll_x64_rwdi.dll+361E8E: 0F 28 74 24 20     - movaps xmm6,[rsp+20]
+gamedll_x64_rwdi.dll+361E93: 48 83 C4 30        - add rsp,30
+gamedll_x64_rwdi.dll+361E97: 5F                 - pop rdi
+gamedll_x64_rwdi.dll+361E98: C3                 - ret 
+gamedll_x64_rwdi.dll+361E99: F3 0F 11 73 04     - movss [rbx+04],xmm6
+}
+</AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>33</ID>
@@ -588,6 +627,63 @@ gamedll_x64_rwdi.dll+6732AE: 89 5D 9F           - mov [rbp-61],ebx
 gamedll_x64_rwdi.dll+6732B1: 88 44 24 20        - mov [rsp+20],al
 gamedll_x64_rwdi.dll+6732B5: 44 22 4D 6F        - and r9b,[rbp+6F]
 gamedll_x64_rwdi.dll+6732B9: E8 82 1D 00 00     - call gamedll_x64_rwdi.dll+675040
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>25</ID>
+          <Description>"No Damage"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,gamedll_x64_rwdi.dll,76 09 F3 0F 11 82 2C 0D 00 00) // should be unique
+
+HEALTH_UPDATE:
+  db 90 90
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db 76 09 F3 0F 11 82 2C 0D 00 00
+
+unregistersymbol(HEALTH_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+672769
+
+gamedll_x64_rwdi.dll+67273E: 0F 57 D2                 - xorps xmm2,xmm2
+gamedll_x64_rwdi.dll+672741: 0F 2F CA                 - comiss xmm1,xmm2
+gamedll_x64_rwdi.dll+672744: 48 8B 08                 - mov rcx,[rax]
+gamedll_x64_rwdi.dll+672747: 48 8B 81 68 0C 00 00     - mov rax,[rcx+00000C68]
+gamedll_x64_rwdi.dll+67274E: F3 0F 10 40 08           - movss xmm0,[rax+08]
+gamedll_x64_rwdi.dll+672753: F3 0F 58 82 A8 20 00 00  - addss xmm0,[rdx+000020A8]
+gamedll_x64_rwdi.dll+67275B: 73 09                    - jae gamedll_x64_rwdi.dll+672766
+gamedll_x64_rwdi.dll+67275D: F3 0F 11 92 2C 0D 00 00  - movss [rdx+00000D2C],xmm2
+gamedll_x64_rwdi.dll+672765: C3                       - ret 
+gamedll_x64_rwdi.dll+672766: 0F 2F C8                 - comiss xmm1,xmm0
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+672769: 76 09                    - jna gamedll_x64_rwdi.dll+672774
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+67276B: F3 0F 11 82 2C 0D 00 00  - movss [rdx+00000D2C],xmm0
+gamedll_x64_rwdi.dll+672773: C3                       - ret 
+gamedll_x64_rwdi.dll+672774: F3 0F 11 8A 2C 0D 00 00  - movss [rdx+00000D2C],xmm1
+gamedll_x64_rwdi.dll+67277C: C3                       - ret 
+gamedll_x64_rwdi.dll+67277D: CC                       - int 3 
+gamedll_x64_rwdi.dll+67277E: CC                       - int 3 
+gamedll_x64_rwdi.dll+67277F: CC                       - int 3 
+gamedll_x64_rwdi.dll+672780: 80 79 50 00              - cmp byte ptr [rcx+50],00
+gamedll_x64_rwdi.dll+672784: 48 8B 05 FD F3 C0 00     - mov rax,[gamedll_x64_rwdi.dll+1281B88]
+gamedll_x64_rwdi.dll+67278B: 48 8B D1                 - mov rdx,rcx
 }
 </AssemblerScript>
         </CheatEntry>
