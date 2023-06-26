@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version 1.1.2"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"Attach to Game"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  getAutoAttachList().add("DeadIslandGame.exe")
+{$asm}
+[DISABLE]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Money Add Always 99"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ADD_MONEY,gamedll_x64_rwdi.dll,66 41 0F 6E F4 0F 5B F6 F3 0F) // should be unique
+ADD_MONEY:
+  mov rdi,(int)99
+  db eb 04  // jump 4 bytes
+registersymbol(ADD_MONEY)
+
+[DISABLE]
+
+ADD_MONEY:
+  db 66 41 0F 6E F4 0F 5B F6 F3 0F 59 F7 F3 0F 2C FE
+
+unregistersymbol(ADD_MONEY)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+68018E
+
+gamedll_x64_rwdi.dll+680160: 48 8B 08                    - mov rcx,[rax]
+gamedll_x64_rwdi.dll+680163: 44 38 B1 2B 1D 00 00        - cmp [rcx+00001D2B],r14b
+gamedll_x64_rwdi.dll+68016A: 74 06                       - je gamedll_x64_rwdi.dll+680172
+gamedll_x64_rwdi.dll+68016C: 8B B9 1C 1D 00 00           - mov edi,[rcx+00001D1C]
+gamedll_x64_rwdi.dll+680172: 48 83 C0 08                 - add rax,08
+gamedll_x64_rwdi.dll+680176: 48 FF CA                    - dec rdx
+gamedll_x64_rwdi.dll+680179: 75 E5                       - jne gamedll_x64_rwdi.dll+680160
+gamedll_x64_rwdi.dll+68017B: 48 63 C7                    - movsxd  rax,edi
+gamedll_x64_rwdi.dll+68017E: F3 0F 10 BC 83 F8 1D 00 00  - movss xmm7,[rbx+rax*4+00001DF8]
+gamedll_x64_rwdi.dll+680187: 4C 8B 15 1A 21 C0 00        - mov r10,[gamedll_x64_rwdi.dll+12822A8]
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+68018E: 66 41 0F 6E F4              - movd xmm6,r12d
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+680193: 0F 5B F6                    - cvtdq2ps xmm6,xmm6
+gamedll_x64_rwdi.dll+680196: F3 0F 59 F7                 - mulss xmm6,xmm7
+gamedll_x64_rwdi.dll+68019A: F3 0F 2C FE                 - cvttss2si edi,xmm6
+gamedll_x64_rwdi.dll+68019E: 01 BB C8 0B 00 00           - add [rbx+00000BC8],edi
+gamedll_x64_rwdi.dll+6801A4: 01 BB 30 1C 00 00           - add [rbx+00001C30],edi
+gamedll_x64_rwdi.dll+6801AA: 49 8B 82 A0 04 00 00        - mov rax,[r10+000004A0]
+gamedll_x64_rwdi.dll+6801B1: 48 85 C0                    - test rax,rax
+gamedll_x64_rwdi.dll+6801B4: 74 2A                       - je gamedll_x64_rwdi.dll+6801E0
+gamedll_x64_rwdi.dll+6801B6: 48 8B 40 58                 - mov rax,[rax+58]
+gamedll_x64_rwdi.dll+6801BA: 48 85 C0                    - test rax,rax
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Flash Light Instant Full"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(FLASHLIGHT_INC,gamedll_x64_rwdi.dll,F3 0F 59 49 70) // should be unique
+
+FLASHLIGHT_INC:
+  mov [rcx+68],(float)100.0
+  db 90 90 90 90 90 90 90
+registersymbol(FLASHLIGHT_INC)
+
+[DISABLE]
+
+FLASHLIGHT_INC:
+  db F3 0F 59 49 70 F3 0F 58 CA F3 0F 11 49 68
+
+unregistersymbol(FLASHLIGHT_INC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+738F43
+
+gamedll_x64_rwdi.dll+738F1E: 48 8D 54 24 30        - lea rdx,[rsp+30]
+gamedll_x64_rwdi.dll+738F23: 4C 8B C0              - mov r8,rax
+gamedll_x64_rwdi.dll+738F26: E8 A5 12 27 00        - call gamedll_x64_rwdi.dll+9AA1D0
+gamedll_x64_rwdi.dll+738F2B: 48 81 C4 A0 00 00 00  - add rsp,000000A0
+gamedll_x64_rwdi.dll+738F32: 5F                    - pop rdi
+gamedll_x64_rwdi.dll+738F33: C3                    - ret 
+gamedll_x64_rwdi.dll+738F34: F3 0F 10 51 68        - movss xmm2,[rcx+68]
+gamedll_x64_rwdi.dll+738F39: F3 0F 10 41 64        - movss xmm0,[rcx+64]
+gamedll_x64_rwdi.dll+738F3E: 0F 2F D0              - comiss xmm2,xmm0
+gamedll_x64_rwdi.dll+738F41: 73 0E                 - jae gamedll_x64_rwdi.dll+738F51
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+738F43: F3 0F 59 49 70        - mulss xmm1,[rcx+70]
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+738F48: F3 0F 58 CA           - addss xmm1,xmm2
+gamedll_x64_rwdi.dll+738F4C: F3 0F 11 49 68        - movss [rcx+68],xmm1
+gamedll_x64_rwdi.dll+738F51: 0F 2F 41 68           - comiss xmm0,[rcx+68]
+gamedll_x64_rwdi.dll+738F55: 73 05                 - jae gamedll_x64_rwdi.dll+738F5C
+gamedll_x64_rwdi.dll+738F57: F3 0F 11 41 68        - movss [rcx+68],xmm0
+gamedll_x64_rwdi.dll+738F5C: 48 81 C4 A0 00 00 00  - add rsp,000000A0
+gamedll_x64_rwdi.dll+738F63: 5F                    - pop rdi
+gamedll_x64_rwdi.dll+738F64: C3                    - ret 
+gamedll_x64_rwdi.dll+738F65: CC                    - int 3 
+gamedll_x64_rwdi.dll+738F66: CC                    - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Unlimited Flashlight"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(FLASHLIGHT_DEC,gamedll_x64_rwdi.dll,F3 0F 11 41 68 73) // should be unique
+
+FLASHLIGHT_DEC:
+  db 90 90 90 90 90
+registersymbol(FLASHLIGHT_DEC)
+
+[DISABLE]
+
+FLASHLIGHT_DEC:
+  db F3 0F 11 41 68
+
+unregistersymbol(FLASHLIGHT_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+738D9D
+
+gamedll_x64_rwdi.dll+738D65: F3 0F 59 49 6C           - mulss xmm1,[rcx+6C]
+gamedll_x64_rwdi.dll+738D6A: F3 0F 10 41 68           - movss xmm0,[rcx+68]
+gamedll_x64_rwdi.dll+738D6F: 48 89 9C 24 B0 00 00 00  - mov [rsp+000000B0],rbx
+gamedll_x64_rwdi.dll+738D77: 0F 29 B4 24 90 00 00 00  - movaps [rsp+00000090],xmm6
+gamedll_x64_rwdi.dll+738D7F: 0F 29 BC 24 80 00 00 00  - movaps [rsp+00000080],xmm7
+gamedll_x64_rwdi.dll+738D87: 44 0F 29 44 24 70        - movaps [rsp+70],xmm8
+gamedll_x64_rwdi.dll+738D8D: F3 0F 5C C1              - subss xmm0,xmm1
+gamedll_x64_rwdi.dll+738D91: 0F 57 C9                 - xorps xmm1,xmm1
+gamedll_x64_rwdi.dll+738D94: 44 0F 29 4C 24 60        - movaps [rsp+60],xmm9
+gamedll_x64_rwdi.dll+738D9A: 0F 2F C1                 - comiss xmm0,xmm1
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+738D9D: F3 0F 11 41 68           - movss [rcx+68],xmm0
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+738DA2: 73 07                    - jae gamedll_x64_rwdi.dll+738DAB
+gamedll_x64_rwdi.dll+738DA4: C7 41 68 00 00 00 00     - mov [rcx+68],00000000
+gamedll_x64_rwdi.dll+738DAB: 0F 2E 49 68              - ucomiss xmm1,[rcx+68]
+gamedll_x64_rwdi.dll+738DAF: 75 5B                    - jne gamedll_x64_rwdi.dll+738E0C
+gamedll_x64_rwdi.dll+738DB1: C6 41 61 00              - mov byte ptr [rcx+61],00
+gamedll_x64_rwdi.dll+738DB5: 48 8B 49 58              - mov rcx,[rcx+58]
+gamedll_x64_rwdi.dll+738DB9: 48 81 C1 60 02 00 00     - add rcx,00000260
+gamedll_x64_rwdi.dll+738DC0: 48 8B 01                 - mov rax,[rcx]
+gamedll_x64_rwdi.dll+738DC3: FF 50 08                 - call qword ptr [rax+08]
+gamedll_x64_rwdi.dll+738DC6: 48 8B 98 40 06 00 00     - mov rbx,[rax+00000640]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"Unlimited Stamina"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(STAMINA_DEC,gamedll_x64_rwdi.dll,F3 0F 5C C6 0F 2F 05 6D 3B 65 00) // should be unique
+STAMINA_DEC:
+  db 90 90 90 90
+registersymbol(STAMINA_DEC)
+
+[DISABLE]
+
+STAMINA_DEC:
+  db F3 0F 5C C6 0F 2F 05 6D 3B 65 00
+
+unregistersymbol(STAMINA_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+65BD94
+
+gamedll_x64_rwdi.dll+65BD60: 38 43 50                 - cmp [rbx+50],al
+gamedll_x64_rwdi.dll+65BD63: 48 8B 05 1E 5E C2 00     - mov rax,[gamedll_x64_rwdi.dll+1281B88]
+gamedll_x64_rwdi.dll+65BD6A: 75 07                    - jne gamedll_x64_rwdi.dll+65BD73
+gamedll_x64_rwdi.dll+65BD6C: 48 8B 83 18 0A 00 00     - mov rax,[rbx+00000A18]
+gamedll_x64_rwdi.dll+65BD73: 48 8B 80 B0 00 00 00     - mov rax,[rax+000000B0]
+gamedll_x64_rwdi.dll+65BD7A: 48 8B 08                 - mov rcx,[rax]
+gamedll_x64_rwdi.dll+65BD7D: 48 8B 81 C8 00 00 00     - mov rax,[rcx+000000C8]
+gamedll_x64_rwdi.dll+65BD84: F3 0F 59 70 08           - mulss xmm6,[rax+08]
+gamedll_x64_rwdi.dll+65BD89: F3 0F 10 BB BC 0D 00 00  - movss xmm7,[rbx+00000DBC]
+gamedll_x64_rwdi.dll+65BD91: 0F 28 C7                 - movaps xmm0,xmm7
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+65BD94: F3 0F 5C C6              - subss xmm0,xmm6
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+65BD98: 0F 2F 05 6D 3B 65 00     - comiss xmm0,[gamedll_x64_rwdi.dll+CAF90C]
+gamedll_x64_rwdi.dll+65BD9F: F3 0F 11 83 BC 0D 00 00  - movss [rbx+00000DBC],xmm0
+gamedll_x64_rwdi.dll+65BDA7: 0F 87 E1 00 00 00        - ja gamedll_x64_rwdi.dll+65BE8E
+gamedll_x64_rwdi.dll+65BDAD: 48 89 7C 24 60           - mov [rsp+60],rdi
+gamedll_x64_rwdi.dll+65BDB2: 33 FF                    - xor edi,edi
+gamedll_x64_rwdi.dll+65BDB4: 48 8D 05 25 EA 85 00     - lea rax,[gamedll_x64_rwdi.dll+EBA7E0]
+gamedll_x64_rwdi.dll+65BDBB: 83 C9 FF                 - or ecx,-01
+gamedll_x64_rwdi.dll+65BDBE: 66 90                    - nop 2
+gamedll_x64_rwdi.dll+65BDC0: 80 38 00                 - cmp byte ptr [rax],00
+gamedll_x64_rwdi.dll+65BDC3: 74 09                    - je gamedll_x64_rwdi.dll+65BDCE
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>25</ID>
+      <Description>"No Damage"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,gamedll_x64_rwdi.dll,76 09 F3 0F 11 82 2C 0D 00 00) // should be unique
+
+HEALTH_UPDATE:
+  db 90 90
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db 76 09 F3 0F 11 82 2C 0D 00 00
+
+unregistersymbol(HEALTH_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+672769
+
+gamedll_x64_rwdi.dll+67273E: 0F 57 D2                 - xorps xmm2,xmm2
+gamedll_x64_rwdi.dll+672741: 0F 2F CA                 - comiss xmm1,xmm2
+gamedll_x64_rwdi.dll+672744: 48 8B 08                 - mov rcx,[rax]
+gamedll_x64_rwdi.dll+672747: 48 8B 81 68 0C 00 00     - mov rax,[rcx+00000C68]
+gamedll_x64_rwdi.dll+67274E: F3 0F 10 40 08           - movss xmm0,[rax+08]
+gamedll_x64_rwdi.dll+672753: F3 0F 58 82 A8 20 00 00  - addss xmm0,[rdx+000020A8]
+gamedll_x64_rwdi.dll+67275B: 73 09                    - jae gamedll_x64_rwdi.dll+672766
+gamedll_x64_rwdi.dll+67275D: F3 0F 11 92 2C 0D 00 00  - movss [rdx+00000D2C],xmm2
+gamedll_x64_rwdi.dll+672765: C3                       - ret 
+gamedll_x64_rwdi.dll+672766: 0F 2F C8                 - comiss xmm1,xmm0
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+672769: 76 09                    - jna gamedll_x64_rwdi.dll+672774
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+67276B: F3 0F 11 82 2C 0D 00 00  - movss [rdx+00000D2C],xmm0
+gamedll_x64_rwdi.dll+672773: C3                       - ret 
+gamedll_x64_rwdi.dll+672774: F3 0F 11 8A 2C 0D 00 00  - movss [rdx+00000D2C],xmm1
+gamedll_x64_rwdi.dll+67277C: C3                       - ret 
+gamedll_x64_rwdi.dll+67277D: CC                       - int 3 
+gamedll_x64_rwdi.dll+67277E: CC                       - int 3 
+gamedll_x64_rwdi.dll+67277F: CC                       - int 3 
+gamedll_x64_rwdi.dll+672780: 80 79 50 00              - cmp byte ptr [rcx+50],00
+gamedll_x64_rwdi.dll+672784: 48 8B 05 FD F3 C0 00     - mov rax,[gamedll_x64_rwdi.dll+1281B88]
+gamedll_x64_rwdi.dll+67278B: 48 8B D1                 - mov rdx,rcx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>31</ID>
+      <Description>"All Pickups x10"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INV_ITEM_UPDATE,gamedll_x64_rwdi.dll,01 4E 50 2B D9) // should be unique
+alloc(newmem,$1000,INV_ITEM_UPDATE)
+
+label(code)
+label(return)
+
+newmem:
+  push rcx
+  mov ecx, (int)10
+
+code:
+  add [rsi+50],ecx
+  pop rcx
+  sub ebx,ecx
+  jmp return
+
+INV_ITEM_UPDATE:
+  jmp newmem
+return:
+registersymbol(INV_ITEM_UPDATE)
+
+[DISABLE]
+
+INV_ITEM_UPDATE:
+  db 01 4E 50 2B D9
+
+unregistersymbol(INV_ITEM_UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+6732A1
+
+gamedll_x64_rwdi.dll+673282: 49 8B CD           - mov rcx,r13
+gamedll_x64_rwdi.dll+673285: FF 90 38 03 00 00  - call qword ptr [rax+00000338]
+gamedll_x64_rwdi.dll+67328B: 4D 8B C7           - mov r8,r15
+gamedll_x64_rwdi.dll+67328E: 48 8B D6           - mov rdx,rsi
+gamedll_x64_rwdi.dll+673291: 2B C3              - sub eax,ebx
+gamedll_x64_rwdi.dll+673293: 8B 5D 9F           - mov ebx,[rbp-61]
+gamedll_x64_rwdi.dll+673296: 3B C3              - cmp eax,ebx
+gamedll_x64_rwdi.dll+673298: 8B CB              - mov ecx,ebx
+gamedll_x64_rwdi.dll+67329A: 0F 42 C8           - cmovb ecx,eax
+gamedll_x64_rwdi.dll+67329D: 0F B6 45 7F        - movzx eax,byte ptr [rbp+7F]
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+6732A1: 01 4E 50           - add [rsi+50],ecx
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+6732A4: 2B D9              - sub ebx,ecx
+gamedll_x64_rwdi.dll+6732A6: 48 8B 4D 5F        - mov rcx,[rbp+5F]
+gamedll_x64_rwdi.dll+6732AA: 41 0F 94 C1        - sete r9b
+gamedll_x64_rwdi.dll+6732AE: 89 5D 9F           - mov [rbp-61],ebx
+gamedll_x64_rwdi.dll+6732B1: 88 44 24 20        - mov [rsp+20],al
+gamedll_x64_rwdi.dll+6732B5: 44 22 4D 6F        - and r9b,[rbp+6F]
+gamedll_x64_rwdi.dll+6732B9: E8 82 1D 00 00     - call gamedll_x64_rwdi.dll+675040
+gamedll_x64_rwdi.dll+6732BE: 85 DB              - test ebx,ebx
+gamedll_x64_rwdi.dll+6732C0: 0F 84 FE 01 00 00  - je gamedll_x64_rwdi.dll+6734C4
+gamedll_x64_rwdi.dll+6732C6: 41 FF C4           - inc r12d
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>32</ID>
+      <Description>"Unlimited Item Drops"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INV_ITEM_DROP,gamedll_x64_rwdi.dll,41 FF 4D 50 44 8B CD) // should be unique
+
+INV_ITEM_DROP:
+  DB 90 90 90 90
+registersymbol(INV_ITEM_DROP)
+
+[DISABLE]
+
+INV_ITEM_DROP:
+  db 41 FF 4D 50 44 8B CD
+
+unregistersymbol(INV_ITEM_DROP)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+674865
+
+gamedll_x64_rwdi.dll+67483C: 48 89 5C 24 50     - mov [rsp+50],rbx
+gamedll_x64_rwdi.dll+674841: 48 89 74 24 60     - mov [rsp+60],rsi
+gamedll_x64_rwdi.dll+674846: 48 89 7C 24 68     - mov [rsp+68],rdi
+gamedll_x64_rwdi.dll+67484B: 4C 89 7C 24 20     - mov [rsp+20],r15
+gamedll_x64_rwdi.dll+674850: 7E 2D              - jle gamedll_x64_rwdi.dll+67487F
+gamedll_x64_rwdi.dll+674852: 48 8B 42 60        - mov rax,[rdx+60]
+gamedll_x64_rwdi.dll+674856: 48 8D 4A 60        - lea rcx,[rdx+60]
+gamedll_x64_rwdi.dll+67485A: FF 90 38 03 00 00  - call qword ptr [rax+00000338]
+gamedll_x64_rwdi.dll+674860: 83 F8 01           - cmp eax,01
+gamedll_x64_rwdi.dll+674863: 7E 1A              - jle gamedll_x64_rwdi.dll+67487F
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+674865: 41 FF 4D 50        - dec [r13+50]
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+674869: 44 8B CD           - mov r9d,ebp
+gamedll_x64_rwdi.dll+67486C: 4D 8B C5           - mov r8,r13
+gamedll_x64_rwdi.dll+67486F: 49 8B D5           - mov rdx,r13
+gamedll_x64_rwdi.dll+674872: 49 8B CC           - mov rcx,r12
+gamedll_x64_rwdi.dll+674875: E8 86 10 00 00     - call gamedll_x64_rwdi.dll+675900
+gamedll_x64_rwdi.dll+67487A: E9 8D 03 00 00     - jmp gamedll_x64_rwdi.dll+674C0C
+gamedll_x64_rwdi.dll+67487F: 45 33 FF           - xor r15d,r15d
+gamedll_x64_rwdi.dll+674882: 41 8B F7           - mov esi,r15d
+gamedll_x64_rwdi.dll+674885: 85 ED              - test ebp,ebp
+gamedll_x64_rwdi.dll+674887: 75 6C              - jne gamedll_x64_rwdi.dll+6748F5
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"stamina"</Description>
+      <LastState Value="1" RealAddress="10EB313FC"/>
+      <VariableType>Float</VariableType>
+      <Address>10EB313FC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"health"</Description>
+      <LastState Value="110" RealAddress="10EB3136C"/>
+      <VariableType>Float</VariableType>
+      <Address>10EB3136C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>30</ID>
+      <Description>"No description"</Description>
+      <LastState Value="18" RealAddress="FBF14B90"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>FBF14B90</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>33</ID>
+      <Description>"Old Codes"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"No Damage [not working]"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_UPDATE,gamedll_x64_rwdi.dll,F3 0F 10 40 08 F3 0F 58 82 A8 20 00 00 73 09 F3 0F 11 92 2C) // should be unique
+alloc(newmem,$1000,HEALTH_UPDATE)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  movss xmm0,[rax+08]
+  jmp return
+
+HEALTH_UPDATE:
+  jmp newmem
+return:
+registersymbol(HEALTH_UPDATE)
+
+[DISABLE]
+
+HEALTH_UPDATE:
+  db F3 0F 10 40 08
+
+unregistersymbol(HEALTH_UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+67274E
+
+gamedll_x64_rwdi.dll+672720: 80 79 50 00              - cmp byte ptr [rcx+50],00
+gamedll_x64_rwdi.dll+672724: 48 8B 05 5D F4 C0 00     - mov rax,[gamedll_x64_rwdi.dll+1281B88]
+gamedll_x64_rwdi.dll+67272B: 48 8B D1                 - mov rdx,rcx
+gamedll_x64_rwdi.dll+67272E: 75 07                    - jne gamedll_x64_rwdi.dll+672737
+gamedll_x64_rwdi.dll+672730: 48 8B 81 18 0A 00 00     - mov rax,[rcx+00000A18]
+gamedll_x64_rwdi.dll+672737: 48 8B 80 B0 00 00 00     - mov rax,[rax+000000B0]
+gamedll_x64_rwdi.dll+67273E: 0F 57 D2                 - xorps xmm2,xmm2
+gamedll_x64_rwdi.dll+672741: 0F 2F CA                 - comiss xmm1,xmm2
+gamedll_x64_rwdi.dll+672744: 48 8B 08                 - mov rcx,[rax]
+gamedll_x64_rwdi.dll+672747: 48 8B 81 68 0C 00 00     - mov rax,[rcx+00000C68]
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+67274E: F3 0F 10 40 08           - movss xmm0,[rax+08]
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+672753: F3 0F 58 82 A8 20 00 00  - addss xmm0,[rdx+000020A8]
+gamedll_x64_rwdi.dll+67275B: 73 09                    - jae gamedll_x64_rwdi.dll+672766
+gamedll_x64_rwdi.dll+67275D: F3 0F 11 92 2C 0D 00 00  - movss [rdx+00000D2C],xmm2
+gamedll_x64_rwdi.dll+672765: C3                       - ret 
+gamedll_x64_rwdi.dll+672766: 0F 2F C8                 - comiss xmm1,xmm0
+gamedll_x64_rwdi.dll+672769: 76 09                    - jna gamedll_x64_rwdi.dll+672774
+gamedll_x64_rwdi.dll+67276B: F3 0F 11 82 2C 0D 00 00  - movss [rdx+00000D2C],xmm0
+gamedll_x64_rwdi.dll+672773: C3                       - ret 
+gamedll_x64_rwdi.dll+672774: F3 0F 11 8A 2C 0D 00 00  - movss [rdx+00000D2C],xmm1
+gamedll_x64_rwdi.dll+67277C: C3                       - ret 
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"All Pickups are x10 (crashes game in inventory screen)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DeadIslandGame.exe
+  Version: 
+  Date   : 2023-06-25
+  Author : bboyh
+
+  Increase item count upon pickup
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_INC,gamedll_x64_rwdi.dll,8B CB 0F 42 C8) // should be unique
+
+ITEM_INC:
+  mov ecx,(int)10
+registersymbol(ITEM_INC)
+
+[DISABLE]
+
+ITEM_INC:
+  db 8B CB 0F 42 C8
+
+unregistersymbol(ITEM_INC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+673298
+
+gamedll_x64_rwdi.dll+673279: 74 4B              - je gamedll_x64_rwdi.dll+6732C6
+gamedll_x64_rwdi.dll+67327B: 49 8B 45 00        - mov rax,[r13+00]
+gamedll_x64_rwdi.dll+67327F: 8B 5E 50           - mov ebx,[rsi+50]
+gamedll_x64_rwdi.dll+673282: 49 8B CD           - mov rcx,r13
+gamedll_x64_rwdi.dll+673285: FF 90 38 03 00 00  - call qword ptr [rax+00000338]
+gamedll_x64_rwdi.dll+67328B: 4D 8B C7           - mov r8,r15
+gamedll_x64_rwdi.dll+67328E: 48 8B D6           - mov rdx,rsi
+gamedll_x64_rwdi.dll+673291: 2B C3              - sub eax,ebx
+gamedll_x64_rwdi.dll+673293: 8B 5D 9F           - mov ebx,[rbp-61]
+gamedll_x64_rwdi.dll+673296: 3B C3              - cmp eax,ebx
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+673298: 8B CB              - mov ecx,ebx
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+67329A: 0F 42 C8           - cmovb ecx,eax
+gamedll_x64_rwdi.dll+67329D: 0F B6 45 7F        - movzx eax,byte ptr [rbp+7F]
+gamedll_x64_rwdi.dll+6732A1: 01 4E 50           - add [rsi+50],ecx
+gamedll_x64_rwdi.dll+6732A4: 2B D9              - sub ebx,ecx
+gamedll_x64_rwdi.dll+6732A6: 48 8B 4D 5F        - mov rcx,[rbp+5F]
+gamedll_x64_rwdi.dll+6732AA: 41 0F 94 C1        - sete r9b
+gamedll_x64_rwdi.dll+6732AE: 89 5D 9F           - mov [rbp-61],ebx
+gamedll_x64_rwdi.dll+6732B1: 88 44 24 20        - mov [rsp+20],al
+gamedll_x64_rwdi.dll+6732B5: 44 22 4D 6F        - and r9b,[rbp+6F]
+gamedll_x64_rwdi.dll+6732B9: E8 82 1D 00 00     - call gamedll_x64_rwdi.dll+675040
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Structures StructVersion="2">
+    <Structure Name="PlayerDI" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="8" OffsetHex="00000000" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="8" OffsetHex="00000008" Description="Pointer to instance of CModelObject" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000010" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="Pointer to instance of CModelObject" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000028" DisplayMethod="unsigned integer"/>
+        <Element Offset="64" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000040" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="Pointer to instance of CModelObject" DisplayMethod="unsigned integer"/>
+        <Element Offset="80" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000050" DisplayMethod="unsigned integer"/>
+        <Element Offset="88" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000058" DisplayMethod="unsigned integer"/>
+        <Element Offset="112" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000070" DisplayMethod="unsigned integer"/>
+        <Element Offset="120" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000078" DisplayMethod="unsigned integer"/>
+        <Element Offset="136" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000088" DisplayMethod="unsigned integer"/>
+        <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" DisplayMethod="unsigned integer"/>
+        <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="Pointer to instance of PlayerDI" DisplayMethod="unsigned integer"/>
+        <Element Offset="160" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="000000A0" DisplayMethod="unsigned integer"/>
+        <Element Offset="176" Vartype="4 Bytes" Bytesize="4" RLECount="23" OffsetHex="000000B0" DisplayMethod="unsigned integer"/>
+        <Element Offset="268" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="0000010C" DisplayMethod="hexadecimal"/>
+        <Element Offset="280" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="00000118" DisplayMethod="unsigned integer"/>
+        <Element Offset="316" Vartype="Double" Bytesize="8" OffsetHex="0000013C" DisplayMethod="unsigned integer"/>
+        <Element Offset="324" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000144" DisplayMethod="unsigned integer"/>
+        <Element Offset="328" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000148" DisplayMethod="unsigned integer"/>
+        <Element Offset="336" Vartype="Double" Bytesize="8" OffsetHex="00000150" DisplayMethod="unsigned integer"/>
+        <Element Offset="344" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000158" DisplayMethod="unsigned integer"/>
+        <Element Offset="348" Vartype="Float" Bytesize="4" OffsetHex="0000015C" DisplayMethod="unsigned integer"/>
+        <Element Offset="352" Vartype="Pointer" Bytesize="8" OffsetHex="00000160" DisplayMethod="unsigned integer"/>
+        <Element Offset="360" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000168" DisplayMethod="unsigned integer"/>
+        <Element Offset="368" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000170" DisplayMethod="unsigned integer"/>
+        <Element Offset="384" Vartype="Double" Bytesize="8" OffsetHex="00000180" DisplayMethod="unsigned integer"/>
+        <Element Offset="392" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000188" DisplayMethod="unsigned integer"/>
+        <Element Offset="408" Vartype="Float" Bytesize="4" OffsetHex="00000198" DisplayMethod="unsigned integer"/>
+        <Element Offset="412" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="0000019C" DisplayMethod="unsigned integer"/>
+        <Element Offset="424" Vartype="Double" Bytesize="8" OffsetHex="000001A8" DisplayMethod="unsigned integer"/>
+        <Element Offset="432" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="000001B0" DisplayMethod="unsigned integer"/>
+        <Element Offset="448" Vartype="Float" Bytesize="4" OffsetHex="000001C0" DisplayMethod="unsigned integer"/>
+        <Element Offset="452" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001C4" DisplayMethod="unsigned integer"/>
+        <Element Offset="456" Vartype="Pointer" Bytesize="8" OffsetHex="000001C8" DisplayMethod="unsigned integer"/>
+        <Element Offset="464" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="000001D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="496" Vartype="Pointer" Bytesize="8" OffsetHex="000001F0" DisplayMethod="unsigned integer"/>
+        <Element Offset="504" Vartype="4 Bytes" Bytesize="4" RLECount="14" OffsetHex="000001F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="560" Vartype="Double" Bytesize="8" OffsetHex="00000230" DisplayMethod="unsigned integer"/>
+        <Element Offset="568" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000238" DisplayMethod="unsigned integer"/>
+        <Element Offset="572" Vartype="Double" Bytesize="8" OffsetHex="0000023C" DisplayMethod="unsigned integer"/>
+        <Element Offset="580" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="00000244" DisplayMethod="unsigned integer"/>
+        <Element Offset="608" Vartype="Pointer" Bytesize="8" OffsetHex="00000260" DisplayMethod="unsigned integer"/>
+        <Element Offset="616" Vartype="Pointer" Bytesize="8" OffsetHex="00000268" Description="Pointer to instance of PlayerFppVis" DisplayMethod="unsigned integer"/>
+        <Element Offset="624" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000270" DisplayMethod="unsigned integer"/>
+        <Element Offset="648" Vartype="Float" Bytesize="4" OffsetHex="00000288" DisplayMethod="unsigned integer"/>
+        <Element Offset="652" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000028C" DisplayMethod="unsigned integer"/>
+        <Element Offset="656" Vartype="Pointer" Bytesize="8" OffsetHex="00000290" DisplayMethod="unsigned integer"/>
+        <Element Offset="664" Vartype="4 Bytes" Bytesize="4" RLECount="14" OffsetHex="00000298" DisplayMethod="unsigned integer"/>
+        <Element Offset="720" Vartype="Float" Bytesize="4" OffsetHex="000002D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="724" Vartype="4 Bytes" Bytesize="4" RLECount="29" OffsetHex="000002D4" DisplayMethod="unsigned integer"/>
+        <Element Offset="840" Vartype="Pointer" Bytesize="8" OffsetHex="00000348" DisplayMethod="unsigned integer"/>
+        <Element Offset="848" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000350" DisplayMethod="unsigned integer"/>
+        <Element Offset="880" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000370" DisplayMethod="unsigned integer"/>
+        <Element Offset="892" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="0000037C" DisplayMethod="unsigned integer"/>
+        <Element Offset="936" Vartype="Pointer" Bytesize="8" OffsetHex="000003A8" DisplayMethod="unsigned integer"/>
+        <Element Offset="944" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003B0" DisplayMethod="unsigned integer"/>
+        <Element Offset="948" Vartype="Float" Bytesize="4" OffsetHex="000003B4" DisplayMethod="unsigned integer"/>
+        <Element Offset="952" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003B8" DisplayMethod="unsigned integer"/>
+        <Element Offset="956" Vartype="Float" Bytesize="4" OffsetHex="000003BC" DisplayMethod="unsigned integer"/>
+        <Element Offset="960" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="000003C0" DisplayMethod="unsigned integer"/>
+        <Element Offset="980" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003D4" DisplayMethod="hexadecimal"/>
+        <Element Offset="984" Vartype="4 Bytes" Bytesize="4" RLECount="22" OffsetHex="000003D8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1072" Vartype="Pointer" Bytesize="8" OffsetHex="00000430" DisplayMethod="unsigned integer"/>
+        <Element Offset="1080" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000438" DisplayMethod="unsigned integer"/>
+        <Element Offset="1096" Vartype="Pointer" Bytesize="8" OffsetHex="00000448" DisplayMethod="unsigned integer"/>
+        <Element Offset="1104" Vartype="4 Bytes" Bytesize="4" RLECount="34" OffsetHex="00000450" DisplayMethod="unsigned integer"/>
+        <Element Offset="1240" Vartype="Pointer" Bytesize="8" OffsetHex="000004D8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1248" Vartype="4 Bytes" Bytesize="4" RLECount="22" OffsetHex="000004E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1336" Vartype="Pointer" Bytesize="8" OffsetHex="00000538" DisplayMethod="unsigned integer"/>
+        <Element Offset="1344" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000540" DisplayMethod="unsigned integer"/>
+        <Element Offset="1384" Vartype="Pointer" Bytesize="8" OffsetHex="00000568" DisplayMethod="unsigned integer"/>
+        <Element Offset="1392" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000570" DisplayMethod="unsigned integer"/>
+        <Element Offset="1400" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000578" DisplayMethod="unsigned integer"/>
+        <Element Offset="1408" Vartype="Pointer" Bytesize="8" OffsetHex="00000580" DisplayMethod="unsigned integer"/>
+        <Element Offset="1416" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000588" DisplayMethod="unsigned integer"/>
+        <Element Offset="1420" Vartype="Double" Bytesize="8" RLECount="2" OffsetHex="0000058C" DisplayMethod="unsigned integer"/>
+        <Element Offset="1436" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000059C" DisplayMethod="unsigned integer"/>
+        <Element Offset="1440" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="000005A0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1448" Vartype="4 Bytes" Bytesize="4" OffsetHex="000005A8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1452" Vartype="Double" Bytesize="8" RLECount="4" OffsetHex="000005AC" DisplayMethod="unsigned integer"/>
+        <Element Offset="1484" Vartype="4 Bytes" Bytesize="4" OffsetHex="000005CC" DisplayMethod="unsigned integer"/>
+        <Element Offset="1488" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="000005D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1504" Vartype="4 Bytes" Bytesize="4" RLECount="38" OffsetHex="000005E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1656" Vartype="Pointer" Bytesize="8" OffsetHex="00000678" DisplayMethod="unsigned integer"/>
+        <Element Offset="1664" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="00000680" DisplayMethod="unsigned integer"/>
+        <Element Offset="1692" Vartype="Double" Bytesize="8" OffsetHex="0000069C" DisplayMethod="unsigned integer"/>
+        <Element Offset="1700" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="000006A4" DisplayMethod="unsigned integer"/>
+        <Element Offset="1712" Vartype="Double" Bytesize="8" OffsetHex="000006B0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1720" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="000006B8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1732" Vartype="Double" Bytesize="8" OffsetHex="000006C4" DisplayMethod="unsigned integer"/>
+        <Element Offset="1740" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000006CC" DisplayMethod="unsigned integer"/>
+        <Element Offset="1748" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="000006D4" DisplayMethod="unsigned integer"/>
+        <Element Offset="1756" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006DC" DisplayMethod="unsigned integer"/>
+        <Element Offset="1760" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="000006E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1784" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="000006F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1808" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000710" DisplayMethod="unsigned integer"/>
+        <Element Offset="1832" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000728" DisplayMethod="unsigned integer"/>
+        <Element Offset="1872" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000750" DisplayMethod="unsigned integer"/>
+        <Element Offset="1896" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000768" DisplayMethod="unsigned integer"/>
+        <Element Offset="1908" Vartype="Double" Bytesize="8" OffsetHex="00000774" DisplayMethod="unsigned integer"/>
+        <Element Offset="1916" Vartype="Float" Bytesize="4" OffsetHex="0000077C" DisplayMethod="unsigned integer"/>
+        <Element Offset="1920" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000780" DisplayMethod="unsigned integer"/>
+        <Element Offset="1928" Vartype="Pointer" Bytesize="8" OffsetHex="00000788" DisplayMethod="unsigned integer"/>
+        <Element Offset="1936" Vartype="Pointer" Bytesize="8" OffsetHex="00000790" Description="Pointer to instance of TutorialPickupWeapon" DisplayMethod="unsigned integer"/>
+        <Element Offset="1944" Vartype="Pointer" Bytesize="8" OffsetHex="00000798" Description="Pointer to instance of TutorialHealth" DisplayMethod="unsigned integer"/>
+        <Element Offset="1952" Vartype="Pointer" Bytesize="8" OffsetHex="000007A0" Description="Pointer to instance of TutorialHints" DisplayMethod="unsigned integer"/>
+        <Element Offset="1960" Vartype="4 Bytes" Bytesize="4" RLECount="14" OffsetHex="000007A8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2016" Vartype="Pointer" Bytesize="8" OffsetHex="000007E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="2024" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007E8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2028" Vartype="Float" Bytesize="4" OffsetHex="000007EC" DisplayMethod="unsigned integer"/>
+        <Element Offset="2032" Vartype="Double" Bytesize="8" OffsetHex="000007F0" DisplayMethod="unsigned integer"/>
+        <Element Offset="2040" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="000007F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2064" Vartype="Pointer" Bytesize="8" OffsetHex="00000810" Description="Pointer to instance of MoveController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2072" Vartype="Pointer" Bytesize="8" OffsetHex="00000818" Description="Pointer to instance of DeadController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2080" Vartype="Pointer" Bytesize="8" OffsetHex="00000820" Description="Pointer to instance of LookController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2088" Vartype="Pointer" Bytesize="8" OffsetHex="00000828" Description="Pointer to instance of GrabController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2096" Vartype="Pointer" Bytesize="8" OffsetHex="00000830" Description="Pointer to instance of VehicleController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2104" Vartype="Pointer" Bytesize="8" OffsetHex="00000838" Description="Pointer to instance of CinematicController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2112" Vartype="Pointer" Bytesize="8" OffsetHex="00000840" Description="Pointer to instance of CleenchController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2120" Vartype="Pointer" Bytesize="8" OffsetHex="00000848" Description="Pointer to instance of TriggerController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2128" Vartype="Pointer" Bytesize="8" OffsetHex="00000850" Description="Pointer to instance of LadderController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2136" Vartype="Pointer" Bytesize="8" OffsetHex="00000858" Description="Pointer to instance of StationaryCannonController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2144" Vartype="Pointer" Bytesize="8" OffsetHex="00000860" Description="Pointer to instance of HealingController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2152" Vartype="Pointer" Bytesize="8" OffsetHex="00000868" Description="Pointer to instance of HelpGetUpController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2160" Vartype="Pointer" Bytesize="8" OffsetHex="00000870" Description="Pointer to instance of KnockDownController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2168" Vartype="Pointer" Bytesize="8" OffsetHex="00000878" Description="Pointer to instance of BreakDoorController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2176" Vartype="Pointer" Bytesize="8" OffsetHex="00000880" Description="Pointer to instance of StompFinisherController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2184" Vartype="Pointer" Bytesize="8" OffsetHex="00000888" Description="Pointer to instance of JumpDownAttackController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2192" Vartype="Pointer" Bytesize="8" OffsetHex="00000890" Description="Pointer to instance of WeaponMeleeController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2200" Vartype="Pointer" Bytesize="8" OffsetHex="00000898" Description="Pointer to instance of NewWeaponMeleeController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2208" Vartype="Pointer" Bytesize="8" OffsetHex="000008A0" Description="Pointer to instance of WeaponFireControllerRight" DisplayMethod="unsigned integer"/>
+        <Element Offset="2216" Vartype="Pointer" Bytesize="8" OffsetHex="000008A8" Description="Pointer to instance of WeaponFireControllerLeft" DisplayMethod="unsigned integer"/>
+        <Element Offset="2224" Vartype="Pointer" Bytesize="8" OffsetHex="000008B0" Description="Pointer to instance of WeaponFistsController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2232" Vartype="Pointer" Bytesize="8" OffsetHex="000008B8" Description="Pointer to instance of WeaponThrowController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2240" Vartype="Pointer" Bytesize="8" OffsetHex="000008C0" Description="Pointer to instance of InjectionController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2248" Vartype="Pointer" Bytesize="8" OffsetHex="000008C8" Description="Pointer to instance of ObjectsCarryController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2256" Vartype="Pointer" Bytesize="8" OffsetHex="000008D0" Description="Pointer to instance of SingleCarryController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2264" Vartype="Pointer" Bytesize="8" OffsetHex="000008D8" Description="Pointer to instance of DialogController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2272" Vartype="Pointer" Bytesize="8" OffsetHex="000008E0" Description="Pointer to instance of EquipmentController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2280" Vartype="Pointer" Bytesize="8" OffsetHex="000008E8" Description="Pointer to instance of EnemyGrabController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2288" Vartype="Pointer" Bytesize="8" OffsetHex="000008F0" Description="Pointer to instance of HeadacheController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2296" Vartype="Pointer" Bytesize="8" OffsetHex="000008F8" Description="Pointer to instance of ConcentrationEntryController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2304" Vartype="Pointer" Bytesize="8" OffsetHex="00000900" Description="Pointer to instance of ConcentrationModeController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2312" Vartype="Pointer" Bytesize="8" OffsetHex="00000908" Description="Pointer to instance of ChainsawController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2320" Vartype="Pointer" Bytesize="8" OffsetHex="00000910" Description="Pointer to instance of CoverSystemController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2328" Vartype="Pointer" Bytesize="8" OffsetHex="00000918" Description="Pointer to instance of GentlePushController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2336" Vartype="Pointer" Bytesize="8" OffsetHex="00000920" Description="Pointer to instance of DefensiveController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2344" Vartype="Pointer" Bytesize="8" OffsetHex="00000928" Description="Pointer to instance of MobilePhoneController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2352" Vartype="Pointer" Bytesize="8" OffsetHex="00000930" Description="Pointer to instance of WeaponMineController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2360" Vartype="Pointer" Bytesize="8" OffsetHex="00000938" Description="Pointer to instance of SwimController" DisplayMethod="unsigned integer"/>
+        <Element Offset="2368" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000940" DisplayMethod="unsigned integer"/>
+        <Element Offset="2392" Vartype="Pointer" Bytesize="8" OffsetHex="00000958" DisplayMethod="unsigned integer"/>
+        <Element Offset="2400" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000960" DisplayMethod="unsigned integer"/>
+        <Element Offset="2408" Vartype="Pointer" Bytesize="8" OffsetHex="00000968" DisplayMethod="unsigned integer"/>
+        <Element Offset="2416" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000970" DisplayMethod="unsigned integer"/>
+        <Element Offset="2424" Vartype="Pointer" Bytesize="8" OffsetHex="00000978" DisplayMethod="unsigned integer"/>
+        <Element Offset="2432" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000980" DisplayMethod="unsigned integer"/>
+        <Element Offset="2440" Vartype="Pointer" Bytesize="8" OffsetHex="00000988" DisplayMethod="unsigned integer"/>
+        <Element Offset="2448" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000990" DisplayMethod="unsigned integer"/>
+        <Element Offset="2488" Vartype="Pointer" Bytesize="8" OffsetHex="000009B8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2496" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000009C0" DisplayMethod="unsigned integer"/>
+        <Element Offset="2504" Vartype="Pointer" Bytesize="8" OffsetHex="000009C8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2512" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000009D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="2520" Vartype="Pointer" Bytesize="8" OffsetHex="000009D8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2528" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="000009E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="2552" Vartype="Float" Bytesize="4" RLECount="7" OffsetHex="000009F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2580" Vartype="4 Bytes" Bytesize="4" RLECount="56" OffsetHex="00000A14" DisplayMethod="unsigned integer"/>
+        <Element Offset="2804" Vartype="Float" Bytesize="4" OffsetHex="00000AF4" DisplayMethod="unsigned integer"/>
+        <Element Offset="2808" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000AF8" DisplayMethod="unsigned integer"/>
+        <Element Offset="2828" Vartype="Double" Bytesize="8" RLECount="2" OffsetHex="00000B0C" DisplayMethod="unsigned integer"/>
+        <Element Offset="2844" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000B1C" DisplayMethod="unsigned integer"/>
+        <Element Offset="2848" Vartype="Float" Bytesize="4" RLECount="4" OffsetHex="00000B20" DisplayMethod="unsigned integer"/>
+        <Element Offset="2864" Vartype="Pointer" Bytesize="8" OffsetHex="00000B30" DisplayMethod="unsigned integer"/>
+        <Element Offset="2872" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000B38" DisplayMethod="unsigned integer"/>
+        <Element Offset="2888" Vartype="Double" Bytesize="8" OffsetHex="00000B48" DisplayMethod="unsigned integer"/>
+        <Element Offset="2896" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000B50" DisplayMethod="unsigned integer"/>
+        <Element Offset="2920" Vartype="Pointer" Bytesize="8" OffsetHex="00000B68" DisplayMethod="unsigned integer"/>
+        <Element Offset="2928" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000B70" DisplayMethod="unsigned integer"/>
+        <Element Offset="2936" Vartype="Pointer" Bytesize="8" OffsetHex="00000B78" DisplayMethod="unsigned integer"/>
+        <Element Offset="2944" Vartype="4 Bytes" Bytesize="4" RLECount="32" OffsetHex="00000B80" DisplayMethod="unsigned integer"/>
+        <Element Offset="3072" Vartype="Pointer" Bytesize="8" OffsetHex="00000C00" DisplayMethod="unsigned integer"/>
+        <Element Offset="3080" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000C08" DisplayMethod="unsigned integer"/>
+        <Element Offset="3088" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000C10" DisplayMethod="unsigned integer"/>
+        <Element Offset="3096" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000C18" DisplayMethod="unsigned integer"/>
+        <Element Offset="3104" Vartype="Pointer" Bytesize="8" OffsetHex="00000C20" DisplayMethod="unsigned integer"/>
+        <Element Offset="3112" Vartype="4 Bytes" Bytesize="4" RLECount="21" OffsetHex="00000C28" DisplayMethod="unsigned integer"/>
+        <Element Offset="3196" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000C7C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3204" Vartype="Double" Bytesize="8" OffsetHex="00000C84" DisplayMethod="unsigned integer"/>
+        <Element Offset="3212" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000C8C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3228" Vartype="Float" Bytesize="4" RLECount="5" OffsetHex="00000C9C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3248" Vartype="Pointer" Bytesize="8" OffsetHex="00000CB0" DisplayMethod="unsigned integer"/>
+        <Element Offset="3256" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="00000CB8" DisplayMethod="unsigned integer"/>
+        <Element Offset="3308" Vartype="Double" Bytesize="8" OffsetHex="00000CEC" DisplayMethod="unsigned integer"/>
+        <Element Offset="3316" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000CF4" DisplayMethod="unsigned integer"/>
+        <Element Offset="3328" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D00" DisplayMethod="unsigned integer"/>
+        <Element Offset="3336" Vartype="Pointer" Bytesize="8" OffsetHex="00000D08" DisplayMethod="unsigned integer"/>
+        <Element Offset="3344" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000D10" DisplayMethod="unsigned integer"/>
+        <Element Offset="3356" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000D1C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3364" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D24" DisplayMethod="unsigned integer"/>
+        <Element Offset="3372" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000D2C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3384" Vartype="Pointer" Bytesize="8" OffsetHex="00000D38" DisplayMethod="unsigned integer"/>
+        <Element Offset="3392" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000D40" DisplayMethod="unsigned integer"/>
+        <Element Offset="3412" Vartype="Double" Bytesize="8" OffsetHex="00000D54" DisplayMethod="unsigned integer"/>
+        <Element Offset="3420" Vartype="Float" Bytesize="4" OffsetHex="00000D5C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3424" Vartype="Double" Bytesize="8" OffsetHex="00000D60" DisplayMethod="unsigned integer"/>
+        <Element Offset="3432" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000D68" DisplayMethod="unsigned integer"/>
+        <Element Offset="3440" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000D70" DisplayMethod="unsigned integer"/>
+        <Element Offset="3444" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000D74" DisplayMethod="unsigned integer"/>
+        <Element Offset="3452" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000D7C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3456" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000D80" DisplayMethod="unsigned integer"/>
+        <Element Offset="3464" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D88" DisplayMethod="unsigned integer"/>
+        <Element Offset="3472" Vartype="Double" Bytesize="8" OffsetHex="00000D90" DisplayMethod="unsigned integer"/>
+        <Element Offset="3480" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D98" DisplayMethod="unsigned integer"/>
+        <Element Offset="3488" Vartype="Double" Bytesize="8" RLECount="2" OffsetHex="00000DA0" DisplayMethod="unsigned integer"/>
+        <Element Offset="3504" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000DB0" DisplayMethod="unsigned integer"/>
+        <Element Offset="3512" Vartype="Double" Bytesize="8" RLECount="2" OffsetHex="00000DB8" DisplayMethod="unsigned integer"/>
+        <Element Offset="3528" Vartype="Float" Bytesize="4" RLECount="5" OffsetHex="00000DC8" DisplayMethod="unsigned integer"/>
+        <Element Offset="3548" Vartype="4 Bytes" Bytesize="4" RLECount="19" OffsetHex="00000DDC" DisplayMethod="unsigned integer"/>
+        <Element Offset="3624" Vartype="Pointer" Bytesize="8" OffsetHex="00000E28" Description="Pointer to instance of Locations::Location" DisplayMethod="unsigned integer"/>
+        <Element Offset="3632" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000E30" DisplayMethod="unsigned integer"/>
+        <Element Offset="3664" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000E50" Description="Pointer to instance of Container" DisplayMethod="unsigned integer"/>
+        <Element Offset="3680" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000E60" DisplayMethod="unsigned integer"/>
+        <Element Offset="3688" Vartype="Pointer" Bytesize="8" OffsetHex="00000E68" DisplayMethod="unsigned integer"/>
+        <Element Offset="3696" Vartype="4 Bytes" Bytesize="4" RLECount="42" OffsetHex="00000E70" DisplayMethod="unsigned integer"/>
+        <Element Offset="3864" Vartype="Double" Bytesize="8" OffsetHex="00000F18" DisplayMethod="unsigned integer"/>
+        <Element Offset="3872" Vartype="4 Bytes" Bytesize="4" RLECount="18" OffsetHex="00000F20" DisplayMethod="unsigned integer"/>
+        <Element Offset="3944" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000F68" Description="Pointer to instance of InventoryItem" DisplayMethod="unsigned integer"/>
+        <Element Offset="3960" Vartype="Pointer" Bytesize="8" OffsetHex="00000F78" DisplayMethod="unsigned integer"/>
+        <Element Offset="3968" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000F80" DisplayMethod="unsigned integer"/>
+        <Element Offset="4008" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000FA8" Description="Pointer to instance of InventoryItem" DisplayMethod="unsigned integer"/>
+        <Element Offset="4024" Vartype="String" Bytesize="5" OffsetHex="00000FB8" DisplayMethod="unsigned integer"/>
+        <Element Offset="4029" Vartype="Byte" Bytesize="1" RLECount="3" OffsetHex="00000FBD" DisplayMethod="unsigned integer"/>
+        <Element Offset="4032" Vartype="Pointer" Bytesize="8" OffsetHex="00000FC0" DisplayMethod="unsigned integer"/>
+        <Element Offset="4040" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000FC8" DisplayMethod="unsigned integer"/>
+        <Element Offset="4072" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000FE8" Description="Pointer to instance of InventoryItem" DisplayMethod="unsigned integer"/>
+        <Element Offset="4088" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000FF8" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("DeadIslandGame.exe")
+
+</LuaScript>
+</CheatTable>
