@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 105971"</Description>
+      <Description>"Version: 106606"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -28,53 +28,55 @@
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
-  Date   : 2023-02-26
-  Author : Edgar Han
+  Date   : 2023-06-29
+  Author : bboyh
 
-  Sets the subtraction value to zero.
-  Item used offset is +18
-
+  This script does blah blah blah
 }
 
 [ENABLE]
 
-aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B BC 24 E0 00 00 00 4C 8B F0) // should be unique
+
+aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B 8C 24 20 01 00 00 48) // should be unique
 ITEM_DEC_RECHARGE:
-  mov r15d,0
-  nop 2
+  xor r9d,r9d
+  db 90 90 90 90 90
+return:
 registersymbol(ITEM_DEC_RECHARGE)
 
 [DISABLE]
 
 ITEM_DEC_RECHARGE:
-  db 44 8B BC 24 E0 00 00 00 4C 8B F0
+  db 44 8B 8C 24 20 01 00 00
 
 unregistersymbol(ITEM_DEC_RECHARGE)
 
 {
-// ORIGINAL CODE - INJECTION POINT: NMS.exe+3CA318
+// ORIGINAL CODE - INJECTION POINT: NMS.exe+3F4E7E
 
-NMS.exe+3CF2F1 - E8 2AC00100           - call NMS.exe+3EB320
-NMS.exe+3CF2F6 - 48 8B 94 24 D8000000  - mov rdx,[rsp+000000D8]
-NMS.exe+3CF2FE - 49 8B CF              - mov rcx,r15
-NMS.exe+3CF301 - 48 89 44 24 30        - mov [rsp+30],rax
-NMS.exe+3CF306 - 01 58 18              - add [rax+18],ebx
-NMS.exe+3CF309 - E8 12C00100           - call NMS.exe+3EB320
-
-NMS.exe+3CF30E - 44 8B BC 24 E0000000  - mov r15d,[rsp+000000E0]
-
-NMS.exe+3CF316 - 4C 8B F0              - mov r14,rax
-NMS.exe+3CF319 - 44 29 78 18           - sub [rax+18],r15d
-NMS.exe+3CF31D - 4D 85 E4              - test r12,r12
-NMS.exe+3CF320 - 74 75                 - je NMS.exe+3CF397
-NMS.exe+3CF322 - 41 83 BC 24 70020000 01 - cmp dword ptr [r12+00000270],01
-NMS.exe+3CF32B - 75 6A                 - jne NMS.exe+3CF397
-NMS.exe+3CF32D - 41 8B 8C 24 90020000  - mov ecx,[r12+00000290]
-NMS.exe+3CF335 - E8 06E1BF00           - call NMS.exe+FCD440
-NMS.exe+3CF33A - 83 F8 13              - cmp eax,13
-NMS.exe+3CF33D - 74 58                 - je NMS.exe+3CF397
-NMS.exe+3CF33F - 48 8B 0D A2B25D04     - mov rcx,[NMS.exe+49AA5E8]
-
+NMS.exe+3F4E4B: 48 8B 94 24 08 01 00 00  - mov rdx,[rsp+00000108]
+NMS.exe+3F4E53: 48 8B CD                 - mov rcx,rbp
+NMS.exe+3F4E56: F3 0F 2C C0              - cvttss2si eax,xmm0
+NMS.exe+3F4E5A: 89 84 24 20 01 00 00     - mov [rsp+00000120],eax
+NMS.exe+3F4E61: E8 CA CF 01 00           - call NMS.exe+411E30
+NMS.exe+3F4E66: 48 8B 94 24 18 01 00 00  - mov rdx,[rsp+00000118]
+NMS.exe+3F4E6E: 49 8B CE                 - mov rcx,r14
+NMS.exe+3F4E71: 48 89 44 24 70           - mov [rsp+70],rax
+NMS.exe+3F4E76: 01 58 18                 - add [rax+18],ebx
+NMS.exe+3F4E79: E8 B2 CF 01 00           - call NMS.exe+411E30
+// ---------- INJECTING HERE ----------
+NMS.exe+3F4E7E: 44 8B 8C 24 20 01 00 00  - mov r9d,[rsp+00000120]
+// ---------- DONE INJECTING  ----------
+NMS.exe+3F4E86: 48 8B E8                 - mov rbp,rax
+NMS.exe+3F4E89: 44 29 48 18              - sub [rax+18],r9d
+NMS.exe+3F4E8D: 4D 85 ED                 - test r13,r13
+NMS.exe+3F4E90: 74 6C                    - je NMS.exe+3F4EFE
+NMS.exe+3F4E92: 41 83 BD 70 02 00 00 01  - cmp dword ptr [r13+00000270],01
+NMS.exe+3F4E9A: 75 62                    - jne NMS.exe+3F4EFE
+NMS.exe+3F4E9C: 41 8B 8D 90 02 00 00     - mov ecx,[r13+00000290]
+NMS.exe+3F4EA3: E8 F8 61 C1 00           - call NMS.exe+100B0A0
+NMS.exe+3F4EA8: 83 F8 13                 - cmp eax,13
+NMS.exe+3F4EAB: 74 51                    - je NMS.exe+3F4EFE
 }
 </AssemblerScript>
     </CheatEntry>
@@ -85,61 +87,55 @@ NMS.exe+3CF33F - 48 8B 0D A2B25D04     - mov rcx,[NMS.exe+49AA5E8]
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
-  Date   : 2023-02-26
-  Author : Edgar Han
+  Date   : 2023-06-29
+  Author : bboyh
 
-  Set decreasing value of items used in crafting to zero
+  This script does blah blah blah
 }
 
 [ENABLE]
 
-aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,44 39 65 18 44 0F 4C 75 18 48 3B DE) // should be unique
+
+aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,45 0F 4C 7E 18) // should be unique
+
 ITEM_DEC_CRAFTING:
-  mov r14d,0
-  nop
-  nop
-  nop
+  xor r15d,r15d
+  db 90 90
 registersymbol(ITEM_DEC_CRAFTING)
 
 [DISABLE]
 
 ITEM_DEC_CRAFTING:
-  db 44 39 65 18 44 0F 4C 75 18 48 3B DE
+  db 45 0F 4C 7E 18
 
 unregistersymbol(ITEM_DEC_CRAFTING)
 
 {
-// ORIGINAL CODE - INJECTION POINT: NMS.exe+3C33B5
+// ORIGINAL CODE - INJECTION POINT: NMS.exe+3EE488
 
-NMS.exe+3C86F6 - 4C 3B E7              - cmp r12,rdi
-NMS.exe+3C86F9 - 74 7F                 - je NMS.exe+3C877A
-NMS.exe+3C86FB - 44 8B A4 24 C0000000  - mov r12d,[rsp+000000C0]
-NMS.exe+3C8703 - 49 BD ABAAAAAAAAAAAAAA - mov r13,AAAAAAAAAAAAAAAB
-NMS.exe+3C870D - 0F1F 00               - nop dword ptr [rax]
-NMS.exe+3C8710 - 49 8B 2F              - mov rbp,[r15]
-NMS.exe+3C8713 - 45 8B F4              - mov r14d,r12d
-NMS.exe+3C8716 - 48 8B 9E 88000000     - mov rbx,[rsi+00000088]
-NMS.exe+3C871D - 48 8B B6 90000000     - mov rsi,[rsi+00000090]
-
-NMS.exe+3C8724 - 44 39 65 18           - cmp [rbp+18],r12d
-
-NMS.exe+3C8728 - 44 0F4C 75 18         - cmovl r14d,[rbp+18]
-NMS.exe+3C872D - 48 3B DE              - cmp rbx,rsi
-NMS.exe+3C8730 - 74 1E                 - je NMS.exe+3C8750
-NMS.exe+3C8732 - 48 8D 53 28           - lea rdx,[rbx+28]
-NMS.exe+3C8736 - 48 8D 4D 28           - lea rcx,[rbp+28]
-NMS.exe+3C873A - E8 F1C00501           - call NMS.exe+1424830
-NMS.exe+3C873F - 84 C0                 - test al,al
-NMS.exe+3C8741 - 0F85 8F000000         - jne NMS.exe+3C87D6
-NMS.exe+3C8747 - 48 83 C3 30           - add rbx,30
-NMS.exe+3C874B - 48 3B DE              - cmp rbx,rsi
-NMS.exe+3C874E - 75 E2                 - jne NMS.exe+3C8732
-NMS.exe+3C8750 - 48 8B B4 24 A8000000  - mov rsi,[rsp+000000A8]
-NMS.exe+3C8758 - 33 DB                 - xor ebx,ebx
-NMS.exe+3C875A - 44 29 73 18           - sub [rbx+18],r14d
-NMS.exe+3C875E - 45 2B E6              - sub r12d,r14d
-NMS.exe+3C8761 - 49 83 C7 08           - add r15,08
-                  - sete al
+NMS.exe+3EE45F: 48 8D 04 CE           - lea rax,[rsi+rcx*8]
+NMS.exe+3EE463: 48 89 45 6F           - mov [rbp+6F],rax
+NMS.exe+3EE467: 48 3B F0              - cmp rsi,rax
+NMS.exe+3EE46A: 74 70                 - je NMS.exe+3EE4DC
+NMS.exe+3EE46C: 0F 1F 40 00           - nop dword ptr [rax+00]
+NMS.exe+3EE470: 4C 8B 36              - mov r14,[rsi]
+NMS.exe+3EE473: 45 8B FC              - mov r15d,r12d
+NMS.exe+3EE476: 49 8B 9D 90 00 00 00  - mov rbx,[r13+00000090]
+NMS.exe+3EE47D: 41 8B 85 8C 00 00 00  - mov eax,[r13+0000008C]
+NMS.exe+3EE484: 45 39 66 18           - cmp [r14+18],r12d
+// ---------- INJECTING HERE ----------
+NMS.exe+3EE488: 45 0F 4C 7E 18        - cmovl r15d,[r14+18]
+// ---------- DONE INJECTING  ----------
+NMS.exe+3EE48D: 48 8D 3C 40           - lea rdi,[rax+rax*2]
+NMS.exe+3EE491: 48 C1 E7 04           - shl rdi,04
+NMS.exe+3EE495: 48 03 FB              - add rdi,rbx
+NMS.exe+3EE498: 48 3B DF              - cmp rbx,rdi
+NMS.exe+3EE49B: 74 21                 - je NMS.exe+3EE4BE
+NMS.exe+3EE49D: 0F 1F 00              - nop dword ptr [rax]
+NMS.exe+3EE4A0: 48 8D 53 28           - lea rdx,[rbx+28]
+NMS.exe+3EE4A4: 49 8D 4E 28           - lea rcx,[r14+28]
+NMS.exe+3EE4A8: E8 53 69 07 01        - call NMS.exe+1464E00
+NMS.exe+3EE4AD: 84 C0                 - test al,al
 }
 </AssemblerScript>
     </CheatEntry>
@@ -150,7 +146,7 @@ NMS.exe+3C8761 - 49 83 C7 08           - add r15,08
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
   Version: 
-  Date   : 2023-06-14
+  Date   : 2023-06-29
   Author : bboyh
 
   This script does blah blah blah
@@ -158,51 +154,46 @@ NMS.exe+3C8761 - 49 83 C7 08           - add r15,08
 
 [ENABLE]
 
-aobscanmodule(ITEM_CONSUME,NMS.exe,8B 43 18 48 8D 94 24 B8 00 00 00) // should be unique
 
-ITEM_CONSUME:
-  mov eax,[rbx+18]
-  lea rdx,[rsp+000000B8]
-  cmp eax,esi
-  mov ebx,esi
-  mov rcx,rbp
-  xor ebx,ebx
-  nop
-registersymbol(ITEM_CONSUME)
+aobscanmodule(ITEM_DEC_CONSUME,NMS.exe,0F 4C D8 E8 2D 3B 02 00) // should be unique
+
+ITEM_DEC_CONSUME:
+  xor rbx,rbx
+registersymbol(ITEM_DEC_CONSUME)
 
 [DISABLE]
 
-ITEM_CONSUME:
-  db 8B 43 18 48 8D 94 24 B8 00 00 00 3B C6 8B DE 48 8B CD 0F 4C D8
+ITEM_DEC_CONSUME:
+  db 0F 4C D8 E8 2D 3B 02 00
 
-unregistersymbol(*)
+unregistersymbol(ITEM_DEC_CONSUME)
 
 {
-// ORIGINAL CODE - INJECTION POINT: NMS.exe+3C9845
+// ORIGINAL CODE - INJECTION POINT: NMS.exe+3EE2FB
 
-NMS.exe+3C982F: 8B C6                    - mov eax,esi
-NMS.exe+3C9831: 48 83 C4 70              - add rsp,70
-NMS.exe+3C9835: 41 5D                    - pop r13
-NMS.exe+3C9837: 5F                       - pop rdi
-NMS.exe+3C9838: 5E                       - pop rsi
-NMS.exe+3C9839: 5D                       - pop rbp
-NMS.exe+3C983A: 5B                       - pop rbx
-NMS.exe+3C983B: C3                       - ret 
-NMS.exe+3C983C: 48 85 DB                 - test rbx,rbx
-NMS.exe+3C983F: 0F 84 A4 02 00 00        - je NMS.exe+3C9AE9
+NMS.exe+3EE2D8: 48 3B DF                 - cmp rbx,rdi
+NMS.exe+3EE2DB: 75 E6                    - jne NMS.exe+3EE2C3
+NMS.exe+3EE2DD: E9 49 02 00 00           - jmp NMS.exe+3EE52B
+NMS.exe+3EE2E2: 48 85 DB                 - test rbx,rbx
+NMS.exe+3EE2E5: 0F 84 40 02 00 00        - je NMS.exe+3EE52B
+NMS.exe+3EE2EB: 8B 43 18                 - mov eax,[rbx+18]
+NMS.exe+3EE2EE: 48 8D 55 77              - lea rdx,[rbp+77]
+NMS.exe+3EE2F2: 41 3B C4                 - cmp eax,r12d
+NMS.exe+3EE2F5: 41 8B DC                 - mov ebx,r12d
+NMS.exe+3EE2F8: 49 8B CD                 - mov rcx,r13
 // ---------- INJECTING HERE ----------
-NMS.exe+3C9845: 8B 43 18                 - mov eax,[rbx+18]
+NMS.exe+3EE2FB: 0F 4C D8                 - cmovl ebx,eax
 // ---------- DONE INJECTING  ----------
-NMS.exe+3C9848: 48 8D 94 24 B8 00 00 00  - lea rdx,[rsp+000000B8]
-NMS.exe+3C9850: 3B C6                    - cmp eax,esi
-NMS.exe+3C9852: 8B DE                    - mov ebx,esi
-NMS.exe+3C9854: 48 8B CD                 - mov rcx,rbp
-NMS.exe+3C9857: 0F 4C D8                 - cmovl ebx,eax
-NMS.exe+3C985A: E8 D1 2D 02 00           - call NMS.exe+3EC630
-NMS.exe+3C985F: 29 58 18                 - sub [rax+18],ebx
-NMS.exe+3C9862: 2B F3                    - sub esi,ebx
-NMS.exe+3C9864: 89 B4 24 C0 00 00 00     - mov [rsp+000000C0],esi
-NMS.exe+3C986B: 4C 89 64 24 68           - mov [rsp+68],r12
+NMS.exe+3EE2FE: E8 2D 3B 02 00           - call NMS.exe+411E30
+NMS.exe+3EE303: 29 58 18                 - sub [rax+18],ebx
+NMS.exe+3EE306: 44 2B E3                 - sub r12d,ebx
+NMS.exe+3EE309: 45 85 E4                 - test r12d,r12d
+NMS.exe+3EE30C: 0F 8E 0A 02 00 00        - jng NMS.exe+3EE51C
+NMS.exe+3EE312: 49 8B 9D 90 00 00 00     - mov rbx,[r13+00000090]
+NMS.exe+3EE319: 33 C0                    - xor eax,eax
+NMS.exe+3EE31B: 4C 89 B4 24 C8 00 00 00  - mov [rsp+000000C8],r14
+NMS.exe+3EE323: 8B C8                    - mov ecx,eax
+NMS.exe+3EE325: 48 89 45 BF              - mov [rbp-41],rax
 }
 </AssemblerScript>
     </CheatEntry>
