@@ -3,13 +3,15 @@
   <CheatEntries>
     <CheatEntry>
       <ID>2</ID>
-      <Description>"7 Days to Die ver. Alpha 20.7 (b1)"</Description>
+      <Description>"7 Days to Die ver. Alpha 21 (b324)"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -22,9 +24,429 @@
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
+          <ID>52</ID>
+          <Description>"Press G to drop inf (Like drinking water)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2022-08-04
+  Author : Edgar Han
+
+  works on 20.5(b2)
+}
+
+define(address,"Inventory:DecHoldingItem")
+define(address2,"Inventory:DecItem")
+define(bytes,55 48 8B EC 48 83 EC 40)
+define(bytes2,55)
+
+[ENABLE]
+
+assert(address,bytes)
+//assert(address2,byte2)
+
+
+address:
+  ret
+address2:
+  ret
+
+[DISABLE]
+
+address:
+  db bytes
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,40
+address2:
+  db bytes2
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:DecHoldingItem
+
+1DD4C3CC419: 04 02           - add al,02
+1DD4C3CC41B: 05 04 03 01 50  - add eax,50010304
+1DD4C3CC420: 00 00           - add [rax],al
+1DD4C3CC422: 00 00           - add [rax],al
+1DD4C3CC424: 00 00           - add [rax],al
+1DD4C3CC426: 00 00           - add [rax],al
+1DD4C3CC428: 00 00           - add [rax],al
+1DD4C3CC42A: 00 00           - add [rax],al
+1DD4C3CC42C: 00 00           - add [rax],al
+1DD4C3CC42E: 00 00           - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:DecHoldingItem: 55              - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:DecHoldingItem+1: 48 8B EC        - mov rbp,rsp
+Inventory:DecHoldingItem+4: 48 83 EC 40     - sub rsp,40
+Inventory:DecHoldingItem+8: 48 89 7D F0     - mov [rbp-10],rdi
+Inventory:DecHoldingItem+c: 4C 89 7D F8     - mov [rbp-08],r15
+Inventory:DecHoldingItem+10: 48 8B F9        - mov rdi,rcx
+Inventory:DecHoldingItem+13: 48 89 55 E8     - mov [rbp-18],rdx
+Inventory:DecHoldingItem+17: B8 01 00 00 00  - mov eax,00000001
+Inventory:DecHoldingItem+1c: 4C 0F B6 F8     - movzx r15,al
+Inventory:DecHoldingItem+20: 48 8B CF        - mov rcx,rdi
+Inventory:DecHoldingItem+23: 48 8B 07        - mov rax,[rdi]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>53</ID>
+          <Description>"No Damage"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(EntityPlayerLocal:DamageEntity,55 48 8B EC 48 83 EC 70)
+
+EntityPlayerLocal:DamageEntity:
+  ret
+
+[DISABLE]
+
+EntityPlayerLocal:DamageEntity:
+  db 55
+  // ret 
+  // mov rbp,rsp
+  // sub rsp,70
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityPlayerLocal:DamageEntity
+
+Inventory:DecItem+3b9: EB B6           - jmp Inventory:DecItem+371
+1FC56BDC28B: 00 00           - add [rax],al
+1FC56BDC28D: 00 00           - add [rax],al
+1FC56BDC28F: 00 01           - add [rcx],al
+1FC56BDC291: 04 02           - add al,02
+1FC56BDC293: 05 04 03 01 50  - add eax,50010304
+1FC56BDC298: 00 00           - add [rax],al
+1FC56BDC29A: 00 00           - add [rax],al
+1FC56BDC29C: 00 00           - add [rax],al
+1FC56BDC29E: 00 00           - add [rax],al
+// ---------- INJECTING HERE ----------
+EntityPlayerLocal:DamageEntity - 55                    - push rbp
+// ---------- DONE INJECTING  ----------
+EntityPlayerLocal:DamageEntity+1: 48 8B EC        - mov rbp,rsp
+EntityPlayerLocal:DamageEntity+4: 48 83 EC 70     - sub rsp,70
+EntityPlayerLocal:DamageEntity+8: 48 89 7D E8     - mov [rbp-18],rdi
+EntityPlayerLocal:DamageEntity+c: 4C 89 75 F0     - mov [rbp-10],r14
+EntityPlayerLocal:DamageEntity+10: 4C 89 7D F8     - mov [rbp-08],r15
+EntityPlayerLocal:DamageEntity+14: 4C 8B F1        - mov r14,rcx
+EntityPlayerLocal:DamageEntity+17: 4C 8B FA        - mov r15,rdx
+EntityPlayerLocal:DamageEntity+1a: 49 8B F8        - mov rdi,r8
+EntityPlayerLocal:DamageEntity+1d: 4C 89 4D C0     - mov [rbp-40],r9
+EntityPlayerLocal:DamageEntity+21: F3 0F 10 45 30  - movss xmm0,[rbp+30]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>54</ID>
+          <Description>"No Stamina Update"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(EntityStats:UpdatePlayerStaminaOT,55 48 8B EC)
+
+EntityStats:UpdatePlayerStaminaOT:
+  ret
+
+[DISABLE]
+
+EntityStats:UpdatePlayerStaminaOT:
+  db 55
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,00000150
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityStats:UpdatePlayerStaminaOT
+
+Stat:get_ValuePercent+7b: 5D                       - pop rbp
+Stat:get_ValuePercent+7c: C3                       - ret 
+1FC56A2EF7D: 00 00                    - add [rax],al
+1FC56A2EF7F: 00 01                    - add [rcx],al
+1FC56A2EF81: 04 02                    - add al,02
+1FC56A2EF83: 05 04 03 01 50           - add eax,50010304
+1FC56A2EF88: 00 00                    - add [rax],al
+1FC56A2EF8A: 00 00                    - add [rax],al
+1FC56A2EF8C: 00 00                    - add [rax],al
+1FC56A2EF8E: 00 00                    - add [rax],al
+// ---------- INJECTING HERE ----------
+EntityStats:UpdatePlayerStaminaOT: 55                       - push rbp
+// ---------- DONE INJECTING  ----------
+EntityStats:UpdatePlayerStaminaOT+1: 48 8B EC                 - mov rbp,rsp
+EntityStats:UpdatePlayerStaminaOT+4: 48 81 EC 50 01 00 00     - sub rsp,00000150
+EntityStats:UpdatePlayerStaminaOT+b: 48 89 75 F8              - mov [rbp-08],rsi
+EntityStats:UpdatePlayerStaminaOT+f: 48 8B F1                 - mov rsi,rcx
+EntityStats:UpdatePlayerStaminaOT+12: F3 0F 11 8D 30 FF FF FF  - movss [rbp-000000D0],xmm1
+EntityStats:UpdatePlayerStaminaOT+1a: 66 0F 57 C0              - xorpd xmm0,xmm0
+EntityStats:UpdatePlayerStaminaOT+1e: 4C 8B 4E 70              - mov r9,[rsi+70]
+EntityStats:UpdatePlayerStaminaOT+22: 33 C0                    - xor eax,eax
+EntityStats:UpdatePlayerStaminaOT+24: 48 89 85 40 FF FF FF     - mov [rbp-000000C0],rax
+EntityStats:UpdatePlayerStaminaOT+2b: 48 89 85 48 FF FF FF     - mov [rbp-000000B8],rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>55</ID>
+          <Description>"No Food Update"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(EntityStats:UpdatePlayerFoodOT,55 48 8B EC 48 81 EC E0 00 00 00)
+
+EntityStats:UpdatePlayerFoodOT:
+  ret
+
+[DISABLE]
+
+EntityStats:UpdatePlayerFoodOT:
+  db 55 48 8B EC 48 81 EC E0 00 00 00
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,000000E0
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityStats:UpdatePlayerFoodOT
+
+1FC56A2CFAC: 00 00                 - add [rax],al
+1FC56A2CFAE: 00 00                 - add [rax],al
+1FC56A2CFB0: 00 00                 - add [rax],al
+1FC56A2CFB2: 00 00                 - add [rax],al
+1FC56A2CFB4: 00 00                 - add [rax],al
+1FC56A2CFB6: 00 00                 - add [rax],al
+1FC56A2CFB8: 00 00                 - add [rax],al
+1FC56A2CFBA: 00 00                 - add [rax],al
+1FC56A2CFBC: 00 00                 - add [rax],al
+1FC56A2CFBE: 00 00                 - add [rax],al
+// ---------- INJECTING HERE ----------
+EntityStats:UpdatePlayerFoodOT: 55                    - push rbp
+// ---------- DONE INJECTING  ----------
+EntityStats:UpdatePlayerFoodOT+1: 48 8B EC              - mov rbp,rsp
+EntityStats:UpdatePlayerFoodOT+4: 48 81 EC E0 00 00 00  - sub rsp,000000E0
+EntityStats:UpdatePlayerFoodOT+b: 48 89 75 F8           - mov [rbp-08],rsi
+EntityStats:UpdatePlayerFoodOT+f: 48 8B F1              - mov rsi,rcx
+EntityStats:UpdatePlayerFoodOT+12: F3 0F 11 4D A8        - movss [rbp-58],xmm1
+EntityStats:UpdatePlayerFoodOT+17: 48 8B 46 30           - mov rax,[rsi+30]
+EntityStats:UpdatePlayerFoodOT+1b: 48 8B C8              - mov rcx,rax
+EntityStats:UpdatePlayerFoodOT+1e: 48 89 4D 98           - mov [rbp-68],rcx
+EntityStats:UpdatePlayerFoodOT+22: 83 38 00              - cmp dword ptr [rax],00
+EntityStats:UpdatePlayerFoodOT+25: F3 0F 10 40 48        - movss xmm0,[rax+48]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>56</ID>
+          <Description>"No Thirst Update"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(EntityStats:UpdatePlayerWaterOT,55 48 8B EC 48 81 EC E0 00 00 00)
+
+EntityStats:UpdatePlayerWaterOT:
+  ret
+
+[DISABLE]
+
+EntityStats:UpdatePlayerWaterOT:
+  db 55 48 8B EC 48 81 EC E0 00 00 00
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,000000E0
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityStats:UpdatePlayerWaterOT
+
+Stat:SetChangedFlag+11b: C3                    - ret 
+1FC56A2E13C: 00 00                 - add [rax],al
+1FC56A2E13E: 00 00                 - add [rax],al
+1FC56A2E140: 01 04 01              - add [rcx+rax],eax
+1FC56A2E143: 00 04 42              - add [rdx+rax*2],al
+1FC56A2E146: 00 00                 - add [rax],al
+1FC56A2E148: 00 00                 - add [rax],al
+1FC56A2E14A: 00 00                 - add [rax],al
+1FC56A2E14C: 00 00                 - add [rax],al
+1FC56A2E14E: 00 00                 - add [rax],al
+// ---------- INJECTING HERE ----------
+EntityStats:UpdatePlayerWaterOT: 55                    - push rbp
+// ---------- DONE INJECTING  ----------
+EntityStats:UpdatePlayerWaterOT+1: 48 8B EC              - mov rbp,rsp
+EntityStats:UpdatePlayerWaterOT+4: 48 81 EC E0 00 00 00  - sub rsp,000000E0
+EntityStats:UpdatePlayerWaterOT+b: 48 89 75 F8           - mov [rbp-08],rsi
+EntityStats:UpdatePlayerWaterOT+f: 48 8B F1              - mov rsi,rcx
+EntityStats:UpdatePlayerWaterOT+12: F3 0F 11 4D A8        - movss [rbp-58],xmm1
+EntityStats:UpdatePlayerWaterOT+17: 48 8B 46 28           - mov rax,[rsi+28]
+EntityStats:UpdatePlayerWaterOT+1b: 48 8B C8              - mov rcx,rax
+EntityStats:UpdatePlayerWaterOT+1e: 48 89 4D 98           - mov [rbp-68],rcx
+EntityStats:UpdatePlayerWaterOT+22: 83 38 00              - cmp dword ptr [rax],00
+EntityStats:UpdatePlayerWaterOT+25: F3 0F 10 40 48        - movss xmm0,[rax+48]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>58</ID>
+          <Description>"Zombie Insta-KILL?"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(EntityEnemy:DamageEntity+21,F2 0F 5A E8 F3 0F 11 6C 24 20)
+
+EntityEnemy:DamageEntity+21:
+  xorpd xmm5,xmm5
+
+[DISABLE]
+
+EntityEnemy:DamageEntity+21:
+  db F2 0F 5A E8 F3 0F 11 6C 24 20
+  // cvtsd2ss xmm5,xmm0
+  // movss [rsp+20],xmm5
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityEnemy:DamageEntity+21
+
+1FC56C6678E: 00 00                          - add [rax],al
+EntityEnemy:DamageEntity: 55                             - push rbp
+EntityEnemy:DamageEntity+1: 48 8B EC                       - mov rbp,rsp
+EntityEnemy:DamageEntity+4: 48 83 EC 50                    - sub rsp,50
+EntityEnemy:DamageEntity+8: 48 89 4D F8                    - mov [rbp-08],rcx
+EntityEnemy:DamageEntity+c: 48 89 55 F0                    - mov [rbp-10],rdx
+EntityEnemy:DamageEntity+10: 4C 89 45 E8                    - mov [rbp-18],r8
+EntityEnemy:DamageEntity+14: 4C 89 4D E0                    - mov [rbp-20],r9
+EntityEnemy:DamageEntity+18: F3 0F 10 45 30                 - movss xmm0,[rbp+30]
+EntityEnemy:DamageEntity+1d: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
+// ---------- INJECTING HERE ----------
+EntityEnemy:DamageEntity+21: F2 0F 5A E8                    - cvtsd2ss xmm5,xmm0
+// ---------- DONE INJECTING  ----------
+EntityEnemy:DamageEntity+25: F3 0F 11 6C 24 20              - movss [rsp+20],xmm5
+EntityEnemy:DamageEntity+2b: 48 8B 4D F8                    - mov rcx,[rbp-08]
+EntityEnemy:DamageEntity+2f: 48 8B 55 F0                    - mov rdx,[rbp-10]
+EntityEnemy:DamageEntity+33: 4C 63 45 E8                    - movsxd  r8,dword ptr [rbp-18]
+EntityEnemy:DamageEntity+37: 44 0F B6 4D E0                 - movzx r9d,byte ptr [rbp-20]
+EntityEnemy:DamageEntity+3c: 66 90                          - nop 2
+EntityEnemy:DamageEntity+3e: 49 BB 20 68 C6 56 FC 01 00 00  - mov r11,EntityAlive:DamageEntity
+EntityEnemy:DamageEntity+48: 41 FF D3                       - call r11
+EntityEnemy:DamageEntity+4b: 48 8D 65 00                    - lea rsp,[rbp+00]
+EntityEnemy:DamageEntity+4f: 5D                             - pop rbp
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>57</ID>
+          <Description>"zombie insta-kill?"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-06-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(EntityHuman:DamageEntity+82,F2 0F 5A E8 F3 0F 11 6C 24 20)
+
+EntityHuman:DamageEntity+82:
+  xorpd xmm5,xmm5
+
+[DISABLE]
+
+EntityHuman:DamageEntity+82:
+  db F2 0F 5A E8 F3 0F 11 6C 24 20
+  // cvtsd2ss xmm5,xmm0
+  // movss [rsp+20],xmm5
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: EntityHuman:DamageEntity+82
+
+EntityHuman:DamageEntity+60: 48 C1 F9 20                    - sar rcx,20
+EntityHuman:DamageEntity+64: 48 8B C1                       - mov rax,rcx
+EntityHuman:DamageEntity+67: 48 C1 E8 3F                    - shr rax,3F
+EntityHuman:DamageEntity+6b: 4C 8B E8                       - mov r13,rax
+EntityHuman:DamageEntity+6e: 4C 03 E9                       - add r13,rcx
+EntityHuman:DamageEntity+71: 41 3B FD                       - cmp edi,r13d
+EntityHuman:DamageEntity+74: 7E 03                          - jle EntityHuman:DamageEntity+79
+EntityHuman:DamageEntity+76: 49 8B FD                       - mov rdi,r13
+EntityHuman:DamageEntity+79: F3 0F 10 45 30                 - movss xmm0,[rbp+30]
+EntityHuman:DamageEntity+7e: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
+// ---------- INJECTING HERE ----------
+EntityHuman:DamageEntity+82: F2 0F 5A E8                    - cvtsd2ss xmm5,xmm0
+// ---------- DONE INJECTING  ----------
+EntityHuman:DamageEntity+86: F3 0F 11 6C 24 20              - movss [rsp+20],xmm5
+EntityHuman:DamageEntity+8c: 49 8B CE                       - mov rcx,r14
+EntityHuman:DamageEntity+8f: 49 8B D7                       - mov rdx,r15
+EntityHuman:DamageEntity+92: 4C 8B C7                       - mov r8,rdi
+EntityHuman:DamageEntity+95: 44 0F B6 4D D0                 - movzx r9d,byte ptr [rbp-30]
+EntityHuman:DamageEntity+9a: 48 8D 6D 00                    - lea rbp,[rbp+00]
+EntityHuman:DamageEntity+9e: 49 BB 90 67 C6 56 FC 01 00 00  - mov r11,EntityEnemy:DamageEntity
+EntityHuman:DamageEntity+a8: 41 FF D3                       - call r11
+EntityHuman:DamageEntity+ab: 48 8B 7D E0                    - mov rdi,[rbp-20]
+EntityHuman:DamageEntity+af: 4C 8B 6D E8                    - mov r13,[rbp-18]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
           <ID>4</ID>
           <Description>"Entity Player Local Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -487,6 +909,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
           <ID>41</ID>
           <Description>"Ranged Weapon Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -602,6 +1025,7 @@ ItemActionRanged:OnHoldingUpdate+2e: 74 21                 - je ItemActionRanged
           <ID>15</ID>
           <Description>"Speed Modifier"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -698,6 +1122,7 @@ EntityPlayerLocal:GetSpeedModifier+b4: C3                             - ret
         <CheatEntry>
           <ID>36</ID>
           <Description>"Instant Scrap [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -816,6 +1241,7 @@ ItemActionEntryScrap:OnActivated+4cd: 90                             - nop
         <CheatEntry>
           <ID>39</ID>
           <Description>"Damage Multiplier [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -891,79 +1317,12 @@ unregistersymbol(*)
 }
 </AssemblerScript>
         </CheatEntry>
-        <CheatEntry>
-          <ID>52</ID>
-          <Description>"Press G to drop inf (Like drinking water)"</Description>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : 7DaysToDie.exe
-  Version: 
-  Date   : 2022-08-04
-  Author : Edgar Han
-
-  works on 20.5(b2)
-}
-
-define(address,"Inventory:DecHoldingItem")
-define(address2,"Inventory:DecItem")
-define(bytes,55 48 8B EC 48 83 EC 40)
-define(bytes2,55)
-
-[ENABLE]
-
-assert(address,bytes)
-//assert(address2,byte2)
-
-
-address:
-  ret
-address2:
-  ret
-
-[DISABLE]
-
-address:
-  db bytes
-  // push rbp
-  // mov rbp,rsp
-  // sub rsp,40
-address2:
-  db bytes2
-
-
-{
-// ORIGINAL CODE - INJECTION POINT: Inventory:DecHoldingItem
-
-1DD4C3CC419: 04 02           - add al,02
-1DD4C3CC41B: 05 04 03 01 50  - add eax,50010304
-1DD4C3CC420: 00 00           - add [rax],al
-1DD4C3CC422: 00 00           - add [rax],al
-1DD4C3CC424: 00 00           - add [rax],al
-1DD4C3CC426: 00 00           - add [rax],al
-1DD4C3CC428: 00 00           - add [rax],al
-1DD4C3CC42A: 00 00           - add [rax],al
-1DD4C3CC42C: 00 00           - add [rax],al
-1DD4C3CC42E: 00 00           - add [rax],al
-// ---------- INJECTING HERE ----------
-Inventory:DecHoldingItem: 55              - push rbp
-// ---------- DONE INJECTING  ----------
-Inventory:DecHoldingItem+1: 48 8B EC        - mov rbp,rsp
-Inventory:DecHoldingItem+4: 48 83 EC 40     - sub rsp,40
-Inventory:DecHoldingItem+8: 48 89 7D F0     - mov [rbp-10],rdi
-Inventory:DecHoldingItem+c: 4C 89 7D F8     - mov [rbp-08],r15
-Inventory:DecHoldingItem+10: 48 8B F9        - mov rdi,rcx
-Inventory:DecHoldingItem+13: 48 89 55 E8     - mov [rbp-18],rdx
-Inventory:DecHoldingItem+17: B8 01 00 00 00  - mov eax,00000001
-Inventory:DecHoldingItem+1c: 4C 0F B6 F8     - movzx r15,al
-Inventory:DecHoldingItem+20: 48 8B CF        - mov rcx,rdi
-Inventory:DecHoldingItem+23: 48 8B 07        - mov rax,[rdi]
-}
-</AssemblerScript>
-        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>44</ID>
       <Description>"CE Window Usermode"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>/*
   make a copy of the cheat engine.exe as csrss.exe
@@ -1000,6 +1359,53 @@ dealloc(newmem)
 </AssemblerScript>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of jp ItemActionRanged:HasInfiniteAmmo+d8</Description>
+      <AddressString>1FB46C13F62</AddressString>
+      <Before>
+        <Byte>C0</Byte>
+        <Byte>66</Byte>
+        <Byte>0F</Byte>
+        <Byte>2F</Byte>
+        <Byte>C8</Byte>
+      </Before>
+      <Actual>
+        <Byte>7A</Byte>
+        <Byte>04</Byte>
+      </Actual>
+      <After>
+        <Byte>40</Byte>
+        <Byte>0F</Byte>
+        <Byte>92</Byte>
+        <Byte>C0</Byte>
+        <Byte>48</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of sub ecx,r8d</Description>
+      <AddressString>1FB46C37964</AddressString>
+      <Before>
+        <Byte>E0</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>55</Byte>
+        <Byte>D8</Byte>
+      </Before>
+      <Actual>
+        <Byte>44</Byte>
+        <Byte>29</Byte>
+        <Byte>C1</Byte>
+      </Actual>
+      <After>
+        <Byte>89</Byte>
+        <Byte>48</Byte>
+        <Byte>34</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>newmem</Name>
