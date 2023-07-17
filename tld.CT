@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"The Long Dark; Build # 2.21 118182 S"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Enable"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  mono_initialize()
+  LaunchMonoDataCollector()
+{$asm}
+[DISABLE]
+
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>4</ID>
+          <Description>"Unlimited Gear Drop (not all)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : tld.exe
+  Version: 
+  Date   : 2023-07-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(GearItem.Drop+608,44 29 78 18 48 8B 83 18 02 00 00)
+
+GearItem.Drop+608:
+  db 90 90 90 90
+
+[DISABLE]
+
+GearItem.Drop+608:
+  db 44 29 78 18 48 8B 83 18 02 00 00
+  // sub [rax+18],r15d
+  // mov rax,[rbx+00000218]
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+7C2808
+
+GameAssembly.dll+7C27D9: 48 8B 0D 58 B0 E9 03  - mov rcx,[GameAssembly.dll+465D838]
+GameAssembly.dll+7C27E0: 83 B9 E0 00 00 00 00  - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+7C27E7: 75 05                 - jne GameAssembly.dll+7C27EE
+GameAssembly.dll+7C27E9: E8 92 D2 B1 FF        - call GameAssembly.il2cpp_field_static_set_value+42E0
+GameAssembly.dll+7C27EE: 33 D2                 - xor edx,edx
+GameAssembly.dll+7C27F0: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+7C27F3: E8 68 E4 3B 00        - call GearManager.MaybeAddToDroppedDecoys
+GameAssembly.dll+7C27F8: 48 8B 83 18 02 00 00  - mov rax,[rbx+00000218]
+GameAssembly.dll+7C27FF: 48 85 C0              - test rax,rax
+GameAssembly.dll+7C2802: 0F 84 47 06 00 00     - je GameAssembly.dll+7C2E4F
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+7C2808: 44 29 78 18           - sub [rax+18],r15d
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+7C280C: 48 8B 83 18 02 00 00  - mov rax,[rbx+00000218]
+GameAssembly.dll+7C2813: 48 85 C0              - test rax,rax
+GameAssembly.dll+7C2816: 0F 84 33 06 00 00     - je GameAssembly.dll+7C2E4F
+GameAssembly.dll+7C281C: 83 78 18 00           - cmp dword ptr [rax+18],00
+GameAssembly.dll+7C2820: 0F 8F 11 03 00 00     - jg GameAssembly.dll+7C2B37
+GameAssembly.dll+7C2826: 48 8B 0D 0B 59 E9 03  - mov rcx,[GameAssembly.dll+4658138]
+GameAssembly.dll+7C282D: 83 B9 E0 00 00 00 00  - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+7C2834: 75 05                 - jne GameAssembly.dll+7C283B
+GameAssembly.dll+7C2836: E8 45 D2 B1 FF        - call GameAssembly.il2cpp_field_static_set_value+42E0
+GameAssembly.dll+7C283B: E8 E0 36 D7 FF        - call GameAssembly.dll+535F20
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"Add Item Multiplier"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : tld.exe
+  Version: 
+  Date   : 2023-07-16
+  Author : bboyh
+
+  Very Simple Multiplier code
+}
+
+
+[ENABLE]
+
+assert(PlayerManager.TryAddToExistingStackable+28E,01 70 18 48 8B 0D 60 20 A3 03)
+alloc(newmem,$1000,PlayerManager.TryAddToExistingStackable+28E)
+
+label(code)
+label(return)
+
+newmem:
+  push rax
+  mov eax,(int)10
+  mul esi // eax *= esi
+  mov esi,eax
+  pop rax
+
+code:
+  add [rax+18],esi
+  mov rcx,[GameAssembly.dll+4658138]
+  jmp return
+
+PlayerManager.TryAddToExistingStackable+28E:
+  jmp newmem
+  nop 5
+return:
+
+[DISABLE]
+
+PlayerManager.TryAddToExistingStackable+28E:
+  db 01 70 18 48 8B 0D 60 20 A3 03
+  // add [rax+18],esi
+  // mov rcx,[GameAssembly.dll+4658138]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+C260CE
+
+GameAssembly.dll+C2609E: 48 8B 88 B8 00 00 00  - mov rcx,[rax+000000B8]
+GameAssembly.dll+C260A5: 48 8B 01              - mov rax,[rcx]
+GameAssembly.dll+C260A8: 48 39 43 10           - cmp [rbx+10],rax
+GameAssembly.dll+C260AC: 0F 84 A3 00 00 00     - je GameAssembly.dll+C26155
+GameAssembly.dll+C260B2: 48 8B 07              - mov rax,[rdi]
+GameAssembly.dll+C260B5: 48 85 C0              - test rax,rax
+GameAssembly.dll+C260B8: 0F 84 9B 00 00 00     - je GameAssembly.dll+C26159
+GameAssembly.dll+C260BE: 48 8B 80 18 02 00 00  - mov rax,[rax+00000218]
+GameAssembly.dll+C260C5: 48 85 C0              - test rax,rax
+GameAssembly.dll+C260C8: 0F 84 8B 00 00 00     - je GameAssembly.dll+C26159
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+C260CE: 01 70 18              - add [rax+18],esi
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+C260D1: 48 8B 0D 60 20 A3 03  - mov rcx,[GameAssembly.dll+4658138]
+GameAssembly.dll+C260D8: 83 B9 E0 00 00 00 00  - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+C260DF: 75 05                 - jne GameAssembly.dll+C260E6
+GameAssembly.dll+C260E1: E8 9A 99 6B FF        - call GameAssembly.il2cpp_field_static_set_value+42E0
+GameAssembly.dll+C260E6: 33 C9                 - xor ecx,ecx
+GameAssembly.dll+C260E8: E8 A3 82 F4 FF        - call GameManager.GetMissionServicesManager
+GameAssembly.dll+C260ED: 48 8B 0D 4C 51 A0 03  - mov rcx,[GameAssembly.dll+462B240]
+GameAssembly.dll+C260F4: 48 8B D8              - mov rbx,rax
+GameAssembly.dll+C260F7: 83 B9 E0 00 00 00 00  - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+C260FE: 75 05                 - jne GameAssembly.dll+C26105
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Always Pickup XX amount"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : tld.exe
+  Version: 
+  Date   : 2023-07-16
+  Author : bboyh
+
+  Moves a constant value instead of the pickup item stack size
+}
+
+[ENABLE]
+
+assert(PlayerManager.AddItemToPlayerInventory+1DD,8B 70 18 48 8B 0D F9 4E A0 03)
+alloc(newmem,$1000,"GameAssembly.dll"+C2633D)
+
+label(code)
+label(return)
+
+newmem:
+  mov esi,(int)20
+code:
+  //mov esi,[rax+18]
+  mov rcx,[GameAssembly.dll+462B240]
+  jmp return
+
+PlayerManager.AddItemToPlayerInventory+1DD:
+  jmp newmem
+  nop 5
+return:
+
+[DISABLE]
+
+PlayerManager.AddItemToPlayerInventory+1DD:
+  db 8B 70 18 48 8B 0D F9 4E A0 03
+  // mov esi,[rax+18]
+  // mov rcx,[GameAssembly.dll+462B240]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+C2633D
+
+GameAssembly.dll+C26318: 75 05                 - jne GameAssembly.dll+C2631F
+GameAssembly.dll+C2631A: E8 61 97 6B FF        - call GameAssembly.il2cpp_field_static_set_value+42E0
+GameAssembly.dll+C2631F: 33 D2                 - xor edx,edx
+GameAssembly.dll+C26321: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+C26324: E8 B7 18 A6 02        - call UnityEngine.Object.op_Implicit
+GameAssembly.dll+C26329: 84 C0                 - test al,al
+GameAssembly.dll+C2632B: 74 13                 - je GameAssembly.dll+C26340
+GameAssembly.dll+C2632D: 48 8B 83 18 02 00 00  - mov rax,[rbx+00000218]
+GameAssembly.dll+C26334: 48 85 C0              - test rax,rax
+GameAssembly.dll+C26337: 0F 84 D3 05 00 00     - je GameAssembly.dll+C26910
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+C2633D: 8B 70 18              - mov esi,[rax+18]
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+C26340: 48 8B 0D F9 4E A0 03  - mov rcx,[GameAssembly.dll+462B240]
+GameAssembly.dll+C26347: 48 8B BB A8 00 00 00  - mov rdi,[rbx+000000A8]
+GameAssembly.dll+C2634E: 44 39 A1 E0 00 00 00  - cmp [rcx+000000E0],r12d
+GameAssembly.dll+C26355: 75 05                 - jne GameAssembly.dll+C2635C
+GameAssembly.dll+C26357: E8 24 97 6B FF        - call GameAssembly.il2cpp_field_static_set_value+42E0
+GameAssembly.dll+C2635C: 33 D2                 - xor edx,edx
+GameAssembly.dll+C2635E: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+C26361: E8 7A 18 A6 02        - call UnityEngine.Object.op_Implicit
+GameAssembly.dll+C26366: 84 C0                 - test al,al
+GameAssembly.dll+C26368: 74 48                 - je GameAssembly.dll+C263B2
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of sub [rax+18],r15d</Description>
+      <AddressString>GameAssembly.dll+7C2808</AddressString>
+      <Before>
+        <Byte>84</Byte>
+        <Byte>47</Byte>
+        <Byte>06</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>44</Byte>
+        <Byte>29</Byte>
+        <Byte>78</Byte>
+        <Byte>18</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>83</Byte>
+        <Byte>18</Byte>
+        <Byte>02</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("tld.exe")
+
+</LuaScript>
+</CheatTable>

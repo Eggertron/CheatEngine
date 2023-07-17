@@ -22,6 +22,82 @@
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
+          <ID>60</ID>
+          <Description>"Instant Kill"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-07-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(Stat:set_Value+8b,F3 0F 11 6E 2C)
+alloc(newmem,256,1DCF04EDCAB)
+
+label(code)
+label(return)
+
+newmem:
+  cmp [rsi+39],0  // Stat.m_isEntityPlayer
+  jne code
+  mov [one],(float)1.0
+  comisd xmm5,[one]
+  jl code
+  //xorpd xmm5,xmm5  // Insta-kill DOA
+  movss xmm5,[one]
+
+code:
+  movss [rsi+2C],xmm5
+  jmp return
+one:
+  dw 0
+
+Stat:set_Value+8b:
+  jmp newmem
+return:
+
+[DISABLE]
+
+Stat:set_Value+8b:
+  db F3 0F 11 6E 2C
+  // movss [rsi+2C],xmm5
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Stat:set_Value+8b
+
+Stat:set_Value+5e: F3 0F 10 55 F4                 - movss xmm2,[rbp-0C]
+Stat:set_Value+63: F3 0F 5A D2                    - cvtss2sd xmm2,xmm2
+Stat:set_Value+67: F2 0F 5A D2                    - cvtsd2ss xmm2,xmm2
+Stat:set_Value+6b: F2 0F 5A C9                    - cvtsd2ss xmm1,xmm1
+Stat:set_Value+6f: F2 0F 5A C0                    - cvtsd2ss xmm0,xmm0
+Stat:set_Value+73: 66 66 90                       - nop 3
+Stat:set_Value+76: 49 BB 90 91 B0 72 DB 01 00 00  - mov r11,UnityEngine.Mathf:Clamp
+Stat:set_Value+80: 41 FF D3                       - call r11
+Stat:set_Value+83: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
+Stat:set_Value+87: F2 0F 5A E8                    - cvtsd2ss xmm5,xmm0
+// ---------- INJECTING HERE ----------
+Stat:set_Value+8b: F3 0F 11 6E 2C                 - movss [rsi+2C],xmm5
+// ---------- DONE INJECTING  ----------
+Stat:set_Value+90: F3 0F 10 46 2C                 - movss xmm0,[rsi+2C]
+Stat:set_Value+95: F3 0F 5A C0                    - cvtss2sd xmm0,xmm0
+Stat:set_Value+99: F3 0F 10 4D E8                 - movss xmm1,[rbp-18]
+Stat:set_Value+9e: F3 0F 5A C9                    - cvtss2sd xmm1,xmm1
+Stat:set_Value+a2: 48 8B CE                       - mov rcx,rsi
+Stat:set_Value+a5: F2 0F 10 D1                    - movsd xmm2,xmm1
+Stat:set_Value+a9: F2 0F 5A D2                    - cvtsd2ss xmm2,xmm2
+Stat:set_Value+ad: F2 0F 10 C8                    - movsd xmm1,xmm0
+Stat:set_Value+b1: F2 0F 5A C9                    - cvtsd2ss xmm1,xmm1
+Stat:set_Value+b5: 90                             - nop 
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
           <ID>52</ID>
           <Description>"Press G to drop inf (Like drinking water)"</Description>
           <VariableType>Auto Assembler Script</VariableType>
@@ -571,7 +647,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
                   <ShowAsHex>1</ShowAsHex>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>8 Bytes</VariableType>
-                  <Address>+5d8</Address>
+                  <Address>+5E0</Address>
                   <Offsets>
                     <Offset>0</Offset>
                   </Offsets>
@@ -1300,6 +1376,77 @@ unregistersymbol(*)
 1A1E121315E: 00 00                 - add [rax],al
 1A1E1213160: 00 00                 - add [rax],al
 1A1E1213162: 00 00                 - add [rax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>61</ID>
+          <Description>"1-Hit Kill"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : 7DaysToDie.exe
+  Version: 
+  Date   : 2023-07-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+assert(Stat:set_Value+14,F3 0F 10 46 2C)
+alloc(newmem,256,1DCF04EDC34)
+
+label(code)
+label(return)
+
+newmem:
+  cmp [rsi+39],0  // Stat.m_isEntityPlayer
+  jne code
+  mov [rsi+2C],(float)1.0
+
+code:
+  movss xmm0,[rsi+2C]
+  jmp return
+
+Stat:set_Value+14:
+  jmp newmem
+return:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+Stat:set_Value+14:
+  db F3 0F 10 46 2C
+  // movss xmm0,[rsi+2C]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Stat:set_Value+14
+
+1DCF04EDC18: 00 00              - add [rax],al
+1DCF04EDC1A: 00 00              - add [rax],al
+1DCF04EDC1C: 00 00              - add [rax],al
+1DCF04EDC1E: 00 00              - add [rax],al
+Stat:set_Value: 55                 - push rbp
+Stat:set_Value+1: 48 8B EC           - mov rbp,rsp
+Stat:set_Value+4: 48 83 EC 40        - sub rsp,40
+Stat:set_Value+8: 48 89 75 F8        - mov [rbp-08],rsi
+Stat:set_Value+c: 48 8B F1           - mov rsi,rcx
+Stat:set_Value+f: F3 0F 11 4D E8     - movss [rbp-18],xmm1
+// ---------- INJECTING HERE ----------
+Stat:set_Value+14: F3 0F 10 46 2C     - movss xmm0,[rsi+2C]
+// ---------- DONE INJECTING  ----------
+Stat:set_Value+19: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+Stat:set_Value+1d: F3 0F 10 4D E8     - movss xmm1,[rbp-18]
+Stat:set_Value+22: F3 0F 5A C9        - cvtss2sd xmm1,xmm1
+Stat:set_Value+26: 66 0F 2F C8        - comisd xmm1,xmm0
+Stat:set_Value+2a: 7A 06              - jp Stat:set_Value+32
+Stat:set_Value+2c: 0F 84 91 00 00 00  - je Stat:set_Value+c3
+Stat:set_Value+32: F3 0F 10 45 E8     - movss xmm0,[rbp-18]
+Stat:set_Value+37: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
+Stat:set_Value+3b: 66 0F 57 C9        - xorpd xmm1,xmm1
+Stat:set_Value+3f: F3 0F 10 56 20     - movss xmm2,[rsi+20]
 }
 </AssemblerScript>
         </CheatEntry>
@@ -2732,7 +2879,36 @@ dealloc(newmem)
         <Element Offset="1480" Vartype="Pointer" Bytesize="8" OffsetHex="000005C8" Description="biomeStandingOn" DisplayMethod="unsigned integer"/>
         <Element Offset="1488" Vartype="String" Bytesize="1" OffsetHex="000005D0" Description="rightHandTransformName" DisplayMethod="unsigned integer"/>
         <Element Offset="1496" Vartype="Pointer" Bytesize="8" OffsetHex="000005D8" Description="itemsOnEnterGame" DisplayMethod="unsigned integer"/>
-        <Element Offset="1504" Vartype="Pointer" Bytesize="8" OffsetHex="000005E0" Description="entityStats" DisplayMethod="unsigned integer"/>
+        <Element Offset="1504" Vartype="Pointer" Bytesize="8" OffsetHex="000005E0" Description="entityStats" DisplayMethod="unsigned integer">
+          <Structure Name="EntityStats" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+            <Elements>
+              <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="Health" DisplayMethod="unsigned integer"/>
+              <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="Stamina" DisplayMethod="unsigned integer"/>
+              <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="CoreTemp" DisplayMethod="unsigned integer"/>
+              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="Water" DisplayMethod="unsigned integer"/>
+              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="Food" DisplayMethod="unsigned integer"/>
+              <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="buffChangedDelegates" DisplayMethod="unsigned integer"/>
+              <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="notificationChangedDelegates" DisplayMethod="unsigned integer"/>
+              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="m_notifications" DisplayMethod="unsigned integer"/>
+              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="m_tempNotification" DisplayMethod="unsigned integer"/>
+              <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="m_immunity" DisplayMethod="unsigned integer"/>
+              <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="m_localPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="tmp_uiNotification" DisplayMethod="unsigned integer"/>
+              <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="m_entity" DisplayMethod="unsigned integer"/>
+              <Element Offset="120" Vartype="Float" Bytesize="4" OffsetHex="00000078" Description="LightInsidePer" DisplayMethod="unsigned integer"/>
+              <Element Offset="124" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000007C" Description="m_localPlayerId" DisplayMethod="unsigned integer"/>
+              <Element Offset="128" Vartype="Float" Bytesize="4" OffsetHex="00000080" Description="m_seekWaterLevel" DisplayMethod="unsigned integer"/>
+              <Element Offset="132" Vartype="Byte" Bytesize="1" OffsetHex="00000084" Description="m_isInShade" DisplayMethod="unsigned integer"/>
+              <Element Offset="136" Vartype="Float" Bytesize="4" OffsetHex="00000088" Description="m_amountEnclosed" DisplayMethod="unsigned integer"/>
+              <Element Offset="140" Vartype="Float" Bytesize="4" OffsetHex="0000008C" Description="m_heightTemperatureOffset" DisplayMethod="unsigned integer"/>
+              <Element Offset="144" Vartype="Byte" Bytesize="1" OffsetHex="00000090" Description="m_isEntityPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="148" Vartype="Float" Bytesize="4" OffsetHex="00000094" Description="buffDamageRemainder" DisplayMethod="unsigned integer"/>
+              <Element Offset="152" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000098" Description="waitTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="156" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000009C" Description="netSyncWaitTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="160" Vartype="Float" Bytesize="4" OffsetHex="000000A0" Description="lastCoreTemp" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
         <Element Offset="1512" Vartype="Pointer" Bytesize="8" OffsetHex="000005E8" Description="Buffs" DisplayMethod="unsigned integer"/>
         <Element Offset="1520" Vartype="Pointer" Bytesize="8" OffsetHex="000005F0" Description="Progression" DisplayMethod="unsigned integer">
           <Structure Name="Progression" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
@@ -3148,6 +3324,446 @@ dealloc(newmem)
         <Element Offset="3664" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E50" Description="autoMoveVel" DisplayMethod="unsigned integer"/>
         <Element Offset="3676" Vartype="Float" Bytesize="4" OffsetHex="00000E5C" Description="autoMoveRotY" DisplayMethod="unsigned integer"/>
         <Element Offset="3680" Vartype="Float" Bytesize="4" OffsetHex="00000E60" Description="autoMoveRotYVel" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Stat" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="Entity" DisplayMethod="unsigned integer">
+          <Structure Name="EntityZombie" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+            <Elements>
+              <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="m_CachedPtr" DisplayMethod="unsigned integer"/>
+              <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="cachedTags" DisplayMethod="unsigned integer"/>
+              <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="world" DisplayMethod="unsigned integer"/>
+              <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="PhysicsTransform" DisplayMethod="unsigned integer"/>
+              <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="RootTransform" DisplayMethod="unsigned integer"/>
+              <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="ModelTransform" DisplayMethod="unsigned integer"/>
+              <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="nativeCollider" DisplayMethod="unsigned integer"/>
+              <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="lastTickPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="rand" DisplayMethod="unsigned integer"/>
+              <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="IsFlyMode" DisplayMethod="unsigned integer"/>
+              <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="IsGodMode" DisplayMethod="unsigned integer"/>
+              <Element Offset="112" Vartype="Pointer" Bytesize="8" OffsetHex="00000070" Description="IsNoCollisionMode" DisplayMethod="unsigned integer"/>
+              <Element Offset="120" Vartype="String" Bytesize="1" OffsetHex="00000078" Description="lootListOnDeath" DisplayMethod="unsigned integer"/>
+              <Element Offset="128" Vartype="String" Bytesize="1" OffsetHex="00000080" Description="lootListAlive" DisplayMethod="unsigned integer"/>
+              <Element Offset="136" Vartype="Pointer" Bytesize="8" OffsetHex="00000088" Description="lootContainer" DisplayMethod="unsigned integer"/>
+              <Element Offset="144" Vartype="Pointer" Bytesize="8" OffsetHex="00000090" Description="m_marker" DisplayMethod="unsigned integer"/>
+              <Element Offset="152" Vartype="String" Bytesize="1" OffsetHex="00000098" Description="mapIcon" DisplayMethod="unsigned integer"/>
+              <Element Offset="160" Vartype="String" Bytesize="1" OffsetHex="000000A0" Description="compassIcon" DisplayMethod="unsigned integer"/>
+              <Element Offset="168" Vartype="String" Bytesize="1" OffsetHex="000000A8" Description="compassUpIcon" DisplayMethod="unsigned integer"/>
+              <Element Offset="176" Vartype="String" Bytesize="1" OffsetHex="000000B0" Description="compassDownIcon" DisplayMethod="unsigned integer"/>
+              <Element Offset="184" Vartype="String" Bytesize="1" OffsetHex="000000B8" Description="trackerIcon" DisplayMethod="unsigned integer"/>
+              <Element Offset="192" Vartype="Pointer" Bytesize="8" OffsetHex="000000C0" Description="emodel" DisplayMethod="unsigned integer"/>
+              <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" Description="m_characterController" DisplayMethod="unsigned integer"/>
+              <Element Offset="208" Vartype="String" Bytesize="1" OffsetHex="000000D0" Description="spawnerSourceEntityGroupName" DisplayMethod="unsigned integer"/>
+              <Element Offset="216" Vartype="Pointer" Bytesize="8" OffsetHex="000000D8" Description="cmds" DisplayMethod="unsigned integer"/>
+              <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" Description="movableChunkObserver" DisplayMethod="unsigned integer"/>
+              <Element Offset="232" Vartype="Pointer" Bytesize="8" OffsetHex="000000E8" Description="NavObject" DisplayMethod="unsigned integer"/>
+              <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" Description="AttachedToEntity" DisplayMethod="unsigned integer"/>
+              <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" Description="attachedEntities" DisplayMethod="unsigned integer"/>
+              <Element Offset="256" Vartype="Pointer" Bytesize="8" OffsetHex="00000100" Description="physicsRBT" DisplayMethod="unsigned integer"/>
+              <Element Offset="264" Vartype="Pointer" Bytesize="8" OffsetHex="00000108" Description="physicsCapsuleCollider" DisplayMethod="unsigned integer"/>
+              <Element Offset="272" Vartype="Pointer" Bytesize="8" OffsetHex="00000110" Description="physicsRB" DisplayMethod="unsigned integer"/>
+              <Element Offset="280" Vartype="String" Bytesize="1" OffsetHex="00000118" Description="spawnByName" DisplayMethod="unsigned integer"/>
+              <Element Offset="288" Vartype="Pointer" Bytesize="8" OffsetHex="00000120" Description="collAABB" DisplayMethod="unsigned integer"/>
+              <Element Offset="296" Vartype="Pointer" Bytesize="8" OffsetHex="00000128" Description="adjacentPositions" DisplayMethod="unsigned integer"/>
+              <Element Offset="304" Vartype="Byte" Bytesize="1" OffsetHex="00000130" Description="RootMotion" DisplayMethod="unsigned integer"/>
+              <Element Offset="305" Vartype="Byte" Bytesize="1" OffsetHex="00000131" Description="HasDeathAnim" DisplayMethod="unsigned integer"/>
+              <Element Offset="308" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000134" Description="scaledExtent" DisplayMethod="unsigned integer"/>
+              <Element Offset="320" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000140" Description="boundingBox" DisplayMethod="unsigned integer"/>
+              <Element Offset="344" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000158" Description="interpolateTargetRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="348" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000015C" Description="interpolateTargetQRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="352" Vartype="Byte" Bytesize="1" OffsetHex="00000160" Description="isUpdatePosition" DisplayMethod="unsigned integer"/>
+              <Element Offset="356" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000164" Description="entityId" DisplayMethod="unsigned integer"/>
+              <Element Offset="360" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000168" Description="clientEntityId" DisplayMethod="unsigned integer"/>
+              <Element Offset="364" Vartype="Float" Bytesize="4" OffsetHex="0000016C" Description="yOffset" DisplayMethod="unsigned integer"/>
+              <Element Offset="368" Vartype="Byte" Bytesize="1" OffsetHex="00000170" Description="onGround" DisplayMethod="unsigned integer"/>
+              <Element Offset="369" Vartype="Byte" Bytesize="1" OffsetHex="00000171" Description="isCollided" DisplayMethod="unsigned integer"/>
+              <Element Offset="370" Vartype="Byte" Bytesize="1" OffsetHex="00000172" Description="isCollidedHorizontally" DisplayMethod="unsigned integer"/>
+              <Element Offset="371" Vartype="Byte" Bytesize="1" OffsetHex="00000173" Description="isCollidedVertically" DisplayMethod="unsigned integer"/>
+              <Element Offset="372" Vartype="Byte" Bytesize="1" OffsetHex="00000174" Description="isMotionSlowedDown" DisplayMethod="unsigned integer"/>
+              <Element Offset="376" Vartype="Float" Bytesize="4" OffsetHex="00000178" Description="motionMultiplier" DisplayMethod="unsigned integer"/>
+              <Element Offset="380" Vartype="Byte" Bytesize="1" OffsetHex="0000017C" Description="firstUpdate" DisplayMethod="unsigned integer"/>
+              <Element Offset="384" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000180" Description="prevRotation" DisplayMethod="unsigned integer"/>
+              <Element Offset="396" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000018C" Description="rotation" DisplayMethod="unsigned integer"/>
+              <Element Offset="408" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000198" Description="qrotation" DisplayMethod="unsigned integer"/>
+              <Element Offset="424" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001A8" Description="position" DisplayMethod="unsigned integer"/>
+              <Element Offset="436" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001B4" Description="prevPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="448" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001C0" Description="targetPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="460" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001CC" Description="targetRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="472" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001D8" Description="targetQRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="488" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001E8" Description="chunkPosAddedEntityTo" DisplayMethod="unsigned integer"/>
+              <Element Offset="500" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001F4" Description="serverPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="512" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000200" Description="serverRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="524" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000020C" Description="motion" DisplayMethod="unsigned integer"/>
+              <Element Offset="536" Vartype="Byte" Bytesize="1" OffsetHex="00000218" Description="IsMovementReplicated" DisplayMethod="unsigned integer"/>
+              <Element Offset="537" Vartype="Byte" Bytesize="1" OffsetHex="00000219" Description="IsStuck" DisplayMethod="unsigned integer"/>
+              <Element Offset="538" Vartype="Byte" Bytesize="1" OffsetHex="0000021A" Description="IsEntityUpdatedInUnloadedChunk" DisplayMethod="unsigned integer"/>
+              <Element Offset="539" Vartype="Byte" Bytesize="1" OffsetHex="0000021B" Description="addedToChunk" DisplayMethod="unsigned integer"/>
+              <Element Offset="540" Vartype="Byte" Bytesize="1" OffsetHex="0000021C" Description="isInWater" DisplayMethod="unsigned integer"/>
+              <Element Offset="541" Vartype="Byte" Bytesize="1" OffsetHex="0000021D" Description="isSwimming" DisplayMethod="unsigned integer"/>
+              <Element Offset="544" Vartype="Float" Bytesize="4" OffsetHex="00000220" Description="inWaterLevel" DisplayMethod="unsigned integer"/>
+              <Element Offset="548" Vartype="Float" Bytesize="4" OffsetHex="00000224" Description="inWaterPercent" DisplayMethod="unsigned integer"/>
+              <Element Offset="552" Vartype="Byte" Bytesize="1" OffsetHex="00000228" Description="isHeadUnderwater" DisplayMethod="unsigned integer"/>
+              <Element Offset="553" Vartype="Byte" Bytesize="1" OffsetHex="00000229" Description="bInElevator" DisplayMethod="unsigned integer"/>
+              <Element Offset="554" Vartype="Byte" Bytesize="1" OffsetHex="0000022A" Description="bAirBorne" DisplayMethod="unsigned integer"/>
+              <Element Offset="556" Vartype="Float" Bytesize="4" OffsetHex="0000022C" Description="stepHeight" DisplayMethod="unsigned integer"/>
+              <Element Offset="560" Vartype="Float" Bytesize="4" OffsetHex="00000230" Description="ySize" DisplayMethod="unsigned integer"/>
+              <Element Offset="564" Vartype="Float" Bytesize="4" OffsetHex="00000234" Description="distanceWalked" DisplayMethod="unsigned integer"/>
+              <Element Offset="568" Vartype="Float" Bytesize="4" OffsetHex="00000238" Description="distanceSwam" DisplayMethod="unsigned integer"/>
+              <Element Offset="572" Vartype="Float" Bytesize="4" OffsetHex="0000023C" Description="distanceClimbed" DisplayMethod="unsigned integer"/>
+              <Element Offset="576" Vartype="Float" Bytesize="4" OffsetHex="00000240" Description="fallDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="580" Vartype="Float" Bytesize="4" OffsetHex="00000244" Description="fallLastY" DisplayMethod="unsigned integer"/>
+              <Element Offset="584" Vartype="Float" Bytesize="4" OffsetHex="00000248" Description="fallVelY" DisplayMethod="unsigned integer"/>
+              <Element Offset="588" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000024C" Description="fallLastMotion" DisplayMethod="unsigned integer"/>
+              <Element Offset="600" Vartype="Float" Bytesize="4" OffsetHex="00000258" Description="entityCollisionReduction" DisplayMethod="unsigned integer"/>
+              <Element Offset="604" Vartype="Byte" Bytesize="1" OffsetHex="0000025C" Description="isEntityRemote" DisplayMethod="unsigned integer"/>
+              <Element Offset="608" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000260" Description="ticksExisted" DisplayMethod="unsigned integer"/>
+              <Element Offset="612" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000264" Description="entityClass" DisplayMethod="unsigned integer"/>
+              <Element Offset="616" Vartype="Float" Bytesize="4" OffsetHex="00000268" Description="lifetime" DisplayMethod="unsigned integer"/>
+              <Element Offset="620" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000026C" Description="count" DisplayMethod="unsigned integer"/>
+              <Element Offset="624" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000270" Description="belongsPlayerId" DisplayMethod="unsigned integer"/>
+              <Element Offset="628" Vartype="Byte" Bytesize="1" OffsetHex="00000274" Description="bWillRespawn" DisplayMethod="unsigned integer"/>
+              <Element Offset="632" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000278" Description="WorldTimeBorn" DisplayMethod="unsigned integer"/>
+              <Element Offset="640" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000280" Description="entityFlags" DisplayMethod="unsigned integer"/>
+              <Element Offset="644" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000284" Description="entityType" DisplayMethod="unsigned integer"/>
+              <Element Offset="648" Vartype="Float" Bytesize="4" OffsetHex="00000288" Description="lootDropProb" DisplayMethod="unsigned integer"/>
+              <Element Offset="652" Vartype="Float" Bytesize="4" OffsetHex="0000028C" Description="speedForward" DisplayMethod="unsigned integer"/>
+              <Element Offset="656" Vartype="Float" Bytesize="4" OffsetHex="00000290" Description="speedStrafe" DisplayMethod="unsigned integer"/>
+              <Element Offset="660" Vartype="Float" Bytesize="4" OffsetHex="00000294" Description="speedVertical" DisplayMethod="unsigned integer"/>
+              <Element Offset="664" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000298" Description="speedSentTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="668" Vartype="Float" Bytesize="4" OffsetHex="0000029C" Description="speedForwardSent" DisplayMethod="unsigned integer"/>
+              <Element Offset="672" Vartype="Float" Bytesize="4" OffsetHex="000002A0" Description="speedStrafeSent" DisplayMethod="unsigned integer"/>
+              <Element Offset="676" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002A4" Description="MovementState" DisplayMethod="unsigned integer"/>
+              <Element Offset="680" Vartype="Float" Bytesize="4" OffsetHex="000002A8" Description="yawSeekTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="684" Vartype="Float" Bytesize="4" OffsetHex="000002AC" Description="yawSeekTimeMax" DisplayMethod="unsigned integer"/>
+              <Element Offset="688" Vartype="Float" Bytesize="4" OffsetHex="000002B0" Description="yawSeekAngle" DisplayMethod="unsigned integer"/>
+              <Element Offset="692" Vartype="Float" Bytesize="4" OffsetHex="000002B4" Description="yawSeekAngleEnd" DisplayMethod="unsigned integer"/>
+              <Element Offset="696" Vartype="Byte" Bytesize="1" OffsetHex="000002B8" Description="bDead" DisplayMethod="unsigned integer"/>
+              <Element Offset="697" Vartype="Byte" Bytesize="1" OffsetHex="000002B9" Description="&lt;moving&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+              <Element Offset="698" Vartype="Byte" Bytesize="1" OffsetHex="000002BA" Description="isCCDelayed" DisplayMethod="unsigned integer"/>
+              <Element Offset="699" Vartype="Byte" Bytesize="1" OffsetHex="000002BB" Description="canCCMove" DisplayMethod="unsigned integer"/>
+              <Element Offset="700" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002BC" Description="collisionFlags" DisplayMethod="unsigned integer"/>
+              <Element Offset="704" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002C0" Description="groundSurface" DisplayMethod="unsigned integer"/>
+              <Element Offset="752" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002F0" Description="hitMove" DisplayMethod="unsigned integer"/>
+              <Element Offset="764" Vartype="Float" Bytesize="4" OffsetHex="000002FC" Description="projectedMove" DisplayMethod="unsigned integer"/>
+              <Element Offset="768" Vartype="Byte" Bytesize="1" OffsetHex="00000300" Description="IsRotateToGroundFlat" DisplayMethod="unsigned integer"/>
+              <Element Offset="769" Vartype="Byte" Bytesize="1" OffsetHex="00000301" Description="isRotateToGround" DisplayMethod="unsigned integer"/>
+              <Element Offset="772" Vartype="Float" Bytesize="4" OffsetHex="00000304" Description="rotateToGroundPitch" DisplayMethod="unsigned integer"/>
+              <Element Offset="776" Vartype="Float" Bytesize="4" OffsetHex="00000308" Description="rotateToGroundPitchVel" DisplayMethod="unsigned integer"/>
+              <Element Offset="780" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000030C" Description="spawnerSource" DisplayMethod="unsigned integer"/>
+              <Element Offset="784" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000310" Description="spawnerSourceChunkKey" DisplayMethod="unsigned integer"/>
+              <Element Offset="792" Vartype="Byte" Bytesize="1" OffsetHex="00000318" Description="IsDespawned" DisplayMethod="unsigned integer"/>
+              <Element Offset="793" Vartype="Byte" Bytesize="1" OffsetHex="00000319" Description="markedForUnload" DisplayMethod="unsigned integer"/>
+              <Element Offset="794" Vartype="Byte" Bytesize="1" OffsetHex="0000031A" Description="bIsChunkObserver" DisplayMethod="unsigned integer"/>
+              <Element Offset="795" Vartype="Byte" Bytesize="1" OffsetHex="0000031B" Description="isIgnoredByAI" DisplayMethod="unsigned integer"/>
+              <Element Offset="796" Vartype="Byte" Bytesize="1" OffsetHex="0000031C" Description="usePhysicsMaster" DisplayMethod="unsigned integer"/>
+              <Element Offset="797" Vartype="Byte" Bytesize="1" OffsetHex="0000031D" Description="isPhysicsMaster" DisplayMethod="unsigned integer"/>
+              <Element Offset="800" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000320" Description="physicsMasterFromPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="812" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000032C" Description="physicsMasterFromRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="828" Vartype="Float" Bytesize="4" OffsetHex="0000033C" Description="physicsMasterTargetElapsed" DisplayMethod="unsigned integer"/>
+              <Element Offset="832" Vartype="Float" Bytesize="4" OffsetHex="00000340" Description="physicsMasterTargetTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="836" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000344" Description="physicsMasterTargetPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="848" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000350" Description="physicsMasterTargetRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="864" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000360" Description="physicsMasterSendPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="876" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000036C" Description="physicsMasterSendRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="892" Vartype="Float" Bytesize="4" OffsetHex="0000037C" Description="physicsHeightScale" DisplayMethod="unsigned integer"/>
+              <Element Offset="896" Vartype="Float" Bytesize="4" OffsetHex="00000380" Description="physicsColliderRadius" DisplayMethod="unsigned integer"/>
+              <Element Offset="900" Vartype="Float" Bytesize="4" OffsetHex="00000384" Description="physicsColliderLowerY" DisplayMethod="unsigned integer"/>
+              <Element Offset="904" Vartype="Float" Bytesize="4" OffsetHex="00000388" Description="physicsBaseHeight" DisplayMethod="unsigned integer"/>
+              <Element Offset="908" Vartype="Float" Bytesize="4" OffsetHex="0000038C" Description="physicsHeight" DisplayMethod="unsigned integer"/>
+              <Element Offset="912" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000390" Description="physicsPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="924" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000039C" Description="physicsBasePos" DisplayMethod="unsigned integer"/>
+              <Element Offset="936" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003A8" Description="physicsTargetPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="948" Vartype="Float" Bytesize="4" OffsetHex="000003B4" Description="physicsPosMoveDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="952" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003B8" Description="physicsRot" DisplayMethod="unsigned integer"/>
+              <Element Offset="968" Vartype="Byte" Bytesize="1" OffsetHex="000003C8" Description="wasFixedUpdate" DisplayMethod="unsigned integer"/>
+              <Element Offset="972" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003CC" Description="physicsVel" DisplayMethod="unsigned integer"/>
+              <Element Offset="984" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003D8" Description="physicsAngVel" DisplayMethod="unsigned integer"/>
+              <Element Offset="996" Vartype="Byte" Bytesize="1" OffsetHex="000003E4" Description="spawnByAllowShare" DisplayMethod="unsigned integer"/>
+              <Element Offset="1000" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003E8" Description="spawnById" DisplayMethod="unsigned integer"/>
+              <Element Offset="1004" Vartype="Float" Bytesize="4" OffsetHex="000003EC" Description="kAddFixedUpdateTimeScale" DisplayMethod="unsigned integer"/>
+              <Element Offset="1008" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003F0" Description="unloadReason" DisplayMethod="unsigned integer"/>
+              <Element Offset="1012" Vartype="Byte" Bytesize="1" OffsetHex="000003F4" Description="isUnloaded" DisplayMethod="unsigned integer"/>
+              <Element Offset="1016" Vartype="Pointer" Bytesize="8" OffsetHex="000003F8" Description="MinEventContext" DisplayMethod="unsigned integer"/>
+              <Element Offset="1024" Vartype="Pointer" Bytesize="8" OffsetHex="00000400" Description="noisePlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="1032" Vartype="Pointer" Bytesize="8" OffsetHex="00000408" Description="pendingDistraction" DisplayMethod="unsigned integer"/>
+              <Element Offset="1040" Vartype="Pointer" Bytesize="8" OffsetHex="00000410" Description="distraction" DisplayMethod="unsigned integer"/>
+              <Element Offset="1048" Vartype="Pointer" Bytesize="8" OffsetHex="00000418" Description="revengeEntity" DisplayMethod="unsigned integer"/>
+              <Element Offset="1056" Vartype="Pointer" Bytesize="8" OffsetHex="00000420" Description="aiManager" DisplayMethod="unsigned integer"/>
+              <Element Offset="1064" Vartype="Pointer" Bytesize="8" OffsetHex="00000428" Description="AIPackages" DisplayMethod="unsigned integer"/>
+              <Element Offset="1072" Vartype="Pointer" Bytesize="8" OffsetHex="00000430" Description="utilityAIContext" DisplayMethod="unsigned integer"/>
+              <Element Offset="1080" Vartype="Pointer" Bytesize="8" OffsetHex="00000438" Description="aiClosestPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="1088" Vartype="Pointer" Bytesize="8" OffsetHex="00000440" Description="lookHelper" DisplayMethod="unsigned integer"/>
+              <Element Offset="1096" Vartype="Pointer" Bytesize="8" OffsetHex="00000448" Description="moveHelper" DisplayMethod="unsigned integer"/>
+              <Element Offset="1104" Vartype="Pointer" Bytesize="8" OffsetHex="00000450" Description="navigator" DisplayMethod="unsigned integer"/>
+              <Element Offset="1112" Vartype="Pointer" Bytesize="8" OffsetHex="00000458" Description="damagedTarget" DisplayMethod="unsigned integer"/>
+              <Element Offset="1120" Vartype="Pointer" Bytesize="8" OffsetHex="00000460" Description="attackTarget" DisplayMethod="unsigned integer"/>
+              <Element Offset="1128" Vartype="Pointer" Bytesize="8" OffsetHex="00000468" Description="attackTargetClient" DisplayMethod="unsigned integer"/>
+              <Element Offset="1136" Vartype="Pointer" Bytesize="8" OffsetHex="00000470" Description="seeCache" DisplayMethod="unsigned integer"/>
+              <Element Offset="1144" Vartype="Pointer" Bytesize="8" OffsetHex="00000478" Description="homePosition" DisplayMethod="unsigned integer"/>
+              <Element Offset="1152" Vartype="Pointer" Bytesize="8" OffsetHex="00000480" Description="inventory" DisplayMethod="unsigned integer"/>
+              <Element Offset="1160" Vartype="Pointer" Bytesize="8" OffsetHex="00000488" Description="saveInventory" DisplayMethod="unsigned integer"/>
+              <Element Offset="1168" Vartype="Pointer" Bytesize="8" OffsetHex="00000490" Description="equipment" DisplayMethod="unsigned integer"/>
+              <Element Offset="1176" Vartype="Pointer" Bytesize="8" OffsetHex="00000498" Description="favoriteEquipment" DisplayMethod="unsigned integer"/>
+              <Element Offset="1184" Vartype="Pointer" Bytesize="8" OffsetHex="000004A0" Description="bag" DisplayMethod="unsigned integer"/>
+              <Element Offset="1192" Vartype="Pointer" Bytesize="8" OffsetHex="000004A8" Description="entityThatKilledMe" DisplayMethod="unsigned integer"/>
+              <Element Offset="1200" Vartype="Pointer" Bytesize="8" OffsetHex="000004B0" Description="damageSourceTimeouts" DisplayMethod="unsigned integer"/>
+              <Element Offset="1208" Vartype="String" Bytesize="1" OffsetHex="000004B8" Description="entityName" DisplayMethod="unsigned integer"/>
+              <Element Offset="1216" Vartype="String" Bytesize="1" OffsetHex="000004C0" Description="DebugNameInfo" DisplayMethod="unsigned integer"/>
+              <Element Offset="1224" Vartype="4 Bytes" Bytesize="4" OffsetHex="000004C8" Description="RecordedDamage" DisplayMethod="unsigned integer"/>
+              <Element Offset="1288" Vartype="Pointer" Bytesize="8" OffsetHex="00000508" Description="handItem" DisplayMethod="unsigned integer"/>
+              <Element Offset="1296" Vartype="String" Bytesize="1" OffsetHex="00000510" Description="soundJump" DisplayMethod="unsigned integer"/>
+              <Element Offset="1304" Vartype="String" Bytesize="1" OffsetHex="00000518" Description="soundRandom" DisplayMethod="unsigned integer"/>
+              <Element Offset="1312" Vartype="String" Bytesize="1" OffsetHex="00000520" Description="soundHurt" DisplayMethod="unsigned integer"/>
+              <Element Offset="1320" Vartype="String" Bytesize="1" OffsetHex="00000528" Description="soundHurtSmall" DisplayMethod="unsigned integer"/>
+              <Element Offset="1328" Vartype="String" Bytesize="1" OffsetHex="00000530" Description="soundDrownPain" DisplayMethod="unsigned integer"/>
+              <Element Offset="1336" Vartype="String" Bytesize="1" OffsetHex="00000538" Description="soundDrownDeath" DisplayMethod="unsigned integer"/>
+              <Element Offset="1344" Vartype="String" Bytesize="1" OffsetHex="00000540" Description="soundWaterSurface" DisplayMethod="unsigned integer"/>
+              <Element Offset="1352" Vartype="String" Bytesize="1" OffsetHex="00000548" Description="soundDeath" DisplayMethod="unsigned integer"/>
+              <Element Offset="1360" Vartype="String" Bytesize="1" OffsetHex="00000550" Description="soundAttack" DisplayMethod="unsigned integer"/>
+              <Element Offset="1368" Vartype="String" Bytesize="1" OffsetHex="00000558" Description="soundAlert" DisplayMethod="unsigned integer"/>
+              <Element Offset="1376" Vartype="String" Bytesize="1" OffsetHex="00000560" Description="soundSense" DisplayMethod="unsigned integer"/>
+              <Element Offset="1384" Vartype="String" Bytesize="1" OffsetHex="00000568" Description="soundStamina" DisplayMethod="unsigned integer"/>
+              <Element Offset="1392" Vartype="String" Bytesize="1" OffsetHex="00000570" Description="soundLiving" DisplayMethod="unsigned integer"/>
+              <Element Offset="1400" Vartype="String" Bytesize="1" OffsetHex="00000578" Description="soundSpawn" DisplayMethod="unsigned integer"/>
+              <Element Offset="1408" Vartype="String" Bytesize="1" OffsetHex="00000580" Description="soundLand" DisplayMethod="unsigned integer"/>
+              <Element Offset="1416" Vartype="String" Bytesize="1" OffsetHex="00000588" Description="soundFootstepModifier" DisplayMethod="unsigned integer"/>
+              <Element Offset="1424" Vartype="String" Bytesize="1" OffsetHex="00000590" Description="soundGiveUp" DisplayMethod="unsigned integer"/>
+              <Element Offset="1432" Vartype="String" Bytesize="1" OffsetHex="00000598" Description="soundSleeperGroan" DisplayMethod="unsigned integer"/>
+              <Element Offset="1440" Vartype="String" Bytesize="1" OffsetHex="000005A0" Description="soundSleeperSnore" DisplayMethod="unsigned integer"/>
+              <Element Offset="1448" Vartype="String" Bytesize="1" OffsetHex="000005A8" Description="particleOnDeath" DisplayMethod="unsigned integer"/>
+              <Element Offset="1456" Vartype="String" Bytesize="1" OffsetHex="000005B0" Description="particleOnDestroy" DisplayMethod="unsigned integer"/>
+              <Element Offset="1464" Vartype="Pointer" Bytesize="8" OffsetHex="000005B8" Description="spawnPoints" DisplayMethod="unsigned integer"/>
+              <Element Offset="1472" Vartype="Pointer" Bytesize="8" OffsetHex="000005C0" Description="droppedBackpackPositions" DisplayMethod="unsigned integer"/>
+              <Element Offset="1480" Vartype="Pointer" Bytesize="8" OffsetHex="000005C8" Description="biomeStandingOn" DisplayMethod="unsigned integer"/>
+              <Element Offset="1488" Vartype="String" Bytesize="1" OffsetHex="000005D0" Description="rightHandTransformName" DisplayMethod="unsigned integer"/>
+              <Element Offset="1496" Vartype="Pointer" Bytesize="8" OffsetHex="000005D8" Description="itemsOnEnterGame" DisplayMethod="unsigned integer"/>
+              <Element Offset="1504" Vartype="Pointer" Bytesize="8" OffsetHex="000005E0" Description="entityStats" DisplayMethod="unsigned integer"/>
+              <Element Offset="1512" Vartype="Pointer" Bytesize="8" OffsetHex="000005E8" Description="Buffs" DisplayMethod="unsigned integer"/>
+              <Element Offset="1520" Vartype="Pointer" Bytesize="8" OffsetHex="000005F0" Description="Progression" DisplayMethod="unsigned integer"/>
+              <Element Offset="1528" Vartype="4 Bytes" Bytesize="4" OffsetHex="000005F8" Description="CurrentStanceTag" DisplayMethod="unsigned integer"/>
+              <Element Offset="1544" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000608" Description="CurrentMovementTag" DisplayMethod="unsigned integer"/>
+              <Element Offset="1560" Vartype="Pointer" Bytesize="8" OffsetHex="00000618" Description="fallBehaviors" DisplayMethod="unsigned integer"/>
+              <Element Offset="1568" Vartype="Pointer" Bytesize="8" OffsetHex="00000620" Description="_destroyBlockBehaviors" DisplayMethod="unsigned integer"/>
+              <Element Offset="1576" Vartype="Pointer" Bytesize="8" OffsetHex="00000628" Description="_ragdollPositionsPrev" DisplayMethod="unsigned integer"/>
+              <Element Offset="1584" Vartype="Pointer" Bytesize="8" OffsetHex="00000630" Description="_ragdollPositionsCur" DisplayMethod="unsigned integer"/>
+              <Element Offset="1592" Vartype="Pointer" Bytesize="8" OffsetHex="00000638" Description="woundedDamageSource" DisplayMethod="unsigned integer"/>
+              <Element Offset="1600" Vartype="Pointer" Bytesize="8" OffsetHex="00000640" Description="impacts" DisplayMethod="unsigned integer"/>
+              <Element Offset="1608" Vartype="Pointer" Bytesize="8" OffsetHex="00000648" Description="particles" DisplayMethod="unsigned integer"/>
+              <Element Offset="1616" Vartype="Pointer" Bytesize="8" OffsetHex="00000650" Description="parts" DisplayMethod="unsigned integer"/>
+              <Element Offset="1624" Vartype="Pointer" Bytesize="8" OffsetHex="00000658" Description="ownedEntities" DisplayMethod="unsigned integer"/>
+              <Element Offset="1632" Vartype="Byte" Bytesize="1" OffsetHex="00000660" Description="IsSleeper" DisplayMethod="unsigned integer"/>
+              <Element Offset="1633" Vartype="Byte" Bytesize="1" OffsetHex="00000661" Description="IsSleeperDecoy" DisplayMethod="unsigned integer"/>
+              <Element Offset="1634" Vartype="Byte" Bytesize="1" OffsetHex="00000662" Description="IsSleeping" DisplayMethod="unsigned integer"/>
+              <Element Offset="1635" Vartype="Byte" Bytesize="1" OffsetHex="00000663" Description="IsSleeperPassive" DisplayMethod="unsigned integer"/>
+              <Element Offset="1636" Vartype="Byte" Bytesize="1" OffsetHex="00000664" Description="SleeperSupressLivingSounds" DisplayMethod="unsigned integer"/>
+              <Element Offset="1640" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000668" Description="SleeperSpawnPosition" DisplayMethod="unsigned integer"/>
+              <Element Offset="1652" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000674" Description="SleeperSpawnLookDir" DisplayMethod="unsigned integer"/>
+              <Element Offset="1664" Vartype="Float" Bytesize="4" OffsetHex="00000680" Description="accumulatedDamageResisted" DisplayMethod="unsigned integer"/>
+              <Element Offset="1668" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000684" Description="pendingSleepTrigger" DisplayMethod="unsigned integer"/>
+              <Element Offset="1672" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000688" Description="lastSleeperPose" DisplayMethod="unsigned integer"/>
+              <Element Offset="1676" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000068C" Description="sleeperLookDir" DisplayMethod="unsigned integer"/>
+              <Element Offset="1688" Vartype="Float" Bytesize="4" OffsetHex="00000698" Description="sleeperSightRange" DisplayMethod="unsigned integer"/>
+              <Element Offset="1692" Vartype="Float" Bytesize="4" OffsetHex="0000069C" Description="sleeperViewAngle" DisplayMethod="unsigned integer"/>
+              <Element Offset="1696" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006A0" Description="sightLightThreshold" DisplayMethod="unsigned integer"/>
+              <Element Offset="1704" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006A8" Description="sightWakeThresholdAtRange" DisplayMethod="unsigned integer"/>
+              <Element Offset="1712" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006B0" Description="sightGroanThresholdAtRange" DisplayMethod="unsigned integer"/>
+              <Element Offset="1720" Vartype="Float" Bytesize="4" OffsetHex="000006B8" Description="noiseGroan" DisplayMethod="unsigned integer"/>
+              <Element Offset="1724" Vartype="Float" Bytesize="4" OffsetHex="000006BC" Description="noiseWake" DisplayMethod="unsigned integer"/>
+              <Element Offset="1728" Vartype="Float" Bytesize="4" OffsetHex="000006C0" Description="smellGroan" DisplayMethod="unsigned integer"/>
+              <Element Offset="1732" Vartype="Float" Bytesize="4" OffsetHex="000006C4" Description="smellWake" DisplayMethod="unsigned integer"/>
+              <Element Offset="1736" Vartype="Byte" Bytesize="1" OffsetHex="000006C8" Description="isSnore" DisplayMethod="unsigned integer"/>
+              <Element Offset="1737" Vartype="Byte" Bytesize="1" OffsetHex="000006C9" Description="isGroan" DisplayMethod="unsigned integer"/>
+              <Element Offset="1738" Vartype="Byte" Bytesize="1" OffsetHex="000006CA" Description="isGroanSilent" DisplayMethod="unsigned integer"/>
+              <Element Offset="1740" Vartype="Float" Bytesize="4" OffsetHex="000006CC" Description="groanChance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1744" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006D0" Description="snoreGroanCD" DisplayMethod="unsigned integer"/>
+              <Element Offset="1748" Vartype="Float" Bytesize="4" OffsetHex="000006D4" Description="noisePlayerDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1752" Vartype="Float" Bytesize="4" OffsetHex="000006D8" Description="noisePlayerVolume" DisplayMethod="unsigned integer"/>
+              <Element Offset="1756" Vartype="Float" Bytesize="4" OffsetHex="000006DC" Description="pendingDistractionDistanceSq" DisplayMethod="unsigned integer"/>
+              <Element Offset="1760" Vartype="Float" Bytesize="4" OffsetHex="000006E0" Description="distractionResistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1764" Vartype="Float" Bytesize="4" OffsetHex="000006E4" Description="distractionResistanceWithTarget" DisplayMethod="unsigned integer"/>
+              <Element Offset="1768" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006E8" Description="jumpTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1772" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006EC" Description="jumpState" DisplayMethod="unsigned integer"/>
+              <Element Offset="1776" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006F0" Description="jumpStateTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1780" Vartype="Float" Bytesize="4" OffsetHex="000006F4" Description="jumpDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1784" Vartype="Float" Bytesize="4" OffsetHex="000006F8" Description="jumpHeightDiff" DisplayMethod="unsigned integer"/>
+              <Element Offset="1788" Vartype="Float" Bytesize="4" OffsetHex="000006FC" Description="jumpSwimDurationTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1792" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000700" Description="jumpSwimMotion" DisplayMethod="unsigned integer"/>
+              <Element Offset="1804" Vartype="Float" Bytesize="4" OffsetHex="0000070C" Description="jumpDelay" DisplayMethod="unsigned integer"/>
+              <Element Offset="1808" Vartype="Float" Bytesize="4" OffsetHex="00000710" Description="jumpMaxDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1812" Vartype="Byte" Bytesize="1" OffsetHex="00000714" Description="jumpIsMoving" DisplayMethod="unsigned integer"/>
+              <Element Offset="1816" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000718" Description="ticksNoPlayerAdjacent" DisplayMethod="unsigned integer"/>
+              <Element Offset="1820" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000071C" Description="hasBeenAttackedTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="1824" Vartype="Float" Bytesize="4" OffsetHex="00000720" Description="painResistPercent" DisplayMethod="unsigned integer"/>
+              <Element Offset="1828" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000724" Description="attackingTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="1832" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000728" Description="revengeTimer" DisplayMethod="unsigned integer"/>
+              <Element Offset="1836" Vartype="Byte" Bytesize="1" OffsetHex="0000072C" Description="targetAlertChanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="1837" Vartype="Byte" Bytesize="1" OffsetHex="0000072D" Description="alertEnabled" DisplayMethod="unsigned integer"/>
+              <Element Offset="1840" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000730" Description="alertTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1844" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000734" Description="notAlertDelayTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1848" Vartype="Byte" Bytesize="1" OffsetHex="00000738" Description="isAlert" DisplayMethod="unsigned integer"/>
+              <Element Offset="1852" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000073C" Description="investigatePos" DisplayMethod="unsigned integer"/>
+              <Element Offset="1864" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000748" Description="investigatePositionTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1868" Vartype="Byte" Bytesize="1" OffsetHex="0000074C" Description="isInvestigateAlert" DisplayMethod="unsigned integer"/>
+              <Element Offset="1869" Vartype="Byte" Bytesize="1" OffsetHex="0000074D" Description="hasAI" DisplayMethod="unsigned integer"/>
+              <Element Offset="1872" Vartype="Float" Bytesize="4" OffsetHex="00000750" Description="aiClosestPlayerDistSq" DisplayMethod="unsigned integer"/>
+              <Element Offset="1876" Vartype="Float" Bytesize="4" OffsetHex="00000754" Description="aiActiveScale" DisplayMethod="unsigned integer"/>
+              <Element Offset="1880" Vartype="Float" Bytesize="4" OffsetHex="00000758" Description="aiActiveDelay" DisplayMethod="unsigned integer"/>
+              <Element Offset="1884" Vartype="Byte" Bytesize="1" OffsetHex="0000075C" Description="IsBloodMoon" DisplayMethod="unsigned integer"/>
+              <Element Offset="1885" Vartype="Byte" Bytesize="1" OffsetHex="0000075D" Description="IsFeral" DisplayMethod="unsigned integer"/>
+              <Element Offset="1886" Vartype="Byte" Bytesize="1" OffsetHex="0000075E" Description="IsBreakingDoors" DisplayMethod="unsigned integer"/>
+              <Element Offset="1887" Vartype="Byte" Bytesize="1" OffsetHex="0000075F" Description="m_isBreakingBlocks" DisplayMethod="unsigned integer"/>
+              <Element Offset="1888" Vartype="Byte" Bytesize="1" OffsetHex="00000760" Description="m_isEating" DisplayMethod="unsigned integer"/>
+              <Element Offset="1892" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000764" Description="ChaseReturnLocation" DisplayMethod="unsigned integer"/>
+              <Element Offset="1904" Vartype="Byte" Bytesize="1" OffsetHex="00000770" Description="IsScoutZombie" DisplayMethod="unsigned integer"/>
+              <Element Offset="1905" Vartype="Byte" Bytesize="1" OffsetHex="00000771" Description="bCanClimbLadders" DisplayMethod="unsigned integer"/>
+              <Element Offset="1906" Vartype="Byte" Bytesize="1" OffsetHex="00000772" Description="bCanClimbVertical" DisplayMethod="unsigned integer"/>
+              <Element Offset="1908" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000774" Description="lastTargetPos" DisplayMethod="unsigned integer"/>
+              <Element Offset="1920" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000780" Description="attackTargetTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="1924" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000784" Description="maximumHomeDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1928" Vartype="Float" Bytesize="4" OffsetHex="00000788" Description="jumpMovementFactor" DisplayMethod="unsigned integer"/>
+              <Element Offset="1932" Vartype="Float" Bytesize="4" OffsetHex="0000078C" Description="landMovementFactor" DisplayMethod="unsigned integer"/>
+              <Element Offset="1936" Vartype="Float" Bytesize="4" OffsetHex="00000790" Description="jumpMotionYValue" DisplayMethod="unsigned integer"/>
+              <Element Offset="1940" Vartype="Float" Bytesize="4" OffsetHex="00000794" Description="nextStepDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1944" Vartype="Float" Bytesize="4" OffsetHex="00000798" Description="nextSwimDistance" DisplayMethod="unsigned integer"/>
+              <Element Offset="1948" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000079C" Description="ExperienceValue" DisplayMethod="unsigned integer"/>
+              <Element Offset="1952" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007A0" Description="deathUpdateTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="1956" Vartype="Byte" Bytesize="1" OffsetHex="000007A4" Description="bPlayerStatsChanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="1957" Vartype="Byte" Bytesize="1" OffsetHex="000007A5" Description="bEntityAliveFlagsChanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="1958" Vartype="Byte" Bytesize="1" OffsetHex="000007A6" Description="bPlayerTwitchChanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="1960" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007A8" Description="traderTeleportStreak" DisplayMethod="unsigned integer"/>
+              <Element Offset="1964" Vartype="Byte" Bytesize="1" OffsetHex="000007AC" Description="bJetpackWearing" DisplayMethod="unsigned integer"/>
+              <Element Offset="1965" Vartype="Byte" Bytesize="1" OffsetHex="000007AD" Description="bJetpackActive" DisplayMethod="unsigned integer"/>
+              <Element Offset="1966" Vartype="Byte" Bytesize="1" OffsetHex="000007AE" Description="bParachuteWearing" DisplayMethod="unsigned integer"/>
+              <Element Offset="1967" Vartype="Byte" Bytesize="1" OffsetHex="000007AF" Description="bApproachingEnemy" DisplayMethod="unsigned integer"/>
+              <Element Offset="1968" Vartype="Byte" Bytesize="1" OffsetHex="000007B0" Description="bApproachingPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="1969" Vartype="Byte" Bytesize="1" OffsetHex="000007B1" Description="bAimingGun" DisplayMethod="unsigned integer"/>
+              <Element Offset="1970" Vartype="Byte" Bytesize="1" OffsetHex="000007B2" Description="bMovementRunning" DisplayMethod="unsigned integer"/>
+              <Element Offset="1971" Vartype="Byte" Bytesize="1" OffsetHex="000007B3" Description="bCrouching" DisplayMethod="unsigned integer"/>
+              <Element Offset="1972" Vartype="Byte" Bytesize="1" OffsetHex="000007B4" Description="bJumping" DisplayMethod="unsigned integer"/>
+              <Element Offset="1973" Vartype="Byte" Bytesize="1" OffsetHex="000007B5" Description="bClimbing" DisplayMethod="unsigned integer"/>
+              <Element Offset="1976" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007B8" Description="died" DisplayMethod="unsigned integer"/>
+              <Element Offset="1980" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007BC" Description="score" DisplayMethod="unsigned integer"/>
+              <Element Offset="1984" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007C0" Description="killedZombies" DisplayMethod="unsigned integer"/>
+              <Element Offset="1988" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007C4" Description="killedPlayers" DisplayMethod="unsigned integer"/>
+              <Element Offset="1992" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007C8" Description="teamNumber" DisplayMethod="unsigned integer"/>
+              <Element Offset="1996" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007CC" Description="damageLocationBits" DisplayMethod="unsigned integer"/>
+              <Element Offset="2000" Vartype="Byte" Bytesize="1" OffsetHex="000007D0" Description="bSpawned" DisplayMethod="unsigned integer"/>
+              <Element Offset="2001" Vartype="Byte" Bytesize="1" OffsetHex="000007D1" Description="bReplicatedAlertFlag" DisplayMethod="unsigned integer"/>
+              <Element Offset="2002" Vartype="Byte" Bytesize="1" OffsetHex="000007D2" Description="factionId" DisplayMethod="unsigned integer"/>
+              <Element Offset="2003" Vartype="Byte" Bytesize="1" OffsetHex="000007D3" Description="factionRank" DisplayMethod="unsigned integer"/>
+              <Element Offset="2004" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007D4" Description="ticksToCheckSeenByPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="2008" Vartype="Byte" Bytesize="1" OffsetHex="000007D8" Description="wasSeenByPlayer" DisplayMethod="unsigned integer"/>
+              <Element Offset="2012" Vartype="Float" Bytesize="4" OffsetHex="000007DC" Description="moveSpeed" DisplayMethod="unsigned integer"/>
+              <Element Offset="2016" Vartype="Float" Bytesize="4" OffsetHex="000007E0" Description="moveSpeedNight" DisplayMethod="unsigned integer"/>
+              <Element Offset="2020" Vartype="Float" Bytesize="4" OffsetHex="000007E4" Description="moveSpeedAggro" DisplayMethod="unsigned integer"/>
+              <Element Offset="2024" Vartype="Float" Bytesize="4" OffsetHex="000007E8" Description="moveSpeedAggroMax" DisplayMethod="unsigned integer"/>
+              <Element Offset="2028" Vartype="Float" Bytesize="4" OffsetHex="000007EC" Description="moveSpeedPanic" DisplayMethod="unsigned integer"/>
+              <Element Offset="2032" Vartype="Float" Bytesize="4" OffsetHex="000007F0" Description="moveSpeedPanicMax" DisplayMethod="unsigned integer"/>
+              <Element Offset="2036" Vartype="Float" Bytesize="4" OffsetHex="000007F4" Description="swimSpeed" DisplayMethod="unsigned integer"/>
+              <Element Offset="2040" Vartype="4 Bytes" Bytesize="4" OffsetHex="000007F8" Description="swimStrokeRate" DisplayMethod="unsigned integer"/>
+              <Element Offset="2048" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000800" Description="livingSoundTicks" DisplayMethod="unsigned integer"/>
+              <Element Offset="2052" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000804" Description="soundRandomTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2056" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000808" Description="soundAlertTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2060" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000080C" Description="soundLivingID" DisplayMethod="unsigned integer"/>
+              <Element Offset="2064" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000810" Description="classMaxHealth" DisplayMethod="unsigned integer"/>
+              <Element Offset="2068" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000814" Description="classMaxStamina" DisplayMethod="unsigned integer"/>
+              <Element Offset="2072" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000818" Description="classMaxFood" DisplayMethod="unsigned integer"/>
+              <Element Offset="2076" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000081C" Description="classMaxWater" DisplayMethod="unsigned integer"/>
+              <Element Offset="2080" Vartype="Float" Bytesize="4" OffsetHex="00000820" Description="weight" DisplayMethod="unsigned integer"/>
+              <Element Offset="2084" Vartype="Float" Bytesize="4" OffsetHex="00000824" Description="pushFactor" DisplayMethod="unsigned integer"/>
+              <Element Offset="2088" Vartype="Float" Bytesize="4" OffsetHex="00000828" Description="maxViewAngle" DisplayMethod="unsigned integer"/>
+              <Element Offset="2092" Vartype="Float" Bytesize="4" OffsetHex="0000082C" Description="sightRangeBase" DisplayMethod="unsigned integer"/>
+              <Element Offset="2096" Vartype="Float" Bytesize="4" OffsetHex="00000830" Description="sightRange" DisplayMethod="unsigned integer"/>
+              <Element Offset="2100" Vartype="Float" Bytesize="4" OffsetHex="00000834" Description="senseScale" DisplayMethod="unsigned integer"/>
+              <Element Offset="2104" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000838" Description="timeStayAfterDeath" DisplayMethod="unsigned integer"/>
+              <Element Offset="2108" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000083C" Description="corpseBlockValue" DisplayMethod="unsigned integer"/>
+              <Element Offset="2116" Vartype="Float" Bytesize="4" OffsetHex="00000844" Description="corpseBlockChance" DisplayMethod="unsigned integer"/>
+              <Element Offset="2120" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000848" Description="attackTimeoutDay" DisplayMethod="unsigned integer"/>
+              <Element Offset="2124" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000084C" Description="attackTimeoutNight" DisplayMethod="unsigned integer"/>
+              <Element Offset="2128" Vartype="Float" Bytesize="4" OffsetHex="00000850" Description="speedModifier" DisplayMethod="unsigned integer"/>
+              <Element Offset="2132" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000854" Description="accumulatedRootMotion" DisplayMethod="unsigned integer"/>
+              <Element Offset="2144" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000860" Description="moveDirection" DisplayMethod="unsigned integer"/>
+              <Element Offset="2156" Vartype="Byte" Bytesize="1" OffsetHex="0000086C" Description="isMoveDirAbsolute" DisplayMethod="unsigned integer"/>
+              <Element Offset="2160" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000870" Description="lookAtPosition" DisplayMethod="unsigned integer"/>
+              <Element Offset="2172" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000087C" Description="blockPosStandingOn" DisplayMethod="unsigned integer"/>
+              <Element Offset="2184" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000888" Description="blockValueStandingOn" DisplayMethod="unsigned integer"/>
+              <Element Offset="2192" Vartype="Byte" Bytesize="1" OffsetHex="00000890" Description="blockStandingOnChanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="2193" Vartype="Byte" Bytesize="1" OffsetHex="00000891" Description="IsMale" DisplayMethod="unsigned integer"/>
+              <Element Offset="2196" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000894" Description="walkType" DisplayMethod="unsigned integer"/>
+              <Element Offset="2200" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000898" Description="walkTypeBeforeCrouch" DisplayMethod="unsigned integer"/>
+              <Element Offset="2204" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000089C" Description="pingToServer" DisplayMethod="unsigned integer"/>
+              <Element Offset="2208" Vartype="4 Bytes" Bytesize="4" OffsetHex="000008A0" Description="lastHitDirection" DisplayMethod="unsigned integer"/>
+              <Element Offset="2212" Vartype="4 Bytes" Bytesize="4" OffsetHex="000008A4" Description="lastHitImpactDir" DisplayMethod="unsigned integer"/>
+              <Element Offset="2224" Vartype="4 Bytes" Bytesize="4" OffsetHex="000008B0" Description="lastHitEntityFwd" DisplayMethod="unsigned integer"/>
+              <Element Offset="2236" Vartype="Byte" Bytesize="1" OffsetHex="000008BC" Description="lastHitRanged" DisplayMethod="unsigned integer"/>
+              <Element Offset="2240" Vartype="Float" Bytesize="4" OffsetHex="000008C0" Description="lastHitForce" DisplayMethod="unsigned integer"/>
+              <Element Offset="2244" Vartype="Float" Bytesize="4" OffsetHex="000008C4" Description="CreationTimeSinceLevelLoad" DisplayMethod="unsigned integer"/>
+              <Element Offset="2248" Vartype="Float" Bytesize="4" OffsetHex="000008C8" Description="proneRefillRate" DisplayMethod="unsigned integer"/>
+              <Element Offset="2252" Vartype="Float" Bytesize="4" OffsetHex="000008CC" Description="kneelRefillRate" DisplayMethod="unsigned integer"/>
+              <Element Offset="2256" Vartype="Float" Bytesize="4" OffsetHex="000008D0" Description="proneRefillCounter" DisplayMethod="unsigned integer"/>
+              <Element Offset="2260" Vartype="Float" Bytesize="4" OffsetHex="000008D4" Description="kneelRefillCounter" DisplayMethod="unsigned integer"/>
+              <Element Offset="2264" Vartype="4 Bytes" Bytesize="4" OffsetHex="000008D8" Description="deathHealth" DisplayMethod="unsigned integer"/>
+              <Element Offset="2268" Vartype="4 Bytes" Bytesize="4" OffsetHex="000008DC" Description="bodyDamage" DisplayMethod="unsigned integer"/>
+              <Element Offset="2300" Vartype="Byte" Bytesize="1" OffsetHex="000008FC" Description="stompsSpikes" DisplayMethod="unsigned integer"/>
+              <Element Offset="2304" Vartype="Float" Bytesize="4" OffsetHex="00000900" Description="OverrideSize" DisplayMethod="unsigned integer"/>
+              <Element Offset="2308" Vartype="Byte" Bytesize="1" OffsetHex="00000904" Description="isDancing" DisplayMethod="unsigned integer"/>
+              <Element Offset="2312" Vartype="Float" Bytesize="4" OffsetHex="00000908" Description="lastTimeTraderStationChecked" DisplayMethod="unsigned integer"/>
+              <Element Offset="2316" Vartype="Byte" Bytesize="1" OffsetHex="0000090C" Description="lerpForwardSpeed" DisplayMethod="unsigned integer"/>
+              <Element Offset="2320" Vartype="Float" Bytesize="4" OffsetHex="00000910" Description="speedForwardTarget" DisplayMethod="unsigned integer"/>
+              <Element Offset="2324" Vartype="Byte" Bytesize="1" OffsetHex="00000914" Description="disableFallBehaviorUntilOnGround" DisplayMethod="unsigned integer"/>
+              <Element Offset="2328" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000918" Description="_dynamicRagdoll" DisplayMethod="unsigned integer"/>
+              <Element Offset="2332" Vartype="Float" Bytesize="4" OffsetHex="0000091C" Description="_dynamicRagdollStunTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2336" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000920" Description="_dynamicRagdollRootMotion" DisplayMethod="unsigned integer"/>
+              <Element Offset="2348" Vartype="Byte" Bytesize="1" OffsetHex="0000092C" Description="CrouchingLocked" DisplayMethod="unsigned integer"/>
+              <Element Offset="2352" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000930" Description="currentHeadState" DisplayMethod="unsigned integer"/>
+              <Element Offset="2356" Vartype="Byte" Bytesize="1" OffsetHex="00000934" Description="bPlayHurtSound" DisplayMethod="unsigned integer"/>
+              <Element Offset="2357" Vartype="Byte" Bytesize="1" OffsetHex="00000935" Description="bBeenWounded" DisplayMethod="unsigned integer"/>
+              <Element Offset="2360" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000938" Description="woundedStrength" DisplayMethod="unsigned integer"/>
+              <Element Offset="2364" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000093C" Description="despawnDelayCounter" DisplayMethod="unsigned integer"/>
+              <Element Offset="2368" Vartype="Byte" Bytesize="1" OffsetHex="00000940" Description="isDespawnWhenPlayerFar" DisplayMethod="unsigned integer"/>
+              <Element Offset="2369" Vartype="Byte" Bytesize="1" OffsetHex="00000941" Description="bLastAttackReleased" DisplayMethod="unsigned integer"/>
+              <Element Offset="2370" Vartype="Byte" Bytesize="1" OffsetHex="00000942" Description="wasOnGround" DisplayMethod="unsigned integer"/>
+              <Element Offset="2372" Vartype="Float" Bytesize="4" OffsetHex="00000944" Description="landWaterLevel" DisplayMethod="unsigned integer"/>
+              <Element Offset="2376" Vartype="Byte" Bytesize="1" OffsetHex="00000948" Description="m_addedToWorld" DisplayMethod="unsigned integer"/>
+              <Element Offset="2380" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000094C" Description="saveHoldingItemIdxBeforeAttach" DisplayMethod="unsigned integer"/>
+              <Element Offset="2384" Vartype="Float" Bytesize="4" OffsetHex="00000950" Description="impactSoundTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2392" Vartype="Byte" Bytesize="1" OffsetHex="00000958" Description="IsHordeZombie" DisplayMethod="unsigned integer"/>
+              <Element Offset="2396" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000095C" Description="ticksUntilVisible" DisplayMethod="unsigned integer"/>
+              <Element Offset="2400" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000960" Description="timeToDie" DisplayMethod="unsigned integer"/>
+              <Element Offset="2408" Vartype="Float" Bytesize="4" OffsetHex="00000968" Description="moveSpeedRagePer" DisplayMethod="unsigned integer"/>
+              <Element Offset="2412" Vartype="Float" Bytesize="4" OffsetHex="0000096C" Description="moveSpeedScaleTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2416" Vartype="Float" Bytesize="4" OffsetHex="00000970" Description="fallTime" DisplayMethod="unsigned integer"/>
+              <Element Offset="2420" Vartype="Float" Bytesize="4" OffsetHex="00000974" Description="fallThresholdTime" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="StatType" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="GainPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="29" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001D" Description="LossPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="30" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001E" Description="ChangeOTPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="31" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001F" Description="MaxPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="Float" Bytesize="4" OffsetHex="00000020" Description="m_baseMax" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="Float" Bytesize="4" OffsetHex="00000024" Description="m_originalBaseMax" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="Float" Bytesize="4" OffsetHex="00000028" Description="m_maxModifier" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Float" Bytesize="4" OffsetHex="0000002C" Description="m_value" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="Float" Bytesize="4" OffsetHex="00000030" Description="m_originalValue" DisplayMethod="unsigned integer"/>
+        <Element Offset="52" Vartype="Float" Bytesize="4" OffsetHex="00000034" Description="m_valueModifier" DisplayMethod="unsigned integer"/>
+        <Element Offset="56" Vartype="Byte" Bytesize="1" OffsetHex="00000038" Description="m_isEntityAlive" DisplayMethod="unsigned integer"/>
+        <Element Offset="57" Vartype="Byte" Bytesize="1" OffsetHex="00000039" Description="m_isEntityPlayer" DisplayMethod="unsigned integer"/>
+        <Element Offset="58" Vartype="Byte" Bytesize="1" OffsetHex="0000003A" Description="m_changed" DisplayMethod="unsigned integer"/>
+        <Element Offset="60" Vartype="Float" Bytesize="4" OffsetHex="0000003C" Description="m_gainPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="64" Vartype="Float" Bytesize="4" OffsetHex="00000040" Description="m_lossPassive" DisplayMethod="unsigned integer"/>
+        <Element Offset="68" Vartype="Float" Bytesize="4" OffsetHex="00000044" Description="m_lossMaxMult" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="Float" Bytesize="4" OffsetHex="00000048" Description="regenAmount" DisplayMethod="unsigned integer"/>
+        <Element Offset="76" Vartype="Float" Bytesize="4" OffsetHex="0000004C" Description="&lt;RegenerationAmountUI&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+        <Element Offset="80" Vartype="Float" Bytesize="4" OffsetHex="00000050" Description="m_lastValue" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="Length" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Unicode String" Bytesize="128" OffsetHex="00000014" Description="Value" DisplayMethod="unsigned integer"/>
       </Elements>
     </Structure>
   </Structures>
