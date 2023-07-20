@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="18">
+<CheatTable CheatEngineTableVersion="45">
   <Forms>
-    <frmMain Class="TCEForm" Encoding="Ascii85">m6OeG)=Ar3$Ky2qsa5C)78I060Erb6i[{epkfTJY*viFA+f-6H?k{)nmI%+4c=6z-hvN}L#A7EhkqSH8nsdH$kM9IMLelB:YcGvQ+Gd:OLKkDkWiNpRx/jY]0r;qA-CvHIsulfwa;sLAx[6EjvlVhB][D!**9V#NKDcF}g25:}sB^zy4ia1WY5m@FNnn7N6^3;i9OVoa8p]FCN+gG;+f8A)$3oK]G[rz0!b_if)wJvoyeB*S=FT/*@NG$uQ$qHDkvSGKkyU}r97EEVmiV2t#GqBQxbuCV4$vXQH@79:L4.y1hIwvcl^Jkvv:;[%scH0$KdeyQ?NeL@Sl/fY@%J(M6=#63+z@ecbjq{Oh=P+/?6fKG/Qnq(C.lYIapPbp[]NKQiFbx/wmI@#Dv;YNM{nML(-y1n8fUXln=)rmD.}]Lwh8lm8.062]K}(8s6LqGH,fX/=sXBFF53019e#A$xUdeN^.Q3rou(WhJ_Z)wCsB8%SAWmcs{06bsHlL#77Dh}UUNy4]jWo4,dFmq8L*gJ#X1OYGOdKTWV-aivb,V2JY!.qI5Ah]4+</frmMain>
+    <frmMain Class="TCEForm" Encoding="Ascii85">t)41d)=Ar4Cw7u=TvI3uq:/rolyy{QD/l=*NmL/6i4v/[v6$E:(8TBfG)JHM3!VUY1fGBmZ@k1qzQnmGTq?Px%-A#M_IRu8%.y;+^-{RWeYe,[DxxzL4H%EB9=a1ES,8FJzn-J^qhk7UVK$7}6%TQ4J}ke70@{dTl]$$Qs6EAa3@N7EoVsj+T+mb$y+N.-1wz:mWMT:eUdT{?#{yo6EF(M}@L5}wD{[_mcDqgNzK)vD%[$AU*tn;Pp6gwLN;Ty);MVWFNkijzmxwan.;dC@Dn$y$X[mp*N_AwIDLI^DL)Ag^)qXK5f+bm96Dj+)]D^8:At-}8EkQ;wbD0R1f+}A_G?ccTUr4FgD0h?^C*.uM1S@DCTF[%t5Vn_#P8e#eBv(*mYELsYlB+dnt/DnVgnt67l)mYDZ_WXf$t6,=g^w.s;S*B29%QAq[SD]%!WD$MCBBoxa*U-k?as6zLFh5Eak{LFGC?9D9RN8lV(:a1Cr._l*H@ob.!f[b+Dx/Kn8KY#Sa[){Y=4hC4Qm2of:r:78hYqKe61Ig6CZBzg2$M.tu$L#u.6Cr+92DrXnmG,r3iPSc1rY%,:a?#U#hZmj[zD{^(KKyd%Zg=z([lmcaQc=@=!HI)S[P0,Ar1fzm{=c^_y^KB%KJN!c_cCs:B]SyzJgH-WErARM]d[0{F=-ST+cPpzlD?Wh$X_lIZIRdBDVmy!Hoj^rm/</frmMain>
   </Forms>
   <CheatEntries>
+    <CheatEntry>
+      <ID>467</ID>
+      <Description>"Attach to Game; Build 8944, Online 1.67"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("GTA5.exe")
+{$asm}
+[DISABLE]
+</AssemblerScript>
+    </CheatEntry>
     <CheatEntry>
       <ID>56</ID>
       <Description>"Activate Player Scripts"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(get_ptr,GTA5.exe,48 8B 81 E0 03 00 00 48 8B)
@@ -47,8 +58,6 @@ dealloc(some_ptr)
           <ID>64</ID>
           <Description>"Activate Damage Scripts"</Description>
           <Options moHideChildren="1"/>
-          <LastState Activated="0"/>
-          <Color>80000008</Color>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 aobscanmodule(damage,GTA5.exe,F3 0F 58 B6 80 02 00 00)
@@ -123,8 +132,6 @@ dealloc(onehit)
             <CheatEntry>
               <ID>65</ID>
               <Description>"Unlimited Player Health"</Description>
-              <LastState Activated="0"/>
-              <Color>80000008</Color>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>[ENABLE]
 health:
@@ -137,8 +144,6 @@ db 0
             <CheatEntry>
               <ID>66</ID>
               <Description>"Unlimited Vehicle Health"</Description>
-              <LastState Activated="0"/>
-              <Color>80000008</Color>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>[ENABLE]
 vehicle:
@@ -151,8 +156,6 @@ db 0
             <CheatEntry>
               <ID>67</ID>
               <Description>"One Hit Kills"</Description>
-              <LastState Activated="0"/>
-              <Color>80000008</Color>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>[ENABLE]
 onehit:
@@ -166,9 +169,7 @@ db 0
         </CheatEntry>
         <CheatEntry>
           <ID>131</ID>
-          <Description>"Prevent Instant Death"</Description>
-          <LastState Activated="0"/>
-          <Color>80000008</Color>
+          <Description>"Prevent Instant Death (not working)"</Description>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 aobscanmodule(death,GTA5.exe,F3 41 0F 5C 70 10)
@@ -217,8 +218,6 @@ dealloc(newmem)
           <ID>169</ID>
           <Description>"Activate Waypoint Scripts"</Description>
           <Options moHideChildren="1"/>
-          <LastState Activated="0"/>
-          <Color>80000008</Color>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 aobscanmodule(waypoint,GTA5.exe,42 04 89 41 20 F3 0F 11 41 24)
@@ -257,8 +256,6 @@ dealloc(waypoint_ptr)
             <CheatEntry>
               <ID>195</ID>
               <Description>"Teleport to Waypoint"</Description>
-              <LastState Activated="0"/>
-              <Color>80000008</Color>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>[ENABLE]
 {$lua}
@@ -299,8 +296,6 @@ assert(false)
     <CheatEntry>
       <ID>38</ID>
       <Description>"Unlimited Munitions"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(ammo,GTA5.exe,41 2B D1 E8)
@@ -317,8 +312,6 @@ unregistersymbol(ammo)
     <CheatEntry>
       <ID>28</ID>
       <Description>"Unlimited Ammo Clip"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(clip,GTA5.exe,41 2B C9 3B C8 0F)
@@ -335,8 +328,6 @@ unregistersymbol(clip)
     <CheatEntry>
       <ID>69</ID>
       <Description>"Unlimited Special"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(special,GTA5.exe,F3 0F 5C CE F3 0F 2C C9)
@@ -352,9 +343,7 @@ unregistersymbol(special)
     </CheatEntry>
     <CheatEntry>
       <ID>388</ID>
-      <Description>"Super Speed"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
+      <Description>"Super Speed (not working)"</Description>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(_SuperSpeed,GTA5.exe,F3 0F 10 8F D8 05 00 00)
@@ -391,9 +380,7 @@ dealloc(newmem)
     </CheatEntry>
     <CheatEntry>
       <ID>233</ID>
-      <Description>"Unlimited Stunt Plane Trial Time"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
+      <Description>"Unlimited Stunt Plane Trial Time (not working)"</Description>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(pilot,GTA5.exe,48 8B 01 49 03 DF)
@@ -431,9 +418,7 @@ dealloc(newmem)
     </CheatEntry>
     <CheatEntry>
       <ID>137</ID>
-      <Description>"Give 9,999,999 Money"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
+      <Description>"Give 9,999,999 Money (not working)"</Description>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(money,GTA5.exe,45 8B C4 48 8B C8 C6 44 24 20 01 E8 * * * * 8A 1D)
@@ -469,8 +454,6 @@ dealloc(newmem)
     <CheatEntry>
       <ID>194</ID>
       <Description>"Encrypted Value Editor"</Description>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -585,56 +568,48 @@ previous = nil
       <ID>457</ID>
       <Description>"Change Vehicle Instructions (expand)"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" Activated="0" RealAddress="00000000"/>
       <Color>008000</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>466</ID>
           <Description>"1. Steal some shmuck's junker."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>464</ID>
           <Description>"2. Activate the script."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>465</ID>
           <Description>"3. Drive the vehicle for a second."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>460</ID>
           <Description>"4. Change the Vehicle Hash to your desired vehicle."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>458</ID>
           <Description>"5. Disable the hack immediately to prevent possible crashes."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>463</ID>
           <Description>"6. Drop the vehicle into a garage and leave without it."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>459</ID>
           <Description>"7. Re-enter the garage and the vehicle will have changed."</Description>
-          <LastState Value="" Activated="0" RealAddress="00000000"/>
           <Color>008000</Color>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
@@ -644,8 +619,6 @@ previous = nil
       <ID>455</ID>
       <Description>"Change Vehicle"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="0"/>
-      <Color>80000008</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 aobscanmodule(vehicle_id,GTA5.exe,89 5C 24 08 57 48 83 EC 20 48 63 05 * * * * 83)
@@ -1047,8 +1020,6 @@ dealloc(vehicle_id_ptr)
 1039032026:blista2
 3703315515:blista3
 </DropDownList>
-          <LastState Value="??" Activated="0" RealAddress="00000000"/>
-          <Color>80000008</Color>
           <VariableType>4 Bytes</VariableType>
           <Address>vehicle_id_ptr</Address>
           <Offsets>
@@ -1059,4 +1030,9 @@ dealloc(vehicle_id_ptr)
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("GTA5.exe")
+
+</LuaScript>
 </CheatTable>

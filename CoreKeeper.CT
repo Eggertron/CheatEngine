@@ -420,54 +420,84 @@ GameAssembly.dll+2ACE544: 48 8B E9              - mov rbp,rcx
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>17</ID>
+      <Description>"Auto Assemble script"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : CoreKeeper.exe
+  Version: 
+  Date   : 2023-07-17
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(InventoryHandler.SetOverrideRemove,48 89 5C 24 18)
+
+InventoryHandler.SetOverrideRemove:
+  ret
+
+[DISABLE]
+
+InventoryHandler.SetOverrideRemove:
+  db 48 89 5C 24 18
+  // mov [rsp+08],rbx
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: InventoryHandler.SetOverrideRemove
+
+GameAssembly.dll+2AD3496: CC                    - int 3 
+GameAssembly.dll+2AD3497: CC                    - int 3 
+GameAssembly.dll+2AD3498: CC                    - int 3 
+GameAssembly.dll+2AD3499: CC                    - int 3 
+GameAssembly.dll+2AD349A: CC                    - int 3 
+GameAssembly.dll+2AD349B: CC                    - int 3 
+GameAssembly.dll+2AD349C: CC                    - int 3 
+GameAssembly.dll+2AD349D: CC                    - int 3 
+GameAssembly.dll+2AD349E: CC                    - int 3 
+GameAssembly.dll+2AD349F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+InventoryHandler.SetOverrideRemove: 48 89 5C 24 08        - mov [rsp+08],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+2AD34A5: 48 89 74 24 10        - mov [rsp+10],rsi
+GameAssembly.dll+2AD34AA: 48 89 7C 24 18        - mov [rsp+18],rdi
+GameAssembly.dll+2AD34AF: 55                    - push rbp
+GameAssembly.dll+2AD34B0: 41 56                 - push r14
+GameAssembly.dll+2AD34B2: 41 57                 - push r15
+GameAssembly.dll+2AD34B4: 48 8D 6C 24 C1        - lea rbp,[rsp-3F]
+GameAssembly.dll+2AD34B9: 48 81 EC 90 00 00 00  - sub rsp,00000090
+GameAssembly.dll+2AD34C0: 80 3D 5D AD 17 02 00  - cmp byte ptr [GameAssembly.dll+4C4E224],00
+GameAssembly.dll+2AD34C7: 41 8B F8              - mov edi,r8d
+GameAssembly.dll+2AD34CA: 0F 29 7C 24 70        - movaps [rsp+70],xmm7
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
   <CheatCodes>
     <CodeEntry>
-      <Description>Change of sub r12d,esi</Description>
-      <AddressString>lib_burst_generated.dll+18BE44A</AddressString>
+      <Description>Change of sub [rbp-2D],edi</Description>
+      <AddressString>GameAssembly.dll+2AD3586</AddressString>
       <Before>
-        <Byte>44</Byte>
-        <Byte>8B</Byte>
-        <Byte>44</Byte>
-        <Byte>24</Byte>
-        <Byte>68</Byte>
+        <Byte>FE</Byte>
+        <Byte>3B</Byte>
+        <Byte>C7</Byte>
+        <Byte>7E</Byte>
+        <Byte>13</Byte>
       </Before>
       <Actual>
-        <Byte>41</Byte>
         <Byte>29</Byte>
-        <Byte>F4</Byte>
+        <Byte>7D</Byte>
+        <Byte>D3</Byte>
       </Actual>
       <After>
-        <Byte>45</Byte>
-        <Byte>85</Byte>
-        <Byte>E4</Byte>
-        <Byte>7F</Byte>
-        <Byte>0C</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call InventoryHandler.SetOverrideRemove</Description>
-      <AddressString>GameAssembly.dll+2ACD2A5</AddressString>
-      <Before>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CB</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>F6</Byte>
-        <Byte>61</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>4C</Byte>
-        <Byte>8B</Byte>
-        <Byte>A4</Byte>
-        <Byte>24</Byte>
-        <Byte>E0</Byte>
+        <Byte>80</Byte>
+        <Byte>3D</Byte>
+        <Byte>93</Byte>
+        <Byte>AC</Byte>
+        <Byte>17</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>
