@@ -3,159 +3,27 @@
   <CheatEntries>
     <CheatEntry>
       <ID>7</ID>
-      <Description>"275957"</Description>
+      <Description>"Remnant version 275957P"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
-      <ID>3</ID>
-      <Description>"inf ammo clip?"</Description>
+      <ID>16</ID>
+      <Description>"Attach"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
-  Version: 
-  Date   : 2023-07-28
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-
-[ENABLE]
-
-assert(Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73,29 7B 54 48 8B CE)
-alloc(newmem,$1000,"Remnant-Win64-Shipping.exe"+778E73)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  sub [rbx+54],edi
-  add [rbx+54],edi
-  mov rcx,rsi
-  jmp return
-
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73:
-  jmp newmem
-  nop
-return:
-
+      <AssemblerScript>[ENABLE]
+{$lua}
+getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("Remnant-Win64-Shipping.exe")
+{$asm}
 [DISABLE]
-
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73:
-  db 29 7B 54 48 8B CE
-  // sub [rbx+54],edi
-  // mov rcx,rsi
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73
-
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+53: 48 8B 53 10        - mov rdx,[rbx+10]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+57: 4C 8D 40 30        - lea r8,[rax+30]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+5B: 48 63 40 38        - movsxd  rax,dword ptr [rax+38]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+5F: 3B 42 38           - cmp eax,[rdx+38]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+62: 7F 0D              - jg Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+71
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+64: 48 8B C8           - mov rcx,rax
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+67: 48 8B 42 30        - mov rax,[rdx+30]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+6B: 4C 39 04 C8        - cmp [rax+rcx*8],r8
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+6F: 74 02              - je Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+71: 33 DB              - xor ebx,ebx
-// ---------- INJECTING HERE ----------
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+73: 29 7B 54           - sub [rbx+54],edi
-// ---------- DONE INJECTING  ----------
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+76: 48 8B CE           - mov rcx,rsi
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+79: 48 8B 06           - mov rax,[rsi]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+7C: F7 DF              - neg edi
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+7E: 8B D7              - mov edx,edi
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+80: FF 90 A8 07 00 00  - call qword ptr [rax+000007A8]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+86: 48 8B 5C 24 30     - mov rbx,[rsp+30]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+8B: 48 8B 74 24 38     - mov rsi,[rsp+38]
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+90: 48 83 C4 20        - add rsp,20
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+94: 5F                 - pop rdi
-Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+95: C3                 - ret 
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>10</ID>
-      <Description>"scrap pick up modifier?"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
-  Version: 
-  Date   : 2023-07-28
-  Author : bboyh
-
-   something when you pick up scraps
-}
-
-define(address,"Remnant-Win64-Shipping.exe"+773785)
-define(bytes,89 42 2C 33 D2)
-
-[ENABLE]
-
-assert(address,bytes)
-alloc(newmem,$1000,"Remnant-Win64-Shipping.exe"+773785)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  mov [rdx+2C],eax
-  xor edx,edx
-  jmp return
-
-address:
-  jmp newmem
-return:
-
-[DISABLE]
-
-address:
-  db bytes
-  // mov [rdx+2C],eax
-  // xor edx,edx
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+395
-
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+379: 44 8B 45 47     - mov r8d,[rbp+47]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+37D: 8B 4A 2C        - mov ecx,[rdx+2C]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+380: 41 3B C8        - cmp ecx,r8d
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+383: 7D 54           - jnl Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3D9
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+385: 8B 7D 67        - mov edi,[rbp+67]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+388: 41 8B C0        - mov eax,r8d
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38B: 2B C1           - sub eax,ecx
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38D: 3B C7           - cmp eax,edi
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38F: 0F 4E F8        - cmovle edi,eax
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+392: 8D 04 39        - lea eax,[rcx+rdi]
-// ---------- INJECTING HERE ----------
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+395: 89 42 2C        - mov [rdx+2C],eax
-// ---------- DONE INJECTING  ----------
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+398: 33 D2           - xor edx,edx
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+39A: 48 8B 4E 18     - mov rcx,[rsi+18]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+39E: 48 83 C1 30     - add rcx,30
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3A2: E8 89 C8 B5 FF  - call Remnant-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3A7: 29 7D 67        - sub [rbp+67],edi
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3AA: 49 63 FC        - movsxd  rdi,r12d
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3AD: 44 8D 67 01     - lea r12d,[rdi+01]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B1: 44 89 65 9F     - mov [rbp-61],r12d
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B5: 44 3B 65 A3     - cmp r12d,[rbp-5D]
-Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B9: 7E 0F           - jle Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3CA
-}
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>13</ID>
-      <Description>"item usage script"</Description>
+      <Description>"item usage script (equipment quantity does not change)"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
@@ -215,8 +83,8 @@ Remnant-Win64-Shipping.AEquipment::SetQuantity+38: 48 85 C9              - test 
     </CheatEntry>
     <CheatEntry>
       <ID>15</ID>
-      <Description>"Items do not decrease (iron, money, ..., inf buying)"</Description>
-      <LastState/>
+      <Description>"Items do not decrease (iron, money, ..., inf buying, inventory items doe not decrease)"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
   Version: 
@@ -231,6 +99,7 @@ Remnant-Win64-Shipping.AEquipment::SetQuantity+38: 48 85 C9              - test 
 assert(Remnant-Win64-Shipping.UInventoryComponent::RemoveItemInternal+1EF,41 2B C6 89 41 2C)
 
 Remnant-Win64-Shipping.UInventoryComponent::RemoveItemInternal+1EF:
+  //add eax,r14d
   db 90 90 90 90 90 90
 
 [DISABLE]
@@ -271,100 +140,280 @@ Remnant-Win64-Shipping.UInventoryComponent::RemoveItemInternal+219: 44 3B 74 24 
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>17</ID>
+      <Description>"Unlimited Ammo"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-07-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo,48 89 5C 24 08)
+
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo:
+  ret
+
+[DISABLE]
+
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo:
+  db 48 89 5C 24 08
+  // mov [rsp+08],rbx
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo
+
+Remnant-Win64-Shipping.exe+778DF6: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DF7: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DF8: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DF9: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFA: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFB: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFC: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFD: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFE: CC                    - int 3 
+Remnant-Win64-Shipping.exe+778DFF: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo: 48 89 5C 24 08        - mov [rsp+08],rbx
+// ---------- DONE INJECTING  ----------
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+5: 48 89 74 24 10        - mov [rsp+10],rsi
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+A: 57                    - push rdi
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+B: 48 83 EC 20           - sub rsp,20
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+F: 48 8D B1 40 FA FF FF  - lea rsi,[rcx-000005C0]
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+16: 48 8B D9              - mov rbx,rcx
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+19: 48 8B CE              - mov rcx,rsi
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+1C: 8B FA                 - mov edi,edx
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+1E: E8 BD 42 FF FF        - call Remnant-Win64-Shipping.AItem::CheckInstanceData&lt;URangedWeaponInstanceData&gt;
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+23: 84 C0                 - test al,al
+Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+25: 74 5F                 - je Remnant-Win64-Shipping.ARangedWeapon::ConsumeAmmo+86
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"scrap pick up modifier"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-07-28
+  Author : bboyh
+
+   something when you pick up scraps
+}
+
+define(address,"Remnant-Win64-Shipping.exe"+773785)
+define(bytes,89 42 2C 33 D2)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"Remnant-Win64-Shipping.exe"+773785)
+
+label(code)
+label(return)
+
+newmem:
+  add eax,edi  // edi is the value picked up
+
+code:
+  mov [rdx+2C],eax
+  xor edx,edx
+  jmp return
+
+address:
+  jmp newmem
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov [rdx+2C],eax
+  // xor edx,edx
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+395
+
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+379: 44 8B 45 47     - mov r8d,[rbp+47]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+37D: 8B 4A 2C        - mov ecx,[rdx+2C]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+380: 41 3B C8        - cmp ecx,r8d
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+383: 7D 54           - jnl Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3D9
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+385: 8B 7D 67        - mov edi,[rbp+67]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+388: 41 8B C0        - mov eax,r8d
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38B: 2B C1           - sub eax,ecx
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38D: 3B C7           - cmp eax,edi
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+38F: 0F 4E F8        - cmovle edi,eax
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+392: 8D 04 39        - lea eax,[rcx+rdi]
+// ---------- INJECTING HERE ----------
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+395: 89 42 2C        - mov [rdx+2C],eax
+// ---------- DONE INJECTING  ----------
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+398: 33 D2           - xor edx,edx
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+39A: 48 8B 4E 18     - mov rcx,[rsi+18]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+39E: 48 83 C1 30     - add rcx,30
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3A2: E8 89 C8 B5 FF  - call Remnant-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3A7: 29 7D 67        - sub [rbp+67],edi
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3AA: 49 63 FC        - movsxd  rdi,r12d
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3AD: 44 8D 67 01     - lea r12d,[rdi+01]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B1: 44 89 65 9F     - mov [rbp-61],r12d
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B5: 44 3B 65 A3     - cmp r12d,[rbp-5D]
+Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B9: 7E 0F           - jle Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3CA
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"Unlimited Charges on Ranged Weapon"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-07-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+assert(Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+44,2C 01 88 83 B4 0B 00 00)
+
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+44:
+  db 90 90
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+44:
+  db 2C 01 88 83 B4 0B 00 00
+  // sub al,01
+  // mov [rbx+00000BB4],al
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+44
+
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+13: 48 89 84 24 A0 00 00 00  - mov [rsp+000000A0],rax
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1B: 48 8B D9                 - mov rbx,rcx
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1E: 48 85 C9                 - test rcx,rcx
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+21: 0F 84 A3 01 00 00        - je Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1CA
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+27: E8 E4 B7 0C 01           - call Remnant-Win64-Shipping.AActor::InternalGetNetMode
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+2C: 83 F8 03                 - cmp eax,03
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+2F: 0F 8D 95 01 00 00        - jnl Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1CA
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+35: 0F B6 83 B4 0B 00 00     - movzx eax,byte ptr [rbx+00000BB4]
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+3C: 84 C0                    - test al,al
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+3E: 0F 84 86 01 00 00        - je Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1CA
+// ---------- INJECTING HERE ----------
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+44: 2C 01                    - sub al,01
+// ---------- DONE INJECTING  ----------
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+46: 88 83 B4 0B 00 00        - mov [rbx+00000BB4],al
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+4C: 0F 85 70 01 00 00        - jne Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1C2
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+52: 80 BB 08 0C 00 00 02     - cmp byte ptr [rbx+00000C08],02
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+59: 0F 85 63 01 00 00        - jne Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+1C2
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+5F: 48 89 AC 24 D8 00 00 00  - mov [rsp+000000D8],rbp
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+67: 48 8D 05 32 A0 FD FF     - lea rax,[Remnant-Win64-Shipping.ARemnantRangedWeapon::DelayedDeactivate]
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+6E: 48 89 B4 24 E0 00 00 00  - mov [rsp+000000E0],rsi
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+76: 33 ED                    - xor ebp,ebp
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+78: 48 89 BC 24 E8 00 00 00  - mov [rsp+000000E8],rdi
+Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+80: 48 8B CB                 - mov rcx,rbx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"Detach mods without penalty"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-07-30
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation,40 53 48 83 EC 20)
+
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation:
+  ret
+
+[DISABLE]
+
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation:
+  db 40 53 48 83 EC 20
+  // push rbx
+  // sub rsp,20
+
+{
+// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation
+
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+168: 48 8B 10              - mov rdx,[rax]
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+16B: 48 83 C4 30           - add rsp,30
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+16F: 5B                    - pop rbx
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+170: 48 FF A2 70 02 00 00  - jmp qword ptr [rdx+00000270]
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+177: 48 83 C4 30           - add rsp,30
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+17B: 5B                    - pop rbx
+Remnant-Win64-Shipping.UMatchmaker::OnDestroyCompleted+17C: C3                    - ret 
+Remnant-Win64-Shipping.exe+5AF69D: CC                    - int 3 
+Remnant-Win64-Shipping.exe+5AF69E: CC                    - int 3 
+Remnant-Win64-Shipping.exe+5AF69F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation: 40 53                 - push rbx
+// ---------- DONE INJECTING  ----------
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+2: 48 83 EC 20           - sub rsp,20
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+6: 48 8B D9              - mov rbx,rcx
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+9: E8 42 7A 1E 00        - call Remnant-Win64-Shipping.AEquipmentMod::OnDetached_Implementation
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+E: 48 8B CB              - mov rcx,rbx
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+11: E8 4A 90 1D 00        - call Remnant-Win64-Shipping.AEquipmentMod::GetEquipment
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+16: 48 8B D8              - mov rbx,rax
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+19: 48 85 C0              - test rax,rax
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+1C: 74 50                 - je Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+6E
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+1E: E8 CD 4B 08 00        - call Remnant-Win64-Shipping.ARemnantRangedWeapon::GetPrivateStaticClass
+Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+23: 48 8B 4B 10           - mov rcx,[rbx+10]
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
   <CheatCodes>
     <CodeEntry>
-      <Description>Change of sub [rbx+54],edi</Description>
-      <AddressString>Remnant-Win64-Shipping.exe+778E73</AddressString>
+      <Description>Change of sub al,01</Description>
+      <AddressString>Remnant-Win64-Shipping.exe+5C15C4</AddressString>
       <Before>
-        <Byte>C8</Byte>
-        <Byte>74</Byte>
-        <Byte>02</Byte>
-        <Byte>33</Byte>
-        <Byte>DB</Byte>
+        <Byte>84</Byte>
+        <Byte>86</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
       </Before>
       <Actual>
-        <Byte>29</Byte>
-        <Byte>7B</Byte>
-        <Byte>54</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CE</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of mov [rax+2C],edx</Description>
-      <AddressString>Remnant-Win64-Shipping.exe+7A0310</AddressString>
-      <Before>
-        <Byte>48</Byte>
-        <Byte>85</Byte>
-        <Byte>C0</Byte>
-        <Byte>74</Byte>
-        <Byte>03</Byte>
-      </Before>
-      <Actual>
-        <Byte>89</Byte>
-        <Byte>50</Byte>
         <Byte>2C</Byte>
+        <Byte>01</Byte>
       </Actual>
       <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>89</Byte>
-        <Byte>68</Byte>
-        <Byte>05</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of sub eax,r14d</Description>
-      <AddressString>Remnant-Win64-Shipping.exe+79C78F</AddressString>
-      <Before>
-        <Byte>FE</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-        <Byte>EB</Byte>
-        <Byte>16</Byte>
-      </Before>
-      <Actual>
-        <Byte>41</Byte>
-        <Byte>2B</Byte>
-        <Byte>C6</Byte>
-      </Actual>
-      <After>
-        <Byte>89</Byte>
-        <Byte>41</Byte>
-        <Byte>2C</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of mov [rcx+2C],eax</Description>
-      <AddressString>Remnant-Win64-Shipping.exe+79C792</AddressString>
-      <Before>
-        <Byte>EB</Byte>
-        <Byte>16</Byte>
-        <Byte>41</Byte>
-        <Byte>2B</Byte>
-        <Byte>C6</Byte>
-      </Before>
-      <Actual>
-        <Byte>89</Byte>
-        <Byte>41</Byte>
-        <Byte>2C</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>4F</Byte>
-        <Byte>18</Byte>
-        <Byte>48</Byte>
+        <Byte>88</Byte>
+        <Byte>83</Byte>
+        <Byte>B4</Byte>
+        <Byte>0B</Byte>
+        <Byte>00</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>
   <UserdefinedSymbols/>
+  <Comments>Most items and equipment are 4 bytes dec.</Comments>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("Remnant-Win64-Shipping.exe")
+
+</LuaScript>
 </CheatTable>
