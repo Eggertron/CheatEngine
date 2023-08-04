@@ -143,7 +143,7 @@ Remnant-Win64-Shipping.UInventoryComponent::RemoveItemInternal+219: 44 3B 74 24 
     <CheatEntry>
       <ID>17</ID>
       <Description>"Unlimited Ammo"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
   Version: 
@@ -273,7 +273,7 @@ Remnant-Win64-Shipping.UInventoryComponent::AddItemInternal+3B9: 7E 0F          
     <CheatEntry>
       <ID>19</ID>
       <Description>"Unlimited Charges on Ranged Weapon"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
   Version: 
@@ -331,7 +331,7 @@ Remnant-Win64-Shipping.ARemnantRangedWeapon::UseCharge+80: 48 8B CB             
     <CheatEntry>
       <ID>20</ID>
       <Description>"Detach mods without penalty"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
   Version: 
@@ -384,33 +384,82 @@ Remnant-Win64-Shipping.ARemnantWeaponMod::OnDetached_Implementation+23: 48 8B 4B
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>45</ID>
+      <Description>"Trait Upgrade to Max"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Remnant-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-08-03
+  Author : bboyh
+
+  Sets the trait to 20 (max) on upgrade
+}
+
+[ENABLE]
+
+assert(Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12B,41 89 2E 49 8B D6)
+alloc(newmem,$1000,"Remnant-Win64-Shipping.exe"+7B21BB)
+
+label(code)
+label(return)
+
+newmem:
+  mov ebp,(int)20
+
+code:
+  mov [r14],ebp
+  mov rdx,r14
+  jmp return
+
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12B:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12B:
+  db 41 89 2E 49 8B D6
+  // mov [r14],ebp
+  // mov rdx,r14
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12B
+
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+106: 48 39 14 C8           - cmp [rax+rcx*8],rdx
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+10A: 75 03                 - jne Remnant-Win64-Shipping.UTraitsComponent::AddTrait+10F
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+10C: 48 8B FB              - mov rdi,rbx
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+10F: 48 8B CF              - mov rcx,rdi
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+112: E8 B9 A3 DD FF        - call Remnant-Win64-Shipping.UClass::GetDefaultObject&lt;UAIPOIType&gt;
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+117: 8B A8 C0 00 00 00     - mov ebp,[rax+000000C0]
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+11D: 41 8B 3E              - mov edi,[r14]
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+120: 3B EF                 - cmp ebp,edi
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+122: 0F 84 16 01 00 00     - je Remnant-Win64-Shipping.UTraitsComponent::AddTrait+23E
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+128: 45 33 C0              - xor r8d,r8d
+// ---------- INJECTING HERE ----------
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12B: 41 89 2E              - mov [r14],ebp
+// ---------- DONE INJECTING  ----------
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+12E: 49 8B D6              - mov rdx,r14
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+131: 48 8B CE              - mov rcx,rsi
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+134: E8 77 58 01 00        - call Remnant-Win64-Shipping.UTraitsComponent::InitializeTrait
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+139: 49 8B 46 08           - mov rax,[r14+08]
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+13D: 48 8D 8E 70 01 00 00  - lea rcx,[rsi+00000170]
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+144: 48 8D 54 24 20        - lea rdx,[rsp+20]
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+149: 48 89 44 24 20        - mov [rsp+20],rax
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+14E: 89 7C 24 28           - mov [rsp+28],edi
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+152: E8 39 DE B1 FF        - call Remnant-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
+Remnant-Win64-Shipping.UTraitsComponent::AddTrait+157: B0 01                 - mov al,01
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of sub al,01</Description>
-      <AddressString>Remnant-Win64-Shipping.exe+5C15C4</AddressString>
-      <Before>
-        <Byte>84</Byte>
-        <Byte>86</Byte>
-        <Byte>01</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Before>
-      <Actual>
-        <Byte>2C</Byte>
-        <Byte>01</Byte>
-      </Actual>
-      <After>
-        <Byte>88</Byte>
-        <Byte>83</Byte>
-        <Byte>B4</Byte>
-        <Byte>0B</Byte>
-        <Byte>00</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
-  <Comments>Most items and equipment are 4 bytes dec.</Comments>
+  <Comments>Most items and equipment are 4 bytes dec.
+</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("Remnant-Win64-Shipping.exe")

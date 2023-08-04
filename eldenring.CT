@@ -4,19 +4,16 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"App Version: 1.10"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Calibration Version: 1.10"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>33</ID>
       <Description>"Health Update on Damage"</Description>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -111,7 +108,6 @@ start_protected_game.exe+42EE27: 0F 84 9F 01 00 00  - je start_protected_game.ex
       <ID>44</ID>
       <Description>"Rune Update?"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -203,7 +199,6 @@ start_protected_game.exe+258BCC: 48 63 00              - movsxd  rax,dword ptr [
     <CheatEntry>
       <ID>60</ID>
       <Description>"Inf FP"</Description>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -279,13 +274,11 @@ start_protected_game.exe+430307: 80 E2 01                 - and dl,01
     <CheatEntry>
       <ID>68</ID>
       <Description>"Inventory Scripts"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>70</ID>
           <Description>"Max Item Inventory on use/move"</Description>
-          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -356,7 +349,6 @@ start_protected_game.exe+248CA6: E8 85 0C 00 00        - call start_protected_ga
         <CheatEntry>
           <ID>98</ID>
           <Description>"Item Pickup Quantity modifier (+99)"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -430,7 +422,6 @@ start_protected_game.exe+704402: 48 8B D1                    - mov rdx,rcx
       <ID>72</ID>
       <Description>"Equip Inventory Data Hook"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -507,7 +498,6 @@ start_protected_game.exe+248C63: 48 8B D6        - mov rdx,rsi
         <CheatEntry>
           <ID>73</ID>
           <Description>"Equipment Inventory Hook Address"</Description>
-          <LastState Value="C83F2D18" RealAddress="7FF3C2C2F168"/>
           <ShowAsHex>1</ShowAsHex>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
@@ -521,7 +511,6 @@ start_protected_game.exe+248C63: 48 8B D6        - mov rdx,rsi
     <CheatEntry>
       <ID>86</ID>
       <Description>"Player Game Data Hook"</Description>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : start_protected_game.exe
   Version: 
@@ -598,7 +587,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>94</ID>
           <Description>"Base"</Description>
-          <LastState Value="C83F5D90" RealAddress="7FF3C2C2ED60"/>
           <ShowAsHex>1</ShowAsHex>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
@@ -610,7 +598,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>88</ID>
           <Description>"HP"</Description>
-          <LastState Value="646" RealAddress="7FF3C2C2ED70"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -621,7 +608,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>89</ID>
           <Description>"HP Max"</Description>
-          <LastState Value="646" RealAddress="7FF3C2C2ED74"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -632,7 +618,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>87</ID>
           <Description>"Faith"</Description>
-          <LastState Value="34" RealAddress="7FF3C2C2EDB4"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -643,7 +628,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>90</ID>
           <Description>"Stamina (wrong, it's the third)"</Description>
-          <LastState Value="123" RealAddress="7FF3C2C2ED8C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -654,7 +638,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>91</ID>
           <Description>"FP (Display)"</Description>
-          <LastState Value="137" RealAddress="7FF3C2C2ED7C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -665,7 +648,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>92</ID>
           <Description>"Level"</Description>
-          <LastState Value="123" RealAddress="7FF3C2C2EDC8"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -676,7 +658,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
         <CheatEntry>
           <ID>93</ID>
           <Description>"Runes Held"</Description>
-          <LastState Value="174492" RealAddress="7FF3C2C2EDCC"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
           <Address>player_game_data_ptr</Address>
@@ -687,83 +668,6 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of mov qword ptr [rdi+08],00000000</Description>
-      <AddressString>start_protected_game.exe+704284</AddressString>
-      <Before>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>5C</Byte>
-        <Byte>24</Byte>
-        <Byte>38</Byte>
-      </Before>
-      <Actual>
-        <Byte>48</Byte>
-        <Byte>C7</Byte>
-        <Byte>47</Byte>
-        <Byte>08</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>C7</Byte>
-        <Byte>47</Byte>
-        <Byte>10</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of mov [rcx+08],edx</Description>
-      <AddressString>start_protected_game.exe+7043E3</AddressString>
-      <Before>
-        <Byte>84</Byte>
-        <Byte>04</Byte>
-        <Byte>39</Byte>
-        <Byte>51</Byte>
-        <Byte>08</Byte>
-      </Before>
-      <Actual>
-        <Byte>89</Byte>
-        <Byte>51</Byte>
-        <Byte>08</Byte>
-      </Actual>
-      <After>
-        <Byte>73</Byte>
-        <Byte>04</Byte>
-        <Byte>44</Byte>
-        <Byte>89</Byte>
-        <Byte>41</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of mov [rdi+08],rbx</Description>
-      <AddressString>start_protected_game.exe+7046FB</AddressString>
-      <Before>
-        <Byte>0E</Byte>
-        <Byte>F6</Byte>
-        <Byte>FF</Byte>
-        <Byte>33</Byte>
-        <Byte>DB</Byte>
-      </Before>
-      <Actual>
-        <Byte>48</Byte>
-        <Byte>89</Byte>
-        <Byte>5F</Byte>
-        <Byte>08</Byte>
-      </Actual>
-      <After>
-        <Byte>8B</Byte>
-        <Byte>4F</Byte>
-        <Byte>04</Byte>
-        <Byte>8B</Byte>
-        <Byte>C1</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="player?" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
