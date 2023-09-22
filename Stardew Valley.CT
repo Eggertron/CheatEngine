@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Stardew Valley Version: "</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"Enable and Hook"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  getAutoAttachList().add("Stardew Valley.exe")
+{$asm}
+[DISABLE]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Double Quantity Picked Up"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Stardew Valley.exe
+  Version: 
+  Date   : 2023-09-21
+  Author : bboyh
+
+  rax is the quantity to add
+  r14 is the current quantity of inventory item
+  address to Netcode.NetInt::Set is called
+
+  example: if you pull one item out from inventory into a separate slot
+  and then drop the rest on the floor and pick it back up, you'll recieve
+  double the item count.
+}
+
+[ENABLE]
+
+assert(StardewValley.Object::addToStack+3F,42 8D 14 30 48 8B CD)
+alloc(newmem,$100,7FFECAD92D3F)
+
+label(code)
+label(return)
+
+newmem:
+  // doubles the add amount
+  lea rax,[rax+rax]
+
+code:
+  lea edx,[rax+r14]
+  mov rcx,rbp
+  jmp return
+
+StardewValley.Object::addToStack+3F:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+StardewValley.Object::addToStack+3F:
+  db 42 8D 14 30 48 8B CD
+  // lea edx,[rax+r14]
+  // mov rcx,rbp
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: StardewValley.Object::addToStack+3F
+
+StardewValley.Object::addToStack+1A: FF 50 28                       - call qword ptr [rax+28]
+StardewValley.Object::addToStack+1D: 8B D8                          - mov ebx,eax
+StardewValley.Object::addToStack+1F: 83 FB 01                       - cmp ebx,01
+StardewValley.Object::addToStack+22: 0F 84 17 01 00 00              - je StardewValley.Object::addToStack+13F
+StardewValley.Object::addToStack+28: 48 8B AE B8 00 00 00           - mov rbp,[rsi+000000B8]
+StardewValley.Object::addToStack+2F: 44 8B 75 44                    - mov r14d,[rbp+44]
+StardewValley.Object::addToStack+33: 48 8B CF                       - mov rcx,rdi
+StardewValley.Object::addToStack+36: 48 8B 07                       - mov rax,[rdi]
+StardewValley.Object::addToStack+39: 48 8B 40 68                    - mov rax,[rax+68]
+StardewValley.Object::addToStack+3D: FF 10                          - call qword ptr [rax]
+// ---------- INJECTING HERE ----------
+StardewValley.Object::addToStack+3F: 42 8D 14 30                    - lea edx,[rax+r14]
+// ---------- DONE INJECTING  ----------
+StardewValley.Object::addToStack+43: 48 8B CD                       - mov rcx,rbp
+StardewValley.Object::addToStack+46: 48 B8 F8 85 0E CA FE 7F 00 00  - mov rax,00007FFECA0E85F8
+StardewValley.Object::addToStack+50: FF 10                          - call qword ptr [rax]
+StardewValley.Object::addToStack+52: 48 8B D7                       - mov rdx,rdi
+StardewValley.Object::addToStack+55: 48 B9 80 21 13 CA FE 7F 00 00  - mov rcx,00007FFECA132180
+StardewValley.Object::addToStack+5F: E8 1C 1A F6 FE                 - call 7FFEC9CF4780
+StardewValley.Object::addToStack+64: 48 8B F8                       - mov rdi,rax
+StardewValley.Object::addToStack+67: 48 85 FF                       - test rdi,rdi
+StardewValley.Object::addToStack+6A: 74 6E                          - je StardewValley.Object::addToStack+DA
+StardewValley.Object::addToStack+6C: 48 8B 96 80 00 00 00           - mov rdx,[rsi+00000080]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Double Money"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Stardew Valley.exe
+  Version: 
+  Date   : 2023-09-22
+  Author : bboyh
+
+  Sets money to EDI when ever the set_Money function
+  is called.
+}
+
+
+[ENABLE]
+
+assert(StardewValley.Farmer::set_Money+A,8B FA 48 B9 78 56 F6 38 59 01 00 00)
+alloc(newmem,$100,7FFECAA0416A)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov edi,edx
+  lea edi,[edx*2]  // doubles edi
+  mov rcx,0000015938F65678
+  jmp return
+
+StardewValley.Farmer::set_Money+A:
+  jmp newmem
+  nop 7
+return:
+
+[DISABLE]
+
+StardewValley.Farmer::set_Money+A:
+  db 8B FA 48 B9 78 56 F6 38 59 01 00 00
+  // mov edi,edx
+  // mov rcx,0000015938F65678
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: StardewValley.Farmer::set_Money+A
+
+7FFECAA04153: 00 00                          - add [rax],al
+7FFECAA04155: 00 00                          - add [rax],al
+7FFECAA04157: 00 80 1E BE CA FE              - add [rax-013541E2],al
+7FFECAA0415D: 7F 00                          - jg 7FFECAA0415F
+7FFECAA0415F: 00 57 56                       - add [rdi+56],dl
+StardewValley.Farmer::set_Money+2: 53                             - push rbx
+StardewValley.Farmer::set_Money+3: 48 83 EC 20                    - sub rsp,20
+StardewValley.Farmer::set_Money+7: 48 8B F1                       - mov rsi,rcx
+StardewValley.Farmer::set_Money+A: 8B FA                          - mov edi,edx
+StardewValley.Farmer::set_Money+C: 48 B9 78 56 F6 38 59 01 00 00  - mov rcx,0000015938F65678
+// ---------- INJECTING HERE ----------
+StardewValley.Farmer::set_Money+16: 48 39 31                       - cmp [rcx],rsi
+// ---------- DONE INJECTING  ----------
+StardewValley.Farmer::set_Money+19: 0F 85 A9 00 00 00              - jne StardewValley.Farmer::set_Money+C8
+StardewValley.Farmer::set_Money+1F: 48 8B CE                       - mov rcx,rsi
+StardewValley.Farmer::set_Money+22: E8 D9 F2 31 FF                 - call 7FFEC9D23460
+StardewValley.Farmer::set_Money+27: 8B D8                          - mov ebx,eax
+StardewValley.Farmer::set_Money+29: 48 8B CE                       - mov rcx,rsi
+StardewValley.Farmer::set_Money+2C: 8B D7                          - mov edx,edi
+StardewValley.Farmer::set_Money+2E: E8 D5 F2 31 FF                 - call 7FFEC9D23468
+StardewValley.Farmer::set_Money+33: 3B FB                          - cmp edi,ebx
+StardewValley.Farmer::set_Money+35: 0F 8E 85 00 00 00              - jng StardewValley.Farmer::set_Money+C0
+StardewValley.Farmer::set_Money+3B: 2B FB                          - sub edi,ebx
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

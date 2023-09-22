@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <Forms>
-    <UDF1 Class="TCEForm" Encoding="Ascii85">MUX+D!!Q*bvvzCiS]hKBC$FV=?UE?JL8XOOJxaR0ZGkKq$y4Yz@kbPUYrO;C]#+mCe]#ifbWNFsUH)!@b)p@w/@8.ZE(7XD?Ct0VNB?]jojiK_.+*J}Z@rmpstu@sS[(N{J!:PzaCigpJw]1K9KxvA1+2T/!kiwFNfDg+NzNGvoanKeNBV@:.s94$=bt2Sp%$javKCKkWIq(5YGGgYdR!(7D1eUn@[2fFmsMVUfYP;1[;gAlW15l3+jKa%9(r1+5Abfz^?($D_IX:qx0B5II(P;k@;fLkiU:Wp</UDF1>
+    <UDF1 Class="TCEForm" Encoding="Ascii85">MNnO9gFq0x[;r=Jl,yS1#lD8L_De?M0}Q0=:CPb,6AvzT.oKJdhy7XgG,GW0W?nk58MPp!,??//#.;W.C,8zcADs+iXuFH$8{MU.[AjwZb,#(Z$M?LuFnCdV4_-E8+#:=7i;@gDy?ULor}+3y*T]QrGog,(W?qF_E)iTE791qb;cNO7bvIT+X)x(z.-@aDYQU7%V%KnlE8{z2zd5wy:;l1o%ig4*%jX+T55t{^x4z8wGzxQ;0Gs(Rng1X9S*6?;ZjD#@v?(l@yuO?[RUnqa^9]{X-K8GudT8fiY^$BvvtG7=Ez@CvA%sT:]2z</UDF1>
   </Forms>
   <CheatEntries>
     <CheatEntry>
       <ID>2</ID>
-      <Description>"Raft Version 1.08 (9078615)"</Description>
-      <LastState Value="" RealAddress="00000000"/>
+      <Description>"Raft Version 1.09 (10199006)"</Description>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>71</ID>
       <Description>"Open Raft Process"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -29,7 +27,6 @@ getAutoAttachList().add("Raft.exe")
       <ID>3</ID>
       <Description>"Enable Mono, Click to dropdown"</Description>
       <Options moHideChildren="1"/>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -50,7 +47,6 @@ end
         <CheatEntry>
           <ID>70</ID>
           <Description>"Display Layer (J)"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 {$lua}
@@ -112,7 +108,6 @@ if f then f.Destroy() end
         <CheatEntry>
           <ID>65</ID>
           <Description>"Item Usage does not decrease"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version:
@@ -199,7 +194,6 @@ ItemInstance:set_Amount+3a: C3                             - ret
         <CheatEntry>
           <ID>4</ID>
           <Description>"items touched count set to xxx"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
@@ -273,7 +267,6 @@ ItemInstance:set_Amount+3a: C3                             - ret
         <CheatEntry>
           <ID>16</ID>
           <Description>"Tank always full ??"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>/* Tank Value float max = 50
 */
@@ -310,14 +303,10 @@ dealloc(newmem)
         <CheatEntry>
           <ID>8</ID>
           <Description>"100% health/hunger/thirst player, 1 hit kill all"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>define(address,Stat:ChangeValue+63)
-define(bytes,F3 0F 11 6E 1C 48 8B 75 F8 48 8D 65 00 5D C3)
-
-
+          <AssemblerScript>
 [ENABLE]
-assert(address,bytes)
+assert(Stat:ChangeValue+63,F3 0F 11 6E 1C 48 8B 75 F8 48 8D 65 00 5D C3)
 
 alloc(newmem,256,Stat:ChangeValue+63)
 label(update_stat)
@@ -345,12 +334,12 @@ update_stat:
   ret
 
 
-address:
+Stat:ChangeValue+63:
   jmp newmem
 
 [DISABLE]
-address:
-  db bytes
+Stat:ChangeValue+63:
+  db F3 0F 11 6E 1C 48 8B 75 F8 48 8D 65 00 5D C3
 
 dealloc(newmem)
 </AssemblerScript>
@@ -358,7 +347,6 @@ dealloc(newmem)
         <CheatEntry>
           <ID>53</ID>
           <Description>"Player Stats Base Hook"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
@@ -516,7 +504,6 @@ PlayerStats:Update+58: 41 FF D3                       - call r11
         <CheatEntry>
           <ID>62</ID>
           <Description>"Melee Damage Modifier"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
@@ -603,7 +590,6 @@ MeleeWeapon:OnHitEntity+143: 85 C0                          - test eax,eax
         <CheatEntry>
           <ID>64</ID>
           <Description>"Unlimited Item Durability"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
@@ -681,7 +667,6 @@ ItemInstance:set_Uses+47: C3                             - ret
         <CheatEntry>
           <ID>69</ID>
           <Description>"Arrow Damage Modifier"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
@@ -769,7 +754,6 @@ Arrow:OnCollisionEvent+207: 48 8D 65 00                    - lea rsp,[rbp+00]
         <CheatEntry>
           <ID>68</ID>
           <Description>"Arrow Damage Modifer (broken)"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Raft.exe
   Version: 
