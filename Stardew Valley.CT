@@ -175,6 +175,87 @@ StardewValley.Farmer::set_Money+3B: 2B FB                          - sub edi,ebx
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"Stamina does not change"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Stardew Valley.exe
+  Version: 
+  Date   : 2023-09-22
+  Author : bboyh
+
+  The new stamina value is probably xmm1
+}
+
+[ENABLE]
+
+assert(StardewValley.Farmer::set_Stamina+C9,FF 50 08 90 48 83 C4 20)
+StardewValley.Farmer::set_Stamina+C9:
+  db 90 90 90
+
+[DISABLE]
+
+StardewValley.Farmer::set_Stamina+C9:
+  db FF 50 08 90 48 83 C4 20
+  // call qword ptr [rax+08]
+  // nop 
+  // add rsp,20
+
+{
+// ORIGINAL CODE - INJECTION POINT: StardewValley.Farmer::set_Stamina+C9
+
+StardewValley.Farmer::set_Stamina+A5: C5 F8 28 C1           - vmovaps xmm0,xmm1
+StardewValley.Farmer::set_Stamina+A9: C5 F9 7E C1           - vmovd ecx,xmm0
+StardewValley.Farmer::set_Stamina+AD: 85 C9                 - test ecx,ecx
+StardewValley.Farmer::set_Stamina+AF: 7C 02                 - jl StardewValley.Farmer::set_Stamina+B3
+StardewValley.Farmer::set_Stamina+B1: EB 04                 - jmp StardewValley.Farmer::set_Stamina+B7
+StardewValley.Farmer::set_Stamina+B3: C5 F8 28 D1           - vmovaps xmm2,xmm1
+StardewValley.Farmer::set_Stamina+B7: 48 8B 8E 58 04 00 00  - mov rcx,[rsi+00000458]
+StardewValley.Farmer::set_Stamina+BE: C5 F8 28 CA           - vmovaps xmm1,xmm2
+StardewValley.Farmer::set_Stamina+C2: 48 8B 01              - mov rax,[rcx]
+StardewValley.Farmer::set_Stamina+C5: 48 8B 40 60           - mov rax,[rax+60]
+// ---------- INJECTING HERE ----------
+StardewValley.Farmer::set_Stamina+C9: FF 50 08              - call qword ptr [rax+08]
+// ---------- DONE INJECTING  ----------
+StardewValley.Farmer::set_Stamina+CC: 90                    - nop 
+StardewValley.Farmer::set_Stamina+CD: 48 83 C4 20           - add rsp,20
+StardewValley.Farmer::set_Stamina+D1: 5E                    - pop rsi
+StardewValley.Farmer::set_Stamina+D2: C3                    - ret 
+7FFECA9FFD23: CC                    - int 3 
+7FFECA9FFD24: CC                    - int 3 
+7FFECA9FFD25: CC                    - int 3 
+7FFECA9FFD26: CC                    - int 3 
+7FFECA9FFD27: CC                    - int 3 
+7FFECA9FFD28: CC                    - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call qword ptr [rax+08]</Description>
+      <AddressString>7FFECA9FFD19</AddressString>
+      <Before>
+        <Byte>01</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>40</Byte>
+        <Byte>60</Byte>
+      </Before>
+      <Actual>
+        <Byte>FF</Byte>
+        <Byte>50</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>90</Byte>
+        <Byte>48</Byte>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>20</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols/>
 </CheatTable>
