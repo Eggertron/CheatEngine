@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Stardew Valley Version: "</Description>
+      <Description>"Stardew Valley Version: 1.5.6.1988831613"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -25,7 +25,7 @@
     <CheatEntry>
       <ID>2</ID>
       <Description>"Double Quantity Picked Up"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -232,30 +232,5 @@ StardewValley.Farmer::set_Stamina+D2: C3                    - ret
 </AssemblerScript>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax+08]</Description>
-      <AddressString>7FFECA9FFD19</AddressString>
-      <Before>
-        <Byte>01</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>40</Byte>
-        <Byte>60</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>50</Byte>
-        <Byte>08</Byte>
-      </Actual>
-      <After>
-        <Byte>90</Byte>
-        <Byte>48</Byte>
-        <Byte>83</Byte>
-        <Byte>C4</Byte>
-        <Byte>20</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
 </CheatTable>

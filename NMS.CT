@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 106606"</Description>
+      <Description>"Version: 111039"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -155,7 +155,7 @@ NMS.exe+3EE4AD: 84 C0                 - test al,al
 [ENABLE]
 
 
-aobscanmodule(ITEM_DEC_CONSUME,NMS.exe,0F 4C D8 E8 2D 3B 02 00) // should be unique
+aobscanmodule(ITEM_DEC_CONSUME,NMS.exe,0F 4C D8 E8) // should be unique
 
 ITEM_DEC_CONSUME:
   xor rbx,rbx
@@ -164,7 +164,7 @@ registersymbol(ITEM_DEC_CONSUME)
 [DISABLE]
 
 ITEM_DEC_CONSUME:
-  db 0F 4C D8 E8 2D 3B 02 00
+  db 0F 4C D8 E8
 
 unregistersymbol(ITEM_DEC_CONSUME)
 
