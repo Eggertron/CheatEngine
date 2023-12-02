@@ -3,13 +3,15 @@
   <CheatEntries>
     <CheatEntry>
       <ID>2</ID>
-      <Description>"7 Days to Die ver. Alpha 21 (b324)"</Description>
+      <Description>"7 Days to Die ver. Alpha 21.1 (b16)"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
       <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -24,6 +26,7 @@
         <CheatEntry>
           <ID>60</ID>
           <Description>"Instant Kill"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -100,6 +103,7 @@ Stat:set_Value+b5: 90                             - nop
         <CheatEntry>
           <ID>52</ID>
           <Description>"Press G to drop inf (Like drinking water)"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -109,31 +113,26 @@ Stat:set_Value+b5: 90                             - nop
   works on 20.5(b2)
 }
 
-define(address,"Inventory:DecHoldingItem")
-define(address2,"Inventory:DecItem")
-define(bytes,55 48 8B EC 48 83 EC 40)
-define(bytes2,55)
-
 [ENABLE]
 
-assert(address,bytes)
-//assert(address2,byte2)
+assert(Inventory:DecHoldingItem,bytes)
+assert(Inventory:DecItem,55)
 
 
-address:
+Inventory:DecHoldingItem:
   ret
-address2:
+Inventory:DecItem:
   ret
 
 [DISABLE]
 
-address:
-  db bytes
+Inventory:DecHoldingItem:
+  db 55 48 8B EC 48 83 EC 40
   // push rbp
   // mov rbp,rsp
   // sub rsp,40
-address2:
-  db bytes2
+Inventory:DecItem:
+  db 55
 
 
 {
@@ -168,6 +167,7 @@ Inventory:DecHoldingItem+23: 48 8B 07        - mov rax,[rdi]
         <CheatEntry>
           <ID>53</ID>
           <Description>"No Damage"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -225,6 +225,7 @@ EntityPlayerLocal:DamageEntity+21: F3 0F 10 45 30  - movss xmm0,[rbp+30]
         <CheatEntry>
           <ID>54</ID>
           <Description>"No Stamina Update"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -282,6 +283,7 @@ EntityStats:UpdatePlayerStaminaOT+2b: 48 89 85 48 FF FF FF     - mov [rbp-000000
         <CheatEntry>
           <ID>55</ID>
           <Description>"No Food Update"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -340,6 +342,7 @@ EntityStats:UpdatePlayerFoodOT+25: F3 0F 10 40 48        - movss xmm0,[rax+48]
         <CheatEntry>
           <ID>56</ID>
           <Description>"No Thirst Update"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -398,6 +401,7 @@ EntityStats:UpdatePlayerWaterOT+25: F3 0F 10 40 48        - movss xmm0,[rax+48]
         <CheatEntry>
           <ID>58</ID>
           <Description>"Zombie Insta-KILL?"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -455,6 +459,7 @@ EntityEnemy:DamageEntity+4f: 5D                             - pop rbp
         <CheatEntry>
           <ID>57</ID>
           <Description>"zombie insta-kill?"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -513,6 +518,7 @@ EntityHuman:DamageEntity+af: 4C 8B 6D E8                    - mov r13,[rbp-18]
           <ID>4</ID>
           <Description>"Entity Player Local Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -524,20 +530,11 @@ EntityHuman:DamageEntity+af: 4C 8B 6D E8                    - mov r13,[rbp-18]
   48 89 5D D0 48 89 75 D8 48 89 7D E0 4C 89 65 E8
 }
 
-//define(bytes,55 48 8B EC 48 81 EC F0 00 00 00)
-//define(address,EntityPlayer:Update)
-//define(bytes,48 8B F1 C7 85 40 FF FF FF 00 00 00 00)
-//define(address,EntityPlayer:Update+23)
-//define(address,EntityPlayerLocal:Update+23)
-//define(bytes,48 8B F1 33 C0 48 89 85 28 FC FF FF 48 89 85 30 FC FF FF)
-//define(bytes,48 8B F1 33 C0 48 89 85 38 FC FF FF 48 89 85 40 FC FF FF)
-define(address,EntityPlayerLocal:Update+b)
-define(exit,EntityPlayerLocal:Update+1b)
-define(bytes,48 89 5D D0 48 89 75 D8 48 89 7D E0 4C 89 65 E8)
+
 
 [ENABLE]
 
-assert(address,bytes)
+assert(EntityPlayerLocal:Update,55 48 8B EC 48 81 EC C0 04 00 00)
 
 alloc(newmem,$1000)
 alloc(entity_player_ptr,8)
@@ -554,25 +551,20 @@ entity_player_ptr:
 newmem:
   mov [entity_player_ptr],rcx
 code:
-  mov [rbp-30],rbx
-  mov [rbp-28],rsi
-  mov [rbp-20],rdi
-  mov [rbp-18],r12
+  push rbp
+  mov rbp,rsp
+  sub rsp,000004C0
   jmp return
 
-address:
+EntityPlayerLocal:Update:
   jmp newmem
-  nop
-  nop
-
-exit:
+  nop 6
 return:
-  mov [rbp-10],r13
 
 [DISABLE]
 
-address:
-  db bytes
+EntityPlayerLocal:Update:
+  db 55 48 8B EC 48 81 EC C0 04 00 00
 
 dealloc(*)
 unregistersymbol(*)
@@ -582,25 +574,30 @@ unregistersymbol(*)
 
 EntityPlayerLocal:Update - 55                    - push rbp
 EntityPlayerLocal:Update+1- 48 8B EC              - mov rbp,rsp
-EntityPlayerLocal:Update+4- 48 81 EC B0040000     - sub rsp,000004B0
-EntityPlayerLocal:Update+b- 48 89 5D D0           - mov [rbp-30],rbx
-EntityPlayerLocal:Update+f- 48 89 75 D8           - mov [rbp-28],rsi
-EntityPlayerLocal:Update+13- 48 89 7D E0           - mov [rbp-20],rdi
-EntityPlayerLocal:Update+17- 4C 89 65 E8           - mov [rbp-18],r12
-EntityPlayerLocal:Update+1b- 4C 89 6D F0           - mov [rbp-10],r13
-EntityPlayerLocal:Update+1f- 4C 89 7D F8           - mov [rbp-08],r15
-EntityPlayerLocal:Update+23- 48 8B F1              - mov rsi,rcx
-EntityPlayerLocal:Update+26- 33 C0                 - xor eax,eax
-EntityPlayerLocal:Update+28- 48 89 85 28FCFFFF     - mov [rbp-000003D8],rax
-EntityPlayerLocal:Update+2f- 48 89 85 30FCFFFF     - mov [rbp-000003D0],rax
-EntityPlayerLocal:Update+36- 89 85 38FCFFFF        - mov [rbp-000003C8],eax
-EntityPlayerLocal:Update+3c- 89 85 3CFCFFFF        - mov [rbp-000003C4],eax
-EntityPlayerLocal:Update+42- 89 85 40FCFFFF        - mov [rbp-000003C0],eax
-EntityPlayerLocal:Update+48- 48 8B CE              - mov rcx,rsi
-EntityPlayerLocal:Update+4b- 66 66 90              - nop 3
-EntityPlayerLocal:Update+4e- 49 BB 022CCA576A020000 - mov r11,0000026A57CA2C02
-EntityPlayerLocal:Update+58- 41 FF D3              - call r11
-EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
+EntityPlayerLocal:Update+4- 48 81 EC C0040000     - sub rsp,000004C0
+EntityPlayerLocal:Update+b- 48 89 5D C8           - mov [rbp-38],rbx
+EntityPlayerLocal:Update+f- 48 89 75 D0           - mov [rbp-30],rsi
+EntityPlayerLocal:Update+13- 48 89 7D D8           - mov [rbp-28],rdi
+EntityPlayerLocal:Update+17- 4C 89 65 E0           - mov [rbp-20],r12
+EntityPlayerLocal:Update+1b- 4C 89 6D E8           - mov [rbp-18],r13
+EntityPlayerLocal:Update+1f- 4C 89 75 F0           - mov [rbp-10],r14
+EntityPlayerLocal:Update+23- 4C 89 7D F8           - mov [rbp-08],r15
+EntityPlayerLocal:Update+27- 48 8B F1              - mov rsi,rcx
+EntityPlayerLocal:Update+2a- 33 C0                 - xor eax,eax
+EntityPlayerLocal:Update+2c- 48 89 85 30FCFFFF     - mov [rbp-000003D0],rax
+EntityPlayerLocal:Update+33- 48 89 85 38FCFFFF     - mov [rbp-000003C8],rax
+EntityPlayerLocal:Update+3a- 89 85 40FCFFFF        - mov [rbp-000003C0],eax
+EntityPlayerLocal:Update+40- 89 85 44FCFFFF        - mov [rbp-000003BC],eax
+EntityPlayerLocal:Update+46- 89 85 48FCFFFF        - mov [rbp-000003B8],eax
+EntityPlayerLocal:Update+4c- 48 89 85 10FCFFFF     - mov [rbp-000003F0],rax
+EntityPlayerLocal:Update+53- C6 85 08FCFFFF 00     - mov byte ptr [rbp-000003F8],00
+EntityPlayerLocal:Update+5a- 48 8B CE              - mov rcx,rsi
+EntityPlayerLocal:Update+5d- 90                    - nop
+EntityPlayerLocal:Update+5e- 49 BB 702FC6CB0F020000 - mov r11,EntityPlayer:Update
+EntityPlayerLocal:Update+68- 41 FF D3              - call r11
+EntityPlayerLocal:Update+6b- 48 8B 86 B80B0000     - mov rax,[rsi+00000BB8]
+EntityPlayerLocal:Update+72- 48 8B C8              - mov rcx,rax
+
 
 }
 </AssemblerScript>
@@ -975,6 +972,7 @@ EntityPlayerLocal:Update+5b- 48 8B 86 600B0000     - mov rax,[rsi+00000B60]
           <ID>41</ID>
           <Description>"Ranged Weapon Hook"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -1090,6 +1088,7 @@ ItemActionRanged:OnHoldingUpdate+2e: 74 21                 - je ItemActionRanged
           <ID>15</ID>
           <Description>"Speed Modifier"</Description>
           <Options moHideChildren="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -1186,6 +1185,7 @@ EntityPlayerLocal:GetSpeedModifier+b4: C3                             - ret
         <CheatEntry>
           <ID>36</ID>
           <Description>"Instant Scrap [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -1304,6 +1304,7 @@ ItemActionEntryScrap:OnActivated+4cd: 90                             - nop
         <CheatEntry>
           <ID>39</ID>
           <Description>"Damage Multiplier [not working]"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -1379,82 +1380,12 @@ unregistersymbol(*)
 }
 </AssemblerScript>
         </CheatEntry>
-        <CheatEntry>
-          <ID>61</ID>
-          <Description>"1-Hit Kill"</Description>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : 7DaysToDie.exe
-  Version: 
-  Date   : 2023-07-16
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
-assert(Stat:set_Value+14,F3 0F 10 46 2C)
-alloc(newmem,256,1DCF04EDC34)
-
-label(code)
-label(return)
-
-newmem:
-  cmp [rsi+39],0  // Stat.m_isEntityPlayer
-  jne code
-  mov [rsi+2C],(float)1.0
-
-code:
-  movss xmm0,[rsi+2C]
-  jmp return
-
-Stat:set_Value+14:
-  jmp newmem
-return:
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-Stat:set_Value+14:
-  db F3 0F 10 46 2C
-  // movss xmm0,[rsi+2C]
-
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Stat:set_Value+14
-
-1DCF04EDC18: 00 00              - add [rax],al
-1DCF04EDC1A: 00 00              - add [rax],al
-1DCF04EDC1C: 00 00              - add [rax],al
-1DCF04EDC1E: 00 00              - add [rax],al
-Stat:set_Value: 55                 - push rbp
-Stat:set_Value+1: 48 8B EC           - mov rbp,rsp
-Stat:set_Value+4: 48 83 EC 40        - sub rsp,40
-Stat:set_Value+8: 48 89 75 F8        - mov [rbp-08],rsi
-Stat:set_Value+c: 48 8B F1           - mov rsi,rcx
-Stat:set_Value+f: F3 0F 11 4D E8     - movss [rbp-18],xmm1
-// ---------- INJECTING HERE ----------
-Stat:set_Value+14: F3 0F 10 46 2C     - movss xmm0,[rsi+2C]
-// ---------- DONE INJECTING  ----------
-Stat:set_Value+19: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
-Stat:set_Value+1d: F3 0F 10 4D E8     - movss xmm1,[rbp-18]
-Stat:set_Value+22: F3 0F 5A C9        - cvtss2sd xmm1,xmm1
-Stat:set_Value+26: 66 0F 2F C8        - comisd xmm1,xmm0
-Stat:set_Value+2a: 7A 06              - jp Stat:set_Value+32
-Stat:set_Value+2c: 0F 84 91 00 00 00  - je Stat:set_Value+c3
-Stat:set_Value+32: F3 0F 10 45 E8     - movss xmm0,[rbp-18]
-Stat:set_Value+37: F3 0F 5A C0        - cvtss2sd xmm0,xmm0
-Stat:set_Value+3b: 66 0F 57 C9        - xorpd xmm1,xmm1
-Stat:set_Value+3f: F3 0F 10 56 20     - movss xmm2,[rsi+20]
-}
-</AssemblerScript>
-        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>44</ID>
       <Description>"CE Window Usermode"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>/*
   make a copy of the cheat engine.exe as csrss.exe

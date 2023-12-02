@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"v. 1.0.10"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"Unlimited Item/Resource Usage"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Towers-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-10-06
+  Author : bboyh
+
+  sets the negative adding value to zero
+}
+
+
+[ENABLE]
+
+assert(Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C2,F7 D8 89 45 20)
+
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C2:
+  //db 90 90
+  xor eax,eax
+
+[DISABLE]
+
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C2:
+  db F7 D8 89 45 20
+  // neg eax
+  // mov [rbp+20],eax
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C2
+
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+9B: 0F 8E C9 00 00 00     - jng Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+16A
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+A1: 48 8B 8B E0 00 00 00  - mov rcx,[rbx+000000E0]
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+A8: 48 85 C9              - test rcx,rcx
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+AB: 74 0C                 - je Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+B9
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+AD: 48 8B 01              - mov rax,[rcx]
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+B0: FF 90 D8 05 00 00     - call qword ptr [rax+000005D8]
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+B6: 8B 55 08              - mov edx,[rbp+08]
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+B9: 8B C2                 - mov eax,edx
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+BB: 44 3B EA              - cmp r13d,edx
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+BE: 41 0F 4E C5           - cmovle eax,r13d
+// ---------- INJECTING HERE ----------
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C2: F7 D8                 - neg eax
+// ---------- DONE INJECTING  ----------
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C4: 89 45 20              - mov [rbp+20],eax
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C7: 03 C2                 - add eax,edx
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+C9: 89 45 08              - mov [rbp+08],eax
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+CC: 44 88 BB 88 01 00 00  - mov [rbx+00000188],r15b
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+D3: 48 8B CB              - mov rcx,rbx
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+D6: E8 65 10 01 00        - call Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::OnRep_InventoryItemTracking
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+DB: 83 7D 08 00           - cmp dword ptr [rbp+08],00
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+DF: 7F 56                 - jg Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+137
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+E1: 48 8B 07              - mov rax,[rdi]
+Towers-Win64-Shipping.UTowersPlayerLootInventoryComponent::AuthorityOnly_RemoveFromInventory+E4: 49 8B 4C 04 10        - mov rcx,[r12+rax+10]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Deposit Double Resources"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Towers-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-10-07
+  Author : bboyh
+
+  Resources Returned to ship are deposited at double
+}
+
+[ENABLE]
+
+assert(Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D5,44 89 74 CA 20)
+alloc(newmem,128,"Towers-Win64-Shipping.exe"+7A8CA5)
+
+label(code)
+label(return)
+
+newmem:
+  lea r14d,[r14d*2]
+
+code:
+  mov [rdx+rcx*8+20],r14d
+  jmp return
+
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D5:
+  jmp newmem
+return:
+
+[DISABLE]
+
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D5:
+  db 44 89 74 CA 20
+  // mov [rdx+rcx*8+20],r14d
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D5
+
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2A9: 0F 85 F1 FE FF FF              - jne Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+1A0
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2AF: 48 8B 7C 24 38                 - mov rdi,[rsp+38]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2B4: 48 8B 5C 24 40                 - mov rbx,[rsp+40]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2B9: 48 8B 6C 24 48                 - mov rbp,[rsp+48]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2BE: 48 8B B4 24 08 01 00 00        - mov rsi,[rsp+00000108]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2C6: 45 85 F6                       - test r14d,r14d
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2C9: 7E 14                          - jle Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2DF
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2CB: 49 8B 17                       - mov rdx,[r15]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2CE: 48 63 C3                       - movsxd  rax,ebx
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D1: 48 8D 0C 80                    - lea rcx,[rax+rax*4]
+// ---------- INJECTING HERE ----------
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2D5: 44 89 74 CA 20                 - mov [rdx+rcx*8+20],r14d
+// ---------- DONE INJECTING  ----------
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2DA: 44 01 74 CA 08                 - add [rdx+rcx*8+08],r14d
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2DF: 49 BE 67 66 66 66 66 66 66 66  - mov r14,6666666666666667
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2E9: 48 8B 9C 24 00 01 00 00        - mov rbx,[rsp+00000100]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2F1: 48 83 C7 28                    - add rdi,28
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2F5: 48 89 7C 24 38                 - mov [rsp+38],rdi
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2FA: 48 3B FD                       - cmp rdi,rbp
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+2FD: 0F 85 6D FD FF FF              - jne Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+70
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+303: 48 8B 8C 24 F8 00 00 00        - mov rcx,[rsp+000000F8]
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+30B: E8 D0 B1 C9 FF                 - call "Towers-Win64"-Shipping.TArray&lt;FOverlayItem,FDefaultAllocator&gt;::~TArray&lt;FOverlayItem,FDefaultAllocator&gt;
+Towers-Win64-Shipping.FTowersLootInventoryItemTrackingData::MergeItems+310: 90                             - nop 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"Unlimited Weapon Charges"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Towers-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-10-07
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+define(address,"Towers-Win64-Shipping.exe"+826065)
+define(bytes,0F 28 F1 75 6C)
+
+[ENABLE]
+
+assert(Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+15,0F 28 F1 75 6C)
+
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+15:
+  xorps xmm6,xmm6
+
+[DISABLE]
+
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+15:
+  db 0F 28 F1 75 6C
+  // movaps xmm6,xmm1
+  // jne Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+86
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+15
+
+Towers-Win64-Shipping.exe+82604B: CC                    - int 3 
+Towers-Win64-Shipping.exe+82604C: CC                    - int 3 
+Towers-Win64-Shipping.exe+82604D: CC                    - int 3 
+Towers-Win64-Shipping.exe+82604E: CC                    - int 3 
+Towers-Win64-Shipping.exe+82604F: CC                    - int 3 
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge: 40 53                 - push rbx
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+2: 48 83 EC 30           - sub rsp,30
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+6: 80 B9 90 01 00 00 00  - cmp byte ptr [rcx+00000190],00
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+D: 48 8B D9              - mov rbx,rcx
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+10: 0F 29 74 24 20        - movaps [rsp+20],xmm6
+// ---------- INJECTING HERE ----------
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+15: 0F 28 F1              - movaps xmm6,xmm1
+// ---------- DONE INJECTING  ----------
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+18: 75 6C                 - jne Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+86
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+1A: 48 8B 89 E0 00 00 00  - mov rcx,[rcx+000000E0]
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+21: 48 85 C9              - test rcx,rcx
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+24: 74 09                 - je Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+2F
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+26: 48 8B 01              - mov rax,[rcx]
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+29: FF 90 D8 05 00 00     - call qword ptr [rax+000005D8]
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+2F: 48 63 83 94 01 00 00  - movsxd  rax,dword ptr [rbx+00000194]
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+36: 83 F8 FF              - cmp eax,-01
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+39: 75 09                 - jne Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+44
+Towers-Win64-Shipping.UTowersWeaponBatteryComponent::Both_UseCharge+3B: 48 8D 0D 76 C8 8B 03  - lea rcx,[Towers-Win64-Shipping.DefaultWeaponBatteryUpgrade]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"No Damage (not working)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Towers-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-10-07
+  Author : bboyh
+
+  Checks if player by looking into the stack for non-zero value
+}
+
+[ENABLE]
+
+assert(Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11,E8 DA A6 13 01)
+alloc(newmem,100,"Towers-Win64-Shipping.exe"+6BD561)
+
+label(code)
+label(return)
+
+newmem:
+  mov rax,[rsp+28]
+  cmp rax,0
+  jne code
+  mov eax,0  // just make this not 3
+  jmp return
+
+code:
+  call Towers-Win64-Shipping.UActorComponent::GetOwnerRole
+  jmp return
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11:
+  jmp newmem
+return:
+
+[DISABLE]
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11:
+  db E8 DA A6 13 01
+  // call Towers-Win64-Shipping.UActorComponent::GetOwnerRole
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetDamageMeterState+3AB: 5E                       - pop rsi
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetDamageMeterState+3AC: 5D                       - pop rbp
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetDamageMeterState+3AD: C3                       - ret 
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetDamageMeterState+3AE: CC                       - int 3 
+Towers-Win64-Shipping.exe+6BD54F: CC                       - int 3 
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints: 40 53                    - push rbx
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2: 48 83 EC 50              - sub rsp,50
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+6: 0F 29 7C 24 30           - movaps [rsp+30],xmm7
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+B: 48 8B D9                 - mov rbx,rcx
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+E: 0F 28 F9                 - movaps xmm7,xmm1
+// ---------- INJECTING HERE ----------
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11: E8 DA A6 13 01           - call Towers-Win64-Shipping.UActorComponent::GetOwnerRole
+// ---------- DONE INJECTING  ----------
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+16: 83 F8 03                 - cmp eax,03
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+19: 75 50                    - jne Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+6B
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+1B: 0F 29 74 24 40           - movaps [rsp+40],xmm6
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+20: F3 0F 10 B3 90 02 00 00  - movss xmm6,[rbx+00000290]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+28: 0F 2E F7                 - ucomiss xmm6,xmm7
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B: 74 39                    - je Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+66
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2D: 48 8B 8B E0 00 00 00     - mov rcx,[rbx+000000E0]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+34: 48 85 C9                 - test rcx,rcx
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+37: 74 09                    - je Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+42
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+39: 48 8B 01                 - mov rax,[rcx]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"No Damage (Everything)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Towers-Win64-Shipping.exe
+  Version: 
+  Date   : 2023-10-07
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B,74 39 48 8B 8B E0 00 00 00)
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B:
+  db eb
+
+[DISABLE]
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B:
+  db 74 39 48 8B 8B E0 00 00 00
+  // je Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+66
+  // mov rcx,[rbx+000000E0]
+
+{
+// ORIGINAL CODE - INJECTION POINT: Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B
+
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2: 48 83 EC 50              - sub rsp,50
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+6: 0F 29 7C 24 30           - movaps [rsp+30],xmm7
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+B: 48 8B D9                 - mov rbx,rcx
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+E: 0F 28 F9                 - movaps xmm7,xmm1
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+11: E8 DA A6 13 01           - call Towers-Win64-Shipping.UActorComponent::GetOwnerRole
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+16: 83 F8 03                 - cmp eax,03
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+19: 75 50                    - jne Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+6B
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+1B: 0F 29 74 24 40           - movaps [rsp+40],xmm6
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+20: F3 0F 10 B3 90 02 00 00  - movss xmm6,[rbx+00000290]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+28: 0F 2E F7                 - ucomiss xmm6,xmm7
+// ---------- INJECTING HERE ----------
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2B: 74 39                    - je Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+66
+// ---------- DONE INJECTING  ----------
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+2D: 48 8B 8B E0 00 00 00     - mov rcx,[rbx+000000E0]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+34: 48 85 C9                 - test rcx,rcx
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+37: 74 09                    - je Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+42
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+39: 48 8B 01                 - mov rax,[rcx]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+3C: FF 90 D8 05 00 00        - call qword ptr [rax+000005D8]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+42: 48 8D 8B 58 01 00 00     - lea rcx,[rbx+00000158]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+49: F3 0F 11 BB 90 02 00 00  - movss [rbx+00000290],xmm7
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+51: 48 8D 54 24 20           - lea rdx,[rsp+20]
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+56: F3 0F 11 74 24 28        - movss [rsp+28],xmm6
+Towers-Win64-Shipping.UTowersDamageSystemComponent::AuthorityOnly_SetHitPoints+5C: 48 89 5C 24 20           - mov [rsp+20],rbx
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of neg eax</Description>
+      <AddressString>Towers-Win64-Shipping.exe+79B3D2</AddressString>
+      <Before>
+        <Byte>EA</Byte>
+        <Byte>41</Byte>
+        <Byte>0F</Byte>
+        <Byte>4E</Byte>
+        <Byte>C5</Byte>
+      </Before>
+      <Actual>
+        <Byte>F7</Byte>
+        <Byte>D8</Byte>
+      </Actual>
+      <After>
+        <Byte>89</Byte>
+        <Byte>45</Byte>
+        <Byte>20</Byte>
+        <Byte>03</Byte>
+        <Byte>C2</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <Comments>items and resources are decimal 4 bytes
+health is float, basic bird does 5.0 damage</Comments>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("Towers-Win64-Shipping.exe")
+
+</LuaScript>
+</CheatTable>

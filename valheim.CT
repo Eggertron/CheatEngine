@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"version 0.211.11"</Description>
-      <LastState Value="" RealAddress="00000000"/>
+      <Description>"version 0.217.31"</Description>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -23,50 +21,236 @@
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
-          <ID>129</ID>
-          <Description>"Inf Item"</Description>
-          <LastState/>
+          <ID>133</ID>
+          <Description>"Item Drop Does not decrease"</Description>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
-  Date   : 2022-11-26
-  Author : Edgar Han
+  Date   : 2023-12-01
+  Author : bboyh
 
-  This script does blah blah blah
+  RemoveItem (item: ItemDrop/ItemData):System.Boolean
+  Unlimited Item dropping or splitting stacks.
+  does not work for eating food.
+  does not work when crafting items.
 }
-
-define(address,Inventory:RemoveItem)
-define(bytes,55 48 8B EC 48 81 EC D0 00 00 00)
 
 [ENABLE]
 
-assert(address,bytes)
+aobscan(REMITEM3,55 48 8B EC 48 83 EC 30 48 89 75 F0 48 89 7D F8 48 8B F9 48 8B F2 48 8B 47 28 48 8B) // should be unique
 
-address:
+REMITEM3:
   ret
+registersymbol(REMITEM3)
 
 [DISABLE]
 
-address:
-  db bytes
-  // push rbp
-  // mov rbp,rsp
-  // sub rsp,000000D0
+REMITEM3:
+  db 55 48 8B EC 48 83 EC 30
 
+unregistersymbol(REMITEM3)
 
 {
 // ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
 
-220930D24DD: 00 00                 - add [rax],al
-220930D24DF: 00 00                 - add [rax],al
-220930D24E1: 00 00                 - add [rax],al
-220930D24E3: 00 00                 - add [rax],al
-220930D24E5: 00 00                 - add [rax],al
-220930D24E7: 00 00                 - add [rax],al
-220930D24E9: 00 00                 - add [rax],al
-220930D24EB: 00 00                 - add [rax],al
-220930D24ED: 00 00                 - add [rax],al
-220930D24EF: 00                    - db 00 
+1A22D070E15: E0 75                       - loopne Inventory:RemoveItem+5c
+1A22D070E17: A3 01 00 00 00 00 00 00 00  - mov [00000001],eax
+1A22D070E20: 00 00                       - add [rax],al
+1A22D070E22: 00 00                       - add [rax],al
+1A22D070E24: 00 00                       - add [rax],al
+1A22D070E26: 00 00                       - add [rax],al
+1A22D070E28: 00 00                       - add [rax],al
+1A22D070E2A: 00 00                       - add [rax],al
+1A22D070E2C: 00 00                       - add [rax],al
+1A22D070E2E: 00 00                       - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:RemoveItem: 55                          - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveItem+1: 48 8B EC                    - mov rbp,rsp
+Inventory:RemoveItem+4: 48 83 EC 30                 - sub rsp,30
+Inventory:RemoveItem+8: 48 89 75 F0                 - mov [rbp-10],rsi
+Inventory:RemoveItem+c: 48 89 7D F8                 - mov [rbp-08],rdi
+Inventory:RemoveItem+10: 48 8B F9                    - mov rdi,rcx
+Inventory:RemoveItem+13: 48 8B F2                    - mov rsi,rdx
+Inventory:RemoveItem+16: 48 8B 47 28                 - mov rax,[rdi+28]
+Inventory:RemoveItem+1a: 48 8B C8                    - mov rcx,rax
+Inventory:RemoveItem+1d: 48 8B D6                    - mov rdx,rsi
+Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>132</ID>
+          <Description>"Disable RemoveItem (item: ItemDrop/ItemData; amount: int):System.Boolean"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2023-12-01
+  Author : bboyh
+
+  RemoveItem (item: ItemDrop/ItemData; amount: int):System.Boolean
+}
+
+[ENABLE]
+
+aobscan(REMITEM2,55 48 8B EC 48 83 EC 30 48 89 75 F0 48 89 7D F8 48 8B F9 48 8B F2 85 F6 7C 12) // should be unique
+
+REMITEM2:
+  ret
+return:
+registersymbol(REMITEM2)
+
+[DISABLE]
+
+REMITEM2:
+  db 55 48 8B EC 48 83 EC 30
+
+unregistersymbol(REMITEM2)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
+
+1A17F6C72E9: 04 02           - add al,02
+1A17F6C72EB: 05 04 03 01 50  - add eax,50010304
+1A17F6C72F0: 00 00           - add [rax],al
+1A17F6C72F2: 00 00           - add [rax],al
+1A17F6C72F4: 00 00           - add [rax],al
+1A17F6C72F6: 00 00           - add [rax],al
+1A17F6C72F8: 00 00           - add [rax],al
+1A17F6C72FA: 00 00           - add [rax],al
+1A17F6C72FC: 00 00           - add [rax],al
+1A17F6C72FE: 00 00           - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:RemoveItem: 55              - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveItem+1: 48 8B EC        - mov rbp,rsp
+Inventory:RemoveItem+4: 48 83 EC 30     - sub rsp,30
+Inventory:RemoveItem+8: 48 89 75 F0     - mov [rbp-10],rsi
+Inventory:RemoveItem+c: 48 89 7D F8     - mov [rbp-08],rdi
+Inventory:RemoveItem+10: 48 8B F9        - mov rdi,rcx
+Inventory:RemoveItem+13: 48 8B F2        - mov rsi,rdx
+Inventory:RemoveItem+16: 85 F6           - test esi,esi
+Inventory:RemoveItem+18: 7C 12           - jl Inventory:RemoveItem+2c
+Inventory:RemoveItem+1a: 48 8B 47 28     - mov rax,[rdi+28]
+Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>131</ID>
+          <Description>"Disable RemoveItem (index: int):System.Boolean"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2023-12-01
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(REMITEM1,55 48 8B EC 48 83 EC 30 48 89 75 F0 48 89 7D F8 48 8B F9 48 8B F2 85 F6 7C 12) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  push rbp
+  mov rbp,rsp
+  sub rsp,30
+  mov [rbp-10],rsi
+  mov [rbp-08],rdi
+  jmp return
+
+REMITEM1:
+  jmp far newmem
+  nop 2
+return:
+registersymbol(REMITEM1)
+
+[DISABLE]
+
+REMITEM1:
+  db 55 48 8B EC 48 83 EC 30 48 89 75 F0 48 89 7D F8
+
+unregistersymbol(REMITEM1)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
+
+1A17F6C72E9: 04 02           - add al,02
+1A17F6C72EB: 05 04 03 01 50  - add eax,50010304
+1A17F6C72F0: 00 00           - add [rax],al
+1A17F6C72F2: 00 00           - add [rax],al
+1A17F6C72F4: 00 00           - add [rax],al
+1A17F6C72F6: 00 00           - add [rax],al
+1A17F6C72F8: 00 00           - add [rax],al
+1A17F6C72FA: 00 00           - add [rax],al
+1A17F6C72FC: 00 00           - add [rax],al
+1A17F6C72FE: 00 00           - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:RemoveItem: 55              - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveItem+1: 48 8B EC        - mov rbp,rsp
+Inventory:RemoveItem+4: 48 83 EC 30     - sub rsp,30
+Inventory:RemoveItem+8: 48 89 75 F0     - mov [rbp-10],rsi
+Inventory:RemoveItem+c: 48 89 7D F8     - mov [rbp-08],rdi
+Inventory:RemoveItem+10: 48 8B F9        - mov rdi,rcx
+Inventory:RemoveItem+13: 48 8B F2        - mov rsi,rdx
+Inventory:RemoveItem+16: 85 F6           - test esi,esi
+Inventory:RemoveItem+18: 7C 12           - jl Inventory:RemoveItem+2c
+Inventory:RemoveItem+1a: 48 8B 47 28     - mov rax,[rdi+28]
+Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>134</ID>
+          <Description>"Unlimited Items Building"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2023-12-01
+  Author : bboyh
+
+  RemoveItem (name: string; amount: int; itemQuality: int; worldLevelBased: bool):System.Void
+  Unlimited Build Items usage
+
+}
+
+[ENABLE]
+
+aobscan(REMITEM4,55 48 8B EC 48 81 EC D0 00 00 00 48 89 5D C8 48 89 75 D0 48 89 7D D8 4C 89 65 E0 4C 89 6D E8 4C 89 75 F0 4C 89 7D F8 48 89 4D 88 4C 8B F2 4D 8B F8 4C 89 4D 80) // should be unique
+
+REMITEM4:
+  ret
+registersymbol(REMITEM4)
+
+[DISABLE]
+
+REMITEM4:
+  db 55 48 8B EC 48 81 EC D0 00 00 00
+
+unregistersymbol(REMITEM4)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
+
+1A22D02F68C: 00 00                 - add [rax],al
+1A22D02F68E: 00 00                 - add [rax],al
+1A22D02F690: 00 00                 - add [rax],al
+1A22D02F692: 00 00                 - add [rax],al
+1A22D02F694: 00 00                 - add [rax],al
+1A22D02F696: 00 00                 - add [rax],al
+1A22D02F698: 00 00                 - add [rax],al
+1A22D02F69A: 00 00                 - add [rax],al
+1A22D02F69C: 00 00                 - add [rax],al
+1A22D02F69E: 00 00                 - add [rax],al
 // ---------- INJECTING HERE ----------
 Inventory:RemoveItem: 55                    - push rbp
 // ---------- DONE INJECTING  ----------
@@ -79,7 +263,7 @@ Inventory:RemoveItem+17: 4C 89 65 E0           - mov [rbp-20],r12
 Inventory:RemoveItem+1b: 4C 89 6D E8           - mov [rbp-18],r13
 Inventory:RemoveItem+1f: 4C 89 75 F0           - mov [rbp-10],r14
 Inventory:RemoveItem+23: 4C 89 7D F8           - mov [rbp-08],r15
-Inventory:RemoveItem+27: 48 89 4D 80           - mov [rbp-80],rcx
+Inventory:RemoveItem+27: 48 89 4D 88           - mov [rbp-78],rcx
 }
 </AssemblerScript>
         </CheatEntry>
@@ -87,6 +271,7 @@ Inventory:RemoveItem+27: 48 89 4D 80           - mov [rbp-80],rcx
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <Comments>Mono dissector.assembly_valheim</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("valheim.exe")
