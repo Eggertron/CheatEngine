@@ -37,11 +37,17 @@
 
 [ENABLE]
 
-aobscan(REMITEM3,55 48 8B EC 48 83 EC 30 48 89 75 F0 48 89 7D F8 48 8B F9 48 8B F2 48 8B 47 28 48 8B) // should be unique
+{$lua}
+local methId = findMethodBySignature('', 'Inventory', 'RemoveItem', 'ItemDrop/ItemData')
+local methAddr = mono_compile_method(methId)
+print(methId)
+print(methAddr)
+unregisterSymbol('REMITEM3')
+registerSymbol('REMITEM3',methAddr)
+{$asm}
 
 REMITEM3:
   ret
-registersymbol(REMITEM3)
 
 [DISABLE]
 
@@ -95,11 +101,17 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
 
 [ENABLE]
 
-aobscan(REMITEM4,55 48 8B EC 48 81 EC D0 00 00 00 48 89 5D C8 48 89 75 D0 48 89 7D D8 4C 89 65 E0 4C 89 6D E8 4C 89 75 F0 4C 89 7D F8 48 89 4D 88 4C 8B F2 4D 8B F8 4C 89 4D 80) // should be unique
+{$lua}
+local methId = findMethodBySignature('', 'Inventory', 'RemoveItem', 'string,int,int,bool')
+local methAddr = mono_compile_method(methId)
+print(methId)
+print(methAddr)
+unregisterSymbol('REMITEM4')
+registerSymbol('REMITEM4',methAddr)
+{$asm}
 
 REMITEM4:
   ret
-registersymbol(REMITEM4)
 
 [DISABLE]
 
@@ -327,10 +339,39 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <UserdefinedSymbols/>
-  <Comments>Mono dissector.assembly_valheim</Comments>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>REMITEM3</Name>
+      <Address>1D19FF28EF0</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>Mono dissector.assembly_valheim
+</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("valheim.exe")
+
+-- helps find a specific overloaded function
+function findMethodBySignature(nameSpace,className,methodName,signature)
+    local classId = mono_findClass(nameSpace,className)
+    local methodTable = mono_class_enumMethods(classId)
+    for i = 1,#methodTable do
+        local currentMethod = methodTable[i]
+        if currentMethod.name == methodName then
+            --print(currentMethod.name)
+            --print(currentMethod.method)
+            local result, parameterNames, returnType = mono_method_getSignature(currentMethod.method)
+            --print(result)
+            if result ~= nil then
+               --if result:match(signature) then return currentMethod.method end
+               if tostring(result) == signature then
+                  return currentMethod.method
+               end
+            end
+        end
+    end
+    return nil
+end
+
 </LuaScript>
 </CheatTable>
