@@ -4,19 +4,18 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Stardew Valley Version: 1.5.6.1988831613"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>8</ID>
       <Description>"Enable and Hook"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
   getApplication().Title="framerates"
   getMainForm().Caption="framerates"
   getAutoAttachList().add("Stardew Valley.exe")
+  LaunchDotNetInterface()
 {$asm}
 [DISABLE]
 
@@ -25,7 +24,6 @@
     <CheatEntry>
       <ID>2</ID>
       <Description>"Double Quantity Picked Up"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -104,7 +102,6 @@ StardewValley.Object::addToStack+6C: 48 8B 96 80 00 00 00           - mov rdx,[r
     <CheatEntry>
       <ID>7</ID>
       <Description>"Double Money"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -178,7 +175,6 @@ StardewValley.Farmer::set_Money+3B: 2B FB                          - sub edi,ebx
     <CheatEntry>
       <ID>10</ID>
       <Description>"Stamina does not change"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -233,4 +229,35 @@ StardewValley.Farmer::set_Stamina+D2: C3                    - ret
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <LuaScript>getApplication().Title="framerates"
+getMainForm().Caption="framerates"
+getAutoAttachList().add("Stardew Valley.exe")
+LaunchDotNetInterface()
+
+allmethods={}
+
+print("this may take a while. Please be patient")
+processMessages()
+
+dnc=getDotNetDataCollector()
+d=dnc.enumDomains()
+for di=1,#d do
+  ml=dnc.enumModuleList(d[di].DomainHandle)
+  for mli=1,#ml do
+    td=dnc.enumTypeDefs(ml[mli].ModuleHandle)
+
+    for tdi=1,#td do
+      local methods=dnc.getTypeDefMethods(ml[mli].ModuleHandle, td[tdi].TypeDefToken)
+      for mi=1,#methods do
+        local method=methods[mi]
+        method.classname=td[tdi].Name
+        table.insert(allmethods, method)
+      end
+
+    end
+  end
+end
+print("you can now check out the allmethods table")
+
+</LuaScript>
 </CheatTable>

@@ -40,8 +40,8 @@
 {$lua}
 local methId = findMethodBySignature('', 'Inventory', 'RemoveItem', 'ItemDrop/ItemData')
 local methAddr = mono_compile_method(methId)
-print(methId)
-print(methAddr)
+--print(methId)
+--print(methAddr)
 unregisterSymbol('REMITEM3')
 registerSymbol('REMITEM3',methAddr)
 {$asm}
@@ -104,8 +104,8 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
 {$lua}
 local methId = findMethodBySignature('', 'Inventory', 'RemoveItem', 'string,int,int,bool')
 local methAddr = mono_compile_method(methId)
-print(methId)
-print(methAddr)
+--print(methId)
+--print(methAddr)
 unregisterSymbol('REMITEM4')
 registerSymbol('REMITEM4',methAddr)
 {$asm}
@@ -341,8 +341,8 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
   </CheatEntries>
   <UserdefinedSymbols>
     <SymbolEntry>
-      <Name>REMITEM3</Name>
-      <Address>1D19FF28EF0</Address>
+      <Name>REMITEM4</Name>
+      <Address>15C825A7190</Address>
     </SymbolEntry>
   </UserdefinedSymbols>
   <Comments>Mono dissector.assembly_valheim
