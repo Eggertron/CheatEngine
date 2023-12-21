@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Final Fantasy X HD Remastered"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Inf Health for Heroes, One hit kill enemies"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : FFX.exe
+  Version: 
+  Date   : 2023-12-20
+  Author : bboyh
+
+  Health address is subtracted by edi
+  then the value of the address is pushed to the stack
+  function is called
+  the return value eax is moved into health address
+  This affects health value of all objects
+  HERO seems to have EBX of 0
+  RIKKU has EBX of 6
+  WAKKA has EBX of 4
+  enemyA has EBX 14
+  enemyB has EBX 15
+  enemyC has EBX 16
+  enemyD has EBX 17
+  VALEFOR has EBX 8
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_DEC,FFX.exe,29 BE D0 05 00 00) // should be unique
+alloc(newmem,$500)
+
+label(code)
+label(return)
+
+newmem:
+  cmp ebx,14
+  jl return
+
+code:
+  mov edi,[esi+000005D0]
+  sub [esi+000005D0],edi
+  jmp return
+
+HEALTH_DEC:
+  jmp newmem
+  nop
+return:
+registersymbol(HEALTH_DEC)
+
+[DISABLE]
+
+HEALTH_DEC:
+  db 29 BE D0 05 00 00
+
+unregistersymbol(HEALTH_DEC)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: FFX.exe+38E3A9
+
+FFX.exe+38E382: FF B6 D0 05 00 00  - push [esi+000005D0]
+FFX.exe+38E388: E8 43 BD 00 00     - call FFX.exe+39A0D0
+FFX.exe+38E38D: 83 C4 0C           - add esp,0C
+FFX.exe+38E390: 89 86 D0 05 00 00  - mov [esi+000005D0],eax
+FFX.exe+38E396: 53                 - push ebx
+FFX.exe+38E397: E8 C4 F0 FF FF     - call FFX.exe+38D460
+FFX.exe+38E39C: 83 C4 04           - add esp,04
+FFX.exe+38E39F: 85 C0              - test eax,eax
+FFX.exe+38E3A1: 74 22              - je FFX.exe+38E3C5
+FFX.exe+38E3A3: FF B6 94 05 00 00  - push [esi+00000594]
+// ---------- INJECTING HERE ----------
+FFX.exe+38E3A9: 29 BE D0 05 00 00  - sub [esi+000005D0],edi
+// ---------- DONE INJECTING  ----------
+FFX.exe+38E3AF: 6A 00              - push 00
+FFX.exe+38E3B1: FF B6 D0 05 00 00  - push [esi+000005D0]
+FFX.exe+38E3B7: E8 14 BD 00 00     - call FFX.exe+39A0D0
+FFX.exe+38E3BC: 83 C4 0C           - add esp,0C
+FFX.exe+38E3BF: 89 86 D0 05 00 00  - mov [esi+000005D0],eax
+FFX.exe+38E3C5: 5F                 - pop edi
+FFX.exe+38E3C6: 5E                 - pop esi
+FFX.exe+38E3C7: 5B                 - pop ebx
+FFX.exe+38E3C8: 5D                 - pop ebp
+FFX.exe+38E3C9: C3                 - ret 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"Gil (Money)"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>FFX.exe+D307D8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Max Out Money on add"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : FFX.exe
+  Version: 
+  Date   : 2023-12-20
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(MAX_GIL,FFX.exe,3D FF C9 9A 3B 7F) // should be unique
+
+MAX_GIL:
+  mov eax,3B9AC9FF
+  nop
+  nop
+registersymbol(MAX_GIL)
+
+[DISABLE]
+
+MAX_GIL:
+  db 3D FF C9 9A 3B 7F 05
+
+unregistersymbol(MAX_GIL)
+
+{
+// ORIGINAL CODE - INJECTION POINT: FFX.exe+385D00
+
+FFX.exe+385CDF: CC                             - int 3 
+FFX.exe+385CE0: 55                             - push ebp
+FFX.exe+385CE1: 8B EC                          - mov ebp,esp
+FFX.exe+385CE3: 8B 45 08                       - mov eax,[ebp+08]
+FFX.exe+385CE6: 85 C0                          - test eax,eax
+FFX.exe+385CE8: 79 0C                          - jns FFX.exe+385CF6
+FFX.exe+385CEA: C7 05 D8 07 BB 01 00 00 00 00  - mov [FFX.exe+D307D8],00000000
+FFX.exe+385CF4: 5D                             - pop ebp
+FFX.exe+385CF5: C3                             - ret 
+FFX.exe+385CF6: C7 05 D8 07 BB 01 FF C9 9A 3B  - mov [FFX.exe+D307D8],3B9AC9FF
+// ---------- INJECTING HERE ----------
+FFX.exe+385D00: 3D FF C9 9A 3B                 - cmp eax,3B9AC9FF
+// ---------- DONE INJECTING  ----------
+FFX.exe+385D05: 7F 05                          - jg FFX.exe+385D0C
+FFX.exe+385D07: A3 D8 07 BB 01                 - mov [FFX.exe+D307D8],eax
+FFX.exe+385D0C: 5D                             - pop ebp
+FFX.exe+385D0D: C3                             - ret 
+FFX.exe+385D0E: CC                             - int 3 
+FFX.exe+385D0F: CC                             - int 3 
+FFX.exe+385D10: 55                             - push ebp
+FFX.exe+385D11: 8B EC                          - mov ebp,esp
+FFX.exe+385D13: 8B 4D 0C                       - mov ecx,[ebp+0C]
+FFX.exe+385D16: 8B C1                          - mov eax,ecx
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of sub [esi+000005D0],edi</Description>
+      <AddressString>FFX.exe+38E3A9</AddressString>
+      <Before>
+        <Byte>B6</Byte>
+        <Byte>94</Byte>
+        <Byte>05</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>29</Byte>
+        <Byte>BE</Byte>
+        <Byte>D0</Byte>
+        <Byte>05</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>6A</Byte>
+        <Byte>00</Byte>
+        <Byte>FF</Byte>
+        <Byte>B6</Byte>
+        <Byte>D0</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov [esi+000005D0],eax</Description>
+      <AddressString>FFX.exe+38E3BF</AddressString>
+      <Before>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>0C</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>86</Byte>
+        <Byte>D0</Byte>
+        <Byte>05</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>5F</Byte>
+        <Byte>5E</Byte>
+        <Byte>5B</Byte>
+        <Byte>5D</Byte>
+        <Byte>C3</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"FFX.exe"+38E3A9</Address>
+      <Comment>Update Health
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"FFX.exe"+38E3B1</Address>
+      <Comment>push health to stack
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"FFX.exe"+38E3BF</Address>
+      <Comment>update health
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>
