@@ -10,7 +10,7 @@
     <CheatEntry>
       <ID>69</ID>
       <Description>"Enabled"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -37,7 +37,7 @@ dealloc(*)
     <CheatEntry>
       <ID>77</ID>
       <Description>"Items ONLY Increase"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame.exe
   Version: 
@@ -103,7 +103,7 @@ gamedll_x64_rwdi.dll+6F2DD8: 74 2B                          - je gamedll_x64_rwd
     <CheatEntry>
       <ID>83</ID>
       <Description>"Unlimited Weapon Repairs"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame.exe
   Version: 
@@ -2155,6 +2155,74 @@ gamedll_x64_rwdi.dll+6F348D: 48 8D 4F 18        - lea rcx,[rdi+18]
 gamedll_x64_rwdi.dll+6F3491: 48 8B E8           - mov rbp,rax
 gamedll_x64_rwdi.dll+6F3494: FF 92 68 0C 00 00  - call qword ptr [rdx+00000C68]
 gamedll_x64_rwdi.dll+6F349A: 48 8B 57 18        - mov rdx,[rdi+18]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>88</ID>
+      <Description>"The Following"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0000FF</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>89</ID>
+          <Description>"Unlimited Car Repairs"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DyingLightGame.exe
+  Version: 
+  Date   : 2024-01-25
+  Author : bboyh
+
+  Set's the repair counter usage to zero so that no
+  repairs have been used.
+}
+
+[ENABLE]
+
+aobscanmodule(CAR_REPAIRS,gamedll_x64_rwdi.dll,83 C7 01 78 07) // should be unique
+
+CAR_REPAIRS:
+  db 90 31 DB EB 07
+return:
+registersymbol(CAR_REPAIRS)
+
+[DISABLE]
+
+CAR_REPAIRS:
+  db 83 C7 01 78 07
+
+unregistersymbol(CAR_REPAIRS)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+CF078E
+
+gamedll_x64_rwdi.dll+CF0760: 89 5C 24 48        - mov [rsp+48],ebx
+gamedll_x64_rwdi.dll+CF0764: FF 15 66 8C 68 00  - call qword ptr [gamedll_x64_rwdi.dll+13793D0]
+gamedll_x64_rwdi.dll+CF076A: 49 8B CD           - mov rcx,r13
+gamedll_x64_rwdi.dll+CF076D: FF 15 5D 8C 68 00  - call qword ptr [gamedll_x64_rwdi.dll+13793D0]
+gamedll_x64_rwdi.dll+CF0773: 4C 8B 6C 24 68     - mov r13,[rsp+68]
+gamedll_x64_rwdi.dll+CF0778: 4C 8B 64 24 70     - mov r12,[rsp+70]
+gamedll_x64_rwdi.dll+CF077D: 48 8B 45 18        - mov rax,[rbp+18]
+gamedll_x64_rwdi.dll+CF0781: 48 8D 4D 18        - lea rcx,[rbp+18]
+gamedll_x64_rwdi.dll+CF0785: 8B 7D 08           - mov edi,[rbp+08]
+gamedll_x64_rwdi.dll+CF0788: FF 90 30 06 00 00  - call qword ptr [rax+00000630]
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+CF078E: 83 C7 01           - add edi,01
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+CF0791: 78 07              - js gamedll_x64_rwdi.dll+CF079A
+gamedll_x64_rwdi.dll+CF0793: 3B F8              - cmp edi,eax
+gamedll_x64_rwdi.dll+CF0795: 0F 4F F8           - cmovg edi,eax
+gamedll_x64_rwdi.dll+CF0798: 8B DF              - mov ebx,edi
+gamedll_x64_rwdi.dll+CF079A: 89 5D 08           - mov [rbp+08],ebx
+gamedll_x64_rwdi.dll+CF079D: 48 8D 4D 18        - lea rcx,[rbp+18]
+gamedll_x64_rwdi.dll+CF07A1: 48 8B 45 18        - mov rax,[rbp+18]
+gamedll_x64_rwdi.dll+CF07A5: FF 90 28 0A 00 00  - call qword ptr [rax+00000A28]
+gamedll_x64_rwdi.dll+CF07AB: 45 33 C0           - xor r8d,r8d
+gamedll_x64_rwdi.dll+CF07AE: 48 8B CD           - mov rcx,rbp
 }
 </AssemblerScript>
         </CheatEntry>

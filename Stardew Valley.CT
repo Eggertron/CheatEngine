@@ -4,11 +4,13 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Stardew Valley Version: 1.5.6.1988831613"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>8</ID>
       <Description>"Enable and Hook"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -24,6 +26,7 @@
     <CheatEntry>
       <ID>2</ID>
       <Description>"Double Quantity Picked Up"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -102,6 +105,7 @@ StardewValley.Object::addToStack+6C: 48 8B 96 80 00 00 00           - mov rdx,[r
     <CheatEntry>
       <ID>7</ID>
       <Description>"Double Money"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -114,7 +118,18 @@ StardewValley.Object::addToStack+6C: 48 8B 96 80 00 00 00           - mov rdx,[r
 
 
 [ENABLE]
+{$lua}
+errorOnLookupFailure(false)
+if getAddress('StardewValley.Farmer::set_Money')==0 then
+  reinitializeDotNetSymbolhandler('dotnetmoduleelseignore')
 
+  if getAddress('StardewValley.Farmer::set_Money')==0 then
+    showMessage('This function is not available yet. Please try again later')
+    error() --prevents the aa entry from activating
+  end
+end
+
+{$asm}
 assert(StardewValley.Farmer::set_Money+A,8B FA 48 B9 78 56 F6 38 59 01 00 00)
 alloc(newmem,$100,7FFECAA0416A)
 
@@ -175,6 +190,7 @@ StardewValley.Farmer::set_Money+3B: 2B FB                          - sub edi,ebx
     <CheatEntry>
       <ID>10</ID>
       <Description>"Stamina does not change"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Stardew Valley.exe
   Version: 
@@ -229,6 +245,11 @@ StardewValley.Farmer::set_Stamina+D2: C3                    - ret
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <Comments>Finding functions:
+1. Select .Net -&gt; .Net Info
+2. In Images section select 'Stardew Valley.dll'
+3. in Classes section select 'StardewValley.Farmer
+4. In Methods Window right click on 'set_Money' and JIT/Get Address</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("Stardew Valley.exe")
