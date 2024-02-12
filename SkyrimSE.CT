@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
@@ -67,34 +67,243 @@ SkyrimSE.exe+1E9DDF: 85 C0                 - test eax,eax
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"Update Stats"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : SkyrimSE.exe
+  Version: 
+  Date   : 2024-02-10
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(UPDATE_STATS,SkyrimSE.exe,F3 0F 11 34 AF) // should be unique
+alloc(newmem,$1000,UPDATE_STATS)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  movss [rdi+rbp*4],xmm6
+  jmp return
+
+UPDATE_STATS:
+  jmp newmem
+return:
+registersymbol(UPDATE_STATS)
+
+[DISABLE]
+
+UPDATE_STATS:
+  db F3 0F 11 34 AF
+
+unregistersymbol(UPDATE_STATS)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: SkyrimSE.exe+65861A
+
+SkyrimSE.exe+6585F1: 0F 54 05 78 8F FC 00     - andps xmm0,[SkyrimSE.exe+1621570]
+SkyrimSE.exe+6585F8: 0F 2F 05 3D 8F FC 00     - comiss xmm0,[SkyrimSE.exe+162153C]
+SkyrimSE.exe+6585FF: 77 03                    - ja SkyrimSE.exe+658604
+SkyrimSE.exe+658601: 0F 57 F6                 - xorps xmm6,xmm6
+SkyrimSE.exe+658604: 48 8D 8B B8 00 00 00     - lea rcx,[rbx+000000B8]
+SkyrimSE.exe+65860B: 8B D6                    - mov edx,esi
+SkyrimSE.exe+65860D: 48 8B 01                 - mov rax,[rcx]
+SkyrimSE.exe+658610: FF 50 08                 - call qword ptr [rax+08]
+SkyrimSE.exe+658613: F3 0F 10 0C AF           - movss xmm1,[rdi+rbp*4]
+SkyrimSE.exe+658618: 8B D6                    - mov edx,esi
+// ---------- INJECTING HERE ----------
+SkyrimSE.exe+65861A: F3 0F 11 34 AF           - movss [rdi+rbp*4],xmm6
+// ---------- DONE INJECTING  ----------
+SkyrimSE.exe+65861F: 48 8B CB                 - mov rcx,rbx
+SkyrimSE.exe+658622: F3 0F 5C F1              - subss xmm6,xmm1
+SkyrimSE.exe+658626: 44 0F 28 C8              - movaps xmm9,xmm0
+SkyrimSE.exe+65862A: E8 B1 0E 00 00           - call SkyrimSE.exe+6594E0
+SkyrimSE.exe+65862F: 0F 2E F7                 - ucomiss xmm6,xmm7
+SkyrimSE.exe+658632: 48 8B AC 24 A0 00 00 00  - mov rbp,[rsp+000000A0]
+SkyrimSE.exe+65863A: 4C 8B B4 24 80 00 00 00  - mov r14,[rsp+00000080]
+SkyrimSE.exe+658642: 74 16                    - je SkyrimSE.exe+65865A
+SkyrimSE.exe+658644: 0F 28 DE                 - movaps xmm3,xmm6
+SkyrimSE.exe+658647: 48 89 6C 24 20           - mov [rsp+20],rbp
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Unlimited Stamina (gui only?)"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : SkyrimSE.exe
+  Version: 
+  Date   : 2024-02-10
+  Author : bboyh
+
+  No stamina drain while running
+}
+
+[ENABLE]
+
+aobscanmodule(STAMINA_DEC,SkyrimSE.exe,0F 28 D8 48 8B CB) // should be unique
+STAMINA_DEC:
+  xorps xmm3,xmm3
+registersymbol(STAMINA_DEC)
+
+[DISABLE]
+
+STAMINA_DEC:
+  db 0F 28 D8 48 8B CB
+
+unregistersymbol(STAMINA_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: SkyrimSE.exe+64875D
+
+SkyrimSE.exe+648730: FF 50 08                 - call qword ptr [rax+08]
+SkyrimSE.exe+648733: F3 0F 10 35 8D 80 9B 02  - movss xmm6,[SkyrimSE.exe+30007C8]
+SkyrimSE.exe+64873B: 48 8B CF                 - mov rcx,rdi
+SkyrimSE.exe+64873E: 0F 28 F8                 - movaps xmm7,xmm0
+SkyrimSE.exe+648741: E8 EA 88 00 00           - call SkyrimSE.exe+651030
+SkyrimSE.exe+648746: 0F 28 CE                 - movaps xmm1,xmm6
+SkyrimSE.exe+648749: E8 92 1D D9 FF           - call SkyrimSE.exe+3DA4E0
+SkyrimSE.exe+64874E: 0F 57 05 2B 8E FD 00     - xorps xmm0,[SkyrimSE.exe+1621580]
+SkyrimSE.exe+648755: BA 02 00 00 00           - mov edx,00000002
+SkyrimSE.exe+64875A: 48 8B 03                 - mov rax,[rbx]
+// ---------- INJECTING HERE ----------
+SkyrimSE.exe+64875D: 0F 28 D8                 - movaps xmm3,xmm0
+// ---------- DONE INJECTING  ----------
+SkyrimSE.exe+648760: 48 8B CB                 - mov rcx,rbx
+SkyrimSE.exe+648763: 44 8D 42 18              - lea r8d,[rdx+18]
+SkyrimSE.exe+648767: FF 50 30                 - call qword ptr [rax+30]
+SkyrimSE.exe+64876A: 48 8B 03                 - mov rax,[rbx]
+SkyrimSE.exe+64876D: BA 1A 00 00 00           - mov edx,0000001A
+SkyrimSE.exe+648772: 48 8B CB                 - mov rcx,rbx
+SkyrimSE.exe+648775: FF 50 08                 - call qword ptr [rax+08]
+SkyrimSE.exe+648778: 0F 28 74 24 40           - movaps xmm6,[rsp+40]
+SkyrimSE.exe+64877D: 0F 57 C9                 - xorps xmm1,xmm1
+SkyrimSE.exe+648780: 0F 2F C1                 - comiss xmm0,xmm1
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"No Damage for anyone (including enemies)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : SkyrimSE.exe
+  Version: 
+  Date   : 2024-02-10
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_DEC,SkyrimSE.exe,0F 28 DE 48 89 7C 24 20 48) // should be unique
+
+HEALTH_DEC:
+  xorps xmm3,xmm3
+registersymbol(HEALTH_DEC)
+
+[DISABLE]
+
+HEALTH_DEC:
+  db 0F 28 DE 48 89 7C 24 20
+
+unregistersymbol(HEALTH_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: SkyrimSE.exe+60CB72
+
+SkyrimSE.exe+60CB48: 48 8B CB              - mov rcx,rbx
+SkyrimSE.exe+60CB4B: E8 D0 A7 FF FF        - call SkyrimSE.exe+607320
+SkyrimSE.exe+60CB50: 84 C0                 - test al,al
+SkyrimSE.exe+60CB52: 74 12                 - je SkyrimSE.exe+60CB66
+SkyrimSE.exe+60CB54: 48 8B 8B F8 00 00 00  - mov rcx,[rbx+000000F8]
+SkyrimSE.exe+60CB5B: 0F 28 D6              - movaps xmm2,xmm6
+SkyrimSE.exe+60CB5E: 48 8B D7              - mov rdx,rdi
+SkyrimSE.exe+60CB61: E8 EA 14 07 00        - call SkyrimSE.exe+67E050
+SkyrimSE.exe+60CB66: 0F 57 35 13 4A 01 01  - xorps xmm6,[SkyrimSE.exe+1621580]
+SkyrimSE.exe+60CB6D: BA 02 00 00 00        - mov edx,00000002
+// ---------- INJECTING HERE ----------
+SkyrimSE.exe+60CB72: 0F 28 DE              - movaps xmm3,xmm6
+// ---------- DONE INJECTING  ----------
+SkyrimSE.exe+60CB75: 48 89 7C 24 20        - mov [rsp+20],rdi
+SkyrimSE.exe+60CB7A: 48 8B CB              - mov rcx,rbx
+SkyrimSE.exe+60CB7D: 44 8D 42 16           - lea r8d,[rdx+16]
+SkyrimSE.exe+60CB81: E8 2A B9 04 00        - call SkyrimSE.exe+6584B0
+SkyrimSE.exe+60CB86: E8 55 B0 06 00        - call SkyrimSE.exe+677BE0
+SkyrimSE.exe+60CB8B: 84 C0                 - test al,al
+SkyrimSE.exe+60CB8D: 74 22                 - je SkyrimSE.exe+60CBB1
+SkyrimSE.exe+60CB8F: 48 8B 0D DA 0D 9C 02  - mov rcx,[SkyrimSE.exe+2FCD970]
+SkyrimSE.exe+60CB96: 0F 57 DB              - xorps xmm3,xmm3
+SkyrimSE.exe+60CB99: F3 0F 5A DF           - cvtss2sd xmm3,xmm7
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
   <CheatCodes>
     <CodeEntry>
-      <Description>Change of sub [r8+10],edx</Description>
-      <AddressString>SkyrimSE.exe+1E9DB8</AddressString>
+      <Description>Change of call SkyrimSE.exe+65D8C0</Description>
+      <AddressString>SkyrimSE.exe+5FD67D</AddressString>
       <Before>
-        <Byte>08</Byte>
-        <Byte>4C</Byte>
         <Byte>8B</Byte>
-        <Byte>45</Byte>
-        <Byte>98</Byte>
+        <Byte>D3</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>CE</Byte>
       </Before>
       <Actual>
-        <Byte>41</Byte>
-        <Byte>29</Byte>
-        <Byte>50</Byte>
-        <Byte>10</Byte>
+        <Byte>E8</Byte>
+        <Byte>3E</Byte>
+        <Byte>02</Byte>
+        <Byte>06</Byte>
+        <Byte>00</Byte>
       </Actual>
       <After>
-        <Byte>44</Byte>
+        <Byte>48</Byte>
+        <Byte>8D</Byte>
+        <Byte>4E</Byte>
+        <Byte>20</Byte>
+        <Byte>BE</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call SkyrimSE.exe+60CA30</Description>
+      <AddressString>SkyrimSE.exe+65DD67</AddressString>
+      <Before>
+        <Byte>28</Byte>
+        <Byte>CA</Byte>
+        <Byte>49</Byte>
         <Byte>8B</Byte>
-        <Byte>E2</Byte>
-        <Byte>44</Byte>
-        <Byte>89</Byte>
+        <Byte>CF</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>C4</Byte>
+        <Byte>EC</Byte>
+        <Byte>FA</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>84</Byte>
+        <Byte>C0</Byte>
+        <Byte>75</Byte>
+        <Byte>23</Byte>
+        <Byte>48</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>
   <UserdefinedSymbols/>
+  <Comments>health, magic, stamina all float values starting at 0 and decreasing.</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("SkyrimSE.exe")

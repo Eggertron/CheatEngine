@@ -8,6 +8,21 @@
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
+      <ID>33</ID>
+      <Description>"Attach"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  getAutoAttachList().add("DyingLightGame_x64_rwdi.exe")
+{$asm}
+[DISABLE]
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>22</ID>
       <Description>"Inf Inventory Selling/Throw/Consume"</Description>
       <LastState Activated="1"/>
@@ -236,7 +251,7 @@ gamedll_ph_x64_rwdi.dll+B43331: E8 4A C4 A2 FF        - call gamedll_ph_x64_rwdi
     </CheatEntry>
     <CheatEntry>
       <ID>32</ID>
-      <Description>"Unf Money"</Description>
+      <Description>"Inf Money"</Description>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
@@ -462,33 +477,6 @@ gamedll_ph_x64_rwdi.dll+5CAE27: 00 00                    - add [rax],al
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of call gamedll_ph_x64_rwdi.dll+4FC310</Description>
-      <AddressString>gamedll_ph_x64_rwdi.dll+B4330D</AddressString>
-      <Before>
-        <Byte>4C</Byte>
-        <Byte>89</Byte>
-        <Byte>6C</Byte>
-        <Byte>24</Byte>
-        <Byte>20</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>FE</Byte>
-        <Byte>8F</Byte>
-        <Byte>9B</Byte>
-        <Byte>FF</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>8D</Byte>
-        <Byte>90</Byte>
-        <Byte>00</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="lifecs::PrivHealth::LifeHealth&lt;HealthFactors&gt;" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
