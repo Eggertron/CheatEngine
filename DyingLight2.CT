@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Dying Light 2 ver. 1.14.0p"</Description>
+      <Description>"Dying Light 2 ver. 1.15.1p"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -23,59 +23,116 @@
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>22</ID>
-      <Description>"Inf Inventory Selling/Throw/Consume"</Description>
-      <LastState Activated="1"/>
+      <ID>49</ID>
+      <Description>"No Damage from zombies"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 
-  Date   : 2024-02-01
+  Version: 1.15.1p
+  Date   : 2024-02-25
   Author : bboyh
 
-  Removes the dec instruction from current inventory count
+  nop the abstract function call to dec player health when hit by zombie
 }
 
 [ENABLE]
 
-aobscanmodule(ITEM_DEC_SELL,gamedll_ph_x64_rwdi.dll,FF CA E8 41 2F A7 FF) // should be unique
+aobscanmodule(DEC_HEALTH,gamedll_ph_x64_rwdi.dll,E8 AE F1 91 FF) // should be unique
 
-ITEM_DEC_SELL:
-  db 90 90
-registersymbol(ITEM_DEC_SELL)
+DEC_HEALTH:
+  db 90 90 90 90 90
+registersymbol(DEC_HEALTH)
 
 [DISABLE]
 
-ITEM_DEC_SELL:
-  db FF CA E8 41 2F A7 FF
+DEC_HEALTH:
+  db E8 AE F1 91 FF
 
-unregistersymbol(ITEM_DEC_SELL)
+unregistersymbol(DEC_HEALTH)
 
 {
-// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B57E08
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+C7386D
 
-gamedll_ph_x64_rwdi.dll+B57DE9: E8 02 AA A1 FF  - call gamedll_ph_x64_rwdi.dll+5727F0
-gamedll_ph_x64_rwdi.dll+B57DEE: 84 C0           - test al,al
-gamedll_ph_x64_rwdi.dll+B57DF0: 74 37           - je gamedll_ph_x64_rwdi.dll+B57E29
-gamedll_ph_x64_rwdi.dll+B57DF2: 48 8B 46 38     - mov rax,[rsi+38]
-gamedll_ph_x64_rwdi.dll+B57DF6: 49 23 C7        - and rax,r15
-gamedll_ph_x64_rwdi.dll+B57DF9: 48 8B 0C 38     - mov rcx,[rax+rdi]
-gamedll_ph_x64_rwdi.dll+B57DFD: 48 83 C1 10     - add rcx,10
-gamedll_ph_x64_rwdi.dll+B57E01: 8B 11           - mov edx,[rcx]
-gamedll_ph_x64_rwdi.dll+B57E03: 83 FA 01        - cmp edx,01
-gamedll_ph_x64_rwdi.dll+B57E06: 7E 21           - jle gamedll_ph_x64_rwdi.dll+B57E29
+gamedll_ph_x64_rwdi.dll+C7383F: 45 33 C9              - xor r9d,r9d
+gamedll_ph_x64_rwdi.dll+C73842: 48 89 4C 24 38        - mov [rsp+38],rcx
+gamedll_ph_x64_rwdi.dll+C73847: 4C 8D 2D 72 63 92 01  - lea r13,[gamedll_ph_x64_rwdi.dll+2599BC0]
+gamedll_ph_x64_rwdi.dll+C7384E: 48 8D 4C 24 50        - lea rcx,[rsp+50]
+gamedll_ph_x64_rwdi.dll+C73853: 4C 89 64 24 30        - mov [rsp+30],r12
+gamedll_ph_x64_rwdi.dll+C73858: 4C 8B 00              - mov r8,[rax]
+gamedll_ph_x64_rwdi.dll+C7385B: 48 8D 55 80           - lea rdx,[rbp-80]
+gamedll_ph_x64_rwdi.dll+C7385F: 48 89 4C 24 28        - mov [rsp+28],rcx
+gamedll_ph_x64_rwdi.dll+C73864: 48 8D 4E 10           - lea rcx,[rsi+10]
+gamedll_ph_x64_rwdi.dll+C73868: 4C 89 6C 24 20        - mov [rsp+20],r13
 // ---------- INJECTING HERE ----------
-gamedll_ph_x64_rwdi.dll+B57E08: FF CA           - dec edx
+gamedll_ph_x64_rwdi.dll+C7386D: E8 AE F1 91 FF        - call gamedll_ph_x64_rwdi.dll+592A20
 // ---------- DONE INJECTING  ----------
-gamedll_ph_x64_rwdi.dll+B57E0A: E8 41 2F A7 FF  - call gamedll_ph_x64_rwdi.dll+5CAD50
-gamedll_ph_x64_rwdi.dll+B57E0F: 48 8B 56 38     - mov rdx,[rsi+38]
-gamedll_ph_x64_rwdi.dll+B57E13: 44 8B C5        - mov r8d,ebp
-gamedll_ph_x64_rwdi.dll+B57E16: 49 23 D7        - and rdx,r15
-gamedll_ph_x64_rwdi.dll+B57E19: 48 8B CE        - mov rcx,rsi
-gamedll_ph_x64_rwdi.dll+B57E1C: 48 8B 14 3A     - mov rdx,[rdx+rdi]
-gamedll_ph_x64_rwdi.dll+B57E20: E8 FB 9F 00 00  - call gamedll_ph_x64_rwdi.dll+B61E20
-gamedll_ph_x64_rwdi.dll+B57E25: B0 01           - mov al,01
-gamedll_ph_x64_rwdi.dll+B57E27: EB 2B           - jmp gamedll_ph_x64_rwdi.dll+B57E54
-gamedll_ph_x64_rwdi.dll+B57E29: 8B D3           - mov edx,ebx
+gamedll_ph_x64_rwdi.dll+C73872: 48 8B 8D 90 00 00 00  - mov rcx,[rbp+00000090]
+gamedll_ph_x64_rwdi.dll+C73879: 48 85 C9              - test rcx,rcx
+gamedll_ph_x64_rwdi.dll+C7387C: 74 0A                 - je gamedll_ph_x64_rwdi.dll+C73888
+gamedll_ph_x64_rwdi.dll+C7387E: 48 8B 01              - mov rax,[rcx]
+gamedll_ph_x64_rwdi.dll+C73881: BA 01 00 00 00        - mov edx,00000001
+gamedll_ph_x64_rwdi.dll+C73886: FF 10                 - call qword ptr [rax]
+gamedll_ph_x64_rwdi.dll+C73888: 45 84 F6              - test r14b,r14b
+gamedll_ph_x64_rwdi.dll+C7388B: 74 15                 - je gamedll_ph_x64_rwdi.dll+C738A2
+gamedll_ph_x64_rwdi.dll+C7388D: 48 8D 4E 10           - lea rcx,[rsi+10]
+gamedll_ph_x64_rwdi.dll+C73891: E8 8A 1C 99 FF        - call gamedll_ph_x64_rwdi.dll+605520
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>37</ID>
+      <Description>"Inf Inventory Selling/Throw/Consume"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
+  Version: 1.15.1p
+  Date   : 2024-02-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(DEC_ITEM,gamedll_ph_x64_rwdi.dll,FF CA E8 51 A4 9D FF) // should be unique
+
+DEC_ITEM:
+  db 90 90
+registersymbol(DEC_ITEM)
+
+[DISABLE]
+
+DEC_ITEM:
+  db FF CA E8 51 A4 9D FF
+
+unregistersymbol(DEC_ITEM)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+C87BE8
+
+gamedll_ph_x64_rwdi.dll+C87BC9: E8 B2 0A 98 FF  - call gamedll_ph_x64_rwdi.dll+608680
+gamedll_ph_x64_rwdi.dll+C87BCE: 84 C0           - test al,al
+gamedll_ph_x64_rwdi.dll+C87BD0: 74 37           - je gamedll_ph_x64_rwdi.dll+C87C09
+gamedll_ph_x64_rwdi.dll+C87BD2: 48 8B 46 38     - mov rax,[rsi+38]
+gamedll_ph_x64_rwdi.dll+C87BD6: 49 23 C7        - and rax,r15
+gamedll_ph_x64_rwdi.dll+C87BD9: 48 8B 0C 38     - mov rcx,[rax+rdi]
+gamedll_ph_x64_rwdi.dll+C87BDD: 48 83 C1 10     - add rcx,10
+gamedll_ph_x64_rwdi.dll+C87BE1: 8B 11           - mov edx,[rcx]
+gamedll_ph_x64_rwdi.dll+C87BE3: 83 FA 01        - cmp edx,01
+gamedll_ph_x64_rwdi.dll+C87BE6: 7E 21           - jle gamedll_ph_x64_rwdi.dll+C87C09
+// ---------- INJECTING HERE ----------
+gamedll_ph_x64_rwdi.dll+C87BE8: FF CA           - dec edx
+// ---------- DONE INJECTING  ----------
+gamedll_ph_x64_rwdi.dll+C87BEA: E8 51 A4 9D FF  - call gamedll_ph_x64_rwdi.dll+662040
+gamedll_ph_x64_rwdi.dll+C87BEF: 48 8B 56 38     - mov rdx,[rsi+38]
+gamedll_ph_x64_rwdi.dll+C87BF3: 44 8B C5        - mov r8d,ebp
+gamedll_ph_x64_rwdi.dll+C87BF6: 49 23 D7        - and rdx,r15
+gamedll_ph_x64_rwdi.dll+C87BF9: 48 8B CE        - mov rcx,rsi
+gamedll_ph_x64_rwdi.dll+C87BFC: 48 8B 14 3A     - mov rdx,[rdx+rdi]
+gamedll_ph_x64_rwdi.dll+C87C00: E8 1B C5 00 00  - call gamedll_ph_x64_rwdi.dll+C94120
+gamedll_ph_x64_rwdi.dll+C87C05: B0 01           - mov al,01
+gamedll_ph_x64_rwdi.dll+C87C07: EB 2B           - jmp gamedll_ph_x64_rwdi.dll+C87C34
+gamedll_ph_x64_rwdi.dll+C87C09: 8B D3           - mov edx,ebx
 }
 </AssemblerScript>
     </CheatEntry>
@@ -85,7 +142,7 @@ gamedll_ph_x64_rwdi.dll+B57E29: 8B D3           - mov edx,ebx
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 
+  Version: 1.15.1p
   Date   : 2024-02-01
   Author : bboyh
 
@@ -137,126 +194,13 @@ gamedll_ph_x64_rwdi.dll+B58B0D: E9 61 FF FF FF  - jmp gamedll_ph_x64_rwdi.dll+B5
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>19</ID>
+      <ID>45</ID>
       <Description>"Weapon Durability Does Not Decrease"</Description>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 
-  Date   : 2024-02-01
-  Author : bboyh
-
-  Removes the subtract float instruction from durability update
-}
-
-[ENABLE]
-
-aobscanmodule(WEAPON_DURABILITY_DEC,gamedll_ph_x64_rwdi.dll,F3 0F 5C F0 0F 28 C6 E8 56) // should be unique
-
-WEAPON_DURABILITY_DEC:
-  db 90 90 90 90
-registersymbol(WEAPON_DURABILITY_DEC)
-
-[DISABLE]
-
-WEAPON_DURABILITY_DEC:
-  db F3 0F 5C F0 0F 28 C6
-
-unregistersymbol(WEAPON_DURABILITY_DEC)
-
-{
-// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+52941E
-
-gamedll_ph_x64_rwdi.dll+5293F5: 48 8D 4F 30        - lea rcx,[rdi+30]
-gamedll_ph_x64_rwdi.dll+5293F9: 0F 28 F8           - movaps xmm7,xmm0
-gamedll_ph_x64_rwdi.dll+5293FC: FF 90 A8 0C 00 00  - call qword ptr [rax+00000CA8]
-gamedll_ph_x64_rwdi.dll+529402: 48 8B 47 30        - mov rax,[rdi+30]
-gamedll_ph_x64_rwdi.dll+529406: 48 8D 4F 30        - lea rcx,[rdi+30]
-gamedll_ph_x64_rwdi.dll+52940A: 0F 28 F0           - movaps xmm6,xmm0
-gamedll_ph_x64_rwdi.dll+52940D: FF 90 40 01 00 00  - call qword ptr [rax+00000140]
-gamedll_ph_x64_rwdi.dll+529413: F3 41 0F 59 C1     - mulss xmm0,xmm9
-gamedll_ph_x64_rwdi.dll+529418: 0F 28 D7           - movaps xmm2,xmm7
-gamedll_ph_x64_rwdi.dll+52941B: 0F 57 C9           - xorps xmm1,xmm1
-// ---------- INJECTING HERE ----------
-gamedll_ph_x64_rwdi.dll+52941E: F3 0F 5C F0        - subss xmm6,xmm0
-// ---------- DONE INJECTING  ----------
-gamedll_ph_x64_rwdi.dll+529422: 0F 28 C6           - movaps xmm0,xmm6
-gamedll_ph_x64_rwdi.dll+529425: E8 56 59 25 01     - call gamedll_ph_x64_rwdi.dll+177ED80
-gamedll_ph_x64_rwdi.dll+52942A: 41 B0 01           - mov r8b,01
-gamedll_ph_x64_rwdi.dll+52942D: 48 8D 4F 30        - lea rcx,[rdi+30]
-gamedll_ph_x64_rwdi.dll+529431: 0F 28 C8           - movaps xmm1,xmm0
-gamedll_ph_x64_rwdi.dll+529434: E8 67 0D B2 00     - call gamedll_ph_x64_rwdi.dll+104A1A0
-gamedll_ph_x64_rwdi.dll+529439: 48 8B 47 30        - mov rax,[rdi+30]
-gamedll_ph_x64_rwdi.dll+52943D: 48 8D 4F 30        - lea rcx,[rdi+30]
-gamedll_ph_x64_rwdi.dll+529441: FF 90 A8 0C 00 00  - call qword ptr [rax+00000CA8]
-gamedll_ph_x64_rwdi.dll+529447: 41 0F 2E C0        - ucomiss xmm0,xmm8
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>17</ID>
-      <Description>"No Damage from zombies"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 
-  Date   : 2024-01-31
-  Author : bboyh
-
-  nop the call to subtract health
-}
-
-[ENABLE]
-
-aobscanmodule(PLAYER_HEALTH_DEC,gamedll_ph_x64_rwdi.dll,E8 FE 8F 9B FF) // should be unique
-PLAYER_HEALTH_DEC:
-  db 90 90 90 90 90
-registersymbol(PLAYER_HEALTH_DEC)
-
-[DISABLE]
-
-PLAYER_HEALTH_DEC:
-  db E8 FE 8F 9B FF
-
-unregistersymbol(PLAYER_HEALTH_DEC)
-
-{
-// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B4330D
-
-gamedll_ph_x64_rwdi.dll+B432DF: 45 33 C9              - xor r9d,r9d
-gamedll_ph_x64_rwdi.dll+B432E2: 48 89 4C 24 38        - mov [rsp+38],rcx
-gamedll_ph_x64_rwdi.dll+B432E7: 4C 8D 2D 42 5E 8B 01  - lea r13,[gamedll_ph_x64_rwdi.dll+23F9130]
-gamedll_ph_x64_rwdi.dll+B432EE: 48 8D 4C 24 50        - lea rcx,[rsp+50]
-gamedll_ph_x64_rwdi.dll+B432F3: 4C 89 64 24 30        - mov [rsp+30],r12
-gamedll_ph_x64_rwdi.dll+B432F8: 4C 8B 00              - mov r8,[rax]
-gamedll_ph_x64_rwdi.dll+B432FB: 48 8D 55 80           - lea rdx,[rbp-80]
-gamedll_ph_x64_rwdi.dll+B432FF: 48 89 4C 24 28        - mov [rsp+28],rcx
-gamedll_ph_x64_rwdi.dll+B43304: 48 8D 4E 10           - lea rcx,[rsi+10]
-gamedll_ph_x64_rwdi.dll+B43308: 4C 89 6C 24 20        - mov [rsp+20],r13
-// ---------- INJECTING HERE ----------
-gamedll_ph_x64_rwdi.dll+B4330D: E8 FE 8F 9B FF        - call gamedll_ph_x64_rwdi.dll+4FC310
-// ---------- DONE INJECTING  ----------
-gamedll_ph_x64_rwdi.dll+B43312: 48 8B 8D 90 00 00 00  - mov rcx,[rbp+00000090]
-gamedll_ph_x64_rwdi.dll+B43319: 48 85 C9              - test rcx,rcx
-gamedll_ph_x64_rwdi.dll+B4331C: 74 0A                 - je gamedll_ph_x64_rwdi.dll+B43328
-gamedll_ph_x64_rwdi.dll+B4331E: 48 8B 01              - mov rax,[rcx]
-gamedll_ph_x64_rwdi.dll+B43321: BA 01 00 00 00        - mov edx,00000001
-gamedll_ph_x64_rwdi.dll+B43326: FF 10                 - call qword ptr [rax]
-gamedll_ph_x64_rwdi.dll+B43328: 45 84 F6              - test r14b,r14b
-gamedll_ph_x64_rwdi.dll+B4332B: 74 15                 - je gamedll_ph_x64_rwdi.dll+B43342
-gamedll_ph_x64_rwdi.dll+B4332D: 48 8D 4E 10           - lea rcx,[rsi+10]
-gamedll_ph_x64_rwdi.dll+B43331: E8 4A C4 A2 FF        - call gamedll_ph_x64_rwdi.dll+56F780
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>32</ID>
-      <Description>"Inf Money"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 
-  Date   : 2024-02-02
+  Version: 1.15.1p
+  Date   : 2024-02-25
   Author : bboyh
 
   This script does blah blah blah
@@ -264,45 +208,45 @@ gamedll_ph_x64_rwdi.dll+B43331: E8 4A C4 A2 FF        - call gamedll_ph_x64_rwdi
 
 [ENABLE]
 
-aobscanmodule(MONEY_DEC,gamedll_ph_x64_rwdi.dll,2B C6 89 03 E8 CB 2F 02 00) // should be unique
+aobscanmodule(DEC_DURABILITY,gamedll_ph_x64_rwdi.dll,F3 0F 5C F0 0F 28 C6 E8 36) // should be unique
 
-MONEY_DEC:
-  db 90 90
-registersymbol(MONEY_DEC)
+DEC_DURABILITY:
+  db 90 90 90 90
+registersymbol(DEC_DURABILITY)
 
 [DISABLE]
 
-MONEY_DEC:
-  db 2B C6 89 03 E8 CB 2F 02 00
+DEC_DURABILITY:
+  db F3 0F 5C F0 0F 28 C6
 
-unregistersymbol(MONEY_DEC)
+unregistersymbol(DEC_DURABILITY)
 
 {
-// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B57ADC
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+5C008E
 
-gamedll_ph_x64_rwdi.dll+B57AC0: 48 63 F2        - movsxd  rsi,edx
-gamedll_ph_x64_rwdi.dll+B57AC3: 45 8B F8        - mov r15d,r8d
-gamedll_ph_x64_rwdi.dll+B57AC6: 48 8D 59 38     - lea rbx,[rcx+38]
-gamedll_ph_x64_rwdi.dll+B57ACA: 48 8B F9        - mov rdi,rcx
-gamedll_ph_x64_rwdi.dll+B57ACD: 85 D2           - test edx,edx
-gamedll_ph_x64_rwdi.dll+B57ACF: 75 07           - jne gamedll_ph_x64_rwdi.dll+B57AD8
-gamedll_ph_x64_rwdi.dll+B57AD1: 33 ED           - xor ebp,ebp
-gamedll_ph_x64_rwdi.dll+B57AD3: E9 8D 00 00 00  - jmp gamedll_ph_x64_rwdi.dll+B57B65
-gamedll_ph_x64_rwdi.dll+B57AD8: 8B 2B           - mov ebp,[rbx]
-gamedll_ph_x64_rwdi.dll+B57ADA: 8B C5           - mov eax,ebp
+gamedll_ph_x64_rwdi.dll+5C0065: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C0069: 0F 28 F8           - movaps xmm7,xmm0
+gamedll_ph_x64_rwdi.dll+5C006C: FF 90 E8 0C 00 00  - call qword ptr [rax+00000CE8]
+gamedll_ph_x64_rwdi.dll+5C0072: 48 8B 47 30        - mov rax,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C0076: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C007A: 0F 28 F0           - movaps xmm6,xmm0
+gamedll_ph_x64_rwdi.dll+5C007D: FF 90 40 01 00 00  - call qword ptr [rax+00000140]
+gamedll_ph_x64_rwdi.dll+5C0083: F3 41 0F 59 C1     - mulss xmm0,xmm9
+gamedll_ph_x64_rwdi.dll+5C0088: 0F 28 D7           - movaps xmm2,xmm7
+gamedll_ph_x64_rwdi.dll+5C008B: 0F 57 C9           - xorps xmm1,xmm1
 // ---------- INJECTING HERE ----------
-gamedll_ph_x64_rwdi.dll+B57ADC: 2B C6           - sub eax,esi
+gamedll_ph_x64_rwdi.dll+5C008E: F3 0F 5C F0        - subss xmm6,xmm0
 // ---------- DONE INJECTING  ----------
-gamedll_ph_x64_rwdi.dll+B57ADE: 89 03           - mov [rbx],eax
-gamedll_ph_x64_rwdi.dll+B57AE0: E8 CB 2F 02 00  - call gamedll_ph_x64_rwdi.dll+B7AAB0
-gamedll_ph_x64_rwdi.dll+B57AE5: 48 8B 4F 40     - mov rcx,[rdi+40]
-gamedll_ph_x64_rwdi.dll+B57AE9: 4C 8D 77 40     - lea r14,[rdi+40]
-gamedll_ph_x64_rwdi.dll+B57AED: 48 85 C9        - test rcx,rcx
-gamedll_ph_x64_rwdi.dll+B57AF0: 74 71           - je gamedll_ph_x64_rwdi.dll+B57B63
-gamedll_ph_x64_rwdi.dll+B57AF2: 48 83 C1 10     - add rcx,10
-gamedll_ph_x64_rwdi.dll+B57AF6: 8B D6           - mov edx,esi
-gamedll_ph_x64_rwdi.dll+B57AF8: E8 53 32 A7 FF  - call gamedll_ph_x64_rwdi.dll+5CAD50
-gamedll_ph_x64_rwdi.dll+B57AFD: 83 3B 00        - cmp dword ptr [rbx],00
+gamedll_ph_x64_rwdi.dll+5C0092: 0F 28 C6           - movaps xmm0,xmm6
+gamedll_ph_x64_rwdi.dll+5C0095: E8 36 A1 2F 01     - call gamedll_ph_x64_rwdi.dll+18BA1D0
+gamedll_ph_x64_rwdi.dll+5C009A: 41 B0 01           - mov r8b,01
+gamedll_ph_x64_rwdi.dll+5C009D: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C00A1: 0F 28 C8           - movaps xmm1,xmm0
+gamedll_ph_x64_rwdi.dll+5C00A4: E8 A7 43 C0 00     - call gamedll_ph_x64_rwdi.dll+11C4450
+gamedll_ph_x64_rwdi.dll+5C00A9: 48 8B 47 30        - mov rax,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C00AD: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5C00B1: FF 90 E8 0C 00 00  - call qword ptr [rax+00000CE8]
+gamedll_ph_x64_rwdi.dll+5C00B7: 41 0F 2E C0        - ucomiss xmm0,xmm8
 }
 </AssemblerScript>
     </CheatEntry>
@@ -310,7 +254,7 @@ gamedll_ph_x64_rwdi.dll+B57AFD: 83 3B 00        - cmp dword ptr [rbx],00
       <ID>20</ID>
       <Description>"Old Codes"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
       <Color>0000FF</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -471,6 +415,233 @@ gamedll_ph_x64_rwdi.dll+5CAE27: 00 00                    - add [rax],al
 7FFCA785000F - E9 F9ADFC02           - jmp gamedll_ph_x64_rwdi.dll+5CAE0D
 
 
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"Inf Inventory Selling/Throw/Consume"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
+  Version: 1.14.0p
+  Date   : 2024-02-01
+  Author : bboyh
+
+  Removes the dec instruction from current inventory count
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_DEC_SELL,gamedll_ph_x64_rwdi.dll,FF CA E8 41 2F A7 FF) // should be unique
+
+ITEM_DEC_SELL:
+  db 90 90
+registersymbol(ITEM_DEC_SELL)
+
+[DISABLE]
+
+ITEM_DEC_SELL:
+  db FF CA E8 41 2F A7 FF
+
+unregistersymbol(ITEM_DEC_SELL)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B57E08
+
+gamedll_ph_x64_rwdi.dll+B57DE9: E8 02 AA A1 FF  - call gamedll_ph_x64_rwdi.dll+5727F0
+gamedll_ph_x64_rwdi.dll+B57DEE: 84 C0           - test al,al
+gamedll_ph_x64_rwdi.dll+B57DF0: 74 37           - je gamedll_ph_x64_rwdi.dll+B57E29
+gamedll_ph_x64_rwdi.dll+B57DF2: 48 8B 46 38     - mov rax,[rsi+38]
+gamedll_ph_x64_rwdi.dll+B57DF6: 49 23 C7        - and rax,r15
+gamedll_ph_x64_rwdi.dll+B57DF9: 48 8B 0C 38     - mov rcx,[rax+rdi]
+gamedll_ph_x64_rwdi.dll+B57DFD: 48 83 C1 10     - add rcx,10
+gamedll_ph_x64_rwdi.dll+B57E01: 8B 11           - mov edx,[rcx]
+gamedll_ph_x64_rwdi.dll+B57E03: 83 FA 01        - cmp edx,01
+gamedll_ph_x64_rwdi.dll+B57E06: 7E 21           - jle gamedll_ph_x64_rwdi.dll+B57E29
+// ---------- INJECTING HERE ----------
+gamedll_ph_x64_rwdi.dll+B57E08: FF CA           - dec edx
+// ---------- DONE INJECTING  ----------
+gamedll_ph_x64_rwdi.dll+B57E0A: E8 41 2F A7 FF  - call gamedll_ph_x64_rwdi.dll+5CAD50
+gamedll_ph_x64_rwdi.dll+B57E0F: 48 8B 56 38     - mov rdx,[rsi+38]
+gamedll_ph_x64_rwdi.dll+B57E13: 44 8B C5        - mov r8d,ebp
+gamedll_ph_x64_rwdi.dll+B57E16: 49 23 D7        - and rdx,r15
+gamedll_ph_x64_rwdi.dll+B57E19: 48 8B CE        - mov rcx,rsi
+gamedll_ph_x64_rwdi.dll+B57E1C: 48 8B 14 3A     - mov rdx,[rdx+rdi]
+gamedll_ph_x64_rwdi.dll+B57E20: E8 FB 9F 00 00  - call gamedll_ph_x64_rwdi.dll+B61E20
+gamedll_ph_x64_rwdi.dll+B57E25: B0 01           - mov al,01
+gamedll_ph_x64_rwdi.dll+B57E27: EB 2B           - jmp gamedll_ph_x64_rwdi.dll+B57E54
+gamedll_ph_x64_rwdi.dll+B57E29: 8B D3           - mov edx,ebx
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"Weapon Durability Does Not Decrease"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
+  Version: 1.14.0p
+  Date   : 2024-02-01
+  Author : bboyh
+
+  Removes the subtract float instruction from durability update
+}
+
+[ENABLE]
+
+aobscanmodule(WEAPON_DURABILITY_DEC,gamedll_ph_x64_rwdi.dll,F3 0F 5C F0 0F 28 C6 E8 56) // should be unique
+
+WEAPON_DURABILITY_DEC:
+  db 90 90 90 90
+registersymbol(WEAPON_DURABILITY_DEC)
+
+[DISABLE]
+
+WEAPON_DURABILITY_DEC:
+  db F3 0F 5C F0 0F 28 C6
+
+unregistersymbol(WEAPON_DURABILITY_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+52941E
+
+gamedll_ph_x64_rwdi.dll+5293F5: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+5293F9: 0F 28 F8           - movaps xmm7,xmm0
+gamedll_ph_x64_rwdi.dll+5293FC: FF 90 A8 0C 00 00  - call qword ptr [rax+00000CA8]
+gamedll_ph_x64_rwdi.dll+529402: 48 8B 47 30        - mov rax,[rdi+30]
+gamedll_ph_x64_rwdi.dll+529406: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+52940A: 0F 28 F0           - movaps xmm6,xmm0
+gamedll_ph_x64_rwdi.dll+52940D: FF 90 40 01 00 00  - call qword ptr [rax+00000140]
+gamedll_ph_x64_rwdi.dll+529413: F3 41 0F 59 C1     - mulss xmm0,xmm9
+gamedll_ph_x64_rwdi.dll+529418: 0F 28 D7           - movaps xmm2,xmm7
+gamedll_ph_x64_rwdi.dll+52941B: 0F 57 C9           - xorps xmm1,xmm1
+// ---------- INJECTING HERE ----------
+gamedll_ph_x64_rwdi.dll+52941E: F3 0F 5C F0        - subss xmm6,xmm0
+// ---------- DONE INJECTING  ----------
+gamedll_ph_x64_rwdi.dll+529422: 0F 28 C6           - movaps xmm0,xmm6
+gamedll_ph_x64_rwdi.dll+529425: E8 56 59 25 01     - call gamedll_ph_x64_rwdi.dll+177ED80
+gamedll_ph_x64_rwdi.dll+52942A: 41 B0 01           - mov r8b,01
+gamedll_ph_x64_rwdi.dll+52942D: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+529431: 0F 28 C8           - movaps xmm1,xmm0
+gamedll_ph_x64_rwdi.dll+529434: E8 67 0D B2 00     - call gamedll_ph_x64_rwdi.dll+104A1A0
+gamedll_ph_x64_rwdi.dll+529439: 48 8B 47 30        - mov rax,[rdi+30]
+gamedll_ph_x64_rwdi.dll+52943D: 48 8D 4F 30        - lea rcx,[rdi+30]
+gamedll_ph_x64_rwdi.dll+529441: FF 90 A8 0C 00 00  - call qword ptr [rax+00000CA8]
+gamedll_ph_x64_rwdi.dll+529447: 41 0F 2E C0        - ucomiss xmm0,xmm8
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>32</ID>
+          <Description>"Inf Money"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
+  Version: 1.14.0p
+  Date   : 2024-02-02
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(MONEY_DEC,gamedll_ph_x64_rwdi.dll,2B C6 89 03 E8 CB 2F 02 00) // should be unique
+
+MONEY_DEC:
+  db 90 90
+registersymbol(MONEY_DEC)
+
+[DISABLE]
+
+MONEY_DEC:
+  db 2B C6 89 03 E8 CB 2F 02 00
+
+unregistersymbol(MONEY_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B57ADC
+
+gamedll_ph_x64_rwdi.dll+B57AC0: 48 63 F2        - movsxd  rsi,edx
+gamedll_ph_x64_rwdi.dll+B57AC3: 45 8B F8        - mov r15d,r8d
+gamedll_ph_x64_rwdi.dll+B57AC6: 48 8D 59 38     - lea rbx,[rcx+38]
+gamedll_ph_x64_rwdi.dll+B57ACA: 48 8B F9        - mov rdi,rcx
+gamedll_ph_x64_rwdi.dll+B57ACD: 85 D2           - test edx,edx
+gamedll_ph_x64_rwdi.dll+B57ACF: 75 07           - jne gamedll_ph_x64_rwdi.dll+B57AD8
+gamedll_ph_x64_rwdi.dll+B57AD1: 33 ED           - xor ebp,ebp
+gamedll_ph_x64_rwdi.dll+B57AD3: E9 8D 00 00 00  - jmp gamedll_ph_x64_rwdi.dll+B57B65
+gamedll_ph_x64_rwdi.dll+B57AD8: 8B 2B           - mov ebp,[rbx]
+gamedll_ph_x64_rwdi.dll+B57ADA: 8B C5           - mov eax,ebp
+// ---------- INJECTING HERE ----------
+gamedll_ph_x64_rwdi.dll+B57ADC: 2B C6           - sub eax,esi
+// ---------- DONE INJECTING  ----------
+gamedll_ph_x64_rwdi.dll+B57ADE: 89 03           - mov [rbx],eax
+gamedll_ph_x64_rwdi.dll+B57AE0: E8 CB 2F 02 00  - call gamedll_ph_x64_rwdi.dll+B7AAB0
+gamedll_ph_x64_rwdi.dll+B57AE5: 48 8B 4F 40     - mov rcx,[rdi+40]
+gamedll_ph_x64_rwdi.dll+B57AE9: 4C 8D 77 40     - lea r14,[rdi+40]
+gamedll_ph_x64_rwdi.dll+B57AED: 48 85 C9        - test rcx,rcx
+gamedll_ph_x64_rwdi.dll+B57AF0: 74 71           - je gamedll_ph_x64_rwdi.dll+B57B63
+gamedll_ph_x64_rwdi.dll+B57AF2: 48 83 C1 10     - add rcx,10
+gamedll_ph_x64_rwdi.dll+B57AF6: 8B D6           - mov edx,esi
+gamedll_ph_x64_rwdi.dll+B57AF8: E8 53 32 A7 FF  - call gamedll_ph_x64_rwdi.dll+5CAD50
+gamedll_ph_x64_rwdi.dll+B57AFD: 83 3B 00        - cmp dword ptr [rbx],00
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>17</ID>
+          <Description>"No Damage from zombies"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
+  Version: 1.14.0p
+  Date   : 2024-01-31
+  Author : bboyh
+
+  nop the call to subtract health
+}
+
+[ENABLE]
+
+aobscanmodule(PLAYER_HEALTH_DEC,gamedll_ph_x64_rwdi.dll,E8 FE 8F 9B FF) // should be unique
+PLAYER_HEALTH_DEC:
+  db 90 90 90 90 90
+registersymbol(PLAYER_HEALTH_DEC)
+
+[DISABLE]
+
+PLAYER_HEALTH_DEC:
+  db E8 FE 8F 9B FF
+
+unregistersymbol(PLAYER_HEALTH_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_ph_x64_rwdi.dll+B4330D
+
+gamedll_ph_x64_rwdi.dll+B432DF: 45 33 C9              - xor r9d,r9d
+gamedll_ph_x64_rwdi.dll+B432E2: 48 89 4C 24 38        - mov [rsp+38],rcx
+gamedll_ph_x64_rwdi.dll+B432E7: 4C 8D 2D 42 5E 8B 01  - lea r13,[gamedll_ph_x64_rwdi.dll+23F9130]
+gamedll_ph_x64_rwdi.dll+B432EE: 48 8D 4C 24 50        - lea rcx,[rsp+50]
+gamedll_ph_x64_rwdi.dll+B432F3: 4C 89 64 24 30        - mov [rsp+30],r12
+gamedll_ph_x64_rwdi.dll+B432F8: 4C 8B 00              - mov r8,[rax]
+gamedll_ph_x64_rwdi.dll+B432FB: 48 8D 55 80           - lea rdx,[rbp-80]
+gamedll_ph_x64_rwdi.dll+B432FF: 48 89 4C 24 28        - mov [rsp+28],rcx
+gamedll_ph_x64_rwdi.dll+B43304: 48 8D 4E 10           - lea rcx,[rsi+10]
+gamedll_ph_x64_rwdi.dll+B43308: 4C 89 6C 24 20        - mov [rsp+20],r13
+// ---------- INJECTING HERE ----------
+gamedll_ph_x64_rwdi.dll+B4330D: E8 FE 8F 9B FF        - call gamedll_ph_x64_rwdi.dll+4FC310
+// ---------- DONE INJECTING  ----------
+gamedll_ph_x64_rwdi.dll+B43312: 48 8B 8D 90 00 00 00  - mov rcx,[rbp+00000090]
+gamedll_ph_x64_rwdi.dll+B43319: 48 85 C9              - test rcx,rcx
+gamedll_ph_x64_rwdi.dll+B4331C: 74 0A                 - je gamedll_ph_x64_rwdi.dll+B43328
+gamedll_ph_x64_rwdi.dll+B4331E: 48 8B 01              - mov rax,[rcx]
+gamedll_ph_x64_rwdi.dll+B43321: BA 01 00 00 00        - mov edx,00000001
+gamedll_ph_x64_rwdi.dll+B43326: FF 10                 - call qword ptr [rax]
+gamedll_ph_x64_rwdi.dll+B43328: 45 84 F6              - test r14b,r14b
+gamedll_ph_x64_rwdi.dll+B4332B: 74 15                 - je gamedll_ph_x64_rwdi.dll+B43342
+gamedll_ph_x64_rwdi.dll+B4332D: 48 8D 4E 10           - lea rcx,[rsi+10]
+gamedll_ph_x64_rwdi.dll+B43331: E8 4A C4 A2 FF        - call gamedll_ph_x64_rwdi.dll+56F780
 }
 </AssemblerScript>
         </CheatEntry>
@@ -1694,5 +1865,5 @@ gamedll_ph_x64_rwdi.dll+5CAE27: 00 00                    - add [rax],al
   </Structures>
   <Comments>Health Value is a Float
 Durability Value Float
-</Comments>
+Inventory Items are 4 bytes</Comments>
 </CheatTable>
