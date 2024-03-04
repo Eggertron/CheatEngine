@@ -10,7 +10,7 @@
     <CheatEntry>
       <ID>33</ID>
       <Description>"Attach"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -85,7 +85,7 @@ gamedll_ph_x64_rwdi.dll+C73891: E8 8A 1C 99 FF        - call gamedll_ph_x64_rwdi
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 1.15.1p
+  Version: 1.15.2p
   Date   : 2024-02-25
   Author : bboyh
 
@@ -94,7 +94,7 @@ gamedll_ph_x64_rwdi.dll+C73891: E8 8A 1C 99 FF        - call gamedll_ph_x64_rwdi
 
 [ENABLE]
 
-aobscanmodule(DEC_ITEM,gamedll_ph_x64_rwdi.dll,FF CA E8 51 A4 9D FF) // should be unique
+aobscanmodule(DEC_ITEM,gamedll_ph_x64_rwdi.dll,FF CA E8 C1 A1 9D FF) // should be unique
 
 DEC_ITEM:
   db 90 90
@@ -103,7 +103,7 @@ registersymbol(DEC_ITEM)
 [DISABLE]
 
 DEC_ITEM:
-  db FF CA E8 51 A4 9D FF
+  db FF CA E8 C1 A1 9D FF
 
 unregistersymbol(DEC_ITEM)
 
@@ -139,7 +139,7 @@ gamedll_ph_x64_rwdi.dll+C87C09: 8B D3           - mov edx,ebx
     <CheatEntry>
       <ID>26</ID>
       <Description>"Inf Inventory Crafting"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
   Version: 1.15.1p
@@ -199,7 +199,7 @@ gamedll_ph_x64_rwdi.dll+B58B0D: E9 61 FF FF FF  - jmp gamedll_ph_x64_rwdi.dll+B5
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DyingLightGame_x64_rwdi.exe
-  Version: 1.15.1p
+  Version: 1.15.2p
   Date   : 2024-02-25
   Author : bboyh
 
@@ -208,7 +208,7 @@ gamedll_ph_x64_rwdi.dll+B58B0D: E9 61 FF FF FF  - jmp gamedll_ph_x64_rwdi.dll+B5
 
 [ENABLE]
 
-aobscanmodule(DEC_DURABILITY,gamedll_ph_x64_rwdi.dll,F3 0F 5C F0 0F 28 C6 E8 36) // should be unique
+aobscanmodule(DEC_DURABILITY,gamedll_ph_x64_rwdi.dll,F3 0F 5C F0 0F 28 C6 E8 A6) // should be unique
 
 DEC_DURABILITY:
   db 90 90 90 90
@@ -254,7 +254,7 @@ gamedll_ph_x64_rwdi.dll+5C00B7: 41 0F 2E C0        - ucomiss xmm0,xmm8
       <ID>20</ID>
       <Description>"Old Codes"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <Color>0000FF</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -1865,5 +1865,6 @@ gamedll_ph_x64_rwdi.dll+B43331: E8 4A C4 A2 FF        - call gamedll_ph_x64_rwdi
   </Structures>
   <Comments>Health Value is a Float
 Durability Value Float
-Inventory Items are 4 bytes</Comments>
+Inventory Items are 4 bytes
+</Comments>
 </CheatTable>
