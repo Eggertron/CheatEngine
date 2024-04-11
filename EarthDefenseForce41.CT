@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"No Damage"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : EDF41.exe
+  Version: 
+  Date   : 2024-04-01
+  Author : bboyh
+
+  Disables Players Hit (God Mode)
+}
+
+[ENABLE]
+
+aobscanmodule(NO_HIT,EDF41.exe,E8 06 35 FF FF) // should be unique
+
+NO_HIT:
+  db 90 90 90 90 90
+registersymbol(NO_HIT)
+
+[DISABLE]
+
+NO_HIT:
+  db E8 06 35 FF FF
+
+unregistersymbol(NO_HIT)
+
+{
+// ORIGINAL CODE - INJECTION POINT: EDF41.exe+29A675
+
+EDF41.exe+29A64C: 83 C8 FF                 - or eax,-01
+EDF41.exe+29A64F: F0 0F C1 41 04           - lock xadd [rcx+04],eax
+EDF41.exe+29A654: 83 F8 01                 - cmp eax,01
+EDF41.exe+29A657: 75 06                    - jne EDF41.exe+29A65F
+EDF41.exe+29A659: FF 15 41 E0 67 00        - call qword ptr [EDF41.exe+9186A0]
+EDF41.exe+29A65F: 48 83 BF 70 0F 00 00 03  - cmp qword ptr [rdi+00000F70],03
+EDF41.exe+29A667: 0F 87 73 FE FF FF        - ja EDF41.exe+29A4E0
+EDF41.exe+29A66D: 4D 8B C6                 - mov r8,r14
+EDF41.exe+29A670: 8B D5                    - mov edx,ebp
+EDF41.exe+29A672: 48 8B CF                 - mov rcx,rdi
+// ---------- INJECTING HERE ----------
+EDF41.exe+29A675: E8 06 35 FF FF           - call EDF41.exe+28DB80
+// ---------- DONE INJECTING  ----------
+EDF41.exe+29A67A: 48 8B 5C 24 70           - mov rbx,[rsp+70]
+EDF41.exe+29A67F: 48 8B 6C 24 78           - mov rbp,[rsp+78]
+EDF41.exe+29A684: 48 8B B4 24 80 00 00 00  - mov rsi,[rsp+00000080]
+EDF41.exe+29A68C: 48 83 C4 50              - add rsp,50
+EDF41.exe+29A690: 41 5F                    - pop r15
+EDF41.exe+29A692: 41 5E                    - pop r14
+EDF41.exe+29A694: 5F                       - pop rdi
+EDF41.exe+29A695: C3                       - ret 
+EDF41.exe+29A696: CC                       - int 3 
+EDF41.exe+29A697: CC                       - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Unlimited Ammo?"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : EDF41.exe
+  Version: 
+  Date   : 2024-04-01
+  Author : bboyh
+
+  Might be unlimited ammo?
+}
+
+[ENABLE]
+
+aobscanmodule(AMMO,EDF41.exe,E8 1D 02 00 00) // should be unique
+
+AMMO:
+  db 90 90 90 90 90
+registersymbol(AMMO)
+
+[DISABLE]
+
+AMMO:
+  db E8 1D 02 00 00
+
+unregistersymbol(AMMO)
+
+{
+// ORIGINAL CODE - INJECTION POINT: EDF41.exe+310B0E
+
+EDF41.exe+310AD8: 41 83 BC 24 B4 0A 00 00 00           - cmp dword ptr [r12+00000AB4],00
+EDF41.exe+310AE1: 7F 0A                                - jg EDF41.exe+310AED
+EDF41.exe+310AE3: 41 8B 84 24 EC 02 00 00              - mov eax,[r12+000002EC]
+EDF41.exe+310AEB: EB 08                                - jmp EDF41.exe+310AF5
+EDF41.exe+310AED: 41 8B 84 24 F4 02 00 00              - mov eax,[r12+000002F4]
+EDF41.exe+310AF5: 41 89 84 24 B0 0A 00 00              - mov [r12+00000AB0],eax
+EDF41.exe+310AFD: 41 80 BC 24 6C 08 00 00 00           - cmp byte ptr [r12+0000086C],00
+EDF41.exe+310B06: 74 0B                                - je EDF41.exe+310B13
+EDF41.exe+310B08: 83 CA FF                             - or edx,-01
+EDF41.exe+310B0B: 49 8B CC                             - mov rcx,r12
+// ---------- INJECTING HERE ----------
+EDF41.exe+310B0E: E8 1D 02 00 00                       - call EDF41.exe+310D30
+// ---------- DONE INJECTING  ----------
+EDF41.exe+310B13: 41 C7 84 24 64 08 00 00 01 00 00 00  - mov [r12+00000864],00000001
+EDF41.exe+310B1F: 41 8B 84 24 FC 02 00 00              - mov eax,[r12+000002FC]
+EDF41.exe+310B27: 41 89 84 24 68 08 00 00              - mov [r12+00000868],eax
+EDF41.exe+310B2F: 48 8B 8D A0 00 00 00                 - mov rcx,[rbp+000000A0]
+EDF41.exe+310B36: 48 33 CC                             - xor rcx,rsp
+EDF41.exe+310B39: E8 E2 59 35 00                       - call EDF41.exe+666520
+EDF41.exe+310B3E: 4C 8D 9C 24 18 02 00 00              - lea r11,[rsp+00000218]
+EDF41.exe+310B46: 41 0F 28 73 E8                       - movaps xmm6,[r11-18]
+EDF41.exe+310B4B: 41 0F 28 7B D8                       - movaps xmm7,[r11-28]
+EDF41.exe+310B50: 45 0F 28 43 C8                       - movaps xmm8,[r11-38]
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call EDF41.exe+310D30</Description>
+      <AddressString>EDF41.exe+310B0E</AddressString>
+      <Before>
+        <Byte>CA</Byte>
+        <Byte>FF</Byte>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+        <Byte>CC</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>1D</Byte>
+        <Byte>02</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>41</Byte>
+        <Byte>C7</Byte>
+        <Byte>84</Byte>
+        <Byte>24</Byte>
+        <Byte>64</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>

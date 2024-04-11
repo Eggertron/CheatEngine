@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version: 1.105.345.1020"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"No description"</Description>
+      <LastState Value="15932" RealAddress="7FF4BB125B98"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>7FF4BB125B98</Address>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Finding money is difficult, easy to find the money display value.</Comments>
+</CheatTable>
