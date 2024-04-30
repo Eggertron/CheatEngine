@@ -3,12 +3,14 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"CoreKeeper 0.6.1.2-27da Early Access Version"</Description>
+      <Description>"CoreKeeper 0.7.4.2-7883 Early Access Version"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -23,6 +25,7 @@
         <CheatEntry>
           <ID>2</ID>
           <Description>"PlayerController Hook"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -141,6 +144,7 @@ GameAssembly.dll+7365EE: C6 05 42 EE D1 03 01     - mov byte ptr [GameAssembly.d
         <CheatEntry>
           <ID>12</ID>
           <Description>"No Damage"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -199,6 +203,7 @@ GameAssembly.dll+2AAAA9A: 44 0F 28 D3                 - movaps xmm10,xmm3
         <CheatEntry>
           <ID>11</ID>
           <Description>"Inf Eating"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -255,6 +260,7 @@ lib_burst_generated.dll+18BE464: 48 0F 45 F8              - cmovne rdi,rax
         <CheatEntry>
           <ID>14</ID>
           <Description>"Inf Durability on hand tool"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -312,6 +318,7 @@ GameAssembly.dll+2ABB6CE: E8 BD C2 AC FD        - call GameAssembly.il2cpp_get_e
     <CheatEntry>
       <ID>15</ID>
       <Description>"Auto Assemble script"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -369,6 +376,7 @@ GameAssembly.dll+2ACE29F: 4C 8B EA              - mov r13,rdx
     <CheatEntry>
       <ID>16</ID>
       <Description>"Auto Assemble script"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -423,6 +431,7 @@ GameAssembly.dll+2ACE544: 48 8B E9              - mov rbp,rcx
     <CheatEntry>
       <ID>17</ID>
       <Description>"Auto Assemble script"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : CoreKeeper.exe
   Version: 
@@ -476,31 +485,6 @@ GameAssembly.dll+2AD34CA: 0F 29 7C 24 70        - movaps [rsp+70],xmm7
 </AssemblerScript>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of sub [rbp-2D],edi</Description>
-      <AddressString>GameAssembly.dll+2AD3586</AddressString>
-      <Before>
-        <Byte>FE</Byte>
-        <Byte>3B</Byte>
-        <Byte>C7</Byte>
-        <Byte>7E</Byte>
-        <Byte>13</Byte>
-      </Before>
-      <Actual>
-        <Byte>29</Byte>
-        <Byte>7D</Byte>
-        <Byte>D3</Byte>
-      </Actual>
-      <After>
-        <Byte>80</Byte>
-        <Byte>3D</Byte>
-        <Byte>93</Byte>
-        <Byte>AC</Byte>
-        <Byte>17</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
@@ -5565,6 +5549,7 @@ GameAssembly.dll+2AD34CA: 0F 29 7C 24 70        - movaps [rsp+70],xmm7
       </Elements>
     </Structure>
   </Structures>
+  <Comments>Mono dissector: Pub.Other::</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("CoreKeeper.exe")

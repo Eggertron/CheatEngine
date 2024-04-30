@@ -83,7 +83,7 @@ Dungeons-Win64-Shipping.exe+9B0D19: 8B D7              - mov edx,edi
     <CheatEntry>
       <ID>8</ID>
       <Description>"Unlimited Enchantment Points Usage"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Dungeons-Win64-Shipping.exe
   Version: 
@@ -154,7 +154,7 @@ Dungeons-Win64-Shipping.exe+9F0217: 89 45 C7                 - mov [rbp-39],eax
     <CheatEntry>
       <ID>13</ID>
       <Description>"No Damage Player"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Dungeons-Win64-Shipping.exe
   Version: 
@@ -212,7 +212,7 @@ Dungeons-Win64-Shipping.exe+9D9534: 48 8D 6C 24 B9           - lea rbp,[rsp-47]
     <CheatEntry>
       <ID>18</ID>
       <Description>"Inf Arrows"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Dungeons-Win64-Shipping.exe
   Version: 
@@ -335,287 +335,68 @@ Dungeons-Win64-Shipping.exe+3D9A68: CC                 - int 3
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"Get Money and Gold read function"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Dungeons-Win64-Shipping.exe
+  Version: 
+  Date   : 2024-04-21
+  Author : bboyh
+
+  Finds the address that reads the money/gold values when entering the inventory
+  screen. seems to be that the difference in offsets between money and gold are
+  0x4 * 4 bytes way. There are about 9 bytes after the ret that can be used
+  for something else. This function will only read gold if gold has already been
+  collected.
+}
+
+[ENABLE]
+
+aobscanmodule(MONEY_GOLD_READ,Dungeons-Win64-Shipping.exe,F8 8B 41 08 C3 CC) // should be unique
+
+MONEY_GOLD_READ+01:
+  db 8B 41 08 C3 CC
+registersymbol(MONEY_GOLD_READ)
+
+[DISABLE]
+
+MONEY_GOLD_READ+01:
+  db 8B 41 08 C3 CC
+
+unregistersymbol(MONEY_GOLD_READ)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Dungeons-Win64-Shipping.exe+DE3673
+
+Dungeons-Win64-Shipping.exe+DE365A: 0F 94 C2     - sete dl
+Dungeons-Win64-Shipping.exe+DE365D: 44 84 C2     - test dl,r8b
+Dungeons-Win64-Shipping.exe+DE3660: 75 0C        - jne Dungeons-Win64-Shipping.exe+DE366E
+Dungeons-Win64-Shipping.exe+DE3662: 48 83 C1 0C  - add rcx,0C
+Dungeons-Win64-Shipping.exe+DE3666: 49 3B C9     - cmp rcx,r9
+Dungeons-Win64-Shipping.exe+DE3669: 75 E5        - jne Dungeons-Win64-Shipping.exe+DE3650
+Dungeons-Win64-Shipping.exe+DE366B: 33 C0        - xor eax,eax
+Dungeons-Win64-Shipping.exe+DE366D: C3           - ret 
+Dungeons-Win64-Shipping.exe+DE366E: 49 3B C9     - cmp rcx,r9
+Dungeons-Win64-Shipping.exe+DE3671: 74 F8        - je Dungeons-Win64-Shipping.exe+DE366B
+// ---------- INJECTING HERE ----------
+Dungeons-Win64-Shipping.exe+DE3673: 8B 41 08     - mov eax,[rcx+08]
+// ---------- DONE INJECTING  ----------
+Dungeons-Win64-Shipping.exe+DE3676: C3           - ret 
+Dungeons-Win64-Shipping.exe+DE3677: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE3678: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE3679: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367A: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367B: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367C: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367D: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367E: CC           - int 3 
+Dungeons-Win64-Shipping.exe+DE367F: CC           - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+3D9A50</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+3AA1F6</AddressString>
-      <Before>
-        <Byte>B0</Byte>
-        <Byte>01</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>09</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>55</Byte>
-        <Byte>F8</Byte>
-        <Byte>02</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>EB</Byte>
-        <Byte>36</Byte>
-        <Byte>48</Byte>
-        <Byte>8D</Byte>
-        <Byte>55</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+3A9FB0</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+3B9CA1</AddressString>
-      <Before>
-        <Byte>48</Byte>
-        <Byte>89</Byte>
-        <Byte>44</Byte>
-        <Byte>24</Byte>
-        <Byte>20</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>0A</Byte>
-        <Byte>03</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>55</Byte>
-        <Byte>08</Byte>
-        <Byte>48</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+3B9BD0</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+3AF86C</AddressString>
-      <Before>
-        <Byte>B0</Byte>
-        <Byte>C6</Byte>
-        <Byte>45</Byte>
-        <Byte>C0</Byte>
-        <Byte>01</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>5F</Byte>
-        <Byte>A3</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>4D</Byte>
-        <Byte>90</Byte>
-        <Byte>44</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+3AF730</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+363CDD</AddressString>
-      <Before>
-        <Byte>0F</Byte>
-        <Byte>11</Byte>
-        <Byte>4C</Byte>
-        <Byte>24</Byte>
-        <Byte>40</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>4E</Byte>
-        <Byte>BA</Byte>
-        <Byte>04</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>E9</Byte>
-        <Byte>95</Byte>
-        <Byte>FD</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax+00000590]</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+363D95</AddressString>
-      <Before>
-        <Byte>0F</Byte>
-        <Byte>11</Byte>
-        <Byte>4C</Byte>
-        <Byte>24</Byte>
-        <Byte>30</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>90</Byte>
-        <Byte>90</Byte>
-        <Byte>05</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>5C</Byte>
-        <Byte>24</Byte>
-        <Byte>50</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax+00000588]</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+9CCB3E</AddressString>
-      <Before>
-        <Byte>95</Byte>
-        <Byte>88</Byte>
-        <Byte>03</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>90</Byte>
-        <Byte>88</Byte>
-        <Byte>05</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>44</Byte>
-        <Byte>0F</Byte>
-        <Byte>B6</Byte>
-        <Byte>60</Byte>
-        <Byte>04</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rsp+78]</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+9D9520</AddressString>
-      <Before>
-        <Byte>24</Byte>
-        <Byte>90</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>54</Byte>
-        <Byte>24</Byte>
-        <Byte>78</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>81</Byte>
-        <Byte>C4</Byte>
-        <Byte>40</Byte>
-        <Byte>01</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+83A030</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+84E5F6</AddressString>
-      <Before>
-        <Byte>8B</Byte>
-        <Byte>D6</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CF</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>35</Byte>
-        <Byte>BA</Byte>
-        <Byte>FE</Byte>
-        <Byte>FF</Byte>
-      </Actual>
-      <After>
-        <Byte>44</Byte>
-        <Byte>88</Byte>
-        <Byte>BF</Byte>
-        <Byte>69</Byte>
-        <Byte>03</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [r10+00000638]</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+EB70DC</AddressString>
-      <Before>
-        <Byte>16</Byte>
-        <Byte>89</Byte>
-        <Byte>44</Byte>
-        <Byte>24</Byte>
-        <Byte>20</Byte>
-      </Before>
-      <Actual>
-        <Byte>41</Byte>
-        <Byte>FF</Byte>
-        <Byte>92</Byte>
-        <Byte>38</Byte>
-        <Byte>06</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>81</Byte>
-        <Byte>C4</Byte>
-        <Byte>E0</Byte>
-        <Byte>00</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rbp+000000C0]</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+11336D3</AddressString>
-      <Before>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CE</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>95</Byte>
-        <Byte>C0</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>6C</Byte>
-        <Byte>24</Byte>
-        <Byte>38</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call Dungeons-Win64-Shipping.exe+1133660</Description>
-      <AddressString>Dungeons-Win64-Shipping.exe+12470F0</AddressString>
-      <Before>
-        <Byte>8B</Byte>
-        <Byte>D4</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CE</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>6B</Byte>
-        <Byte>C5</Byte>
-        <Byte>EE</Byte>
-        <Byte>FF</Byte>
-      </Actual>
-      <After>
-        <Byte>4D</Byte>
-        <Byte>85</Byte>
-        <Byte>ED</Byte>
-        <Byte>75</Byte>
-        <Byte>70</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
 </CheatTable>

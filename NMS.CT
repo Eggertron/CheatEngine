@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 111039"</Description>
+      <Description>"Version: 120697"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -24,10 +24,10 @@
     <CheatEntry>
       <ID>246</ID>
       <Description>"Inf Item Usage (recharging)"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 
+  Version: 120697
   Date   : 2023-06-29
   Author : bboyh
 
@@ -86,7 +86,7 @@ NMS.exe+3F4EAB: 74 51                    - je NMS.exe+3F4EFE
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 
+  Version: 120697
   Date   : 2023-06-29
   Author : bboyh
 
@@ -96,7 +96,7 @@ NMS.exe+3F4EAB: 74 51                    - je NMS.exe+3F4EFE
 [ENABLE]
 
 
-aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,45 0F 4C 7E 18) // should be unique
+aobscanmodule(ITEM_DEC_CRAFTING,NMS.exe,44 0F 4C 7E 18) // should be unique
 
 ITEM_DEC_CRAFTING:
   xor r15d,r15d
@@ -106,7 +106,7 @@ registersymbol(ITEM_DEC_CRAFTING)
 [DISABLE]
 
 ITEM_DEC_CRAFTING:
-  db 45 0F 4C 7E 18
+  db 44 0F 4C 7E 18
 
 unregistersymbol(ITEM_DEC_CRAFTING)
 
@@ -142,10 +142,10 @@ NMS.exe+3EE4AD: 84 C0                 - test al,al
     <CheatEntry>
       <ID>250</ID>
       <Description>"Inf Items (consume)"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 
+  Version: 120697
   Date   : 2023-06-29
   Author : bboyh
 

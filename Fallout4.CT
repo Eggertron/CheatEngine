@@ -1,223 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Fallout 4 version 1.10.163.0.0"</Description>
+      <Description>"Fallout 4 version 1.10.980.0.1"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
-      <ID>22</ID>
-      <Description>"Inf Ammo and Inventory"</Description>
-      <LastState/>
+      <ID>25</ID>
+      <Description>"Inventory does not dec (Also affects ammo, not clip)"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Fallout4.exe
-  Version: 
-  Date   : 2022-11-27
-  Author : Edgar Han
+  Version: 1.10.980.0.1
+  Date   : 2024-04-29
+  Author : bboyh
 
-  This script includes the Inventory Items count freeze
+  Only update inventory if new value is greater
 }
 
 [ENABLE]
 
-aobscanmodule(CLIP_UPDATE,Fallout4.exe,74 03 89 59 18) // should be unique
-aobscanmodule(UPDATE_MAG,Fallout4.exe,FF 10 48 8D 0D D5 C1 72 05) // should be unique
-
-CLIP_UPDATE:
-  db EB 03
-registersymbol(CLIP_UPDATE)
-
-UPDATE_MAG:
-  nop
-  nop
-registersymbol(UPDATE_MAG)
-
-[DISABLE]
-
-CLIP_UPDATE:
-  db 74 03 89 59 18
-
-UPDATE_MAG:
-  db FF 10 48 8D 0D D5 C1 72 05
-
-unregistersymbol(*)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+E70873
-
-Fallout4.exe+E7084E: CC                          - int 3 
-Fallout4.exe+E7084F: CC                          - int 3 
-Fallout4.exe+E70850: 40 53                       - push rbx
-Fallout4.exe+E70852: 48 83 EC 30                 - sub rsp,30
-Fallout4.exe+E70856: 41 8B D8                    - mov ebx,r8d
-Fallout4.exe+E70859: 4C 8D 44 24 20              - lea r8,[rsp+20]
-Fallout4.exe+E7085E: 48 C7 44 24 20 00 00 00 00  - mov qword ptr [rsp+20],00000000
-Fallout4.exe+E70867: E8 44 D0 01 00              - call Fallout4.exe+E8D8B0
-Fallout4.exe+E7086C: 48 8B 4C 24 20              - mov rcx,[rsp+20]
-Fallout4.exe+E70871: 84 C0                       - test al,al
-// ---------- INJECTING HERE ----------
-Fallout4.exe+E70873: 74 03                       - je Fallout4.exe+E70878
-// ---------- DONE INJECTING  ----------
-Fallout4.exe+E70875: 89 59 18                    - mov [rcx+18],ebx
-Fallout4.exe+E70878: 48 85 C9                    - test rcx,rcx
-Fallout4.exe+E7087B: 74 11                       - je Fallout4.exe+E7088E
-Fallout4.exe+E7087D: F0 FF 49 08                 - lock dec [rcx+08]
-Fallout4.exe+E70881: 75 0B                       - jne Fallout4.exe+E7088E
-Fallout4.exe+E70883: 48 8B 4C 24 20              - mov rcx,[rsp+20]
-Fallout4.exe+E70888: 48 8B 01                    - mov rax,[rcx]
-Fallout4.exe+E7088B: FF 50 08                    - call qword ptr [rax+08]
-Fallout4.exe+E7088E: 48 83 C4 30                 - add rsp,30
-Fallout4.exe+E70892: 5B                          - pop rbx
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>9</ID>
-      <Description>"Inventory Items count freeze"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Fallout4.exe
-  Version: 
-  Date   : 2022-11-27
-  Author : Edgar Han
-
-  This script prevents inventory item count updates when items are
-  dropped or moved
-}
-
-[ENABLE]
-
-aobscanmodule(INV_UPDATE,Fallout4.exe,FF 10 48 8D 0D D5 C1 72 05) // should be unique
+aobscanmodule(INV_UPDATE,Fallout4.exe,79 0F 41 2B D1) // should be unique
 
 INV_UPDATE:
-  nop
-  nop
+  cmp r9d,[r8+20]
+  jl @f
+  mov [r8+20],r9d
+@@:
+  ret
+
 registersymbol(INV_UPDATE)
 
 [DISABLE]
 
 INV_UPDATE:
-  db FF 10 48 8D 0D D5 C1 72 05
+  db 79 0F 41 2B D1 89 51 10 41 C7 40 20 00 00 00 00 C3 45 89 48 20 C3
 
 unregistersymbol(INV_UPDATE)
 
 {
-// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+1A87D2
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+2F797A
 
-Fallout4.exe+1A87AE: 48 8B CB              - mov rcx,rbx
-Fallout4.exe+1A87B1: FF 10                 - call qword ptr [rax]
-Fallout4.exe+1A87B3: 48 8B 1E              - mov rbx,[rsi]
-Fallout4.exe+1A87B6: 49 8B 3F              - mov rdi,[r15]
-Fallout4.exe+1A87B9: 48 8D 0D F0 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
-Fallout4.exe+1A87C0: FF 15 72 ED A6 02     - call qword ptr [Fallout4.exe+2C17538]
-Fallout4.exe+1A87C6: 49 8B 06              - mov rax,[r14]
-Fallout4.exe+1A87C9: 4C 8B C3              - mov r8,rbx
-Fallout4.exe+1A87CC: 48 8B D7              - mov rdx,rdi
-Fallout4.exe+1A87CF: 49 8B CE              - mov rcx,r14
+Fallout4.exe+2F7969: CC                       - int 3 
+Fallout4.exe+2F796A: CC                       - int 3 
+Fallout4.exe+2F796B: CC                       - int 3 
+Fallout4.exe+2F796C: CC                       - int 3 
+Fallout4.exe+2F796D: CC                       - int 3 
+Fallout4.exe+2F796E: CC                       - int 3 
+Fallout4.exe+2F796F: CC                       - int 3 
+Fallout4.exe+2F7970: 45 8B 48 20              - mov r9d,[r8+20]
+Fallout4.exe+2F7974: 8B 51 10                 - mov edx,[rcx+10]
+Fallout4.exe+2F7977: 44 03 CA                 - add r9d,edx
 // ---------- INJECTING HERE ----------
-Fallout4.exe+1A87D2: FF 10                 - call qword ptr [rax]
+Fallout4.exe+2F797A: 79 0F                    - jns Fallout4.exe+2F798B
 // ---------- DONE INJECTING  ----------
-Fallout4.exe+1A87D4: 48 8D 0D D5 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
-Fallout4.exe+1A87DB: FF 15 4F ED A6 02     - call qword ptr [Fallout4.exe+2C17530]
-Fallout4.exe+1A87E1: 48 8B 7C 24 50        - mov rdi,[rsp+50]
-Fallout4.exe+1A87E6: 48 8B 5C 24 40        - mov rbx,[rsp+40]
-Fallout4.exe+1A87EB: 48 8B 0E              - mov rcx,[rsi]
-Fallout4.exe+1A87EE: 4C 8B 7C 24 20        - mov r15,[rsp+20]
-Fallout4.exe+1A87F3: 4C 8B 74 24 28        - mov r14,[rsp+28]
-Fallout4.exe+1A87F8: 48 8B 74 24 48        - mov rsi,[rsp+48]
-Fallout4.exe+1A87FD: 48 85 C9              - test rcx,rcx
-Fallout4.exe+1A8800: 74 16                 - je Fallout4.exe+1A8818
+Fallout4.exe+2F797C: 41 2B D1                 - sub edx,r9d
+Fallout4.exe+2F797F: 89 51 10                 - mov [rcx+10],edx
+Fallout4.exe+2F7982: 41 C7 40 20 00 00 00 00  - mov [r8+20],00000000
+Fallout4.exe+2F798A: C3                       - ret 
+Fallout4.exe+2F798B: 45 89 48 20              - mov [r8+20],r9d
+Fallout4.exe+2F798F: C3                       - ret 
+Fallout4.exe+2F7990: CC                       - int 3 
+Fallout4.exe+2F7991: CC                       - int 3 
+Fallout4.exe+2F7992: CC                       - int 3 
+Fallout4.exe+2F7993: CC                       - int 3 
 }
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>4</ID>
-      <Description>"Player Current Weight"</Description>
+      <ID>27</ID>
+      <Description>"Inf Ammo Clip"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Fallout4.exe
-  Version: 
-  Date   : 2022-08-15
-  Author : Edgar Han
+  Version: 1.10.980.0.1
+  Date   : 2024-04-29
+  Author : bboyh
 
-  This script does blah blah blah
+  Clip updates when gun is shot or new ammo clip is loaded. This will add one bullet
+  to the clip every time the function is called so that bullets are not used. The
+  side effect is that switching weapons will always give you max clip +1
 }
 
 [ENABLE]
 
-aobscanmodule(WEIGHT,Fallout4.exe,89 47 70 F3 0F 10 47 70) // should be unique
-alloc(newmem,$1000,WEIGHT)
-registersymbol(WEIGHT_BASE)
-label(code)
-label(return)
+aobscanmodule(CLIP_UPDATE,Fallout4.exe,84 C0 74 03 89 59 18) // should be unique
 
-newmem:
-  mov [WEIGHT_BASE],rdi
-
-code:
-  mov [rdi+70],eax
-  movss xmm0,[rdi+70]
-  jmp return
-
-WEIGHT_BASE:
-  dq 0
-
-WEIGHT:
-  jmp newmem
-  nop 3
-return:
-registersymbol(WEIGHT)
+CLIP_UPDATE:
+  inc ebx // assumes that each shot only uses 1 bullet, so add back that one used bullet
+registersymbol(CLIP_UPDATE)
 
 [DISABLE]
 
-WEIGHT:
-  db 89 47 70 F3 0F 10 47 70
+CLIP_UPDATE:
+  db 84 C0 74 03 89 59 18
 
-unregistersymbol(*)
-dealloc(newmem)
+unregistersymbol(CLIP_UPDATE)
 
 {
-// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+1AC9B0
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+CABBA1
 
-Fallout4.exe+1AC98A: E8 A1 3F 96 01  - call Fallout4.exe+1B10930
-Fallout4.exe+1AC98F: 48 8D 4F 58     - lea rcx,[rdi+58]
-Fallout4.exe+1AC993: 48 8B D6        - mov rdx,rsi
-Fallout4.exe+1AC996: E8 15 31 00 00  - call Fallout4.exe+1AFAB0
-Fallout4.exe+1AC99B: 48 85 DB        - test rbx,rbx
-Fallout4.exe+1AC99E: 74 08           - je Fallout4.exe+1AC9A8
-Fallout4.exe+1AC9A0: 48 8B CB        - mov rcx,rbx
-Fallout4.exe+1AC9A3: E8 48 42 96 01  - call Fallout4.exe+1B10BF0
-Fallout4.exe+1AC9A8: 8B 46 08        - mov eax,[rsi+08]
-Fallout4.exe+1AC9AB: 48 8B 5C 24 30  - mov rbx,[rsp+30]
+Fallout4.exe+CABB7D: CC                          - int 3 
+Fallout4.exe+CABB7E: CC                          - int 3 
+Fallout4.exe+CABB7F: CC                          - int 3 
+Fallout4.exe+CABB80: 40 53                       - push rbx
+Fallout4.exe+CABB82: 48 83 EC 30                 - sub rsp,30
+Fallout4.exe+CABB86: 41 8B D8                    - mov ebx,r8d
+Fallout4.exe+CABB89: 48 C7 44 24 20 00 00 00 00  - mov qword ptr [rsp+20],00000000
+Fallout4.exe+CABB92: 4C 8D 44 24 20              - lea r8,[rsp+20]
+Fallout4.exe+CABB97: E8 04 97 01 00              - call Fallout4.exe+CC52A0
+Fallout4.exe+CABB9C: 48 8B 4C 24 20              - mov rcx,[rsp+20]
 // ---------- INJECTING HERE ----------
-Fallout4.exe+1AC9B0: 89 47 70        - mov [rdi+70],eax
+Fallout4.exe+CABBA1: 84 C0                       - test al,al
 // ---------- DONE INJECTING  ----------
-Fallout4.exe+1AC9B3: F3 0F 10 47 70  - movss xmm0,[rdi+70]
-Fallout4.exe+1AC9B8: 48 8B 74 24 38  - mov rsi,[rsp+38]
-Fallout4.exe+1AC9BD: 48 83 C4 20     - add rsp,20
-Fallout4.exe+1AC9C1: 5F              - pop rdi
-Fallout4.exe+1AC9C2: C3              - ret 
-Fallout4.exe+1AC9C3: F3 0F 10 41 70  - movss xmm0,[rcx+70]
-Fallout4.exe+1AC9C8: 48 8B 74 24 38  - mov rsi,[rsp+38]
-Fallout4.exe+1AC9CD: 48 83 C4 20     - add rsp,20
-Fallout4.exe+1AC9D1: 5F              - pop rdi
-Fallout4.exe+1AC9D2: C3              - ret 
+Fallout4.exe+CABBA3: 74 03                       - je Fallout4.exe+CABBA8
+Fallout4.exe+CABBA5: 89 59 18                    - mov [rcx+18],ebx
+Fallout4.exe+CABBA8: 48 85 C9                    - test rcx,rcx
+Fallout4.exe+CABBAB: 74 20                       - je Fallout4.exe+CABBCD
+Fallout4.exe+CABBAD: B8 FF FF FF FF              - mov eax,FFFFFFFF
+Fallout4.exe+CABBB2: F0 0F C1 41 08              - lock xadd [rcx+08],eax
+Fallout4.exe+CABBB7: 83 F8 01                    - cmp eax,01
+Fallout4.exe+CABBBA: 75 11                       - jne Fallout4.exe+CABBCD
+Fallout4.exe+CABBBC: 48 8B 4C 24 20              - mov rcx,[rsp+20]
+Fallout4.exe+CABBC1: 48 8B 01                    - mov rax,[rcx]
 }
 </AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>5</ID>
-          <Description>"Current Weight"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>Float</VariableType>
-          <Address>WEIGHT_BASE</Address>
-          <Offsets>
-            <Offset>70</Offset>
-          </Offsets>
-        </CheatEntry>
-      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>10</ID>
@@ -357,33 +266,272 @@ if vars ~= nil then
 end
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"Inventory Items count freeze"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 
+  Date   : 2022-11-27
+  Author : Edgar Han
+
+  This script prevents inventory item count updates when items are
+  dropped or moved
+}
+
+[ENABLE]
+
+aobscanmodule(INV_UPDATE,Fallout4.exe,FF 10 48 8D 0D D5 C1 72 05) // should be unique
+
+INV_UPDATE:
+  nop
+  nop
+registersymbol(INV_UPDATE)
+
+[DISABLE]
+
+INV_UPDATE:
+  db FF 10 48 8D 0D D5 C1 72 05
+
+unregistersymbol(INV_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+1A87D2
+
+Fallout4.exe+1A87AE: 48 8B CB              - mov rcx,rbx
+Fallout4.exe+1A87B1: FF 10                 - call qword ptr [rax]
+Fallout4.exe+1A87B3: 48 8B 1E              - mov rbx,[rsi]
+Fallout4.exe+1A87B6: 49 8B 3F              - mov rdi,[r15]
+Fallout4.exe+1A87B9: 48 8D 0D F0 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
+Fallout4.exe+1A87C0: FF 15 72 ED A6 02     - call qword ptr [Fallout4.exe+2C17538]
+Fallout4.exe+1A87C6: 49 8B 06              - mov rax,[r14]
+Fallout4.exe+1A87C9: 4C 8B C3              - mov r8,rbx
+Fallout4.exe+1A87CC: 48 8B D7              - mov rdx,rdi
+Fallout4.exe+1A87CF: 49 8B CE              - mov rcx,r14
+// ---------- INJECTING HERE ----------
+Fallout4.exe+1A87D2: FF 10                 - call qword ptr [rax]
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+1A87D4: 48 8D 0D D5 C1 72 05  - lea rcx,[Fallout4.exe+58D49B0]
+Fallout4.exe+1A87DB: FF 15 4F ED A6 02     - call qword ptr [Fallout4.exe+2C17530]
+Fallout4.exe+1A87E1: 48 8B 7C 24 50        - mov rdi,[rsp+50]
+Fallout4.exe+1A87E6: 48 8B 5C 24 40        - mov rbx,[rsp+40]
+Fallout4.exe+1A87EB: 48 8B 0E              - mov rcx,[rsi]
+Fallout4.exe+1A87EE: 4C 8B 7C 24 20        - mov r15,[rsp+20]
+Fallout4.exe+1A87F3: 4C 8B 74 24 28        - mov r14,[rsp+28]
+Fallout4.exe+1A87F8: 48 8B 74 24 48        - mov rsi,[rsp+48]
+Fallout4.exe+1A87FD: 48 85 C9              - test rcx,rcx
+Fallout4.exe+1A8800: 74 16                 - je Fallout4.exe+1A8818
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"Inf Ammo Clip"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 
+  Date   : 2022-11-27
+  Author : Edgar Han
+
+  This script includes the Inventory Items count freeze
+}
+
+[ENABLE]
+
+aobscanmodule(CLIP_UPDATE,Fallout4.exe,74 03 89 59 18) // should be unique
+
+CLIP_UPDATE:
+  db EB 03
+registersymbol(CLIP_UPDATE)
+
+[DISABLE]
+
+CLIP_UPDATE:
+  db 74 03 89 59 18
+
+unregistersymbol(*)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+E70873
+
+Fallout4.exe+CABB80 - 40 53                 - push rbx
+Fallout4.exe+CABB82 - 48 83 EC 30           - sub rsp,30
+Fallout4.exe+CABB86 - 41 8B D8              - mov ebx,r8d
+Fallout4.exe+CABB89 - 48 C7 44 24 20 00000000 - mov qword ptr [rsp+20],00000000
+Fallout4.exe+CABB92 - 4C 8D 44 24 20        - lea r8,[rsp+20]
+Fallout4.exe+CABB97 - E8 04970100           - call Fallout4.exe+CC52A0
+Fallout4.exe+CABB9C - 48 8B 4C 24 20        - mov rcx,[rsp+20]
+Fallout4.exe+CABBA1 - 84 C0                 - test al,al
+
+Fallout4.exe+CABBA3 - 74 03                 - je Fallout4.exe+CABBA8
+Fallout4.exe+CABBA5 - 89 59 18              - mov [rcx+18],ebx
+
+Fallout4.exe+CABBA8 - 48 85 C9              - test rcx,rcx
+Fallout4.exe+CABBAB - 74 20                 - je Fallout4.exe+CABBCD
+Fallout4.exe+CABBAD - B8 FFFFFFFF           - mov eax,FFFFFFFF
+Fallout4.exe+CABBB2 - F0 0FC1 41 08         - lock xadd [rcx+08],eax
+Fallout4.exe+CABBB7 - 83 F8 01              - cmp eax,01
+Fallout4.exe+CABBBA - 75 11                 - jne Fallout4.exe+CABBCD
+Fallout4.exe+CABBBC - 48 8B 4C 24 20        - mov rcx,[rsp+20]
+Fallout4.exe+CABBC1 - 48 8B 01              - mov rax,[rcx]
+Fallout4.exe+CABBC4 - 48 83 C4 30           - add rsp,30
+Fallout4.exe+CABBC8 - 5B                    - pop rbx
+Fallout4.exe+CABBC9 - 48 FF 60 08           - jmp qword ptr [rax+08]
+Fallout4.exe+CABBCD - 48 83 C4 30           - add rsp,30
+Fallout4.exe+CABBD1 - 5B                    - pop rbx
+
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4</ID>
+          <Description>"Player Current Weight"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 
+  Date   : 2022-08-15
+  Author : Edgar Han
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(WEIGHT,Fallout4.exe,89 47 70 F3 0F 10 47 70) // should be unique
+alloc(newmem,$1000,WEIGHT)
+registersymbol(WEIGHT_BASE)
+label(code)
+label(return)
+
+newmem:
+  mov [WEIGHT_BASE],rdi
+
+code:
+  mov [rdi+70],eax
+  movss xmm0,[rdi+70]
+  jmp return
+
+WEIGHT_BASE:
+  dq 0
+
+WEIGHT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(WEIGHT)
+
+[DISABLE]
+
+WEIGHT:
+  db 89 47 70 F3 0F 10 47 70
+
+unregistersymbol(*)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+1AC9B0
+
+Fallout4.exe+1AC98A: E8 A1 3F 96 01  - call Fallout4.exe+1B10930
+Fallout4.exe+1AC98F: 48 8D 4F 58     - lea rcx,[rdi+58]
+Fallout4.exe+1AC993: 48 8B D6        - mov rdx,rsi
+Fallout4.exe+1AC996: E8 15 31 00 00  - call Fallout4.exe+1AFAB0
+Fallout4.exe+1AC99B: 48 85 DB        - test rbx,rbx
+Fallout4.exe+1AC99E: 74 08           - je Fallout4.exe+1AC9A8
+Fallout4.exe+1AC9A0: 48 8B CB        - mov rcx,rbx
+Fallout4.exe+1AC9A3: E8 48 42 96 01  - call Fallout4.exe+1B10BF0
+Fallout4.exe+1AC9A8: 8B 46 08        - mov eax,[rsi+08]
+Fallout4.exe+1AC9AB: 48 8B 5C 24 30  - mov rbx,[rsp+30]
+// ---------- INJECTING HERE ----------
+Fallout4.exe+1AC9B0: 89 47 70        - mov [rdi+70],eax
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+1AC9B3: F3 0F 10 47 70  - movss xmm0,[rdi+70]
+Fallout4.exe+1AC9B8: 48 8B 74 24 38  - mov rsi,[rsp+38]
+Fallout4.exe+1AC9BD: 48 83 C4 20     - add rsp,20
+Fallout4.exe+1AC9C1: 5F              - pop rdi
+Fallout4.exe+1AC9C2: C3              - ret 
+Fallout4.exe+1AC9C3: F3 0F 10 41 70  - movss xmm0,[rcx+70]
+Fallout4.exe+1AC9C8: 48 8B 74 24 38  - mov rsi,[rsp+38]
+Fallout4.exe+1AC9CD: 48 83 C4 20     - add rsp,20
+Fallout4.exe+1AC9D1: 5F              - pop rdi
+Fallout4.exe+1AC9D2: C3              - ret 
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>5</ID>
+              <Description>"Current Weight"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>WEIGHT_BASE</Address>
+              <Offsets>
+                <Offset>70</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"Inventory Does not update"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Fallout4.exe
+  Version: 1.10.980.0.1
+  Date   : 2024-04-29
+  Author : bboyh
+
+  This script prevents inventory item count updates when items are
+  dropped or moved
+}
+
+[ENABLE]
+
+aobscanmodule(DROP_ITEM,Fallout4.exe,FF 10 48 8D 0D 27 0F B7 02) // should be unique
+DROP_ITEM:
+  db 90 90
+registersymbol(DROP_ITEM)
+
+[DISABLE]
+
+DROP_ITEM:
+  db FF 10 48 8D 0D 27 0F B7 02
+
+unregistersymbol(DROP_ITEM)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+2F8010
+
+Fallout4.exe+2F7FEB: 48 8B CB              - mov rcx,rbx
+Fallout4.exe+2F7FEE: FF 10                 - call qword ptr [rax]
+Fallout4.exe+2F7FF0: 49 8B 1E              - mov rbx,[r14]
+Fallout4.exe+2F7FF3: 48 8D 0D 46 0F B7 02  - lea rcx,[Fallout4.exe+2E68F40]
+Fallout4.exe+2F7FFA: 48 8B 7D 00           - mov rdi,[rbp+00]
+Fallout4.exe+2F7FFE: FF 15 04 61 F5 01     - call qword ptr [Fallout4.exe+224E108]
+Fallout4.exe+2F8004: 49 8B 07              - mov rax,[r15]
+Fallout4.exe+2F8007: 4C 8B C3              - mov r8,rbx
+Fallout4.exe+2F800A: 48 8B D7              - mov rdx,rdi
+Fallout4.exe+2F800D: 49 8B CF              - mov rcx,r15
+// ---------- INJECTING HERE ----------
+Fallout4.exe+2F8010: FF 10                 - call qword ptr [rax]
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+2F8012: 48 8D 0D 27 0F B7 02  - lea rcx,[Fallout4.exe+2E68F40]
+Fallout4.exe+2F8019: FF 15 F1 60 F5 01     - call qword ptr [Fallout4.exe+224E110]
+Fallout4.exe+2F801F: 49 8B 0E              - mov rcx,[r14]
+Fallout4.exe+2F8022: 48 8B 7C 24 50        - mov rdi,[rsp+50]
+Fallout4.exe+2F8027: 48 8B 5C 24 40        - mov rbx,[rsp+40]
+Fallout4.exe+2F802C: 4C 8B 7C 24 20        - mov r15,[rsp+20]
+Fallout4.exe+2F8031: 4C 8B 74 24 28        - mov r14,[rsp+28]
+Fallout4.exe+2F8036: 48 8B 6C 24 48        - mov rbp,[rsp+48]
+Fallout4.exe+2F803B: 48 85 C9              - test rcx,rcx
+Fallout4.exe+2F803E: 74 17                 - je Fallout4.exe+2F8057
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax]</Description>
-      <AddressString>Fallout4.exe+1A87D2</AddressString>
-      <Before>
-        <Byte>8B</Byte>
-        <Byte>D7</Byte>
-        <Byte>49</Byte>
-        <Byte>8B</Byte>
-        <Byte>CE</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>10</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8D</Byte>
-        <Byte>0D</Byte>
-        <Byte>D5</Byte>
-        <Byte>C1</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
