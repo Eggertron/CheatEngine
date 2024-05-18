@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>229</ID>
-      <Description>"Version: 120697"</Description>
+      <Description>"Version: 121808"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -27,7 +27,7 @@
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 120697
+  Version: 121808
   Date   : 2023-06-29
   Author : bboyh
 
@@ -37,7 +37,7 @@
 [ENABLE]
 
 
-aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B 8C 24 20 01 00 00 48) // should be unique
+aobscanmodule(ITEM_DEC_RECHARGE,NMS.exe,44 8B 8C 24 10 01 00 00 48) // should be unique
 ITEM_DEC_RECHARGE:
   xor r9d,r9d
   db 90 90 90 90 90
@@ -47,7 +47,7 @@ registersymbol(ITEM_DEC_RECHARGE)
 [DISABLE]
 
 ITEM_DEC_RECHARGE:
-  db 44 8B 8C 24 20 01 00 00
+  db 44 8B 8C 24 10 01 00 00
 
 unregistersymbol(ITEM_DEC_RECHARGE)
 
@@ -65,7 +65,7 @@ NMS.exe+3F4E71: 48 89 44 24 70           - mov [rsp+70],rax
 NMS.exe+3F4E76: 01 58 18                 - add [rax+18],ebx
 NMS.exe+3F4E79: E8 B2 CF 01 00           - call NMS.exe+411E30
 // ---------- INJECTING HERE ----------
-NMS.exe+3F4E7E: 44 8B 8C 24 20 01 00 00  - mov r9d,[rsp+00000120]
+NMS.exe+3F2920 - 44 8B 8C 24 10010000  - mov r9d,[rsp+00000110]
 // ---------- DONE INJECTING  ----------
 NMS.exe+3F4E86: 48 8B E8                 - mov rbp,rax
 NMS.exe+3F4E89: 44 29 48 18              - sub [rax+18],r9d
@@ -83,10 +83,10 @@ NMS.exe+3F4EAB: 74 51                    - je NMS.exe+3F4EFE
     <CheatEntry>
       <ID>248</ID>
       <Description>"Inf Items (Sell/Crafting)"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 120697
+  Version: 121808
   Date   : 2023-06-29
   Author : bboyh
 
@@ -145,7 +145,7 @@ NMS.exe+3EE4AD: 84 C0                 - test al,al
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : NMS.exe
-  Version: 120697
+  Version: 121808
   Date   : 2023-06-29
   Author : bboyh
 
