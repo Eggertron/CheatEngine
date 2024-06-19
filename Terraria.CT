@@ -251,8 +251,8 @@ Terraria.Player::PickAmmo+8DA: 5B                    - pop ebx
         </CheatEntry>
         <CheatEntry>
           <ID>43</ID>
-          <Description>"Inf Crafting Anvil"</Description>
-          <LastState Activated="1"/>
+          <Description>"Inf Crafting Anvil (broken)"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Terraria.exe
   Version: 
@@ -303,6 +303,63 @@ Terraria.Recipe::Create+3C6: 8B 4C 90 08           - mov ecx,[eax+edx*4+08]
 Terraria.Recipe::Create+3CA: 8B 91 3C 05 00 00     - mov edx,[ecx+0000053C]
 Terraria.Recipe::Create+3D0: 85 D2                 - test edx,edx
 Terraria.Recipe::Create+3D2: 7C 2B                 - jl Terraria.Recipe::Create+3FF
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>46</ID>
+          <Description>"Right Click on Item for unlimited split"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Terraria.exe
+  Version: 
+  Date   : 2024-06-11
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(PICKUP_DEC,FF 89 B4 00 00 00 8B 45 F0) // should be unique
+
+PICKUP_DEC:
+  db 90 90 90 90 90 90
+registersymbol(PICKUP_DEC)
+
+[DISABLE]
+
+PICKUP_DEC:
+  db FF 89 B4 00 00 00
+
+unregistersymbol(PICKUP_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Terraria.UI.ItemSlot::PickupItemIntoMouse+F7
+
+Terraria.UI.ItemSlot::PickupItemIntoMouse+D1: 53                    - push ebx
+Terraria.UI.ItemSlot::PickupItemIntoMouse+D2: E8 01 CD FF FF        - call Terraria.UI.ItemSlot::AnnounceTransfer
+Terraria.UI.ItemSlot::PickupItemIntoMouse+D7: A1 EC 5D B0 06        - mov eax,[06B05DEC]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+DC: FF 80 B4 00 00 00     - inc [eax+000000B4]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+E2: 83 FE 1D              - cmp esi,1D
+Terraria.UI.ItemSlot::PickupItemIntoMouse+E5: 74 16                 - je Terraria.UI.ItemSlot::PickupItemIntoMouse+FD
+Terraria.UI.ItemSlot::PickupItemIntoMouse+E7: 8B 45 F0              - mov eax,[ebp-10]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+EA: 3B 78 04              - cmp edi,[eax+04]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+ED: 0F 83 11 02 00 00     - jae Terraria.UI.ItemSlot::PickupItemIntoMouse+304
+Terraria.UI.ItemSlot::PickupItemIntoMouse+F3: 8B 4C B8 08           - mov ecx,[eax+edi*4+08]
+// ---------- INJECTING HERE ----------
+Terraria.UI.ItemSlot::PickupItemIntoMouse+F7: FF 89 B4 00 00 00     - dec [ecx+000000B4]
+// ---------- DONE INJECTING  ----------
+Terraria.UI.ItemSlot::PickupItemIntoMouse+FD: 8B 45 F0              - mov eax,[ebp-10]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+100: 3B 78 04              - cmp edi,[eax+04]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+103: 0F 83 FB 01 00 00     - jae Terraria.UI.ItemSlot::PickupItemIntoMouse+304
+Terraria.UI.ItemSlot::PickupItemIntoMouse+109: 8B 4C B8 08           - mov ecx,[eax+edi*4+08]
+Terraria.UI.ItemSlot::PickupItemIntoMouse+10D: 83 B9 B4 00 00 00 00  - cmp dword ptr [ecx+000000B4],00
+Terraria.UI.ItemSlot::PickupItemIntoMouse+114: 7F 1E                 - jg Terraria.UI.ItemSlot::PickupItemIntoMouse+134
+Terraria.UI.ItemSlot::PickupItemIntoMouse+116: B9 78 0C 73 08        - mov ecx,08730C78
+Terraria.UI.ItemSlot::PickupItemIntoMouse+11B: E8 08 4B BB D9        - call 045D30C8
+Terraria.UI.ItemSlot::PickupItemIntoMouse+120: 8B D8                 - mov ebx,eax
+Terraria.UI.ItemSlot::PickupItemIntoMouse+122: 8B CB                 - mov ecx,ebx
 }
 </AssemblerScript>
         </CheatEntry>
