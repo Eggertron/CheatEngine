@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version: 0.8.2.10487"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call AbioticFactor-Win64-Shipping.UFunction::Invoke</Description>
+      <AddressString>AbioticFactor-Win64-Shipping.exe+E54D90</AddressString>
+      <Before>
+        <Byte>8B</Byte>
+        <Byte>D5</Byte>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+        <Byte>CF</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>0B</Byte>
+        <Byte>FD</Byte>
+        <Byte>EF</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>EB</Byte>
+        <Byte>2D</Byte>
+        <Byte>4D</Byte>
+        <Byte>8B</Byte>
+        <Byte>CF</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <Comments>Items are 4 bytes</Comments>
+  <LuaScript>getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+</LuaScript>
+</CheatTable>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Version: 1.0 50204"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Enable"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+{$lua}
+  getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+  mono_initialize()
+  LaunchMonoDataCollector()
+{$asm}
+[DISABLE]
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Inf Items, equiping weapons will freeze game"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2024-07-02
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(Sons.Inventory.ItemInstanceManager.TryRemoveItem,48 89 5C 24 10)
+
+assert(Sons.Inventory.ItemInstanceManager.RemoveItems,48 89 5C 24 18)
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem:
+  db C3
+
+Sons.Inventory.ItemInstanceManager.RemoveItems:
+  db C3
+
+[DISABLE]
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem:
+  db 48 89 5C 24 10
+  // mov [rsp+10],rbx
+
+Sons.Inventory.ItemInstanceManager.RemoveItems:
+  db 48 89 5C 24 18
+  // mov [rsp+18],rbx
+
+{
+// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.TryRemoveItem
+
+GameAssembly.dll+3870B57: FF 50 18              - call qword ptr [rax+18]
+GameAssembly.dll+3870B5A: 8B C3                 - mov eax,ebx
+GameAssembly.dll+3870B5C: 48 8B 5C 24 50        - mov rbx,[rsp+50]
+GameAssembly.dll+3870B61: 48 83 C4 20           - add rsp,20
+GameAssembly.dll+3870B65: 41 5E                 - pop r14
+GameAssembly.dll+3870B67: 5F                    - pop rdi
+GameAssembly.dll+3870B68: 5E                    - pop rsi
+GameAssembly.dll+3870B69: C3                    - ret 
+GameAssembly.dll+3870B6A: E8 A1 F2 D1 FC        - call GameAssembly.il2cpp_value_box+1A0
+GameAssembly.dll+3870B6F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+Sons.Inventory.ItemInstanceManager.TryRemoveItem: 48 89 5C 24 10        - mov [rsp+10],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+3870B75: 48 89 74 24 18        - mov [rsp+18],rsi
+GameAssembly.dll+3870B7A: 57                    - push rdi
+GameAssembly.dll+3870B7B: 48 83 EC 20           - sub rsp,20
+GameAssembly.dll+3870B7F: 80 3D A9 AE C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2F],00
+GameAssembly.dll+3870B86: 48 8B DA              - mov rbx,rdx
+GameAssembly.dll+3870B89: 48 8B F9              - mov rdi,rcx
+GameAssembly.dll+3870B8C: 75 37                 - jne GameAssembly.dll+3870BC5
+GameAssembly.dll+3870B8E: 48 8D 0D 83 9A 94 02  - lea rcx,[GameAssembly.dll+61BA618]
+GameAssembly.dll+3870B95: E8 66 AE D4 FC        - call GameAssembly.dll+5BBA00
+GameAssembly.dll+3870B9A: 48 8D 0D A7 9A 94 02  - lea rcx,[GameAssembly.dll+61BA648]
+}
+
+{
+// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.RemoveItems
+
+GameAssembly.dll+3870A16: CC                    - int 3
+GameAssembly.dll+3870A17: CC                    - int 3
+GameAssembly.dll+3870A18: CC                    - int 3
+GameAssembly.dll+3870A19: CC                    - int 3
+GameAssembly.dll+3870A1A: CC                    - int 3
+GameAssembly.dll+3870A1B: CC                    - int 3
+GameAssembly.dll+3870A1C: CC                    - int 3
+GameAssembly.dll+3870A1D: CC                    - int 3
+GameAssembly.dll+3870A1E: CC                    - int 3
+GameAssembly.dll+3870A1F: CC                    - int 3
+// ---------- INJECTING HERE ----------
+Sons.Inventory.ItemInstanceManager.RemoveItems: 48 89 5C 24 18        - mov [rsp+18],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+3870A25: 56                    - push rsi
+GameAssembly.dll+3870A26: 57                    - push rdi
+GameAssembly.dll+3870A27: 41 56                 - push r14
+GameAssembly.dll+3870A29: 48 83 EC 20           - sub rsp,20
+GameAssembly.dll+3870A2D: 80 3D FA AF C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2E],00
+GameAssembly.dll+3870A34: 45 0F B6 F1           - movzx r14d,r9b
+GameAssembly.dll+3870A38: 41 8B D8              - mov ebx,r8d
+GameAssembly.dll+3870A3B: 8B F2                 - mov esi,edx
+GameAssembly.dll+3870A3D: 48 8B F9              - mov rdi,rcx
+GameAssembly.dll+3870A40: 75 37                 - jne GameAssembly.dll+3870A79
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Structures StructVersion="2">
+    <Structure Name="Items" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="Count" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="MaxCount" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="UniqueInstances" DisplayMethod="unsigned integer">
+          <Structure Name="List`1" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+            <Elements>
+              <Element Offset="16" Vartype="Pointer" Bytesize="8" OffsetHex="00000010" Description="_items" DisplayMethod="unsigned integer">
+                <Structure Name="ItemInstance[]" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                  <Elements>
+                    <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="Count" DisplayMethod="unsigned integer"/>
+                    <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="Item[0]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="Item[1]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="Item[2]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="56" Vartype="Pointer" Bytesize="8" OffsetHex="00000038" Description="Item[3]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="64" Vartype="Pointer" Bytesize="8" OffsetHex="00000040" Description="Item[4]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="72" Vartype="Pointer" Bytesize="8" OffsetHex="00000048" Description="Item[5]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="80" Vartype="Pointer" Bytesize="8" OffsetHex="00000050" Description="Item[6]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="88" Vartype="Pointer" Bytesize="8" OffsetHex="00000058" Description="Item[7]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="96" Vartype="Pointer" Bytesize="8" OffsetHex="00000060" Description="Item[8]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                    <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="Item[9]" DisplayMethod="unsigned integer">
+                      <Structure Name="Sons.Inventory.ItemInstance" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+                        <Elements>
+                          <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="_itemID" DisplayMethod="unsigned integer"/>
+                          <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" Description="_itemRenderable" DisplayMethod="unsigned integer"/>
+                          <Element Offset="32" Vartype="Pointer" Bytesize="8" OffsetHex="00000020" Description="_data" DisplayMethod="unsigned integer"/>
+                          <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" Description="&lt;ItemObject&gt;k__BackingField" DisplayMethod="unsigned integer"/>
+                          <Element Offset="48" Vartype="Pointer" Bytesize="8" OffsetHex="00000030" Description="_modules" DisplayMethod="unsigned integer"/>
+                        </Elements>
+                      </Structure>
+                    </Element>
+                  </Elements>
+                </Structure>
+              </Element>
+              <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="_size" DisplayMethod="unsigned integer"/>
+              <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="_version" DisplayMethod="unsigned integer"/>
+              <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="_syncRoot" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
+      </Elements>
+    </Structure>
+  </Structures>
+  <Comments>items are 4 bytes, but if you are holding one item in your hand that is 1 less than what you have in your inventory.
+</Comments>
+  <LuaScript>getApplication().Title="framerates"
+  getMainForm().Caption="framerates"
+</LuaScript>
+</CheatTable>
