@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>1</ID>
-      <Description>"Version: 1.29"</Description>
+      <Description>"Version: 1.28"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <Color>0000FF</Color>
       <GroupHeader>1</GroupHeader>
@@ -209,7 +209,7 @@ Spel2.exe+229D61FC: 4D 85 E4                          - test r12,r12
     </CheatEntry>
     <CheatEntry>
       <ID>11</ID>
-      <Description>"Player Invincible"</Description>
+      <Description>"Player (and friends) Invincible except by ghost and olmec"</Description>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
