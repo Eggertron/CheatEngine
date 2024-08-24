@@ -26,7 +26,7 @@
         <CheatEntry>
           <ID>60</ID>
           <Description>"Instant Kill"</Description>
-          <LastState Activated="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
   Version: 
@@ -102,7 +102,7 @@ Stat:set_Value+b5: 90                             - nop
         </CheatEntry>
         <CheatEntry>
           <ID>52</ID>
-          <Description>"Press G to drop inf (Like drinking water)"</Description>
+          <Description>"Press G to drop inf (Like drinking water, WARNING turn off before return supply quests or item will be stuck)"</Description>
           <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : 7DaysToDie.exe
