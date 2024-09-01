@@ -9,9 +9,213 @@
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
+      <ID>15</ID>
+      <Description>"Pick up money, get 99 health and monly multiplier"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2024-08-23
+  Author : bboyh
+
+  When money is picked up. offline mode.
+  Money is 4 bytes.
+}
+
+[ENABLE]
+
+aobscanmodule(GOLD_ADD,Spel2.exe,49 8B 80 40 01 00 00 44) // should be unique
+alloc(newmem,$100,GOLD_ADD)
+
+label(code)
+label(return)
+
+newmem:
+  mov rax,[r8+00000140]
+code:
+  // copy the next instruction as many times for multiplier
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  add [rax],r9d
+  // move 99 into health, ropes and bombs
+  mov rbp,63 // move 99 into register
+  mov [r8+00000117],rbp  // move 99 to health
+  jmp return
+
+GOLD_ADD:
+  jmp newmem
+  nop 2
+return:
+registersymbol(GOLD_ADD)
+
+[DISABLE]
+
+GOLD_ADD:
+  db 49 8B 80 40 01 00 00
+
+unregistersymbol(GOLD_ADD)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Spel2.exe+22CA9FA7
+
+Spel2.exe+22CA9F81: 49 89 C0                 - mov r8,rax
+Spel2.exe+22CA9F84: E9 D6 FE FF FF           - jmp Spel2.exe+22CA9E5F
+Spel2.exe+22CA9F89: 45 31 C0                 - xor r8d,r8d
+Spel2.exe+22CA9F8C: E9 CE FE FF FF           - jmp Spel2.exe+22CA9E5F
+Spel2.exe+22CA9F91: 45 31 C0                 - xor r8d,r8d
+Spel2.exe+22CA9F94: E9 C6 FE FF FF           - jmp Spel2.exe+22CA9E5F
+Spel2.exe+22CA9F99: 49 83 B8 58 01 00 00 00  - cmp qword ptr [r8+00000158],00
+Spel2.exe+22CA9FA1: 74 04                    - je Spel2.exe+22CA9FA7
+Spel2.exe+22CA9FA3: 31 C0                    - xor eax,eax
+Spel2.exe+22CA9FA5: EB 75                    - jmp Spel2.exe+22CAA01C
+// ---------- INJECTING HERE ----------
+Spel2.exe+22CA9FA7: 49 8B 80 40 01 00 00     - mov rax,[r8+00000140]
+// ---------- DONE INJECTING  ----------
+Spel2.exe+22CA9FAE: 44 01 08                 - add [rax],r9d
+Spel2.exe+22CA9FB1: 49 8B 80 40 01 00 00     - mov rax,[r8+00000140]
+Spel2.exe+22CA9FB8: 48 63 A8 20 10 00 00     - movsxd  rbp,dword ptr [rax+00001020]
+Spel2.exe+22CA9FBF: 48 81 FD FF 01 00 00     - cmp rbp,000001FF
+Spel2.exe+22CA9FC6: 7F 2C                    - jg Spel2.exe+22CA9FF4
+Spel2.exe+22CA9FC8: 8B 5C 24 68              - mov ebx,[rsp+68]
+Spel2.exe+22CA9FCC: 89 5C A8 20              - mov [rax+rbp*4+20],ebx
+Spel2.exe+22CA9FD0: 49 8B 80 40 01 00 00     - mov rax,[r8+00000140]
+Spel2.exe+22CA9FD7: 48 63 A8 20 10 00 00     - movsxd  rbp,dword ptr [rax+00001020]
+Spel2.exe+22CA9FDE: 44 89 8C A8 20 08 00 00  - mov [rax+rbp*4+00000820],r9d
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"99 Bombs on Use"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2024-08-23
+  Author : bboyh
+
+  The code already compares ecx with 99 so let's leave that at 99
+  by removing the code that compares and replaces with a lower number.
+}
+
+[ENABLE]
+
+aobscanmodule(BOMB_USE,Spel2.exe,0F 42 CA 31 D2 85 C9 0F 4F D1 88 50 04 80) // should be unique
+
+BOMB_USE:
+  db 90 90 90
+registersymbol(BOMB_USE)
+
+[DISABLE]
+
+BOMB_USE:
+  db 0F 42 CA 31 D2
+
+unregistersymbol(BOMB_USE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Spel2.exe+229953F7
+
+Spel2.exe+229953CD: 0F 29 74 24 30        - movaps [rsp+30],xmm6
+Spel2.exe+229953D2: 48 89 D6              - mov rsi,rdx
+Spel2.exe+229953D5: 48 89 CF              - mov rdi,rcx
+Spel2.exe+229953D8: 48 8B 01              - mov rax,[rcx]
+Spel2.exe+229953DB: FF 90 C0 01 00 00     - call qword ptr [rax+000001C0]
+Spel2.exe+229953E1: 48 8B 86 40 01 00 00  - mov rax,[rsi+00000140]
+Spel2.exe+229953E8: 0F B6 48 04           - movzx ecx,byte ptr [rax+04]
+Spel2.exe+229953EC: 8D 51 FF              - lea edx,[rcx-01]
+Spel2.exe+229953EF: 83 F9 64              - cmp ecx,64
+Spel2.exe+229953F2: B9 63 00 00 00        - mov ecx,00000063
+// ---------- INJECTING HERE ----------
+Spel2.exe+229953F7: 0F 42 CA              - cmovb ecx,edx
+// ---------- DONE INJECTING  ----------
+Spel2.exe+229953FA: 31 D2                 - xor edx,edx
+Spel2.exe+229953FC: 85 C9                 - test ecx,ecx
+Spel2.exe+229953FE: 0F 4F D1              - cmovg edx,ecx
+Spel2.exe+22995401: 88 50 04              - mov [rax+04],dl
+Spel2.exe+22995404: 80 BE 14 01 00 00 05  - cmp byte ptr [rsi+00000114],05
+Spel2.exe+2299540B: 40 0F 94 C5           - sete bpl
+Spel2.exe+2299540F: 48 8B 4E 10           - mov rcx,[rsi+10]
+Spel2.exe+22995413: 48 85 C9              - test rcx,rcx
+Spel2.exe+22995416: 74 2D                 - je Spel2.exe+22995445
+Spel2.exe+22995418: 48 8B 41 08           - mov rax,[rcx+08]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"99 Ropes and Health on Use"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Spel2.exe
+  Version: 
+  Date   : 2024-08-23
+  Author : bboyh
+
+  Code that dec rope count when used.
+}
+
+[ENABLE]
+
+aobscanmodule(ROPE_USE,Spel2.exe,0F 42 CA 31 D2 85 C9 0F 4F D1 88 50 05) // should be unique
+
+ROPE_USE:
+  // db 90 90 90
+  cmovb edx,ecx
+  mov [r15+00000117],dl  // move 99 into the health offset
+registersymbol(ROPE_USE)
+
+[DISABLE]
+
+ROPE_USE:
+  db 0F 42 CA 31 D2 85 C9 0F 4F D1
+
+unregistersymbol(ROPE_USE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Spel2.exe+229D61DD
+
+Spel2.exe+229D61A9: 08 C1                             - or cl,al
+Spel2.exe+229D61AB: 41 88 8E 2F 01 00 00              - mov [r14+0000012F],cl
+Spel2.exe+229D61B2: EB 13                             - jmp Spel2.exe+229D61C7
+Spel2.exe+229D61B4: 41 C7 86 F4 00 00 00 FF FF FF FF  - mov [r14+000000F4],FFFFFFFF
+Spel2.exe+229D61BF: 41 80 8E 2F 01 00 00 F0           - or byte ptr [r14+0000012F],-10
+Spel2.exe+229D61C7: 49 8B 87 40 01 00 00              - mov rax,[r15+00000140]
+Spel2.exe+229D61CE: 0F B6 48 05                       - movzx ecx,byte ptr [rax+05]
+Spel2.exe+229D61D2: 8D 51 FF                          - lea edx,[rcx-01]
+Spel2.exe+229D61D5: 83 F9 64                          - cmp ecx,64
+Spel2.exe+229D61D8: B9 63 00 00 00                    - mov ecx,00000063
+// ---------- INJECTING HERE ----------
+Spel2.exe+229D61DD: 0F 42 CA                          - cmovb ecx,edx
+// ---------- DONE INJECTING  ----------
+Spel2.exe+229D61E0: 31 D2                             - xor edx,edx
+Spel2.exe+229D61E2: 85 C9                             - test ecx,ecx
+Spel2.exe+229D61E4: 0F 4F D1                          - cmovg edx,ecx
+Spel2.exe+229D61E7: 88 50 05                          - mov [rax+05],dl
+Spel2.exe+229D61EA: 41 8A 87 14 01 00 00              - mov al,[r15+00000114]
+Spel2.exe+229D61F1: 4D 89 FC                          - mov r12,r15
+Spel2.exe+229D61F4: 3C 02                             - cmp al,02
+Spel2.exe+229D61F6: 75 23                             - jne Spel2.exe+229D621B
+Spel2.exe+229D61F8: 4D 8B 67 10                       - mov r12,[r15+10]
+Spel2.exe+229D61FC: 4D 85 E4                          - test r12,r12
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>2</ID>
       <Description>"Money Multiplier on Pickup"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -89,123 +293,6 @@ Spel2.exe+22CA9FCC: 89 5C A8 20              - mov [rax+rbp*4+20],ebx
 Spel2.exe+22CA9FD0: 49 8B 80 40 01 00 00     - mov rax,[r8+00000140]
 Spel2.exe+22CA9FD7: 48 63 A8 20 10 00 00     - movsxd  rbp,dword ptr [rax+00001020]
 Spel2.exe+22CA9FDE: 44 89 8C A8 20 08 00 00  - mov [rax+rbp*4+00000820],r9d
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>7</ID>
-      <Description>"99 Bombs on Use"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Spel2.exe
-  Version: 
-  Date   : 2024-08-23
-  Author : bboyh
-
-  The code already compares ecx with 99 so let's leave that at 99
-  by removing the code that compares and replaces with a lower number.
-}
-
-[ENABLE]
-
-aobscanmodule(BOMB_USE,Spel2.exe,0F 42 CA 31 D2 85 C9 0F 4F D1 88 50 04 80) // should be unique
-
-BOMB_USE:
-  db 90 90 90
-registersymbol(BOMB_USE)
-
-[DISABLE]
-
-BOMB_USE:
-  db 0F 42 CA 31 D2
-
-unregistersymbol(BOMB_USE)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Spel2.exe+229953F7
-
-Spel2.exe+229953CD: 0F 29 74 24 30        - movaps [rsp+30],xmm6
-Spel2.exe+229953D2: 48 89 D6              - mov rsi,rdx
-Spel2.exe+229953D5: 48 89 CF              - mov rdi,rcx
-Spel2.exe+229953D8: 48 8B 01              - mov rax,[rcx]
-Spel2.exe+229953DB: FF 90 C0 01 00 00     - call qword ptr [rax+000001C0]
-Spel2.exe+229953E1: 48 8B 86 40 01 00 00  - mov rax,[rsi+00000140]
-Spel2.exe+229953E8: 0F B6 48 04           - movzx ecx,byte ptr [rax+04]
-Spel2.exe+229953EC: 8D 51 FF              - lea edx,[rcx-01]
-Spel2.exe+229953EF: 83 F9 64              - cmp ecx,64
-Spel2.exe+229953F2: B9 63 00 00 00        - mov ecx,00000063
-// ---------- INJECTING HERE ----------
-Spel2.exe+229953F7: 0F 42 CA              - cmovb ecx,edx
-// ---------- DONE INJECTING  ----------
-Spel2.exe+229953FA: 31 D2                 - xor edx,edx
-Spel2.exe+229953FC: 85 C9                 - test ecx,ecx
-Spel2.exe+229953FE: 0F 4F D1              - cmovg edx,ecx
-Spel2.exe+22995401: 88 50 04              - mov [rax+04],dl
-Spel2.exe+22995404: 80 BE 14 01 00 00 05  - cmp byte ptr [rsi+00000114],05
-Spel2.exe+2299540B: 40 0F 94 C5           - sete bpl
-Spel2.exe+2299540F: 48 8B 4E 10           - mov rcx,[rsi+10]
-Spel2.exe+22995413: 48 85 C9              - test rcx,rcx
-Spel2.exe+22995416: 74 2D                 - je Spel2.exe+22995445
-Spel2.exe+22995418: 48 8B 41 08           - mov rax,[rcx+08]
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>5</ID>
-      <Description>"99 Ropes and Health on Use"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Spel2.exe
-  Version: 
-  Date   : 2024-08-23
-  Author : bboyh
-
-  Code that dec rope count when used.
-}
-
-[ENABLE]
-
-aobscanmodule(ROPE_USE,Spel2.exe,0F 42 CA 31 D2 85 C9 0F 4F D1 88 50 05) // should be unique
-
-ROPE_USE:
-  // db 90 90 90
-  cmovb edx,ecx
-  mov [r15+00000117],dl  // move 99 into the health offset
-registersymbol(ROPE_USE)
-
-[DISABLE]
-
-ROPE_USE:
-  db 0F 42 CA 31 D2 85 C9 0F 4F D1
-
-unregistersymbol(ROPE_USE)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Spel2.exe+229D61DD
-
-Spel2.exe+229D61A9: 08 C1                             - or cl,al
-Spel2.exe+229D61AB: 41 88 8E 2F 01 00 00              - mov [r14+0000012F],cl
-Spel2.exe+229D61B2: EB 13                             - jmp Spel2.exe+229D61C7
-Spel2.exe+229D61B4: 41 C7 86 F4 00 00 00 FF FF FF FF  - mov [r14+000000F4],FFFFFFFF
-Spel2.exe+229D61BF: 41 80 8E 2F 01 00 00 F0           - or byte ptr [r14+0000012F],-10
-Spel2.exe+229D61C7: 49 8B 87 40 01 00 00              - mov rax,[r15+00000140]
-Spel2.exe+229D61CE: 0F B6 48 05                       - movzx ecx,byte ptr [rax+05]
-Spel2.exe+229D61D2: 8D 51 FF                          - lea edx,[rcx-01]
-Spel2.exe+229D61D5: 83 F9 64                          - cmp ecx,64
-Spel2.exe+229D61D8: B9 63 00 00 00                    - mov ecx,00000063
-// ---------- INJECTING HERE ----------
-Spel2.exe+229D61DD: 0F 42 CA                          - cmovb ecx,edx
-// ---------- DONE INJECTING  ----------
-Spel2.exe+229D61E0: 31 D2                             - xor edx,edx
-Spel2.exe+229D61E2: 85 C9                             - test ecx,ecx
-Spel2.exe+229D61E4: 0F 4F D1                          - cmovg edx,ecx
-Spel2.exe+229D61E7: 88 50 05                          - mov [rax+05],dl
-Spel2.exe+229D61EA: 41 8A 87 14 01 00 00              - mov al,[r15+00000114]
-Spel2.exe+229D61F1: 4D 89 FC                          - mov r12,r15
-Spel2.exe+229D61F4: 3C 02                             - cmp al,02
-Spel2.exe+229D61F6: 75 23                             - jne Spel2.exe+229D621B
-Spel2.exe+229D61F8: 4D 8B 67 10                       - mov r12,[r15+10]
-Spel2.exe+229D61FC: 4D 85 E4                          - test r12,r12
 }
 </AssemblerScript>
     </CheatEntry>
