@@ -11,7 +11,7 @@
     <CheatEntry>
       <ID>15</ID>
       <Description>"Pick up money, get 99 health and monly multiplier"</Description>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Spel2.exe
   Version: 
@@ -50,6 +50,11 @@ code:
   // move 99 into health, ropes and bombs
   mov rbp,63 // move 99 into register
   mov [r8+00000117],rbp  // move 99 to health
+  push rax
+  mov rax,[r8+0140]  // move pointer for inventory
+  mov [rax+04],rbp   // move 99 to bombs
+  mov [rax+05],rbp   // move 99 to ropes
+  pop rax
   jmp return
 
 GOLD_ADD:
