@@ -121,6 +121,134 @@ Maine-Win64-Shipping.exe+17D878D: 48 8D 8B E8 00 00 00  - lea rcx,[rbx+000000E8]
 }
 </AssemblerScript>
     </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Free Raw Science Purchases"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Maine-Win64-Shipping.exe
+  Version: 
+  Date   : 2024-11-20
+  Author : bboyh
+
+  Raw Science Decrement function
+  make subtract var zero
+}
+
+[ENABLE]
+
+aobscanmodule(RS_DEC,Maine-Win64-Shipping.exe,8B F8 75 4D 99) // should be unique
+
+RS_DEC:
+  xor edi,edi
+registersymbol(RS_DEC)
+
+[DISABLE]
+
+RS_DEC:
+  db 8B F8 75 4D 99
+
+unregistersymbol(RS_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Maine-Win64-Shipping.exe+17645D8
+
+Maine-Win64-Shipping.exe+17645AB: 48 83 EC 40           - sub rsp,40
+Maine-Win64-Shipping.exe+17645AF: 0F 10 02              - movups xmm0,[rdx]
+Maine-Win64-Shipping.exe+17645B2: 4C 89 4C 24 20        - mov [rsp+20],r9
+Maine-Win64-Shipping.exe+17645B7: 48 8D 91 E0 04 00 00  - lea rdx,[rcx+000004E0]
+Maine-Win64-Shipping.exe+17645BE: 45 8B C8              - mov r9d,r8d
+Maine-Win64-Shipping.exe+17645C1: 48 8B D9              - mov rbx,rcx
+Maine-Win64-Shipping.exe+17645C4: 4C 8D 44 24 30        - lea r8,[rsp+30]
+Maine-Win64-Shipping.exe+17645C9: 0F 29 44 24 30        - movaps [rsp+30],xmm0
+Maine-Win64-Shipping.exe+17645CE: E8 3D 27 00 00        - call Maine-Win64-Shipping.exe+1766D10
+Maine-Win64-Shipping.exe+17645D3: 80 7C 24 70 00        - cmp byte ptr [rsp+70],00
+// ---------- INJECTING HERE ----------
+Maine-Win64-Shipping.exe+17645D8: 8B F8                 - mov edi,eax
+// ---------- DONE INJECTING  ----------
+Maine-Win64-Shipping.exe+17645DA: 75 4D                 - jne Maine-Win64-Shipping.exe+1764629
+Maine-Win64-Shipping.exe+17645DC: 99                    - cdq 
+Maine-Win64-Shipping.exe+17645DD: 33 C2                 - xor eax,edx
+Maine-Win64-Shipping.exe+17645DF: 2B C2                 - sub eax,edx
+Maine-Win64-Shipping.exe+17645E1: 85 C0                 - test eax,eax
+Maine-Win64-Shipping.exe+17645E3: 7E 44                 - jle Maine-Win64-Shipping.exe+1764629
+Maine-Win64-Shipping.exe+17645E5: 48 8B 8B A8 00 00 00  - mov rcx,[rbx+000000A8]
+Maine-Win64-Shipping.exe+17645EC: 80 B9 00 01 00 00 03  - cmp byte ptr [rcx+00000100],03
+Maine-Win64-Shipping.exe+17645F3: 75 34                 - jne Maine-Win64-Shipping.exe+1764629
+Maine-Win64-Shipping.exe+17645F5: 8B 4B 30              - mov ecx,[rbx+30]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Raw Science Add Multiplier"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Maine-Win64-Shipping.exe
+  Version: 
+  Date   : 2024-11-20
+  Author : bboyh
+
+  When Raw Science is incremented.
+}
+
+[ENABLE]
+
+aobscanmodule(RS_INC,Maine-Win64-Shipping.exe,01 B9 70 04 00 00) // should be unique
+alloc(newmem,$1000,RS_INC)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  add [rcx+00000470],edi
+  jmp return
+
+RS_INC:
+  jmp newmem
+  nop
+return:
+registersymbol(RS_INC)
+
+[DISABLE]
+
+RS_INC:
+  db 01 B9 70 04 00 00
+
+unregistersymbol(RS_INC)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Maine-Win64-Shipping.exe+173E44A
+
+Maine-Win64-Shipping.exe+173E42C: 8B FA                 - mov edi,edx
+Maine-Win64-Shipping.exe+173E42E: 99                    - cdq 
+Maine-Win64-Shipping.exe+173E42F: 48 8B D9              - mov rbx,rcx
+Maine-Win64-Shipping.exe+173E432: 33 C2                 - xor eax,edx
+Maine-Win64-Shipping.exe+173E434: 2B C2                 - sub eax,edx
+Maine-Win64-Shipping.exe+173E436: 85 C0                 - test eax,eax
+Maine-Win64-Shipping.exe+173E438: 7E 53                 - jle Maine-Win64-Shipping.exe+173E48D
+Maine-Win64-Shipping.exe+173E43A: 48 8B 81 A8 00 00 00  - mov rax,[rcx+000000A8]
+Maine-Win64-Shipping.exe+173E441: 80 B8 00 01 00 00 03  - cmp byte ptr [rax+00000100],03
+Maine-Win64-Shipping.exe+173E448: 75 43                 - jne Maine-Win64-Shipping.exe+173E48D
+// ---------- INJECTING HERE ----------
+Maine-Win64-Shipping.exe+173E44A: 01 B9 70 04 00 00     - add [rcx+00000470],edi
+// ---------- DONE INJECTING  ----------
+Maine-Win64-Shipping.exe+173E450: BA 06 00 00 00        - mov edx,00000006
+Maine-Win64-Shipping.exe+173E455: 8B 49 30              - mov ecx,[rcx+30]
+Maine-Win64-Shipping.exe+173E458: E8 33 AD A5 01        - call Maine-Win64-Shipping.exe+3199190
+Maine-Win64-Shipping.exe+173E45D: 8B 83 70 04 00 00     - mov eax,[rbx+00000470]
+Maine-Win64-Shipping.exe+173E463: 48 8D 8B 58 02 00 00  - lea rcx,[rbx+00000258]
+Maine-Win64-Shipping.exe+173E46A: 48 8D 54 24 40        - lea rdx,[rsp+40]
+Maine-Win64-Shipping.exe+173E46F: 89 44 24 44           - mov [rsp+44],eax
+Maine-Win64-Shipping.exe+173E473: 89 7C 24 40           - mov [rsp+40],edi
+Maine-Win64-Shipping.exe+173E477: E8 94 98 29 FF        - call Maine-Win64-Shipping.exe+9D7D10
+Maine-Win64-Shipping.exe+173E47C: 44 8B 83 70 04 00 00  - mov r8d,[rbx+00000470]
+}
+</AssemblerScript>
+    </CheatEntry>
   </CheatEntries>
   <CheatCodes>
     <CodeEntry>
