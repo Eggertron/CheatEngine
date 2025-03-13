@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Version: 1.0 50204"</Description>
+      <Description>"Version: 1.0 53951"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -23,13 +23,70 @@
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
-          <ID>3</ID>
-          <Description>"[Y] Inf Items Consuming/crafting (equiping weapons will freeze game)"</Description>
+          <ID>23</ID>
+          <Description>"Inf Consume"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  Inf Consume
+}
+
+
+[ENABLE]
+
+assert(Sons.Inventory.InventoryEdibleItem.TryPerformAction+22F,E8 2C 67 F1 FF)
+
+Sons.Inventory.InventoryEdibleItem.TryPerformAction+22F:
+  db 90 90 90 90 90
+
+[DISABLE]
+
+Sons.Inventory.InventoryEdibleItem.TryPerformAction+22F:
+  db E8 2C 67 F1 FF
+  // call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+31CFBBF
+
+GameAssembly.dll+31CFB97: 45 84 FF              - test r15b,r15b
+GameAssembly.dll+31CFB9A: 44 88 64 24 38        - mov [rsp+38],r12b
+GameAssembly.dll+31CFB9F: 48 8B C6              - mov rax,rsi
+GameAssembly.dll+31CFBA2: 49 0F 44 C4           - cmove rax,r12
+GameAssembly.dll+31CFBA6: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+31CFBA9: 48 89 44 24 30        - mov [rsp+30],rax
+GameAssembly.dll+31CFBAE: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+31CFBB1: C6 44 24 28 01        - mov byte ptr [rsp+28],01
+GameAssembly.dll+31CFBB6: 44 88 64 24 20        - mov [rsp+20],r12b
+GameAssembly.dll+31CFBBB: 45 8D 41 01           - lea r8d,[r9+01]
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+31CFBBF: E8 2C 67 F1 FF        - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+31CFBC4: 44 38 65 28           - cmp [rbp+28],r12b
+GameAssembly.dll+31CFBC8: 74 32                 - je GameAssembly.dll+31CFBFC
+GameAssembly.dll+31CFBCA: E8 F1 BE 88 FF        - call HudGui.get_Inventory
+GameAssembly.dll+31CFBCF: 48 85 C0              - test rax,rax
+GameAssembly.dll+31CFBD2: 0F 84 03 01 00 00     - je GameAssembly.dll+31CFCDB
+GameAssembly.dll+31CFBD8: 48 8B 40 20           - mov rax,[rax+20]
+GameAssembly.dll+31CFBDC: 48 85 C0              - test rax,rax
+GameAssembly.dll+31CFBDF: 0F 84 F6 00 00 00     - je GameAssembly.dll+31CFCDB
+GameAssembly.dll+31CFBE5: 48 8B 80 D0 00 00 00  - mov rax,[rax+000000D0]
+GameAssembly.dll+31CFBEC: 48 85 C0              - test rax,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>28</ID>
+          <Description>"Inf Logs"</Description>
           <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : SonsOfTheForest.exe
   Version: 
-  Date   : 2024-07-02
+  Date   : 2025-03-13
   Author : bboyh
 
   This script does blah blah blah
@@ -38,93 +95,102 @@
 
 [ENABLE]
 
-assert(Sons.Inventory.ItemInstanceManager.TryRemoveItem,48 89 5C 24 10)
+assert(ItemManager.ConsumeModuleProfileItem+2FF,E8 DC 5A 58 00)
 
-assert(Sons.Inventory.ItemInstanceManager.RemoveItems,48 89 5C 24 18)
-
-Sons.Inventory.ItemInstanceManager.TryRemoveItem:
-  db C3
-
-Sons.Inventory.ItemInstanceManager.RemoveItems:
-  db C3
+ItemManager.ConsumeModuleProfileItem+2FF:
+  db 90 90 90 90 90
 
 [DISABLE]
 
-Sons.Inventory.ItemInstanceManager.TryRemoveItem:
-  db 48 89 5C 24 10
-  // mov [rsp+10],rbx
+ItemManager.ConsumeModuleProfileItem+2FF:
+  db E8 DC 5A 58 00
+  // call TheForest.Items.Inventory.PlayerInventory.RemoveItem
 
-Sons.Inventory.ItemInstanceManager.RemoveItems:
-  db 48 89 5C 24 18
-  // mov [rsp+18],rbx
 
 {
-// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.TryRemoveItem
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+2B6080F
 
-GameAssembly.dll+3870B57: FF 50 18              - call qword ptr [rax+18]
-GameAssembly.dll+3870B5A: 8B C3                 - mov eax,ebx
-GameAssembly.dll+3870B5C: 48 8B 5C 24 50        - mov rbx,[rsp+50]
-GameAssembly.dll+3870B61: 48 83 C4 20           - add rsp,20
-GameAssembly.dll+3870B65: 41 5E                 - pop r14
-GameAssembly.dll+3870B67: 5F                    - pop rdi
-GameAssembly.dll+3870B68: 5E                    - pop rsi
-GameAssembly.dll+3870B69: C3                    - ret 
-GameAssembly.dll+3870B6A: E8 A1 F2 D1 FC        - call GameAssembly.il2cpp_value_box+1A0
-GameAssembly.dll+3870B6F: CC                    - int 3 
+GameAssembly.dll+2B607E3: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+2B607E6: 0F 84 39 01 00 00     - je GameAssembly.dll+2B60925
+GameAssembly.dll+2B607EC: 8B 53 28              - mov edx,[rbx+28]
+GameAssembly.dll+2B607EF: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+2B607F2: 4C 89 64 24 40        - mov [rsp+40],r12
+GameAssembly.dll+2B607F7: C6 44 24 38 01        - mov byte ptr [rsp+38],01
+GameAssembly.dll+2B607FC: 4C 89 64 24 30        - mov [rsp+30],r12
+GameAssembly.dll+2B60801: 45 8D 41 01           - lea r8d,[r9+01]
+GameAssembly.dll+2B60805: C6 44 24 28 01        - mov byte ptr [rsp+28],01
+GameAssembly.dll+2B6080A: C6 44 24 20 01        - mov byte ptr [rsp+20],01
 // ---------- INJECTING HERE ----------
-Sons.Inventory.ItemInstanceManager.TryRemoveItem: 48 89 5C 24 10        - mov [rsp+10],rbx
+GameAssembly.dll+2B6080F: E8 DC 5A 58 00        - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
 // ---------- DONE INJECTING  ----------
-GameAssembly.dll+3870B75: 48 89 74 24 18        - mov [rsp+18],rsi
-GameAssembly.dll+3870B7A: 57                    - push rdi
-GameAssembly.dll+3870B7B: 48 83 EC 20           - sub rsp,20
-GameAssembly.dll+3870B7F: 80 3D A9 AE C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2F],00
-GameAssembly.dll+3870B86: 48 8B DA              - mov rbx,rdx
-GameAssembly.dll+3870B89: 48 8B F9              - mov rdi,rcx
-GameAssembly.dll+3870B8C: 75 37                 - jne GameAssembly.dll+3870BC5
-GameAssembly.dll+3870B8E: 48 8D 0D 83 9A 94 02  - lea rcx,[GameAssembly.dll+61BA618]
-GameAssembly.dll+3870B95: E8 66 AE D4 FC        - call GameAssembly.dll+5BBA00
-GameAssembly.dll+3870B9A: 48 8D 0D A7 9A 94 02  - lea rcx,[GameAssembly.dll+61BA648]
-}
-
-{
-// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.RemoveItems
-
-GameAssembly.dll+3870A16: CC                    - int 3
-GameAssembly.dll+3870A17: CC                    - int 3
-GameAssembly.dll+3870A18: CC                    - int 3
-GameAssembly.dll+3870A19: CC                    - int 3
-GameAssembly.dll+3870A1A: CC                    - int 3
-GameAssembly.dll+3870A1B: CC                    - int 3
-GameAssembly.dll+3870A1C: CC                    - int 3
-GameAssembly.dll+3870A1D: CC                    - int 3
-GameAssembly.dll+3870A1E: CC                    - int 3
-GameAssembly.dll+3870A1F: CC                    - int 3
-// ---------- INJECTING HERE ----------
-Sons.Inventory.ItemInstanceManager.RemoveItems: 48 89 5C 24 18        - mov [rsp+18],rbx
-// ---------- DONE INJECTING  ----------
-GameAssembly.dll+3870A25: 56                    - push rsi
-GameAssembly.dll+3870A26: 57                    - push rdi
-GameAssembly.dll+3870A27: 41 56                 - push r14
-GameAssembly.dll+3870A29: 48 83 EC 20           - sub rsp,20
-GameAssembly.dll+3870A2D: 80 3D FA AF C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2E],00
-GameAssembly.dll+3870A34: 45 0F B6 F1           - movzx r14d,r9b
-GameAssembly.dll+3870A38: 41 8B D8              - mov ebx,r8d
-GameAssembly.dll+3870A3B: 8B F2                 - mov esi,edx
-GameAssembly.dll+3870A3D: 48 8B F9              - mov rdi,rcx
-GameAssembly.dll+3870A40: 75 37                 - jne GameAssembly.dll+3870A79
+GameAssembly.dll+2B60814: 84 C0                 - test al,al
+GameAssembly.dll+2B60816: 0F 84 05 01 00 00     - je GameAssembly.dll+2B60921
+GameAssembly.dll+2B6081C: 44 38 25 67 CA FD 02  - cmp [GameAssembly.dll+5B3D28A],r12b
+GameAssembly.dll+2B60823: 75 13                 - jne GameAssembly.dll+2B60838
+GameAssembly.dll+2B60825: 48 8D 0D 24 6E CC 02  - lea rcx,[GameAssembly.dll+5827650]
+GameAssembly.dll+2B6082C: E8 8F 01 9E FD        - call GameAssembly.dll+5409C0
+GameAssembly.dll+2B60831: C6 05 52 CA FD 02 01  - mov byte ptr [GameAssembly.dll+5B3D28A],01
+GameAssembly.dll+2B60838: 48 8B 05 11 6E CC 02  - mov rax,[GameAssembly.dll+5827650]
+GameAssembly.dll+2B6083F: 48 8B 90 B8 00 00 00  - mov rdx,[rax+000000B8]
+GameAssembly.dll+2B60846: 48 8B 42 38           - mov rax,[rdx+38]
 }
 </AssemblerScript>
-          <Hotkeys>
-            <Hotkey>
-              <Action>Toggle Activation</Action>
-              <Keys>
-                <Key>89</Key>
-              </Keys>
-              <ID>0</ID>
-              <ActivateSound>Activate</ActivateSound>
-              <DeactivateSound>Deactivate</DeactivateSound>
-            </Hotkey>
-          </Hotkeys>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"Inf Combine"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(Sons.Inventory.InventoryLayoutItemGroup.OnAddItemToMat+292,E8 69 E9 F0 FF)
+
+Sons.Inventory.InventoryLayoutItemGroup.OnAddItemToMat+292:
+  db 90 90 90 90 90
+
+[DISABLE]
+
+Sons.Inventory.InventoryLayoutItemGroup.OnAddItemToMat+292:
+  db E8 69 E9 F0 FF
+  // call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+31D7982
+
+GameAssembly.dll+31D7952: 48 85 C9                    - test rcx,rcx
+GameAssembly.dll+31D7955: 0F 84 8E 00 00 00           - je GameAssembly.dll+31D79E9
+GameAssembly.dll+31D795B: 48 C7 44 24 40 00 00 00 00  - mov qword ptr [rsp+40],00000000
+GameAssembly.dll+31D7964: C6 44 24 38 00              - mov byte ptr [rsp+38],00
+GameAssembly.dll+31D7969: 48 89 44 24 30              - mov [rsp+30],rax
+GameAssembly.dll+31D796E: C6 44 24 28 01              - mov byte ptr [rsp+28],01
+GameAssembly.dll+31D7973: C6 44 24 20 01              - mov byte ptr [rsp+20],01
+GameAssembly.dll+31D7978: 45 33 C9                    - xor r9d,r9d
+GameAssembly.dll+31D797B: 45 8D 41 01                 - lea r8d,[r9+01]
+GameAssembly.dll+31D797F: 8B 56 20                    - mov edx,[rsi+20]
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+31D7982: E8 69 E9 F0 FF              - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+31D7987: E8 C4 7D AE FF              - call GameAssembly.dll+2CBF750
+GameAssembly.dll+31D798C: 48 85 C0                    - test rax,rax
+GameAssembly.dll+31D798F: 74 53                       - je GameAssembly.dll+31D79E4
+GameAssembly.dll+31D7991: 45 33 C0                    - xor r8d,r8d
+GameAssembly.dll+31D7994: 48 8B D7                    - mov rdx,rdi
+GameAssembly.dll+31D7997: 48 8B C8                    - mov rcx,rax
+GameAssembly.dll+31D799A: E8 41 07 07 00              - call Sons.Crafting.CraftingSystem.AddIngredient
+GameAssembly.dll+31D799F: 48 8B 16                    - mov rdx,[rsi]
+GameAssembly.dll+31D79A2: 48 8B 82 B8 01 00 00        - mov rax,[rdx+000001B8]
+GameAssembly.dll+31D79A9: 48 8B 92 C0 01 00 00        - mov rdx,[rdx+000001C0]
+}
+</AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>11</ID>
@@ -204,7 +270,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
             <CheatEntry>
               <ID>12</ID>
               <Description>"PlayerStats Base"</Description>
-              <LastState Value="30 C6 D5 82 7C 02 00 00 00 00" RealAddress="280914A1320"/>
+              <LastState Value="30 1D BC 32 14 01 00 00 00 00" RealAddress="1183ED25640"/>
               <ShowAsHex>1</ShowAsHex>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>Array of byte</VariableType>
@@ -217,7 +283,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>13</ID>
                   <Description>"current hydration"</Description>
-                  <LastState Value="48.49809265" RealAddress="2821D5569B0"/>
+                  <LastState Value="42.16016388" RealAddress="1196FD4C080"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -229,7 +295,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>14</ID>
                   <Description>"current fullness"</Description>
-                  <LastState Value="48.49809265" RealAddress="2821D556A20"/>
+                  <LastState Value="42.16016388" RealAddress="1196FD4C0F0"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -241,7 +307,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>15</ID>
                   <Description>"current stamina"</Description>
-                  <LastState Value="65.876297" RealAddress="2821D556A90"/>
+                  <LastState Value="94.05012512" RealAddress="1196FD4C160"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -253,7 +319,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>16</ID>
                   <Description>"Current Lung Air"</Description>
-                  <LastState Value="20" RealAddress="2821D55ED34"/>
+                  <LastState Value="20" RealAddress="1196FD55584"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -265,7 +331,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>17</ID>
                   <Description>"Target Health"</Description>
-                  <LastState Value="28" RealAddress="28090F55188"/>
+                  <LastState Value="68" RealAddress="1183F214448"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -276,7 +342,7 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
                 <CheatEntry>
                   <ID>18</ID>
                   <Description>"current rested (tiredness)"</Description>
-                  <LastState Value="65.23355865" RealAddress="2821D556940"/>
+                  <LastState Value="92.31990814" RealAddress="1196FD4C010"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>Float</VariableType>
                   <Address>+160</Address>
@@ -288,6 +354,122 @@ GameAssembly.dll+37AF810: 48 8D 0D 59 1A A1 02  - lea rcx,[GameAssembly.dll+61C1
               </CheatEntries>
             </CheatEntry>
           </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"Inf Throwables"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-13
+  Author : bboyh
+
+  Using AOB because there are two functions named TheForest.Items.Inventory.PlayerInventory.TryEquip
+}
+
+[ENABLE]
+
+aobscanmodule(TRYTOEQUIP,GameAssembly.dll,E8 71 BC FF FF 84 C0 0F 84 15 02 00 00) // should be unique
+
+// must remove the function call and the test of the returned value al
+// otherwise the item will not equip
+TRYTOEQUIP:
+  db 90 90 90 90 90 90 90 90 90 90 90 90 90
+registersymbol(TRYTOEQUIP)
+
+[DISABLE]
+
+TRYTOEQUIP:
+  db E8 71 BC FF FF 84 C0 0F 84 15 02 00 00
+
+unregistersymbol(TRYTOEQUIP)
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+30EA67A
+
+GameAssembly.dll+30EA653: 45 84 FF              - test r15b,r15b
+GameAssembly.dll+30EA656: 75 2F                 - jne GameAssembly.dll+30EA687
+GameAssembly.dll+30EA658: 4C 89 6C 24 40        - mov [rsp+40],r13
+GameAssembly.dll+30EA65D: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+30EA660: 44 88 6C 24 38        - mov [rsp+38],r13b
+GameAssembly.dll+30EA665: 41 8B D6              - mov edx,r14d
+GameAssembly.dll+30EA668: 48 89 6C 24 30        - mov [rsp+30],rbp
+GameAssembly.dll+30EA66D: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+30EA670: 44 88 6C 24 28        - mov [rsp+28],r13b
+GameAssembly.dll+30EA675: 44 88 6C 24 20        - mov [rsp+20],r13b
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+30EA67A: E8 71 BC FF FF        - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+30EA67F: 84 C0                 - test al,al
+GameAssembly.dll+30EA681: 0F 84 15 02 00 00     - je GameAssembly.dll+30EA89C
+GameAssembly.dll+30EA687: 48 8B 8F C8 00 00 00  - mov rcx,[rdi+000000C8]
+GameAssembly.dll+30EA68E: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+30EA691: 0F 84 86 02 00 00     - je GameAssembly.dll+30EA91D
+GameAssembly.dll+30EA697: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+30EA69A: 4C 8B C3              - mov r8,rbx
+GameAssembly.dll+30EA69D: 41 8B D6              - mov edx,r14d
+GameAssembly.dll+30EA6A0: E8 AB 5F 11 00        - call Sons.Player.InventoryProps.GetPropDefinitionForItem
+GameAssembly.dll+30EA6A5: 48 8B D8              - mov rbx,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"Inf Burnables"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-13
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(Sons.Gameplay.GrabBag.GrabBagController.UpdateTossedItemPath+7FF,E8 CC 22 CA FF)
+
+Sons.Gameplay.GrabBag.GrabBagController.UpdateTossedItemPath+7FF:
+  db 90 90 90 90 90
+
+[DISABLE]
+
+Sons.Gameplay.GrabBag.GrabBagController.UpdateTossedItemPath+7FF:
+  db E8 CC 22 CA FF
+  // call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+344401F
+
+GameAssembly.dll+3443FF5: 0F 84 0F 01 00 00     - je GameAssembly.dll+344410A
+GameAssembly.dll+3443FFB: 4C 89 6C 24 40        - mov [rsp+40],r13
+GameAssembly.dll+3444000: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+3444003: 44 88 6C 24 38        - mov [rsp+38],r13b
+GameAssembly.dll+3444008: 45 8B C6              - mov r8d,r14d
+GameAssembly.dll+344400B: 48 89 44 24 30        - mov [rsp+30],rax
+GameAssembly.dll+3444010: 8B D6                 - mov edx,esi
+GameAssembly.dll+3444012: C6 44 24 28 01        - mov byte ptr [rsp+28],01
+GameAssembly.dll+3444017: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+344401A: 44 88 6C 24 20        - mov [rsp+20],r13b
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+344401F: E8 CC 22 CA FF        - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+3444024: 48 8B 9F 98 00 00 00  - mov rbx,[rdi+00000098]
+GameAssembly.dll+344402B: 44 89 AF 10 01 00 00  - mov [rdi+00000110],r13d
+GameAssembly.dll+3444032: 48 8B 0D 87 38 40 02  - mov rcx,[GameAssembly.dll+58478C0]
+GameAssembly.dll+3444039: 44 39 A9 E0 00 00 00  - cmp [rcx+000000E0],r13d
+GameAssembly.dll+3444040: 75 05                 - jne GameAssembly.dll+3444047
+GameAssembly.dll+3444042: E8 29 87 11 FD        - call GameAssembly.dll+55C770
+GameAssembly.dll+3444047: 33 D2                 - xor edx,edx
+GameAssembly.dll+3444049: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+344404C: E8 BF 11 0B 01        - call UnityEngine.Object.Destroy
+GameAssembly.dll+3444051: 48 8B 9F A8 00 00 00  - mov rbx,[rdi+000000A8]
+}
+</AssemblerScript>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -411,9 +593,495 @@ GameAssembly.dll+3870CED: 41 B8 01 00 00 00     - mov r8d,00000001
 }
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"[Y] Inf Items Consuming/crafting (equiping weapons will freeze game)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2024-07-02
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(Sons.Inventory.ItemInstanceManager.TryRemoveItem,48 89 5C 24 10)
+
+assert(Sons.Inventory.ItemInstanceManager.RemoveItems,48 89 5C 24 18)
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem:
+  db C3
+
+Sons.Inventory.ItemInstanceManager.RemoveItems:
+  db C3
+
+[DISABLE]
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem:
+  db 48 89 5C 24 10
+  // mov [rsp+10],rbx
+
+Sons.Inventory.ItemInstanceManager.RemoveItems:
+  db 48 89 5C 24 18
+  // mov [rsp+18],rbx
+
+{
+// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.TryRemoveItem
+
+GameAssembly.dll+3870B57: FF 50 18              - call qword ptr [rax+18]
+GameAssembly.dll+3870B5A: 8B C3                 - mov eax,ebx
+GameAssembly.dll+3870B5C: 48 8B 5C 24 50        - mov rbx,[rsp+50]
+GameAssembly.dll+3870B61: 48 83 C4 20           - add rsp,20
+GameAssembly.dll+3870B65: 41 5E                 - pop r14
+GameAssembly.dll+3870B67: 5F                    - pop rdi
+GameAssembly.dll+3870B68: 5E                    - pop rsi
+GameAssembly.dll+3870B69: C3                    - ret 
+GameAssembly.dll+3870B6A: E8 A1 F2 D1 FC        - call GameAssembly.il2cpp_value_box+1A0
+GameAssembly.dll+3870B6F: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+Sons.Inventory.ItemInstanceManager.TryRemoveItem: 48 89 5C 24 10        - mov [rsp+10],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+3870B75: 48 89 74 24 18        - mov [rsp+18],rsi
+GameAssembly.dll+3870B7A: 57                    - push rdi
+GameAssembly.dll+3870B7B: 48 83 EC 20           - sub rsp,20
+GameAssembly.dll+3870B7F: 80 3D A9 AE C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2F],00
+GameAssembly.dll+3870B86: 48 8B DA              - mov rbx,rdx
+GameAssembly.dll+3870B89: 48 8B F9              - mov rdi,rcx
+GameAssembly.dll+3870B8C: 75 37                 - jne GameAssembly.dll+3870BC5
+GameAssembly.dll+3870B8E: 48 8D 0D 83 9A 94 02  - lea rcx,[GameAssembly.dll+61BA618]
+GameAssembly.dll+3870B95: E8 66 AE D4 FC        - call GameAssembly.dll+5BBA00
+GameAssembly.dll+3870B9A: 48 8D 0D A7 9A 94 02  - lea rcx,[GameAssembly.dll+61BA648]
+}
+
+{
+// ORIGINAL CODE - INJECTION POINT: Sons.Inventory.ItemInstanceManager.RemoveItems
+
+GameAssembly.dll+3870A16: CC                    - int 3
+GameAssembly.dll+3870A17: CC                    - int 3
+GameAssembly.dll+3870A18: CC                    - int 3
+GameAssembly.dll+3870A19: CC                    - int 3
+GameAssembly.dll+3870A1A: CC                    - int 3
+GameAssembly.dll+3870A1B: CC                    - int 3
+GameAssembly.dll+3870A1C: CC                    - int 3
+GameAssembly.dll+3870A1D: CC                    - int 3
+GameAssembly.dll+3870A1E: CC                    - int 3
+GameAssembly.dll+3870A1F: CC                    - int 3
+// ---------- INJECTING HERE ----------
+Sons.Inventory.ItemInstanceManager.RemoveItems: 48 89 5C 24 18        - mov [rsp+18],rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+3870A25: 56                    - push rsi
+GameAssembly.dll+3870A26: 57                    - push rdi
+GameAssembly.dll+3870A27: 41 56                 - push r14
+GameAssembly.dll+3870A29: 48 83 EC 20           - sub rsp,20
+GameAssembly.dll+3870A2D: 80 3D FA AF C9 02 00  - cmp byte ptr [GameAssembly.dll+650BA2E],00
+GameAssembly.dll+3870A34: 45 0F B6 F1           - movzx r14d,r9b
+GameAssembly.dll+3870A38: 41 8B D8              - mov ebx,r8d
+GameAssembly.dll+3870A3B: 8B F2                 - mov esi,edx
+GameAssembly.dll+3870A3D: 48 8B F9              - mov rdi,rcx
+GameAssembly.dll+3870A40: 75 37                 - jne GameAssembly.dll+3870A79
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"throwing stones increases count"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  increases inventory when stones thrown
+}
+
+
+[ENABLE]
+
+assert(Sons.Inventory.ItemInstanceManager.TryRemoveItem+15E,FF 48 10 48 8B 7F 30)
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem+15E:
+  inc [rax+10]
+
+[DISABLE]
+
+Sons.Inventory.ItemInstanceManager.TryRemoveItem+15E:
+  db FF 48 10 48 8B 7F 30
+  // dec [rax+10]
+  // mov rdi,[rdi+30]
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+31E597E
+
+GameAssembly.dll+31E595D: 48 85 C0              - test rax,rax
+GameAssembly.dll+31E5960: 74 6F                 - je GameAssembly.dll+31E59D1
+GameAssembly.dll+31E5962: 48 85 F6              - test rsi,rsi
+GameAssembly.dll+31E5965: 74 6A                 - je GameAssembly.dll+31E59D1
+GameAssembly.dll+31E5967: 4C 8B 05 5A E0 64 02  - mov r8,[GameAssembly.dll+58339C8]
+GameAssembly.dll+31E596E: 48 8B CE              - mov rcx,rsi
+GameAssembly.dll+31E5971: 8B 50 28              - mov edx,[rax+28]
+GameAssembly.dll+31E5974: E8 B7 F4 81 FE        - call GameAssembly.dll+1A04E30
+GameAssembly.dll+31E5979: 48 85 C0              - test rax,rax
+GameAssembly.dll+31E597C: 74 53                 - je GameAssembly.dll+31E59D1
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+31E597E: FF 48 10              - dec [rax+10]
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+31E5981: 48 8B 7F 30           - mov rdi,[rdi+30]
+GameAssembly.dll+31E5985: 48 85 FF              - test rdi,rdi
+GameAssembly.dll+31E5988: 74 23                 - je GameAssembly.dll+31E59AD
+GameAssembly.dll+31E598A: 33 D2                 - xor edx,edx
+GameAssembly.dll+31E598C: 48 8B CB              - mov rcx,rbx
+GameAssembly.dll+31E598F: E8 EC C4 FF FF        - call Sons.Inventory.ItemInstance.get_Data
+GameAssembly.dll+31E5994: 48 85 C0              - test rax,rax
+GameAssembly.dll+31E5997: 74 38                 - je GameAssembly.dll+31E59D1
+GameAssembly.dll+31E5999: 4C 8B 4F 28           - mov r9,[rdi+28]
+GameAssembly.dll+31E599D: 41 B8 01 00 00 00     - mov r8d,00000001
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"Inf Item Consume"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(TheForest.Items.Inventory.PlayerInventory.RemoveItem,40 53 56 41 54)
+
+TheForest.Items.Inventory.PlayerInventory.RemoveItem:
+  db C3
+
+[DISABLE]
+
+TheForest.Items.Inventory.PlayerInventory.RemoveItem:
+  db 40 53 56 41 54
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: TheForest.Items.Inventory.PlayerInventory.RemoveItem
+
+GameAssembly.dll+30E62D8: 49 8B E3              - mov rsp,r11
+GameAssembly.dll+30E62DB: 5F                    - pop rdi
+GameAssembly.dll+30E62DC: C3                    - ret 
+GameAssembly.dll+30E62DD: E8 EE EA 42 FD        - call GameAssembly.il2cpp_value_box+1A0
+GameAssembly.dll+30E62E2: 90                    - nop 
+GameAssembly.dll+30E62E3: E8 78 6C 3C FD        - call GameAssembly.GlobalizationNative_GetTimeZoneDisplayName+1400
+GameAssembly.dll+30E62E8: CC                    - int 3 
+GameAssembly.dll+30E62E9: E8 E2 EA 42 FD        - call GameAssembly.il2cpp_value_box+1A0
+GameAssembly.dll+30E62EE: CC                    - int 3 
+GameAssembly.dll+30E62EF: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+TheForest.Items.Inventory.PlayerInventory.RemoveItem: 40 53                 - push rbx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+30E62F2: 56                    - push rsi
+GameAssembly.dll+30E62F3: 41 54                 - push r12
+GameAssembly.dll+30E62F5: 41 55                 - push r13
+GameAssembly.dll+30E62F7: 48 83 EC 58           - sub rsp,58
+GameAssembly.dll+30E62FB: 80 3D 28 79 A6 02 00  - cmp byte ptr [GameAssembly.dll+5B4DC2A],00
+GameAssembly.dll+30E6302: 45 0F B6 E1           - movzx r12d,r9b
+GameAssembly.dll+30E6306: 45 8B E8              - mov r13d,r8d
+GameAssembly.dll+30E6309: 8B F2                 - mov esi,edx
+GameAssembly.dll+30E630B: 48 8B D9              - mov rbx,rcx
+GameAssembly.dll+30E630E: 75 2B                 - jne GameAssembly.dll+30E633B
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>20</ID>
+          <Description>"eating mushrooms increases count"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  Unlimited eating mushrooms
+}
+
+[ENABLE]
+
+assert(Sons.Inventory.ItemInstanceManager.RemoveItems+119,29 58 10 45 84 F6)
+
+Sons.Inventory.ItemInstanceManager.RemoveItems+F6:
+  add edx,ebx
+Sons.Inventory.ItemInstanceManager.RemoveItems+119:
+  add [rax+10],ebx
+
+[DISABLE]
+Sons.Inventory.ItemInstanceManager.RemoveItems+F6:
+  sub edx,ebx
+
+Sons.Inventory.ItemInstanceManager.RemoveItems+119:
+  db 29 58 10 45 84 F6
+  // sub [rax+10],ebx
+  // test r14b,r14b
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+31E57E9
+
+GameAssembly.dll+31E57C6: 2B D3                 - sub edx,ebx
+GameAssembly.dll+31E57C8: E8 A3 71 E8 FD        - call GameAssembly.dll+106C970
+GameAssembly.dll+31E57CD: 48 8B 4F 20           - mov rcx,[rdi+20]
+GameAssembly.dll+31E57D1: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+31E57D4: 74 44                 - je GameAssembly.dll+31E581A
+GameAssembly.dll+31E57D6: 4C 8B 05 EB E1 64 02  - mov r8,[GameAssembly.dll+58339C8]
+GameAssembly.dll+31E57DD: 8B D6                 - mov edx,esi
+GameAssembly.dll+31E57DF: E8 4C F6 81 FE        - call GameAssembly.dll+1A04E30
+GameAssembly.dll+31E57E4: 48 85 C0              - test rax,rax
+GameAssembly.dll+31E57E7: 74 31                 - je GameAssembly.dll+31E581A
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+31E57E9: 29 58 10              - sub [rax+10],ebx
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+31E57EC: 45 84 F6              - test r14b,r14b
+GameAssembly.dll+31E57EF: 75 19                 - jne GameAssembly.dll+31E580A
+GameAssembly.dll+31E57F1: 48 8B 47 30           - mov rax,[rdi+30]
+GameAssembly.dll+31E57F5: 48 85 C0              - test rax,rax
+GameAssembly.dll+31E57F8: 74 10                 - je GameAssembly.dll+31E580A
+GameAssembly.dll+31E57FA: 4C 8B 48 28           - mov r9,[rax+28]
+GameAssembly.dll+31E57FE: 44 8B C3              - mov r8d,ebx
+GameAssembly.dll+31E5801: 48 8B 48 40           - mov rcx,[rax+40]
+GameAssembly.dll+31E5805: 8B D6                 - mov edx,esi
+GameAssembly.dll+31E5807: FF 50 18              - call qword ptr [rax+18]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>25</ID>
+          <Description>"Inf Throwables"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : SonsOfTheForest.exe
+  Version: 
+  Date   : 2025-03-12
+  Author : bboyh
+
+  This script does blah blah blah
+  TheForest.Items.Inventory.PlayerInventory.TryEquip - push rbp
+  GameAssembly.dll+30EA67A - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+  GameAssembly.dll+30EA681 - 0F84 15020000         - je GameAssembly.dll+30EA89C
+  This does not work because there are two functions named TheForest.Items.Inventory.PlayerInventory.TryEquip
+
+}
+
+
+[ENABLE]
+
+assert(TheForest.Items.Inventory.PlayerInventory.TryEquip+33A,E8 71 BC FF FF)
+
+TheForest.Items.Inventory.PlayerInventory.TryEquip+49A:
+  db 90 90 90 90 90
+
+// This will skip the check if nothing was removed
+TheForest.Items.Inventory.PlayerInventory.TryEquip+341:
+  db 90 90 90 90 90 90
+
+[DISABLE]
+
+TheForest.Items.Inventory.PlayerInventory.TryEquip+33A:
+  db E8 71 BC FF FF
+  // call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+
+TheForest.Items.Inventory.PlayerInventory.TryEquip+341:
+  je GameAssembly.dll+30EA89C
+
+{
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+30EA67A
+
+GameAssembly.dll+30EA653: 45 84 FF              - test r15b,r15b
+GameAssembly.dll+30EA656: 75 2F                 - jne GameAssembly.dll+30EA687
+GameAssembly.dll+30EA658: 4C 89 6C 24 40        - mov [rsp+40],r13
+GameAssembly.dll+30EA65D: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+30EA660: 44 88 6C 24 38        - mov [rsp+38],r13b
+GameAssembly.dll+30EA665: 41 8B D6              - mov edx,r14d
+GameAssembly.dll+30EA668: 48 89 6C 24 30        - mov [rsp+30],rbp
+GameAssembly.dll+30EA66D: 48 8B CF              - mov rcx,rdi
+GameAssembly.dll+30EA670: 44 88 6C 24 28        - mov [rsp+28],r13b
+GameAssembly.dll+30EA675: 44 88 6C 24 20        - mov [rsp+20],r13b
+// ---------- INJECTING HERE ----------
+GameAssembly.dll+30EA67A: E8 71 BC FF FF        - call TheForest.Items.Inventory.PlayerInventory.RemoveItem
+// ---------- DONE INJECTING  ----------
+GameAssembly.dll+30EA67F: 84 C0                 - test al,al
+GameAssembly.dll+30EA681: 0F 84 15 02 00 00     - je GameAssembly.dll+30EA89C
+GameAssembly.dll+30EA687: 48 8B 8F C8 00 00 00  - mov rcx,[rdi+000000C8]
+GameAssembly.dll+30EA68E: 48 85 C9              - test rcx,rcx
+GameAssembly.dll+30EA691: 0F 84 86 02 00 00     - je GameAssembly.dll+30EA91D
+GameAssembly.dll+30EA697: 45 33 C9              - xor r9d,r9d
+GameAssembly.dll+30EA69A: 4C 8B C3              - mov r8,rbx
+GameAssembly.dll+30EA69D: 41 8B D6              - mov edx,r14d
+GameAssembly.dll+30EA6A0: E8 AB 5F 11 00        - call Sons.Player.InventoryProps.GetPropDefinitionForItem
+GameAssembly.dll+30EA6A5: 48 8B D8              - mov rbx,rax
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of call TheForest.Items.Inventory.PlayerInventory.RemoveItem</Description>
+      <AddressString>GameAssembly.dll+31D6CA2</AddressString>
+      <Before>
+        <Byte>41</Byte>
+        <Byte>01</Byte>
+        <Byte>8B</Byte>
+        <Byte>56</Byte>
+        <Byte>20</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>49</Byte>
+        <Byte>F6</Byte>
+        <Byte>F0</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>90</Byte>
+        <Byte>EB</Byte>
+        <Byte>14</Byte>
+        <Byte>EB</Byte>
+        <Byte>12</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call TheForest.Items.Inventory.PlayerInventory.RemoveItem</Description>
+      <AddressString>GameAssembly.dll+31CFBBF</AddressString>
+      <Before>
+        <Byte>20</Byte>
+        <Byte>45</Byte>
+        <Byte>8D</Byte>
+        <Byte>41</Byte>
+        <Byte>01</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>2C</Byte>
+        <Byte>67</Byte>
+        <Byte>F1</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>44</Byte>
+        <Byte>38</Byte>
+        <Byte>65</Byte>
+        <Byte>28</Byte>
+        <Byte>74</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call TheForest.Items.Inventory.PlayerInventory.RemoveItem</Description>
+      <AddressString>GameAssembly.dll+30EA67A</AddressString>
+      <Before>
+        <Byte>44</Byte>
+        <Byte>88</Byte>
+        <Byte>6C</Byte>
+        <Byte>24</Byte>
+        <Byte>20</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>71</Byte>
+        <Byte>BC</Byte>
+        <Byte>FF</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>84</Byte>
+        <Byte>C0</Byte>
+        <Byte>0F</Byte>
+        <Byte>84</Byte>
+        <Byte>15</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call TheForest.Items.Inventory.PlayerInventory.TryEquip</Description>
+      <AddressString>GameAssembly.dll+31D6A08</AddressString>
+      <Before>
+        <Byte>C0</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>57</Byte>
+        <Byte>40</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>33</Byte>
+        <Byte>39</Byte>
+        <Byte>F1</Byte>
+        <Byte>FF</Byte>
+      </Actual>
+      <After>
+        <Byte>84</Byte>
+        <Byte>C0</Byte>
+        <Byte>0F</Byte>
+        <Byte>85</Byte>
+        <Byte>C8</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of je GameAssembly.dll+30EA89C</Description>
+      <AddressString>GameAssembly.dll+30EA681</AddressString>
+      <Before>
+        <Byte>90</Byte>
+        <Byte>90</Byte>
+        <Byte>90</Byte>
+        <Byte>84</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>84</Byte>
+        <Byte>15</Byte>
+        <Byte>02</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>8F</Byte>
+        <Byte>C8</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of call TheForest.Items.Inventory.PlayerInventory.RemoveItem</Description>
+      <AddressString>GameAssembly.dll+2B6080F</AddressString>
+      <Before>
+        <Byte>C6</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>20</Byte>
+        <Byte>01</Byte>
+      </Before>
+      <Actual>
+        <Byte>E8</Byte>
+        <Byte>DC</Byte>
+        <Byte>5A</Byte>
+        <Byte>58</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>84</Byte>
+        <Byte>C0</Byte>
+        <Byte>0F</Byte>
+        <Byte>84</Byte>
+        <Byte>05</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols/>
   <Structures StructVersion="2">
     <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
@@ -1323,6 +1991,7 @@ GameAssembly.dll+3870CED: 41 B8 01 00 00 00     - mov r8d,00000001
     </Structure>
   </Structures>
   <Comments>items are 4 bytes, but if you are holding one item in your hand that is 1 less than what you have in your inventory. Stones are the easiest ways to find a memroy address.
+health and stamina are floats
 </Comments>
   <LuaScript>getApplication().Title="framerates"
   getMainForm().Caption="framerates"
