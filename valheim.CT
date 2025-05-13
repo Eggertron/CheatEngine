@@ -4,11 +4,13 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"version 0.217.31"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -21,8 +23,9 @@
 </AssemblerScript>
       <CheatEntries>
         <CheatEntry>
-          <ID>133</ID>
-          <Description>"Item Drop Does not decrease"</Description>
+          <ID>140</ID>
+          <Description>"Item Drop Does not decrease (DMD) *Cannot Undo*"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -45,7 +48,131 @@ local methAddr = mono_compile_method(methId)
 unregisterSymbol('REMITEM3')
 registerSymbol('REMITEM3',methAddr)
 {$asm}
+assert(REMITEM3,E9)
+REMITEM3:
+  ret
 
+[DISABLE]
+
+REMITEM3:
+//  db 55 48 8B EC 48 83 EC 30
+
+unregistersymbol(REMITEM3)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveItem
+
+1A22D070E15: E0 75                       - loopne Inventory:RemoveItem+5c
+1A22D070E17: A3 01 00 00 00 00 00 00 00  - mov [00000001],eax
+1A22D070E20: 00 00                       - add [rax],al
+1A22D070E22: 00 00                       - add [rax],al
+1A22D070E24: 00 00                       - add [rax],al
+1A22D070E26: 00 00                       - add [rax],al
+1A22D070E28: 00 00                       - add [rax],al
+1A22D070E2A: 00 00                       - add [rax],al
+1A22D070E2C: 00 00                       - add [rax],al
+1A22D070E2E: 00 00                       - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:RemoveItem: 55                          - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveItem+1: 48 8B EC                    - mov rbp,rsp
+Inventory:RemoveItem+4: 48 83 EC 30                 - sub rsp,30
+Inventory:RemoveItem+8: 48 89 75 F0                 - mov [rbp-10],rsi
+Inventory:RemoveItem+c: 48 89 7D F8                 - mov [rbp-08],rdi
+Inventory:RemoveItem+10: 48 8B F9                    - mov rdi,rcx
+Inventory:RemoveItem+13: 48 8B F2                    - mov rsi,rdx
+Inventory:RemoveItem+16: 48 8B 47 28                 - mov rax,[rdi+28]
+Inventory:RemoveItem+1a: 48 8B C8                    - mov rcx,rax
+Inventory:RemoveItem+1d: 48 8B D6                    - mov rdx,rsi
+Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>135</ID>
+          <Description>"Inf Consuming Items Modded Game (DMD) *Cannot undo*"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2023-12-01
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+
+//assert(Inventory:RemoveOneItem,E9 * * * FE)
+
+Inventory:RemoveOneItem:
+  ret
+
+[DISABLE]
+
+Inventory:RemoveOneItem:
+  //db E9
+  // push rbp
+  // mov rbp,rsp
+  // sub rsp,30
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:RemoveOneItem
+
+Hud:StaminaBarUppgradeFlash+3b: 5D              - pop rbp
+Hud:StaminaBarUppgradeFlash+3c: C3              - ret 
+1A23065BC7D: 00 00           - add [rax],al
+1A23065BC7F: 00 01           - add [rcx],al
+1A23065BC81: 04 02           - add al,02
+1A23065BC83: 05 04 03 01 50  - add eax,50010304
+1A23065BC88: 00 00           - add [rax],al
+1A23065BC8A: 00 00           - add [rax],al
+1A23065BC8C: 00 00           - add [rax],al
+1A23065BC8E: 00 00           - add [rax],al
+// ---------- INJECTING HERE ----------
+Inventory:RemoveOneItem: 55              - push rbp
+// ---------- DONE INJECTING  ----------
+Inventory:RemoveOneItem+1: 48 8B EC        - mov rbp,rsp
+Inventory:RemoveOneItem+4: 48 83 EC 30     - sub rsp,30
+Inventory:RemoveOneItem+8: 48 89 75 F0     - mov [rbp-10],rsi
+Inventory:RemoveOneItem+c: 48 89 7D F8     - mov [rbp-08],rdi
+Inventory:RemoveOneItem+10: 48 8B F9        - mov rdi,rcx
+Inventory:RemoveOneItem+13: 48 8B F2        - mov rsi,rdx
+Inventory:RemoveOneItem+16: 48 8B 47 28     - mov rax,[rdi+28]
+Inventory:RemoveOneItem+1a: 48 8B C8        - mov rcx,rax
+Inventory:RemoveOneItem+1d: 48 8B D6        - mov rdx,rsi
+Inventory:RemoveOneItem+20: 83 38 00        - cmp dword ptr [rax],00
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>133</ID>
+          <Description>"Item Drop Does not decrease"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2023-12-01
+  Author : bboyh
+
+  RemoveItem (item: ItemDrop/ItemData):System.Boolean
+  Unlimited Item dropping or splitting stacks.
+  does not work for eating food.
+  does not work when crafting items.
+}
+
+[ENABLE]
+
+{$lua}
+local methId = findMethodBySignature('', 'Inventory', 'RemoveItem', 'ItemDrop/ItemData')
+local methAddr = mono_compile_method(methId)
+--print(methId)
+--print(methAddr)
+unregisterSymbol('REMITEM3')
+registerSymbol('REMITEM3',methAddr)
+{$asm}
+assert(REMITEM3,55)
 REMITEM3:
   ret
 
@@ -87,7 +214,8 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
         </CheatEntry>
         <CheatEntry>
           <ID>134</ID>
-          <Description>"Unlimited Items Building"</Description>
+          <Description>"Unlimited Items Building/COOKING"</Description>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -150,64 +278,9 @@ Inventory:RemoveItem+27: 48 89 4D 88           - mov [rbp-78],rcx
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
-          <ID>137</ID>
-          <Description>"Inf Consume Backpack mod"</Description>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Valheim
-  Version: 
-  Date   : 2025-05-04
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscan(INF_CONSUME_MOD,7E 1D 48 63 46 38 FF C8 89 46 38 48 8B CF) // should be unique
-
-INF_CONSUME_MOD:
-  db 90 90 48 63 46 38 90 90
-registersymbol(INF_CONSUME_MOD)
-
-[DISABLE]
-
-INF_CONSUME_MOD:
-  db 7E 1D 48 63 46 38 FF C8 89 46 38 48 8B CF
-
-unregistersymbol(INF_CONSUME_MOD)
-
-{
-// ORIGINAL CODE - INJECTION POINT: Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5e
-
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+38: 48 8D 64 24 00                 - lea rsp,[rsp+00]
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+3d: 90                             - nop 
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+3e: 49 BB C0 D4 BF 2F 35 02 00 00  - mov r11,System.Collections.Generic.List`1[T_REF]:Contains
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+48: 41 FF D3                       - call r11
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4b: 85 C0                          - test eax,eax
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4d: 75 08                          - jne Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+57
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4f: 45 33 FF                       - xor r15d,r15d
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+52: E9 5A 00 00 00                 - jmp Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+b1
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+57: 48 63 46 38                    - movsxd  rax,dword ptr [rsi+38]
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5b: 83 F8 01                       - cmp eax,01
-// ---------- INJECTING HERE ----------
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5e: 7E 1D                          - jle Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7d
-// ---------- DONE INJECTING  ----------
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+60: 48 63 46 38                    - movsxd  rax,dword ptr [rsi+38]
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+64: FF C8                          - dec eax
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+66: 89 46 38                       - mov [rsi+38],eax
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+69: 48 8B CF                       - mov rcx,rdi
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+6c: 66 90                          - nop 2
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+6e: 49 BB 70 D3 EC 30 35 02 00 00  - mov r11,Inventory:Changed
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+78: 41 FF D3                       - call r11
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7b: EB 2E                          - jmp Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+ab
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7d: 48 8B 47 28                    - mov rax,[rdi+28]
-Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+81: 48 8B C8                       - mov rcx,rax
-}
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>135</ID>
+          <ID>138</ID>
           <Description>"Inf Consuming Items"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -265,6 +338,7 @@ Inventory:RemoveOneItem+20: 83 38 00        - cmp dword ptr [rax],00
         <CheatEntry>
           <ID>132</ID>
           <Description>"Disable RemoveItem (item: ItemDrop/ItemData; amount: int):System.Boolean"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -322,6 +396,7 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
         <CheatEntry>
           <ID>131</ID>
           <Description>"Disable RemoveItem (index: int):System.Boolean"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -395,42 +470,92 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>136</ID>
-      <Description>"No description"</Description>
-      <VariableType>4 Bytes</VariableType>
-      <Address>2370E74F428</Address>
+      <ID>139</ID>
+      <Description>"obsolete"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>137</ID>
+          <Description>"Inf Consume Backpack mod"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Valheim
+  Version: 
+  Date   : 2025-05-04
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscan(INF_CONSUME_MOD,7E 1D 48 63 46 38 FF C8 89 46 38 48 8B CF) // should be unique
+
+INF_CONSUME_MOD:
+  db 90 90 48 63 46 38 90 90
+registersymbol(INF_CONSUME_MOD)
+
+[DISABLE]
+
+INF_CONSUME_MOD:
+  db 7E 1D 48 63 46 38 FF C8 89 46 38 48 8B CF
+
+unregistersymbol(INF_CONSUME_MOD)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5e
+
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+38: 48 8D 64 24 00                 - lea rsp,[rsp+00]
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+3d: 90                             - nop 
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+3e: 49 BB C0 D4 BF 2F 35 02 00 00  - mov r11,System.Collections.Generic.List`1[T_REF]:Contains
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+48: 41 FF D3                       - call r11
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4b: 85 C0                          - test eax,eax
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4d: 75 08                          - jne Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+57
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+4f: 45 33 FF                       - xor r15d,r15d
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+52: E9 5A 00 00 00                 - jmp Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+b1
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+57: 48 63 46 38                    - movsxd  rax,dword ptr [rsi+38]
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5b: 83 F8 01                       - cmp eax,01
+// ---------- INJECTING HERE ----------
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+5e: 7E 1D                          - jle Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7d
+// ---------- DONE INJECTING  ----------
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+60: 48 63 46 38                    - movsxd  rax,dword ptr [rsi+38]
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+64: FF C8                          - dec eax
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+66: 89 46 38                       - mov [rsi+38],eax
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+69: 48 8B CF                       - mov rcx,rdi
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+6c: 66 90                          - nop 2
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+6e: 49 BB 70 D3 EC 30 35 02 00 00  - mov r11,Inventory:Changed
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+78: 41 FF D3                       - call r11
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7b: EB 2E                          - jmp Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+ab
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+7d: 48 8B 47 28                    - mov rax,[rdi+28]
+Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+81: 48 8B C8                       - mov rcx,rax
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of dec eax</Description>
-      <AddressString>2352FD294D4</AddressString>
-      <Before>
-        <Byte>1D</Byte>
-        <Byte>48</Byte>
-        <Byte>63</Byte>
-        <Byte>46</Byte>
-        <Byte>38</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>C8</Byte>
-      </Actual>
-      <After>
-        <Byte>89</Byte>
-        <Byte>46</Byte>
-        <Byte>38</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
-  <UserdefinedSymbols/>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>REMITEM4</Name>
+      <Address>2C62C6B62E0</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>REMITEM3</Name>
+      <Address>2C4F7A065C0</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
   <Comments>Mono dissector.assembly_valheim
 </Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("valheim.exe")
+--Ensure Symbol Names are registered
+symbols = createSymbolList();
+symbols.register();
+
+
 
 -- helps find a specific overloaded function
 function findMethodBySignature(nameSpace,className,methodName,signature)
@@ -454,5 +579,67 @@ function findMethodBySignature(nameSpace,className,methodName,signature)
     return nil
 end
 
+-- enable button click
+function UDF1_CEButton1Click(sender)
+  --Use the LUA function below to get the ID of the selected record from cheat table.
+  --print(getAddressList().getSelectedRecord().ID)
+  local memrec=getAddressList().getMemoryRecordByID(1)
+  if memrec.Active then
+    memrec.Active=false
+  else
+    memrec.Active=true
+  end
+end
+
+-- inf drop items toggle button
+function UDF1_CEToggleBox1Click(sender)
+  local memrec=getAddressList().getMemoryRecordByID(133)
+  if memrec.Active then
+    memrec.Active=false
+  else
+    memrec.Active=true
+  end
+end
+
+-- unlimited items build
+function UDF1_CEToggleBox2Click(sender)
+  local memrec=getAddressList().getMemoryRecordByID(134)
+  if memrec.Active then
+    memrec.Active=false
+  else
+    memrec.Active=true
+  end
+end
+
+-- unlimited consuming items
+function UDF1_CEToggleBox3Click(sender)
+  local memrec=getAddressList().getMemoryRecordByID(135)
+  if memrec.Active then
+    memrec.Active=false
+  else
+    memrec.Active=true
+  end
+end
+
+-- close button
+function UDF1_CEButton2Click(sender)
+  closeCE()
+end
+
+-- Create Time based function loop
+function UpdateFn()
+  print("UpdateFn - " .. os.time())
+end
+-- Destroy any existing timer object
+if timerObj then timerObj.destroy(); timerObj=nil end
+-- Create new timer object
+function startATimer()
+  timerObj = createTimer()
+  timerObj.Interval = 200
+  timerObj.onTimer = UpdateFn
+end
+
+-- UDF1.fixDPI() --remove this if you have already taken care of DPI issues yourself
+-- UDF1.show() --Shows the form
 </LuaScript>
 </CheatTable>
