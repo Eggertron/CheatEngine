@@ -83,7 +83,7 @@ Attack:UseAmmo+2cc: EB 05                          - jmp Attack:UseAmmo+2d3
         <CheatEntry>
           <ID>144</ID>
           <Description>"Attack Multiplier (modify the code)"</Description>
-          <LastState Activated="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -93,7 +93,7 @@ Attack:UseAmmo+2cc: EB 05                          - jmp Attack:UseAmmo+2d3
   This script does blah blah blah
 }
 
-define(address,1AC4D78898B)
+define(address,Attack:ModifyDamage+1b)
 define(bytes,F3 0F 10 87 18 01 00 00)
 
 [ENABLE]
@@ -114,7 +114,7 @@ code:
   addss xmm0,xmm0  // double it
   addss xmm0,xmm0  // double it
   addss xmm0,xmm0  // double it
-  mulss xmm0,xmm0  // square it
+  //mulss xmm0,xmm0  // square it
   mulss xmm0,xmm0  // square it
   movss [rdi+118],xmm0
   jmp return
@@ -411,7 +411,7 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
         <CheatEntry>
           <ID>140</ID>
           <Description>"Item Drop Does not decrease (DMD) *Cannot Undo*"</Description>
-          <LastState/>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -472,6 +472,234 @@ Inventory:RemoveItem+16: 48 8B 47 28                 - mov rax,[rdi+28]
 Inventory:RemoveItem+1a: 48 8B C8                    - mov rcx,rax
 Inventory:RemoveItem+1d: 48 8B D6                    - mov rdx,rsi
 Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>145</ID>
+          <Description>"Inf Run Stamina"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2025-05-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(SEMan:ModifyRunStaminaDrain+119,66 0F 2F C8 76 0C)
+
+SEMan:ModifyRunStaminaDrain+119:
+  db 90 90 90 90
+
+[DISABLE]
+
+SEMan:ModifyRunStaminaDrain+119:
+  db 66 0F 2F C8 76 0C
+  // comisd xmm1,xmm0
+  // jna SEMan:ModifyRunStaminaDrain+12b
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: SEMan:ModifyRunStaminaDrain+119
+
+SEMan:ModifyRunStaminaDrain+f8: 48 83 C0 B8  - add rax,-48
+SEMan:ModifyRunStaminaDrain+fc: 48 89 45 A8  - mov [rbp-58],rax
+SEMan:ModifyRunStaminaDrain+100: 48 8B 65 E0  - mov rsp,[rbp-20]
+SEMan:ModifyRunStaminaDrain+104: C3           - ret 
+SEMan:ModifyRunStaminaDrain+105: 0F B6 45 30  - movzx eax,byte ptr [rbp+30]
+SEMan:ModifyRunStaminaDrain+109: 85 C0        - test eax,eax
+SEMan:ModifyRunStaminaDrain+10b: 74 1E        - je SEMan:ModifyRunStaminaDrain+12b
+SEMan:ModifyRunStaminaDrain+10d: F3 0F 10 07  - movss xmm0,[rdi]
+SEMan:ModifyRunStaminaDrain+111: F3 0F 5A C0  - cvtss2sd xmm0,xmm0
+SEMan:ModifyRunStaminaDrain+115: 66 0F 57 C9  - xorpd xmm1,xmm1
+// ---------- INJECTING HERE ----------
+SEMan:ModifyRunStaminaDrain+119: 66 0F 2F C8  - comisd xmm1,xmm0
+// ---------- DONE INJECTING  ----------
+SEMan:ModifyRunStaminaDrain+11d: 76 0C        - jna SEMan:ModifyRunStaminaDrain+12b
+SEMan:ModifyRunStaminaDrain+11f: 66 0F 57 C0  - xorpd xmm0,xmm0
+SEMan:ModifyRunStaminaDrain+123: F2 0F 5A E8  - cvtsd2ss xmm5,xmm0
+SEMan:ModifyRunStaminaDrain+127: F3 0F 11 2F  - movss [rdi],xmm5
+SEMan:ModifyRunStaminaDrain+12b: 48 8B 7D F0  - mov rdi,[rbp-10]
+SEMan:ModifyRunStaminaDrain+12f: 4C 8B 7D F8  - mov r15,[rbp-08]
+SEMan:ModifyRunStaminaDrain+133: 48 8D 65 00  - lea rsp,[rbp+00]
+SEMan:ModifyRunStaminaDrain+137: 5D           - pop rbp
+SEMan:ModifyRunStaminaDrain+138: C3           - ret 
+19A46448599: 00 00        - add [rax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>146</ID>
+          <Description>"Inf Jump Stamina"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2025-05-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+
+[ENABLE]
+
+assert(SEMan:ModifyJumpStaminaUsage+f9,66 0F 2F C8 76 0C)
+SEMan:ModifyJumpStaminaUsage+f9:
+  db 90 90 90 90
+
+[DISABLE]
+
+SEMan:ModifyJumpStaminaUsage+f9:
+  db 66 0F 2F C8 76 0C
+  // comisd xmm1,xmm0
+  // jna SEMan:ModifyJumpStaminaUsage+10b
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: SEMan:ModifyJumpStaminaUsage+f9
+
+SEMan:ModifyJumpStaminaUsage+d8: 48 83 C0 C8  - add rax,-38
+SEMan:ModifyJumpStaminaUsage+dc: 48 89 45 B8  - mov [rbp-48],rax
+SEMan:ModifyJumpStaminaUsage+e0: 48 8B 65 E0  - mov rsp,[rbp-20]
+SEMan:ModifyJumpStaminaUsage+e4: C3           - ret 
+SEMan:ModifyJumpStaminaUsage+e5: 0F B6 45 A8  - movzx eax,byte ptr [rbp-58]
+SEMan:ModifyJumpStaminaUsage+e9: 85 C0        - test eax,eax
+SEMan:ModifyJumpStaminaUsage+eb: 74 1E        - je SEMan:ModifyJumpStaminaUsage+10b
+SEMan:ModifyJumpStaminaUsage+ed: F3 0F 10 07  - movss xmm0,[rdi]
+SEMan:ModifyJumpStaminaUsage+f1: F3 0F 5A C0  - cvtss2sd xmm0,xmm0
+SEMan:ModifyJumpStaminaUsage+f5: 66 0F 57 C9  - xorpd xmm1,xmm1
+// ---------- INJECTING HERE ----------
+SEMan:ModifyJumpStaminaUsage+f9: 66 0F 2F C8  - comisd xmm1,xmm0
+// ---------- DONE INJECTING  ----------
+SEMan:ModifyJumpStaminaUsage+fd: 76 0C        - jna SEMan:ModifyJumpStaminaUsage+10b
+SEMan:ModifyJumpStaminaUsage+ff: 66 0F 57 C0  - xorpd xmm0,xmm0
+SEMan:ModifyJumpStaminaUsage+103: F2 0F 5A E8  - cvtsd2ss xmm5,xmm0
+SEMan:ModifyJumpStaminaUsage+107: F3 0F 11 2F  - movss [rdi],xmm5
+SEMan:ModifyJumpStaminaUsage+10b: 48 8B 7D F0  - mov rdi,[rbp-10]
+SEMan:ModifyJumpStaminaUsage+10f: 4C 8B 7D F8  - mov r15,[rbp-08]
+SEMan:ModifyJumpStaminaUsage+113: 48 8D 65 00  - lea rsp,[rbp+00]
+SEMan:ModifyJumpStaminaUsage+117: 5D           - pop rbp
+SEMan:ModifyJumpStaminaUsage+118: C3           - ret 
+19A464D41B9: 00 00        - add [rax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>147</ID>
+          <Description>"Inf Attack Stamina"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2025-05-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(SEMan:ModifyAttackStaminaUsage+f9,66 0F 2F C8 76 0C)
+SEMan:ModifyAttackStaminaUsage+f9:
+  db 90 90 90 90
+
+[DISABLE]
+
+SEMan:ModifyAttackStaminaUsage+f9:
+  db 66 0F 2F C8 76 0C
+  // comisd xmm1,xmm0
+  // jna SEMan:ModifyAttackStaminaUsage+10b
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: SEMan:ModifyAttackStaminaUsage+f9
+
+SEMan:ModifyAttackStaminaUsage+d8: 48 83 C0 C8  - add rax,-38
+SEMan:ModifyAttackStaminaUsage+dc: 48 89 45 B8  - mov [rbp-48],rax
+SEMan:ModifyAttackStaminaUsage+e0: 48 8B 65 E0  - mov rsp,[rbp-20]
+SEMan:ModifyAttackStaminaUsage+e4: C3           - ret 
+SEMan:ModifyAttackStaminaUsage+e5: 0F B6 45 A8  - movzx eax,byte ptr [rbp-58]
+SEMan:ModifyAttackStaminaUsage+e9: 85 C0        - test eax,eax
+SEMan:ModifyAttackStaminaUsage+eb: 74 1E        - je SEMan:ModifyAttackStaminaUsage+10b
+SEMan:ModifyAttackStaminaUsage+ed: F3 0F 10 07  - movss xmm0,[rdi]
+SEMan:ModifyAttackStaminaUsage+f1: F3 0F 5A C0  - cvtss2sd xmm0,xmm0
+SEMan:ModifyAttackStaminaUsage+f5: 66 0F 57 C9  - xorpd xmm1,xmm1
+// ---------- INJECTING HERE ----------
+SEMan:ModifyAttackStaminaUsage+f9: 66 0F 2F C8  - comisd xmm1,xmm0
+// ---------- DONE INJECTING  ----------
+SEMan:ModifyAttackStaminaUsage+fd: 76 0C        - jna SEMan:ModifyAttackStaminaUsage+10b
+SEMan:ModifyAttackStaminaUsage+ff: 66 0F 57 C0  - xorpd xmm0,xmm0
+SEMan:ModifyAttackStaminaUsage+103: F2 0F 5A E8  - cvtsd2ss xmm5,xmm0
+SEMan:ModifyAttackStaminaUsage+107: F3 0F 11 2F  - movss [rdi],xmm5
+SEMan:ModifyAttackStaminaUsage+10b: 48 8B 7D F0  - mov rdi,[rbp-10]
+SEMan:ModifyAttackStaminaUsage+10f: 4C 8B 7D F8  - mov r15,[rbp-08]
+SEMan:ModifyAttackStaminaUsage+113: 48 8D 65 00  - lea rsp,[rbp+00]
+SEMan:ModifyAttackStaminaUsage+117: 5D           - pop rbp
+SEMan:ModifyAttackStaminaUsage+118: C3           - ret 
+19A4644AEE9: 00 00        - add [rax],al
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>148</ID>
+          <Description>"Inf Dodge Stamina"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2025-05-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert(SEMan:ModifyDodgeStaminaUsage+f9,66 0F 2F C8 76 0C)
+
+SEMan:ModifyDodgeStaminaUsage+f9:
+  db 90 90 90 90
+
+[DISABLE]
+
+SEMan:ModifyDodgeStaminaUsage+f9:
+  db 66 0F 2F C8 76 0C
+  // comisd xmm1,xmm0
+  // jna SEMan:ModifyDodgeStaminaUsage+10b
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: SEMan:ModifyDodgeStaminaUsage+f9
+
+SEMan:ModifyDodgeStaminaUsage+d8: 48 83 C0 C8  - add rax,-38
+SEMan:ModifyDodgeStaminaUsage+dc: 48 89 45 B8  - mov [rbp-48],rax
+SEMan:ModifyDodgeStaminaUsage+e0: 48 8B 65 E0  - mov rsp,[rbp-20]
+SEMan:ModifyDodgeStaminaUsage+e4: C3           - ret 
+SEMan:ModifyDodgeStaminaUsage+e5: 0F B6 45 A8  - movzx eax,byte ptr [rbp-58]
+SEMan:ModifyDodgeStaminaUsage+e9: 85 C0        - test eax,eax
+SEMan:ModifyDodgeStaminaUsage+eb: 74 1E        - je SEMan:ModifyDodgeStaminaUsage+10b
+SEMan:ModifyDodgeStaminaUsage+ed: F3 0F 10 07  - movss xmm0,[rdi]
+SEMan:ModifyDodgeStaminaUsage+f1: F3 0F 5A C0  - cvtss2sd xmm0,xmm0
+SEMan:ModifyDodgeStaminaUsage+f5: 66 0F 57 C9  - xorpd xmm1,xmm1
+// ---------- INJECTING HERE ----------
+SEMan:ModifyDodgeStaminaUsage+f9: 66 0F 2F C8  - comisd xmm1,xmm0
+// ---------- DONE INJECTING  ----------
+SEMan:ModifyDodgeStaminaUsage+fd: 76 0C        - jna SEMan:ModifyDodgeStaminaUsage+10b
+SEMan:ModifyDodgeStaminaUsage+ff: 66 0F 57 C0  - xorpd xmm0,xmm0
+SEMan:ModifyDodgeStaminaUsage+103: F2 0F 5A E8  - cvtsd2ss xmm5,xmm0
+SEMan:ModifyDodgeStaminaUsage+107: F3 0F 11 2F  - movss [rdi],xmm5
+SEMan:ModifyDodgeStaminaUsage+10b: 48 8B 7D F0  - mov rdi,[rbp-10]
+SEMan:ModifyDodgeStaminaUsage+10f: 4C 8B 7D F8  - mov r15,[rbp-08]
+SEMan:ModifyDodgeStaminaUsage+113: 48 8D 65 00  - lea rsp,[rbp+00]
+SEMan:ModifyDodgeStaminaUsage+117: 5D           - pop rbp
+SEMan:ModifyDodgeStaminaUsage+118: C3           - ret 
+19A48F27969: 00 00        - add [rax],al
 }
 </AssemblerScript>
         </CheatEntry>
@@ -684,6 +912,10 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
     <SymbolEntry>
       <Name>REMITEM3</Name>
       <Address>2598C986390</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>REMITEM5</Name>
+      <Address>198E23D4150</Address>
     </SymbolEntry>
   </UserdefinedSymbols>
   <Structures StructVersion="2">
@@ -1712,12 +1944,10 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
     </Structure>
   </Structures>
   <Comments>Mono dissector.assembly_valheim
-
 movss xmm0,[1AC4D788EB0]
 movss xmm2,[1AC4D788EA0]
 mulsd xmm1,xmm2
 addsd xmm0,xmm1
-
 Attack:DoMeleeAttack+3cc7 - F3 0F10 85 9CF4FFFF   - movss xmm0,[rbp-00000B64]
 Attack:DoMeleeAttack+3ccf - F3 0F5A C0            - cvtss2sd xmm0,xmm0
 Attack:DoMeleeAttack+3cd3 - 48 8B CE              - mov rcx,rsi
