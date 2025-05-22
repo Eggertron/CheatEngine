@@ -4,13 +4,11 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"version 0.217.31"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>1</ID>
       <Description>"Enable"</Description>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -25,7 +23,6 @@
         <CheatEntry>
           <ID>142</ID>
           <Description>"Inf Arrows"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -83,7 +80,6 @@ Attack:UseAmmo+2cc: EB 05                          - jmp Attack:UseAmmo+2d3
         <CheatEntry>
           <ID>134</ID>
           <Description>"Unlimited Items Building/Cooking/Placing"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -148,7 +144,6 @@ Inventory:RemoveItem+27: 48 89 4D 88           - mov [rbp-78],rcx
         <CheatEntry>
           <ID>138</ID>
           <Description>"Inf Consuming Items"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -206,7 +201,6 @@ Inventory:RemoveOneItem+20: 83 38 00        - cmp dword ptr [rax],00
         <CheatEntry>
           <ID>135</ID>
           <Description>"Inf Consuming Items Modded Game (DMD) *Cannot undo*"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -264,7 +258,6 @@ Inventory:RemoveOneItem+20: 83 38 00        - cmp dword ptr [rax],00
         <CheatEntry>
           <ID>133</ID>
           <Description>"Item Drop Does not decrease"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -330,7 +323,6 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
         <CheatEntry>
           <ID>140</ID>
           <Description>"Item Drop Does not decrease (DMD) *Cannot Undo*"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -398,13 +390,11 @@ Inventory:RemoveItem+20: 83 38 00                    - cmp dword ptr [rax],00
           <ID>149</ID>
           <Description>"Inf Stamina"</Description>
           <Options moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
               <ID>145</ID>
               <Description>"Inf Run Stamina"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -462,7 +452,6 @@ SEMan:ModifyRunStaminaDrain+138: C3           - ret
             <CheatEntry>
               <ID>146</ID>
               <Description>"Inf Jump Stamina"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -519,7 +508,6 @@ SEMan:ModifyJumpStaminaUsage+118: C3           - ret
             <CheatEntry>
               <ID>147</ID>
               <Description>"Inf Attack Stamina"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -575,7 +563,6 @@ SEMan:ModifyAttackStaminaUsage+118: C3           - ret
             <CheatEntry>
               <ID>148</ID>
               <Description>"Inf Dodge Stamina"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -634,7 +621,6 @@ SEMan:ModifyDodgeStaminaUsage+118: C3           - ret
         <CheatEntry>
           <ID>152</ID>
           <Description>"Hook Player (UpdateStats)"</Description>
-          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Valheim
   Version: 
@@ -714,7 +700,6 @@ Player:UpdateStats+25: 0F 85 1C 04 00 00     - jne Player:UpdateStats+447
             <CheatEntry>
               <ID>151</ID>
               <Description>"Player Base Address"</Description>
-              <LastState Value="0000020A32291000" RealAddress="24E09CC002D"/>
               <ShowAsHex>1</ShowAsHex>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>8 Bytes</VariableType>
@@ -723,7 +708,6 @@ Player:UpdateStats+25: 0F 85 1C 04 00 00     - jne Player:UpdateStats+447
             <CheatEntry>
               <ID>144</ID>
               <Description>"Attack Multiplier (modify the code)"</Description>
-              <LastState Activated="1"/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -801,19 +785,76 @@ Attack:ModifyDamage+48: F3 0F 10 87 18 01 00 00  - movss xmm0,[rdi+00000118]
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>
+        <CheatEntry>
+          <ID>154</ID>
+          <Description>"Inf Throwable Attack"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : valheim.exe
+  Version: 
+  Date   : 2025-05-21
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+define(address,1E83EF18214)
+define(bytes,FF C9 89 48 38)
+
+[ENABLE]
+
+assert(Attack:ConsumeItem+44,FF C9 89 48 38)
+
+Attack:ConsumeItem+44:
+  db 90 90
+
+[DISABLE]
+
+Attack:ConsumeItem+44:
+  db FF C9 89 48 38
+  // dec ecx
+  // mov [rax+38],ecx
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: Attack:ConsumeItem+44
+
+Attack:ConsumeItem+1a: 48 63 80 10 01 00 00           - movsxd  rax,dword ptr [rax+00000110]
+Attack:ConsumeItem+21: 83 F8 01                       - cmp eax,01
+Attack:ConsumeItem+24: 7E 28                          - jle Attack:ConsumeItem+4e
+Attack:ConsumeItem+26: 48 8B 86 B0 00 00 00           - mov rax,[rsi+000000B0]
+Attack:ConsumeItem+2d: 48 63 40 38                    - movsxd  rax,dword ptr [rax+38]
+Attack:ConsumeItem+31: 83 F8 01                       - cmp eax,01
+Attack:ConsumeItem+34: 7E 18                          - jle Attack:ConsumeItem+4e
+Attack:ConsumeItem+36: 48 8B 86 B0 00 00 00           - mov rax,[rsi+000000B0]
+Attack:ConsumeItem+3d: 48 8B D0                       - mov rdx,rax
+Attack:ConsumeItem+40: 48 63 48 38                    - movsxd  rcx,dword ptr [rax+38]
+// ---------- INJECTING HERE ----------
+Attack:ConsumeItem+44: FF C9                          - dec ecx
+// ---------- DONE INJECTING  ----------
+Attack:ConsumeItem+46: 89 48 38                       - mov [rax+38],ecx
+Attack:ConsumeItem+49: E9 55 00 00 00                 - jmp Attack:ConsumeItem+a3
+Attack:ConsumeItem+4e: 48 8B 86 88 00 00 00           - mov rax,[rsi+00000088]
+Attack:ConsumeItem+55: 48 8B 96 B0 00 00 00           - mov rdx,[rsi+000000B0]
+Attack:ConsumeItem+5c: 48 8B C8                       - mov rcx,rax
+Attack:ConsumeItem+5f: 45 33 C0                       - xor r8d,r8d
+Attack:ConsumeItem+62: 83 38 00                       - cmp dword ptr [rax],00
+Attack:ConsumeItem+65: 90                             - nop 
+Attack:ConsumeItem+66: 49 BB FA EA B2 C2 E6 01 00 00  - mov r11,000001E6C2B2EAFA
+Attack:ConsumeItem+70: 41 FF D3                       - call r11
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>139</ID>
       <Description>"obsolete"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>137</ID>
           <Description>"Inf Consume Backpack mod"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Valheim
   Version: 
@@ -870,7 +911,6 @@ Inventory:DMD&lt;Inventory::RemoveOneItem&gt;+81: 48 8B C8                      
         <CheatEntry>
           <ID>131</ID>
           <Description>"Disable RemoveItem (index: int):System.Boolean"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -944,7 +984,6 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
         <CheatEntry>
           <ID>132</ID>
           <Description>"Disable RemoveItem (item: ItemDrop/ItemData; amount: int):System.Boolean"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : valheim.exe
   Version: 
@@ -1002,7 +1041,6 @@ Inventory:RemoveItem+1e: 48 8B C8        - mov rcx,rax
         <CheatEntry>
           <ID>150</ID>
           <Description>"Hook Player"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Valheim
   Version: 
@@ -1082,6 +1120,12 @@ Player:Update+2f: 40 88 45 A8                    - mov [rbp-58],al
 </AssemblerScript>
         </CheatEntry>
       </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>153</ID>
+      <Description>"No description"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>1E91426A968</Address>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols>
