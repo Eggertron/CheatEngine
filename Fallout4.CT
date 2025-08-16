@@ -4,13 +4,11 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Fallout 4 version 1.10.980.0.1"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
       <ID>25</ID>
       <Description>"Inventory does not dec (Also affects ammo, not clip)"</Description>
-      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Fallout4.exe
   Version: 1.10.980.0.1
@@ -70,9 +68,65 @@ Fallout4.exe+2F7993: CC                       - int 3
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
+      <ID>34</ID>
+      <Description>"Zero Carry Weight"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Fallout4
+  Version: 
+  Date   : 2025-08-15
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(CARRYWEIGHT,Fallout4.exe,F3 0F 11 45 70 48) // should be unique
+
+
+CARRYWEIGHT:
+  movss [rbp+70],xmm7  // assuming that xmm7 is always zero
+registersymbol(CARRYWEIGHT)
+
+[DISABLE]
+
+CARRYWEIGHT:
+  db F3 0F 11 45 70
+
+unregistersymbol(CARRYWEIGHT)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Fallout4.exe+2FA40E
+
+Fallout4.exe+2FA3E7: 48 3B DE           - cmp rbx,rsi
+Fallout4.exe+2FA3EA: 75 E7              - jne Fallout4.exe+2FA3D3
+Fallout4.exe+2FA3EC: 48 8B 5C 24 30     - mov rbx,[rsp+30]
+Fallout4.exe+2FA3F1: 48 8B 74 24 38     - mov rsi,[rsp+38]
+Fallout4.exe+2FA3F6: 48 85 FF           - test rdi,rdi
+Fallout4.exe+2FA3F9: 74 08              - je Fallout4.exe+2FA403
+Fallout4.exe+2FA3FB: 48 8B CF           - mov rcx,rdi
+Fallout4.exe+2FA3FE: E8 BD 4C 24 01     - call Fallout4.exe+153F0C0
+Fallout4.exe+2FA403: F3 41 0F 10 46 08  - movss xmm0,[r14+08]
+Fallout4.exe+2FA409: 48 8B 7C 24 40     - mov rdi,[rsp+40]
+// ---------- INJECTING HERE ----------
+Fallout4.exe+2FA40E: F3 0F 11 45 70     - movss [rbp+70],xmm0
+// ---------- DONE INJECTING  ----------
+Fallout4.exe+2FA413: 48 8B 6C 24 48     - mov rbp,[rsp+48]
+Fallout4.exe+2FA418: 48 83 C4 20        - add rsp,20
+Fallout4.exe+2FA41C: 41 5E              - pop r14
+Fallout4.exe+2FA41E: C3                 - ret 
+Fallout4.exe+2FA41F: CC                 - int 3 
+Fallout4.exe+2FA420: CC                 - int 3 
+Fallout4.exe+2FA421: CC                 - int 3 
+Fallout4.exe+2FA422: CC                 - int 3 
+Fallout4.exe+2FA423: CC                 - int 3 
+Fallout4.exe+2FA424: CC                 - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>27</ID>
       <Description>"Inf Ammo Clip"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Fallout4.exe
   Version: 1.10.980.0.1
@@ -132,13 +186,11 @@ Fallout4.exe+CABBC1: 48 8B 01                    - mov rax,[rcx]
       <ID>10</ID>
       <Description>"not working"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>7</ID>
           <Description>"Inventory does not decrease"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
@@ -207,7 +259,6 @@ Fallout4.exe+1A81A8: CC                       - int 3
         <CheatEntry>
           <ID>8</ID>
           <Description>"LUA Inventory"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>/*
   Finds all occurrences of the inventory update function and replaces
@@ -269,7 +320,6 @@ end
         <CheatEntry>
           <ID>9</ID>
           <Description>"Inventory Items count freeze"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
@@ -328,7 +378,6 @@ Fallout4.exe+1A8800: 74 16                 - je Fallout4.exe+1A8818
         <CheatEntry>
           <ID>22</ID>
           <Description>"Inf Ammo Clip"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
@@ -388,7 +437,6 @@ Fallout4.exe+CABBD1 - 5B                    - pop rbx
         <CheatEntry>
           <ID>4</ID>
           <Description>"Player Current Weight"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Fallout4.exe
   Version: 
@@ -475,7 +523,6 @@ Fallout4.exe+1AC9D2: C3              - ret
         <CheatEntry>
           <ID>24</ID>
           <Description>"Inventory Does not update"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Fallout4.exe
   Version: 1.10.980.0.1
@@ -826,6 +873,12 @@ Fallout4.exe+2F803E: 74 17                 - je Fallout4.exe+2F8057
       </Elements>
     </Structure>
   </Structures>
+  <Comments>variables offset:
+default start: 0
+default stop: 00007fffffffffff
+example health display (not actual health): 1FBABD8F778
+example random inventory item: 1FBAC53DDA8
+example carry weight: 1FBACD01758</Comments>
   <LuaScript>getApplication().Title="FalloutFour"
 getMainForm().Caption="FalloutFour"
 getAutoAttachList().add("Fallout4.exe")

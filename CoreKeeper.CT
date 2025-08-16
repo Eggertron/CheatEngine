@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"CoreKeeper 1.1.0.2"</Description>
+      <Description>"CoreKeeper 1.1.2.3"</Description>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
@@ -20,6 +20,177 @@
   LaunchMonoDataCollector()
 {$asm}
 [DISABLE]
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>104</ID>
+      <Description>"Inf Crafting|Smelting"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : CoreKeeper.exe
+  Version: 
+  Date   : 2025-08-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(CRAFTING,lib_burst_generated.dll,E8 E8 19 00 00) // should be unique
+
+CRAFTING:
+  db 90 90 90 90 90
+registersymbol(CRAFTING)
+
+[DISABLE]
+
+CRAFTING:
+  db E8 E8 19 00 00
+
+unregistersymbol(CRAFTING)
+
+{
+// ORIGINAL CODE - INJECTION POINT: lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F23
+
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3EF1: 48 89 44 24 40           - mov [rsp+40],rax
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3EF6: 48 8D 45 50              - lea rax,[rbp+50]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3EFA: 48 89 44 24 30           - mov [rsp+30],rax
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3EFF: 89 74 24 20              - mov [rsp+20],esi
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F03: C7 44 24 38 FF FF FF FF  - mov [rsp+38],FFFFFFFF
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F0B: C6 44 24 28 01           - mov byte ptr [rsp+28],01
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F10: 48 8B 8D 88 01 00 00     - mov rcx,[rbp+00000188]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F17: 8B 95 10 01 00 00        - mov edx,[rbp+00000110]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F1D: 45 89 F0                 - mov r8d,r14d
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F20: 45 89 F9                 - mov r9d,r15d
+// ---------- INJECTING HERE ----------
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F23: E8 E8 19 00 00           - call lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+5910
+// ---------- DONE INJECTING  ----------
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F28: 29 C6                    - sub esi,eax
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F2A: 41 8B 44 24 08           - mov eax,[r12+08]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F2F: EB 8F                    - jmp lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3EC0
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F31: 4C 89 DE                 - mov rsi,r11
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F34: 4D 89 D3                 - mov r11,r10
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F37: 8B 95 58 01 00 00        - mov edx,[rbp+00000158]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F3D: 4C 8B 40 70              - mov r8,[rax+70]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F41: 44 8B 88 A8 00 00 00     - mov r9d,[rax+000000A8]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F48: 0F B7 8D 56 01 00 00     - movzx ecx,word ptr [rbp+00000156]
+lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+3F4F: 66 85 C9                 - test cx,cx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>103</ID>
+      <Description>"Inf Consume (disable to place objects)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : CoreKeeper.exe
+  Version: 
+  Date   : 2025-08-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(CONSUME,lib_burst_generated.dll,E8 F5 CD CE FF) // should be unique
+
+CONSUME:
+  db 90 90 90 90 90
+registersymbol(CONSUME)
+
+[DISABLE]
+
+CONSUME:
+  db E8 F5 CD CE FF
+
+unregistersymbol(CONSUME)
+
+{
+// ORIGINAL CODE - INJECTION POINT: lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44E6
+
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44B3: 44 89 64 24 38           - mov [rsp+38],r12d
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44B8: 48 8D 84 24 10 03 00 00  - lea rax,[rsp+00000310]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44C0: 48 89 44 24 30           - mov [rsp+30],rax
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44C5: 40 88 7C 24 28           - mov [rsp+28],dil
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44CA: 89 74 24 20              - mov [rsp+20],esi
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44CE: 4C 89 E9                 - mov rcx,r13
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44D1: 8B 94 24 88 00 00 00     - mov edx,[rsp+00000088]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44D8: 44 8B 84 24 C0 00 00 00  - mov r8d,[rsp+000000C0]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44E0: 41 89 D9                 - mov r9d,ebx
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44E3: C5 F8 77                 - vzeroupper 
+// ---------- INJECTING HERE ----------
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44E6: E8 F5 CD CE FF           - call lib_burst_generated.burst.initialize.statics.3c1eeb7bdb8184e355af28c14f2b3cb9_avx2+5910
+// ---------- DONE INJECTING  ----------
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44EB: 40 B7 01                 - mov dil,01
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44EE: 39 F0                    - cmp eax,esi
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44F0: 0F 8D 6A 02 00 00        - jnl lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+4760
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44F6: C7 44 24 20 77 00 00 00  - mov [rsp+20],00000077
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+44FE: 4C 8D 05 C7 35 6E 05     - lea r8,[lib_burst_generated.dll+6A6FECC]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+4505: 4C 8D 0D D6 36 6E 05     - lea r9,[lib_burst_generated.dll+6A6FFE2]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+450C: 31 FF                    - xor edi,edi
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+450E: 31 C9                    - xor ecx,ecx
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+4510: BA 01 00 00 00           - mov edx,00000001
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+4515: FF 15 B5 AD 70 05        - call qword ptr [lib_burst_generated.dll+6A976D0]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>105</ID>
+      <Description>"Inf Split Items (not working)"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : CoreKeeper.exe
+  Version: 
+  Date   : 2025-08-16
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(SPLIT,lib_burst_generated.dll,E8 ED F6 F6 FF) // should be unique
+
+SPLIT:
+  db 90 90 90 90 90
+registersymbol(SPLIT)
+
+[DISABLE]
+
+SPLIT:
+  db E8 ED F6 F6 FF
+
+unregistersymbol(SPLIT)
+
+{
+// ORIGINAL CODE - INJECTION POINT: lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+365E
+
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3633: 44 89 54 24 40        - mov [rsp+40],r10d
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3638: 44 89 44 24 38        - mov [rsp+38],r8d
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+363D: 89 54 24 30           - mov [rsp+30],edx
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3641: 89 4C 24 28           - mov [rsp+28],ecx
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3645: 89 44 24 20           - mov [rsp+20],eax
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3649: C6 44 24 50 00        - mov byte ptr [rsp+50],00
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+364E: 4C 89 E9              - mov rcx,r13
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3651: 8B 94 24 88 00 00 00  - mov edx,[rsp+00000088]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3658: 45 89 F0              - mov r8d,r14d
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+365B: C5 F8 77              - vzeroupper 
+// ---------- INJECTING HERE ----------
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+365E: E8 ED F6 F6 FF        - call lib_burst_generated.burst.initialize.statics.e55bf0d85c2d3424c88d9f7e698d6f5d_avx2+B920
+// ---------- DONE INJECTING  ----------
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3663: E9 7A 10 00 00        - jmp lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+46E2
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3668: 45 8B 4C 24 1C        - mov r9d,[r12+1C]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+366D: 41 8B 44 24 0C        - mov eax,[r12+0C]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3672: 41 8B 4C 24 10        - mov ecx,[r12+10]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3677: 41 8B 54 24 20        - mov edx,[r12+20]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+367C: 45 8B 44 24 24        - mov r8d,[r12+24]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3681: 45 8B 54 24 2C        - mov r10d,[r12+2C]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3686: 45 8B 5C 24 30        - mov r11d,[r12+30]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+368B: 41 8B 74 24 34        - mov esi,[r12+34]
+lib_burst_generated.burst.initialize.statics.d955aac4ce3e12722037e6821f29e8fc_avx2+3690: C4 C1 7B 10 44 24 3C  - vmovsd xmm0,[r12+3C]
+}
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
@@ -498,13 +669,6 @@ GameAssembly.dll+2ABB6CE: E8 BD C2 AC FD        - call GameAssembly.il2cpp_get_e
           </CheatEntries>
         </CheatEntry>
       </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>21</ID>
-      <Description>"No description"</Description>
-      <LastState Value="7" RealAddress="1DC470BB668"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>1DC470BB668</Address>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
@@ -5571,12 +5735,18 @@ GameAssembly.dll+2ABB6CE: E8 BD C2 AC FD        - call GameAssembly.il2cpp_get_e
       </Elements>
     </Structure>
   </Structures>
-  <Comments>Version 1.1.0.2
-Things have changed
-
-Version 0.7.4.2
+  <Comments>Version 0.7.4.2
 Mono dissector: Pub.Other::
-</Comments>
+Version 1.1.0.2
+Things have changed
+Version 1.1.2.3
+item quantity 4 bytes
+example slot 1 address: 23647A92284
+
+How to find and disable functions;
+1. Get inventory count for slot1 by moving different quantity items around in it
+2. break and trace the address for what calls it as a function
+3. nop the function</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("CoreKeeper.exe")
