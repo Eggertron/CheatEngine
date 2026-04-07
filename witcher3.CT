@@ -23,337 +23,121 @@
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>53</ID>
-      <Description>"Player Base Hook"</Description>
-      <LastState Activated="1"/>
+      <ID>73</ID>
+      <Description>"Inf {FOOD AND DRINK} consume/sell"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : witcher3.exe
   Version: 4.04
-  Date   : 2024-02-03
+  Date   : 2026-01-04
   Author : bboyh
 
-  This script does blah blah blah
+  Found while eating bread
 }
 
 [ENABLE]
 
-aobscanmodule(PLAYER_BASE_HOOK,witcher3.exe,C9 89 44 24 68 48 8B 01 FF 90 C8 00 00 00) // should be unique
-alloc(newmem,100,PLAYER_BASE_HOOK)
+aobscanmodule(CONSUME_FOOD,witcher3.exe,41 2B C6 BA 03 00 00 00) // should be unique
 
-label(code)
-label(return)
-
-newmem:
-
-code:
-  mov rax,[rcx]
-  mov [PLAYER_BASE_HOOK_ADDR],rcx  // save the player base address pointer
-  call qword ptr [rax+000000C8]
-  jmp return
-PLAYER_BASE_HOOK_ADDR:
-  dq 0
-
-PLAYER_BASE_HOOK+05:
-  jmp newmem
-  nop 4
-return:
-registersymbol(PLAYER_BASE_HOOK)
-registersymbol(PLAYER_BASE_HOOK_ADDR)
-
-[DISABLE]
-
-PLAYER_BASE_HOOK+05:
-  db 48 8B 01 FF 90 C8 00 00 00
-
-unregistersymbol(PLAYER_BASE_HOOK)
-unregistersymbol(PLAYER_BASE_HOOK_ADDR)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: witcher3.exe+33CDE4
-
-witcher3.exe+33CDBF: 49 8D 41 04        - lea rax,[r9+04]
-witcher3.exe+33CDC3: 4C 89 4A 30        - mov [rdx+30],r9
-witcher3.exe+33CDC7: 49 03 FA           - add rdi,r10
-witcher3.exe+33CDCA: 41 0F B7 32        - movzx esi,word ptr [r10]
-witcher3.exe+33CDCE: 89 72 38           - mov [rdx+38],esi
-witcher3.exe+33CDD1: 48 89 42 30        - mov [rdx+30],rax
-witcher3.exe+33CDD5: 48 8D 54 24 60     - lea rdx,[rsp+60]
-witcher3.exe+33CDDA: 41 8B 01           - mov eax,[r9]
-witcher3.exe+33CDDD: 45 33 C9           - xor r9d,r9d
-witcher3.exe+33CDE0: 89 44 24 68        - mov [rsp+68],eax
-// ---------- INJECTING HERE ----------
-witcher3.exe+33CDE4: 48 8B 01           - mov rax,[rcx]
-// ---------- DONE INJECTING  ----------
-witcher3.exe+33CDE7: FF 90 C8 00 00 00  - call qword ptr [rax+000000C8]
-witcher3.exe+33CDED: 48 85 C0           - test rax,rax
-witcher3.exe+33CDF0: 0F 84 91 00 00 00  - je witcher3.exe+33CE87
-witcher3.exe+33CDF6: 48 8B 54 24 60     - mov rdx,[rsp+60]
-witcher3.exe+33CDFB: 4C 8B CD           - mov r9,rbp
-witcher3.exe+33CDFE: 4C 8B C3           - mov r8,rbx
-witcher3.exe+33CE01: 48 8B C8           - mov rcx,rax
-witcher3.exe+33CE04: E8 57 06 FC FF     - call witcher3.AK::Monitor::PostString+6B10
-witcher3.exe+33CE09: 84 C0              - test al,al
-witcher3.exe+33CE0B: 74 7A              - je witcher3.exe+33CE87
-}
-</AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>54</ID>
-          <Description>"Player Base Address"</Description>
-          <ShowAsHex>1</ShowAsHex>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>Array of byte</VariableType>
-          <ByteLength>8</ByteLength>
-          <Address>PLAYER_BASE_HOOK_ADDR</Address>
-          <Offsets>
-            <Offset>0</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>55</ID>
-          <Description>"Player no damage from monsters, no toxicity from potions"</Description>
-          <LastState Activated="1"/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : witcher3.exe
-  Version: 4.04
-  Date   : 2024-02-03
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscanmodule(HEALTH_DEC,witcher3.exe,F3 0F 11 34 88 83 FB) // should be unique
-alloc(newmem,$256,HEALTH_DEC)
-
-label(code)
-label(return)
-label(normal)
-label(max_adrenaline)
-
-newmem:
-  //mov rdx,[rsp+160]  // location of player base address when attacked
-  //mov rdx,[rsp+1A0]  // location of player base address when attacked
-  //mov rdx,[rsp+140]  // location of player base address when attacked
-  mov rdx,[rsp+C0]  // location of player base address when attacked by drowners
-  //mov [TEST],rdx
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+6E0]  // location of player base address when drinking potion and taking in toxicity, not on 4.04
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+288]  // another location of player base address when drinking potion and taking in toxicity, not on 4.04
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+568]  // location of player base address when casting spell
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+580]  // another possible location of player base address when casting spell
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+100]  // location of player base address when adrenaline decrementing
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  mov rdx,[rsp+F8]  // another location of player base address when adrenaline decrementing
-  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  je code
-  //mov rdx,[rsp+1B8]  // location of player base address when adrenaline incrementing from attacking, also the location of toxicity decrementing over time
-  //cmp rdx,[PLAYER_BASE_HOOK_ADDR]
-  //je max_adrenaline
-
-normal:
-  movss [rax+rcx*4],xmm6
-
-code:
-  jmp return
-max_adrenaline:
-  movss xmm6,[rax+rcx*4+4]
-  jmp normal
-//TEST:
-//  dq 0
-
-HEALTH_DEC:
-  jmp newmem
-return:
-registersymbol(HEALTH_DEC)
-//registersymbol(TEST)
-
-[DISABLE]
-
-HEALTH_DEC:
-  db F3 0F 11 34 88
-
-unregistersymbol(HEALTH_DEC)
-//unregistersymbol(TEST)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: witcher3.exe+EE7F03
-
-witcher3.exe+EE7EDF: 0F 29 74 24 30     - movaps [rsp+30],xmm6
-witcher3.exe+EE7EE4: 8B D3              - mov edx,ebx
-witcher3.exe+EE7EE6: F3 0F 10 74 24 68  - movss xmm6,[rsp+68]
-witcher3.exe+EE7EEC: 48 8B CF           - mov rcx,rdi
-witcher3.exe+EE7EEF: E8 FC EC FF FF     - call witcher3.exe+EE6BF0
-witcher3.exe+EE7EF4: 83 F8 FF           - cmp eax,-01
-witcher3.exe+EE7EF7: 74 2B              - je witcher3.exe+EE7F24
-witcher3.exe+EE7EF9: 48 98              - cdqe 
-witcher3.exe+EE7EFB: 48 8D 0C 40        - lea rcx,[rax+rax*2]
-witcher3.exe+EE7EFF: 48 8B 47 60        - mov rax,[rdi+60]
-// ---------- INJECTING HERE ----------
-witcher3.exe+EE7F03: F3 0F 11 34 88     - movss [rax+rcx*4],xmm6
-// ---------- DONE INJECTING  ----------
-witcher3.exe+EE7F08: 83 FB 06           - cmp ebx,06
-witcher3.exe+EE7F0B: 75 17              - jne witcher3.exe+EE7F24
-witcher3.exe+EE7F0D: 8B 05 B1 2F 61 04  - mov eax,[witcher3.exe+54FAEC4]
-witcher3.exe+EE7F13: 48 8D 54 24 20     - lea rdx,[rsp+20]
-witcher3.exe+EE7F18: 48 8B CF           - mov rcx,rdi
-witcher3.exe+EE7F1B: 89 44 24 20        - mov [rsp+20],eax
-witcher3.exe+EE7F1F: E8 DC F9 41 FF     - call witcher3.exe+307900
-witcher3.exe+EE7F24: 0F 28 74 24 30     - movaps xmm6,[rsp+30]
-witcher3.exe+EE7F29: 48 8B 5C 24 60     - mov rbx,[rsp+60]
-witcher3.exe+EE7F2E: 48 83 C4 40        - add rsp,40
-}
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>64</ID>
-          <Description>"Inf Potion Usage"</Description>
-          <LastState Activated="1"/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : witcher3.exe
-  Version: 4.04
-  Date   : 2024-02-04
-  Author : bboyh
-
-  This section of code might be unique to only potion usage
-}
-
-[ENABLE]
-
-aobscanmodule(POTION_USE,witcher3.exe,89 41 04 48 8B 5C 24 60) // should be unique
-alloc(newmem,100,POTION_USE)
-
-label(code)
-label(return)
-
-newmem:
-  mov rbx,[rsp+A0]  // should be
-  cmp rbx,[PLAYER_BASE_HOOK_ADDR]
-  je code  // skip the new value assignment
-  mov [rcx+04],eax
-
-code:
-  mov rbx,[rsp+60]
-  jmp return
-
-POTION_USE:
-  jmp newmem
-  nop 3
-return:
-registersymbol(POTION_USE)
-
-[DISABLE]
-
-POTION_USE:
-  db 89 41 04 48 8B 5C 24 60
-
-unregistersymbol(POTION_USE)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: witcher3.exe+755A25
-
-witcher3.exe+755A01: 41 3B 01           - cmp eax,[r9]
-witcher3.exe+755A04: 72 39              - jb witcher3.exe+755A3F
-witcher3.exe+755A06: 8B 47 38           - mov eax,[rdi+38]
-witcher3.exe+755A09: 48 8D 0C 40        - lea rcx,[rax+rax*2]
-witcher3.exe+755A0D: 49 8D 04 88        - lea rax,[r8+rcx*4]
-witcher3.exe+755A11: 4C 3B C8           - cmp r9,rax
-witcher3.exe+755A14: 49 8D 49 04        - lea rcx,[r9+04]
-witcher3.exe+755A18: 49 0F 44 CF        - cmove rcx,r15
-witcher3.exe+755A1C: C7 01 02 00 00 00  - mov [rcx],00000002
-witcher3.exe+755A22: 8B 45 F0           - mov eax,[rbp-10]
-// ---------- INJECTING HERE ----------
-witcher3.exe+755A25: 89 41 04           - mov [rcx+04],eax
-// ---------- DONE INJECTING  ----------
-witcher3.exe+755A28: 48 8B 5C 24 60     - mov rbx,[rsp+60]
-witcher3.exe+755A2D: 48 8B 74 24 70     - mov rsi,[rsp+70]
-witcher3.exe+755A32: 48 83 C4 30        - add rsp,30
-witcher3.exe+755A36: 41 5F              - pop r15
-witcher3.exe+755A38: 41 5E              - pop r14
-witcher3.exe+755A3A: 41 5D              - pop r13
-witcher3.exe+755A3C: 5F                 - pop rdi
-witcher3.exe+755A3D: 5D                 - pop rbp
-witcher3.exe+755A3E: C3                 - ret 
-witcher3.exe+755A3F: 4E 8D 0C 06        - lea r9,[rsi+r8]
-}
-</AssemblerScript>
-        </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>68</ID>
-      <Description>"Inf Food/Water Consume/sell"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : witcher3.exe
-  Version: 4.04
-  Date   : 2024-02-04
-  Author : bboyh
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscanmodule(ITEM_DEC,witcher3.exe,41 2B C6 BA 03 00 00 00 89 44 39 54 E9 60) // should be unique
-
-ITEM_DEC:
+CONSUME_FOOD:
   db 90 90 90
-registersymbol(ITEM_DEC)
+registersymbol(CONSUME_FOOD)
 
 [DISABLE]
 
-ITEM_DEC:
+CONSUME_FOOD:
   db 41 2B C6 BA 03 00 00 00
 
-unregistersymbol(ITEM_DEC)
+unregistersymbol(CONSUME_FOOD)
 
 {
-// ORIGINAL CODE - INJECTION POINT: witcher3.exe+77DB45
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+19F7DD5
 
-witcher3.exe+77DB22: 44 8A CD        - mov r9b,bpl
-witcher3.exe+77DB25: 44 8A C5        - mov r8b,bpl
-witcher3.exe+77DB28: 8B D3           - mov edx,ebx
-witcher3.exe+77DB2A: 48 8B CE        - mov rcx,rsi
-witcher3.exe+77DB2D: E8 D6 78 B2 FF  - call witcher3.exe+2A5408
-witcher3.exe+77DB32: E9 58 FF FF FF  - jmp witcher3.exe+77DA8F
-witcher3.exe+77DB37: 41 88 6D 00     - mov [r13+00],bpl
-witcher3.exe+77DB3B: EB 94           - jmp witcher3.exe+77DAD1
-witcher3.exe+77DB3D: 8B 42 64        - mov eax,[rdx+64]
-witcher3.exe+77DB40: E9 CD FE FF FF  - jmp witcher3.exe+77DA12
+witcher3.exe+19F7DB7: 4A 8B 54 07 70  - mov rdx,[rdi+r8+70]
+witcher3.exe+19F7DBC: 4A 8D 0C 07     - lea rcx,[rdi+r8]
+witcher3.exe+19F7DC0: 8B 59 60        - mov ebx,[rcx+60]
+witcher3.exe+19F7DC3: 0F B6 C2        - movzx eax,dl
+witcher3.exe+19F7DC6: C0 E8 02        - shr al,02
+witcher3.exe+19F7DC9: A8 01           - test al,01
+witcher3.exe+19F7DCB: 74 15           - je witcher3.exe+19F7DE2
+witcher3.exe+19F7DCD: 8B 41 54        - mov eax,[rcx+54]
+witcher3.exe+19F7DD0: 41 3B C6        - cmp eax,r14d
+witcher3.exe+19F7DD3: 76 0D           - jna witcher3.exe+19F7DE2
 // ---------- INJECTING HERE ----------
-witcher3.exe+77DB45: 41 2B C6        - sub eax,r14d
+witcher3.exe+19F7DD5: 41 2B C6        - sub eax,r14d
 // ---------- DONE INJECTING  ----------
-witcher3.exe+77DB48: BA 03 00 00 00  - mov edx,00000003
-witcher3.exe+77DB4D: 89 44 39 54     - mov [rcx+rdi+54],eax
-witcher3.exe+77DB51: E9 60 FF FF FF  - jmp witcher3.exe+77DAB6
-witcher3.exe+77DB56: CC              - int 3 
-witcher3.exe+77DB57: CC              - int 3 
-witcher3.exe+77DB58: 48 89 5C 24 10  - mov [rsp+10],rbx
-witcher3.exe+77DB5D: 48 89 4C 24 08  - mov [rsp+08],rcx
-witcher3.exe+77DB62: 55              - push rbp
-witcher3.exe+77DB63: 56              - push rsi
-witcher3.exe+77DB64: 57              - push rdi
+witcher3.exe+19F7DD8: BA 03 00 00 00  - mov edx,00000003
+witcher3.exe+19F7DDD: 89 41 54        - mov [rcx+54],eax
+witcher3.exe+19F7DE0: EB 3D           - jmp witcher3.exe+19F7E1F
+witcher3.exe+19F7DE2: F6 C2 60        - test dl,60
+witcher3.exe+19F7DE5: 74 11           - je witcher3.exe+19F7DF8
+witcher3.exe+19F7DE7: 41 B1 01        - mov r9b,01
+witcher3.exe+19F7DEA: 8B D3           - mov edx,ebx
+witcher3.exe+19F7DEC: 45 0F B6 C1     - movzx r8d,r9b
+witcher3.exe+19F7DF0: 48 8B CD        - mov rcx,rbp
+witcher3.exe+19F7DF3: E8 08 FA FF FF  - call witcher3.exe+19F7800
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>41</ID>
+      <Description>"Item / Money does not decrease, unless all is subtracted"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : witcher3.exe
+  Version: 4.04
+  Date   : 2023-01-22
+  Author : Edgar Han
+
+  Always jump over item/money dec logic was the old target but there
+  seems to be a check within the code. best to nop the sub logic instead.
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_DEC_SKIP,witcher3.exe,41 2B C6 BA 03 00 00 00) // should be unique
+
+
+ITEM_DEC_SKIP:
+  db 90 90 90
+registersymbol(ITEM_DEC_SKIP)
+
+[DISABLE]
+
+ITEM_DEC_SKIP:
+  db 41 2B C6 BA 03 00 00 00
+
+unregistersymbol(ITEM_DEC_SKIP)
+
+{
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+9091F3
+witcher3.exe+19F7DC0 - 8B 59 60              - mov ebx,[rcx+60]
+witcher3.exe+19F7DC3 - 0FB6 C2               - movzx eax,dl
+witcher3.exe+19F7DC6 - C0 E8 02              - shr al,02
+witcher3.exe+19F7DC9 - A8 01                 - test al,01
+witcher3.exe+19F7DCB - 74 15                 - je witcher3.exe+19F7DE2
+witcher3.exe+19F7DCD - 8B 41 54              - mov eax,[rcx+54]
+witcher3.exe+19F7DD0 - 41 3B C6              - cmp eax,r14d
+witcher3.exe+19F7DD3 - 76 0D                 - jna witcher3.exe+19F7DE2
+
+witcher3.exe+19F7DD5 - 41 2B C6              - sub eax,r14d
+
+witcher3.exe+19F7DD8 - BA 03000000           - mov edx,00000003
+witcher3.exe+19F7DDD - 89 41 54              - mov [rcx+54],eax
+witcher3.exe+19F7DE0 - EB 3D                 - jmp witcher3.exe+19F7E1F
+witcher3.exe+19F7DE2 - F6 C2 60              - test dl,60
+witcher3.exe+19F7DE5 - 74 11                 - je witcher3.exe+19F7DF8
+witcher3.exe+19F7DE7 - 41 B1 01              - mov r9b,01
+witcher3.exe+19F7DEA - 8B D3                 - mov edx,ebx
+witcher3.exe+19F7DEC - 45 0FB6 C1            - movzx r8d,r9b
+witcher3.exe+19F7DF0 - 48 8B CD              - mov rcx,rbp
+
 }
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>71</ID>
-      <Description>"No money spent on crafting"</Description>
+      <Description>"!No money spent on crafting"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : witcher3.exe
@@ -409,66 +193,8 @@ witcher3.exe+76A7CD: 41 BC 04 00 00 00     - mov r12d,00000004
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>41</ID>
-      <Description>"Item / Money does not decrease, unless all is subtracted"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : witcher3.exe
-  Version: 
-  Date   : 2023-01-22
-  Author : Edgar Han
-
-  Always jump over item/money dec logic
-}
-
-[ENABLE]
-
-aobscanmodule(ITEM_DEC_SKIP,witcher3.exe,74 19 42 8B 44 07 54) // should be unique
-
-
-ITEM_DEC_SKIP:
-  db EB 56
-registersymbol(ITEM_DEC_SKIP)
-
-[DISABLE]
-
-ITEM_DEC_SKIP:
-  db 74 19 42 8B 44 07 54
-
-unregistersymbol(ITEM_DEC_SKIP)
-
-{
-// ORIGINAL CODE - INJECTION POINT: witcher3.exe+9091F3
-
-witcher3.exe+9091CE: 85 F6              - test esi,esi
-witcher3.exe+9091D0: 0F 88 F2 FE FF FF  - js witcher3.exe+9090C8
-witcher3.exe+9091D6: 3B F2              - cmp esi,edx
-witcher3.exe+9091D8: 0F 8D EA FE FF FF  - jnl witcher3.exe+9090C8
-witcher3.exe+9091DE: 48 8D 3C C9        - lea rdi,[rcx+rcx*8]
-witcher3.exe+9091E2: 48 C1 E7 04        - shl rdi,04
-witcher3.exe+9091E6: 4A 8B 4C 07 70     - mov rcx,[rdi+r8+70]
-witcher3.exe+9091EB: 0F B6 C1           - movzx eax,cl
-witcher3.exe+9091EE: C0 E8 02           - shr al,02
-witcher3.exe+9091F1: A8 01              - test al,01
-// ---------- INJECTING HERE ----------
-witcher3.exe+9091F3: 74 19              - je witcher3.exe+90920E
-// ---------- DONE INJECTING  ----------
-witcher3.exe+9091F5: 42 8B 44 07 54     - mov eax,[rdi+r8+54]
-witcher3.exe+9091FA: 41 3B C6           - cmp eax,r14d
-witcher3.exe+9091FD: 76 0F              - jna witcher3.exe+90920E
-witcher3.exe+9091FF: 41 2B C6           - sub eax,r14d
-witcher3.exe+909202: BA 03 00 00 00     - mov edx,00000003
-witcher3.exe+909207: 42 89 44 07 54     - mov [rdi+r8+54],eax
-witcher3.exe+90920C: EB 3D              - jmp witcher3.exe+90924B
-witcher3.exe+90920E: F6 C1 60           - test cl,60
-witcher3.exe+909211: 74 11              - je witcher3.exe+909224
-witcher3.exe+909213: 41 B1 01           - mov r9l,01
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
       <ID>42</ID>
-      <Description>"Item Add Multiplier"</Description>
+      <Description>"!Item Add Multiplier"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : witcher3.exe
@@ -539,21 +265,6 @@ witcher3.exe+9078A2: 44 2B EF           - sub r13d,edi
 witcher3.exe+9078A5: 89 1C 82           - mov [rdx+rax*4],ebx
 }
 </AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>12</ID>
-      <Description>"INFO"</Description>
-      <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
-      <GroupHeader>1</GroupHeader>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>13</ID>
-          <Description>"Items are 4 bytes"</Description>
-          <LastState Value="" RealAddress="00000000"/>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>14</ID>
@@ -1310,9 +1021,370 @@ witcher3.exe+92260F: E8 3C 15 00 00  - call witcher3.exe+923B50
 }
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>68</ID>
+          <Description>"Inf Food/Water Consume/sell"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : witcher3.exe
+  Version: 4.04
+  Date   : 2024-02-04
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(ITEM_DEC,witcher3.exe,41 2B C6 BA 03 00 00 00 89 44 39 54 E9 60) // should be unique
+
+ITEM_DEC:
+  db 90 90 90
+registersymbol(ITEM_DEC)
+
+[DISABLE]
+
+ITEM_DEC:
+  db 41 2B C6 BA 03 00 00 00
+
+unregistersymbol(ITEM_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+77DB45
+
+witcher3.exe+77DB22: 44 8A CD        - mov r9b,bpl
+witcher3.exe+77DB25: 44 8A C5        - mov r8b,bpl
+witcher3.exe+77DB28: 8B D3           - mov edx,ebx
+witcher3.exe+77DB2A: 48 8B CE        - mov rcx,rsi
+witcher3.exe+77DB2D: E8 D6 78 B2 FF  - call witcher3.exe+2A5408
+witcher3.exe+77DB32: E9 58 FF FF FF  - jmp witcher3.exe+77DA8F
+witcher3.exe+77DB37: 41 88 6D 00     - mov [r13+00],bpl
+witcher3.exe+77DB3B: EB 94           - jmp witcher3.exe+77DAD1
+witcher3.exe+77DB3D: 8B 42 64        - mov eax,[rdx+64]
+witcher3.exe+77DB40: E9 CD FE FF FF  - jmp witcher3.exe+77DA12
+// ---------- INJECTING HERE ----------
+witcher3.exe+77DB45: 41 2B C6        - sub eax,r14d
+// ---------- DONE INJECTING  ----------
+witcher3.exe+77DB48: BA 03 00 00 00  - mov edx,00000003
+witcher3.exe+77DB4D: 89 44 39 54     - mov [rcx+rdi+54],eax
+witcher3.exe+77DB51: E9 60 FF FF FF  - jmp witcher3.exe+77DAB6
+witcher3.exe+77DB56: CC              - int 3 
+witcher3.exe+77DB57: CC              - int 3 
+witcher3.exe+77DB58: 48 89 5C 24 10  - mov [rsp+10],rbx
+witcher3.exe+77DB5D: 48 89 4C 24 08  - mov [rsp+08],rcx
+witcher3.exe+77DB62: 55              - push rbp
+witcher3.exe+77DB63: 56              - push rsi
+witcher3.exe+77DB64: 57              - push rdi
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>53</ID>
+          <Description>"Player Base Hook"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : witcher3.exe
+  Version: 4.04
+  Date   : 2024-02-03
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(PLAYER_BASE_HOOK,witcher3.exe,C9 89 44 24 68 48 8B 01 FF 90 C8 00 00 00) // should be unique
+alloc(newmem,100,PLAYER_BASE_HOOK)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rax,[rcx]
+  mov [PLAYER_BASE_HOOK_ADDR],rcx  // save the player base address pointer
+  call qword ptr [rax+000000C8]
+  jmp return
+PLAYER_BASE_HOOK_ADDR:
+  dq 0
+
+PLAYER_BASE_HOOK+05:
+  jmp newmem
+  nop 4
+return:
+registersymbol(PLAYER_BASE_HOOK)
+registersymbol(PLAYER_BASE_HOOK_ADDR)
+
+[DISABLE]
+
+PLAYER_BASE_HOOK+05:
+  db 48 8B 01 FF 90 C8 00 00 00
+
+unregistersymbol(PLAYER_BASE_HOOK)
+unregistersymbol(PLAYER_BASE_HOOK_ADDR)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+33CDE4
+
+witcher3.exe+33CDBF: 49 8D 41 04        - lea rax,[r9+04]
+witcher3.exe+33CDC3: 4C 89 4A 30        - mov [rdx+30],r9
+witcher3.exe+33CDC7: 49 03 FA           - add rdi,r10
+witcher3.exe+33CDCA: 41 0F B7 32        - movzx esi,word ptr [r10]
+witcher3.exe+33CDCE: 89 72 38           - mov [rdx+38],esi
+witcher3.exe+33CDD1: 48 89 42 30        - mov [rdx+30],rax
+witcher3.exe+33CDD5: 48 8D 54 24 60     - lea rdx,[rsp+60]
+witcher3.exe+33CDDA: 41 8B 01           - mov eax,[r9]
+witcher3.exe+33CDDD: 45 33 C9           - xor r9d,r9d
+witcher3.exe+33CDE0: 89 44 24 68        - mov [rsp+68],eax
+// ---------- INJECTING HERE ----------
+witcher3.exe+33CDE4: 48 8B 01           - mov rax,[rcx]
+// ---------- DONE INJECTING  ----------
+witcher3.exe+33CDE7: FF 90 C8 00 00 00  - call qword ptr [rax+000000C8]
+witcher3.exe+33CDED: 48 85 C0           - test rax,rax
+witcher3.exe+33CDF0: 0F 84 91 00 00 00  - je witcher3.exe+33CE87
+witcher3.exe+33CDF6: 48 8B 54 24 60     - mov rdx,[rsp+60]
+witcher3.exe+33CDFB: 4C 8B CD           - mov r9,rbp
+witcher3.exe+33CDFE: 4C 8B C3           - mov r8,rbx
+witcher3.exe+33CE01: 48 8B C8           - mov rcx,rax
+witcher3.exe+33CE04: E8 57 06 FC FF     - call witcher3.AK::Monitor::PostString+6B10
+witcher3.exe+33CE09: 84 C0              - test al,al
+witcher3.exe+33CE0B: 74 7A              - je witcher3.exe+33CE87
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>54</ID>
+              <Description>"Player Base Address"</Description>
+              <ShowAsHex>1</ShowAsHex>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Array of byte</VariableType>
+              <ByteLength>8</ByteLength>
+              <Address>PLAYER_BASE_HOOK_ADDR</Address>
+              <Offsets>
+                <Offset>0</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>55</ID>
+              <Description>"Player no damage from monsters, no toxicity from potions"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>{ Game   : witcher3.exe
+  Version: 4.04
+  Date   : 2024-02-03
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(HEALTH_DEC,witcher3.exe,F3 0F 11 34 88 83 FB) // should be unique
+alloc(newmem,$256,HEALTH_DEC)
+
+label(code)
+label(return)
+label(normal)
+label(max_adrenaline)
+
+newmem:
+  //mov rdx,[rsp+160]  // location of player base address when attacked
+  //mov rdx,[rsp+1A0]  // location of player base address when attacked
+  //mov rdx,[rsp+140]  // location of player base address when attacked
+  mov rdx,[rsp+C0]  // location of player base address when attacked by drowners
+  //mov [TEST],rdx
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+6E0]  // location of player base address when drinking potion and taking in toxicity, not on 4.04
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+288]  // another location of player base address when drinking potion and taking in toxicity, not on 4.04
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+568]  // location of player base address when casting spell
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+580]  // another possible location of player base address when casting spell
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+100]  // location of player base address when adrenaline decrementing
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  mov rdx,[rsp+F8]  // another location of player base address when adrenaline decrementing
+  cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  je code
+  //mov rdx,[rsp+1B8]  // location of player base address when adrenaline incrementing from attacking, also the location of toxicity decrementing over time
+  //cmp rdx,[PLAYER_BASE_HOOK_ADDR]
+  //je max_adrenaline
+
+normal:
+  movss [rax+rcx*4],xmm6
+
+code:
+  jmp return
+max_adrenaline:
+  movss xmm6,[rax+rcx*4+4]
+  jmp normal
+//TEST:
+//  dq 0
+
+HEALTH_DEC:
+  jmp newmem
+return:
+registersymbol(HEALTH_DEC)
+//registersymbol(TEST)
+
+[DISABLE]
+
+HEALTH_DEC:
+  db F3 0F 11 34 88
+
+unregistersymbol(HEALTH_DEC)
+//unregistersymbol(TEST)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+EE7F03
+
+witcher3.exe+EE7EDF: 0F 29 74 24 30     - movaps [rsp+30],xmm6
+witcher3.exe+EE7EE4: 8B D3              - mov edx,ebx
+witcher3.exe+EE7EE6: F3 0F 10 74 24 68  - movss xmm6,[rsp+68]
+witcher3.exe+EE7EEC: 48 8B CF           - mov rcx,rdi
+witcher3.exe+EE7EEF: E8 FC EC FF FF     - call witcher3.exe+EE6BF0
+witcher3.exe+EE7EF4: 83 F8 FF           - cmp eax,-01
+witcher3.exe+EE7EF7: 74 2B              - je witcher3.exe+EE7F24
+witcher3.exe+EE7EF9: 48 98              - cdqe 
+witcher3.exe+EE7EFB: 48 8D 0C 40        - lea rcx,[rax+rax*2]
+witcher3.exe+EE7EFF: 48 8B 47 60        - mov rax,[rdi+60]
+// ---------- INJECTING HERE ----------
+witcher3.exe+EE7F03: F3 0F 11 34 88     - movss [rax+rcx*4],xmm6
+// ---------- DONE INJECTING  ----------
+witcher3.exe+EE7F08: 83 FB 06           - cmp ebx,06
+witcher3.exe+EE7F0B: 75 17              - jne witcher3.exe+EE7F24
+witcher3.exe+EE7F0D: 8B 05 B1 2F 61 04  - mov eax,[witcher3.exe+54FAEC4]
+witcher3.exe+EE7F13: 48 8D 54 24 20     - lea rdx,[rsp+20]
+witcher3.exe+EE7F18: 48 8B CF           - mov rcx,rdi
+witcher3.exe+EE7F1B: 89 44 24 20        - mov [rsp+20],eax
+witcher3.exe+EE7F1F: E8 DC F9 41 FF     - call witcher3.exe+307900
+witcher3.exe+EE7F24: 0F 28 74 24 30     - movaps xmm6,[rsp+30]
+witcher3.exe+EE7F29: 48 8B 5C 24 60     - mov rbx,[rsp+60]
+witcher3.exe+EE7F2E: 48 83 C4 40        - add rsp,40
+}
+</AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>64</ID>
+              <Description>"Inf Potion Usage"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>{ Game   : witcher3.exe
+  Version: 4.04
+  Date   : 2024-02-04
+  Author : bboyh
+
+  This section of code might be unique to only potion usage
+}
+
+[ENABLE]
+
+aobscanmodule(POTION_USE,witcher3.exe,89 41 04 48 8B 5C 24 60) // should be unique
+alloc(newmem,100,POTION_USE)
+
+label(code)
+label(return)
+
+newmem:
+  mov rbx,[rsp+A0]  // should be
+  cmp rbx,[PLAYER_BASE_HOOK_ADDR]
+  je code  // skip the new value assignment
+  mov [rcx+04],eax
+
+code:
+  mov rbx,[rsp+60]
+  jmp return
+
+POTION_USE:
+  jmp newmem
+  nop 3
+return:
+registersymbol(POTION_USE)
+
+[DISABLE]
+
+POTION_USE:
+  db 89 41 04 48 8B 5C 24 60
+
+unregistersymbol(POTION_USE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: witcher3.exe+755A25
+
+witcher3.exe+755A01: 41 3B 01           - cmp eax,[r9]
+witcher3.exe+755A04: 72 39              - jb witcher3.exe+755A3F
+witcher3.exe+755A06: 8B 47 38           - mov eax,[rdi+38]
+witcher3.exe+755A09: 48 8D 0C 40        - lea rcx,[rax+rax*2]
+witcher3.exe+755A0D: 49 8D 04 88        - lea rax,[r8+rcx*4]
+witcher3.exe+755A11: 4C 3B C8           - cmp r9,rax
+witcher3.exe+755A14: 49 8D 49 04        - lea rcx,[r9+04]
+witcher3.exe+755A18: 49 0F 44 CF        - cmove rcx,r15
+witcher3.exe+755A1C: C7 01 02 00 00 00  - mov [rcx],00000002
+witcher3.exe+755A22: 8B 45 F0           - mov eax,[rbp-10]
+// ---------- INJECTING HERE ----------
+witcher3.exe+755A25: 89 41 04           - mov [rcx+04],eax
+// ---------- DONE INJECTING  ----------
+witcher3.exe+755A28: 48 8B 5C 24 60     - mov rbx,[rsp+60]
+witcher3.exe+755A2D: 48 8B 74 24 70     - mov rsi,[rsp+70]
+witcher3.exe+755A32: 48 83 C4 30        - add rsp,30
+witcher3.exe+755A36: 41 5F              - pop r15
+witcher3.exe+755A38: 41 5E              - pop r14
+witcher3.exe+755A3A: 41 5D              - pop r13
+witcher3.exe+755A3C: 5F                 - pop rdi
+witcher3.exe+755A3D: 5D                 - pop rbp
+witcher3.exe+755A3E: C3                 - ret 
+witcher3.exe+755A3F: 4E 8D 0C 06        - lea r9,[rsi+r8]
+}
+</AssemblerScript>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
+    <CheatEntry>
+      <ID>74</ID>
+      <Description>"No description"</Description>
+      <LastState Value="155" RealAddress="2815E829294"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>2815E829294</Address>
+    </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of sub eax,r14d</Description>
+      <AddressString>witcher3.exe+19F7DD5</AddressString>
+      <Before>
+        <Byte>41</Byte>
+        <Byte>3B</Byte>
+        <Byte>C6</Byte>
+        <Byte>76</Byte>
+        <Byte>0D</Byte>
+      </Before>
+      <Actual>
+        <Byte>41</Byte>
+        <Byte>2B</Byte>
+        <Byte>C6</Byte>
+      </Actual>
+      <After>
+        <Byte>BA</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>newmem</Name>
@@ -9391,7 +9463,9 @@ witcher3.exe+92260F: E8 3C 15 00 00  - call witcher3.exe+923B50
     </Structure>
   </Structures>
   <Comments>Items are 4 bytes.
+Modifying Health and damage:
 health points are float.
+health update function is nested pretty deep, and probably in some kind of recursion?
 </Comments>
   <LuaScript>getAutoAttachList().add("witcher3.exe")
 </LuaScript>

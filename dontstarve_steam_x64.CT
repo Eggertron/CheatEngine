@@ -4,7 +4,6 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Enable"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>[ENABLE]
 {$lua}
@@ -1765,7 +1764,9 @@
     </Structure>
   </Structures>
   <Comments>Item values are stored as double type.
-Inventory Items have the same value at offset +10</Comments>
+Inventory Items have the same value at offset +10
+If you are running dedicated server locally, then you connect to the process "dontstarve_dedicated_server_nullrenderer_x64", the first instance (Higher PID Number)
+</Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
 getAutoAttachList().add("dontstarve_steam_x64.exe")

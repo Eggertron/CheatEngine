@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"App Version: 1.10"</Description>
+      <Description>"App Version: 1.16.1"</Description>
       <GroupHeader>1</GroupHeader>
     </CheatEntry>
     <CheatEntry>
@@ -3800,7 +3800,10 @@ start_protected_game.exe+AA277E: 48 8B 0D AB 91 1D 03  - mov rcx,[start_protecte
       </Elements>
     </Structure>
   </Structures>
-  <Comments>To use cheat engine on this game, you'll need to find the game folder and locate eldenring.exe and rename it to start_protected_game.exe (you can rename the original start_protected_game.exe to anything else). Now, launch the game from Steam and it will start without EAC. 
+  <Comments>Version: 1.16.1
+
+To use cheat engine on this game, you'll need to find the game folder and locate eldenring.exe and rename it to start_protected_game.exe (you can rename the original start_protected_game.exe to anything else). Now, launch the game from Steam and it will start without EAC. 
+
 </Comments>
   <LuaScript>getApplication().Title="framerates"
 getMainForm().Caption="framerates"
