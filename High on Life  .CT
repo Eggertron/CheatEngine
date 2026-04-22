@@ -1,7 +1,437 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheatTable CheatEngineTableVersion="45">
-  <CheatEntries/>
-  <UserdefinedSymbols/>
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Shops don't take money or crystals"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-11
+  Author : bboyh
+
+  money dec when purchasing at store.
+}
+
+[ENABLE]
+
+aobscanmodule(MONEY_DEC,Oregon-Win64-Shipping.exe,89 43 10 83 BF 38 01 00 00 00) // should be unique
+
+MONEY_DEC:
+  mov eax,[rbx+10]
+registersymbol(MONEY_DEC)
+
+[DISABLE]
+
+MONEY_DEC:
+  db 89 43 10 83 BF 38 01 00 00 00
+
+unregistersymbol(MONEY_DEC)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.exe+1735228
+
+Oregon-Win64-Shipping.exe+1735210: 7E 0F                 - jle Oregon-Win64-Shipping.exe+1735221
+Oregon-Win64-Shipping.exe+1735212: 85 C9                 - test ecx,ecx
+Oregon-Win64-Shipping.exe+1735214: 78 12                 - js Oregon-Win64-Shipping.exe+1735228
+Oregon-Win64-Shipping.exe+1735216: 41 3B CA              - cmp ecx,r10d
+Oregon-Win64-Shipping.exe+1735219: 41 8B C2              - mov eax,r10d
+Oregon-Win64-Shipping.exe+173521C: 0F 4C C1              - cmovl eax,ecx
+Oregon-Win64-Shipping.exe+173521F: EB 07                 - jmp Oregon-Win64-Shipping.exe+1735228
+Oregon-Win64-Shipping.exe+1735221: 85 C9                 - test ecx,ecx
+Oregon-Win64-Shipping.exe+1735223: 0F 4E C8              - cmovle ecx,eax
+Oregon-Win64-Shipping.exe+1735226: 8B C1                 - mov eax,ecx
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.exe+1735228: 89 43 10              - mov [rbx+10],eax
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.exe+173522B: 83 BF 38 01 00 00 00  - cmp dword ptr [rdi+00000138],00
+Oregon-Win64-Shipping.exe+1735232: 7E 23                 - jle Oregon-Win64-Shipping.exe+1735257
+Oregon-Win64-Shipping.exe+1735234: 89 54 24 28           - mov [rsp+28],edx
+Oregon-Win64-Shipping.exe+1735238: 48 8D 8F 30 01 00 00  - lea rcx,[rdi+00000130]
+Oregon-Win64-Shipping.exe+173523F: 48 8D 54 24 20        - lea rdx,[rsp+20]
+Oregon-Win64-Shipping.exe+1735244: 4C 89 5C 24 20        - mov [rsp+20],r11
+Oregon-Win64-Shipping.exe+1735249: 89 44 24 2C           - mov [rsp+2C],eax
+Oregon-Win64-Shipping.exe+173524D: 44 88 4C 24 30        - mov [rsp+30],r9b
+Oregon-Win64-Shipping.exe+1735252: E8 39 9F 11 FF        - call Oregon-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
+Oregon-Win64-Shipping.exe+1735257: 48 8B 07              - mov rax,[rdi]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Inf Ammo"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-11
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(AMMO_UPDATE,Oregon-Win64-Shipping.exe,89 87 E0 00 00 00 48 85 F6) // should be unique
+
+AMMO_UPDATE:
+  mov eax,[rdi+000000E0]  // load the current ammo into the updated register
+registersymbol(AMMO_UPDATE)
+
+[DISABLE]
+
+AMMO_UPDATE:
+  db 89 87 E0 00 00 00
+
+unregistersymbol(AMMO_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+38
+
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+13: 48 89 74 24 38              - mov [rsp+38],rsi
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+18: FF 90 E8 02 00 00           - call qword ptr [rax+000002E8]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+1E: 8B 8F E0 00 00 00           - mov ecx,[rdi+000000E0]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+24: 2B CB                       - sub ecx,ebx
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+26: 79 04                       - jns Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+2C
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+28: 33 C0                       - xor eax,eax
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+2A: EB 05                       - jmp Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+31
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+2C: 3B C8                       - cmp ecx,eax
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+2E: 0F 4C C1                    - cmovl eax,ecx
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+31: 48 8B B7 E8 00 00 00        - mov rsi,[rdi+000000E8]
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+38: 89 87 E0 00 00 00           - mov [rdi+000000E0],eax
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+3E: 48 85 F6                    - test rsi,rsi
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+41: 0F 84 B8 00 00 00           - je Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+FF
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+47: 48 8B 06                    - mov rax,[rsi]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+4A: 8B 0D A8 F6 C7 05           - mov ecx,[Oregon-Win64-Shipping._tls_index]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+50: 48 8B 5F 2C                 - mov rbx,[rdi+2C]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+54: 48 89 6C 24 60              - mov [rsp+60],rbp
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+59: 4C 89 64 24 30              - mov [rsp+30],r12
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+5E: 4C 89 74 24 28              - mov [rsp+28],r14
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+63: 4C 8B B0 40 06 00 00        - mov r14,[rax+00000640]
+Oregon-Win64-Shipping.USQResource_AmmoPool::UseResource_Implementation+6A: 65 48 8B 04 25 58 00 00 00  - mov rax,gs:[00000058]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"Inf Fuel v.2"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-14
+  Author : bboyh
+
+  This version will give max fuel when it reaches zero. This fixes the issue where
+  the fuel guage was on the screen and would not fade away.
+}
+
+[ENABLE]
+
+aobscanmodule(FUEL_EMPTY,Oregon-Win64-Shipping.exe,C7 83 D8 10 00 00 00 00 00 00) // should be unique
+
+
+FUEL_EMPTY:
+  mov [rbx+000010D8],(float)50
+registersymbol(FUEL_EMPTY)
+
+[DISABLE]
+
+FUEL_EMPTY:
+  db C7 83 D8 10 00 00 00 00 00 00
+
+unregistersymbol(FUEL_EMPTY)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1B9
+
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+18A: 48 8D 54 24 30                 - lea rdx,[rsp+30]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+18F: F2 0F 11 4C 24 40              - movsd [rsp+40],xmm1
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+195: F2 0F 11 44 24 20              - movsd [rsp+20],xmm0
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+19B: F2 0F 11 4C 24 30              - movsd [rsp+30],xmm1
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1A1: E8 BA 9E FC FF                 - call Oregon-Win64-Shipping.AORChainsawPawn::EndChainsawTraversal
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1A6: EB 0A                          - jmp Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1B2
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1A8: 33 D2                          - xor edx,edx
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1AA: 48 8B CB                       - mov rcx,rbx
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1AD: E8 FE 54 FF FF                 - call Oregon-Win64-Shipping.UORPlayerMovementComponent::CancelGlide
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1B2: 48 8D 8B D0 0F 00 00           - lea rcx,[rbx+00000FD0]
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1B9: C7 83 D8 10 00 00 00 00 00 00  - mov [rbx+000010D8],00000000
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1C3: 33 D2                          - xor edx,edx
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1C5: E8 36 B0 07 FF                 - call Oregon-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1CA: F3 0F 10 B3 D8 10 00 00        - movss xmm6,[rbx+000010D8]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1D2: 48 8B 06                       - mov rax,[rsi]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1D5: 0F 28 CE                       - movaps xmm1,xmm6
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1D8: 48 8B CE                       - mov rcx,rsi
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1DB: FF 50 08                       - call qword ptr [rax+08]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1DE: 48 8B CE                       - mov rcx,rsi
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1E1: E8 AA 77 18 FF                 - call Oregon-Win64-Shipping.getPxJointLimitConeYAngle
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1E6: F3 0F 10 8B D8 10 00 00        - movss xmm1,[rbx+000010D8]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Old codes"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1</ID>
+          <Description>"Money Update Script"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-11
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(MONEY_UPDATE,Oregon-Win64-Shipping.exe,44 89 42 10 48 8B CE) // should be unique
+alloc(newmem,$1000,MONEY_UPDATE)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov [rdx+10],r8d
+  mov rcx,rsi
+  jmp return
+
+MONEY_UPDATE:
+  jmp newmem
+  nop 2
+return:
+registersymbol(MONEY_UPDATE)
+
+[DISABLE]
+
+MONEY_UPDATE:
+  db 44 89 42 10 48 8B CE
+
+unregistersymbol(MONEY_UPDATE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.exe+172DD5E
+
+Oregon-Win64-Shipping.exe+172DD44: 7E 0F                 - jle Oregon-Win64-Shipping.exe+172DD55
+Oregon-Win64-Shipping.exe+172DD46: 85 C0                 - test eax,eax
+Oregon-Win64-Shipping.exe+172DD48: 78 14                 - js Oregon-Win64-Shipping.exe+172DD5E
+Oregon-Win64-Shipping.exe+172DD4A: 3B C1                 - cmp eax,ecx
+Oregon-Win64-Shipping.exe+172DD4C: 44 8B C1              - mov r8d,ecx
+Oregon-Win64-Shipping.exe+172DD4F: 44 0F 4C C0           - cmovl r8d,eax
+Oregon-Win64-Shipping.exe+172DD53: EB 09                 - jmp Oregon-Win64-Shipping.exe+172DD5E
+Oregon-Win64-Shipping.exe+172DD55: 85 C0                 - test eax,eax
+Oregon-Win64-Shipping.exe+172DD57: 41 0F 4E C0           - cmovle eax,r8d
+Oregon-Win64-Shipping.exe+172DD5B: 44 8B C0              - mov r8d,eax
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.exe+172DD5E: 44 89 42 10           - mov [rdx+10],r8d
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.exe+172DD62: 48 8B CE              - mov rcx,rsi
+Oregon-Win64-Shipping.exe+172DD65: 48 8B 06              - mov rax,[rsi]
+Oregon-Win64-Shipping.exe+172DD68: FF 90 20 04 00 00     - call qword ptr [rax+00000420]
+Oregon-Win64-Shipping.exe+172DD6E: 83 BE 38 01 00 00 00  - cmp dword ptr [rsi+00000138],00
+Oregon-Win64-Shipping.exe+172DD75: 8B 4B 10              - mov ecx,[rbx+10]
+Oregon-Win64-Shipping.exe+172DD78: 66 0F 6E F1           - movd xmm6,ecx
+Oregon-Win64-Shipping.exe+172DD7C: 0F 5B F6              - cvtdq2ps xmm6,xmm6
+Oregon-Win64-Shipping.exe+172DD7F: 7E 26                 - jle Oregon-Win64-Shipping.exe+172DDA7
+Oregon-Win64-Shipping.exe+172DD81: 48 8B 03              - mov rax,[rbx]
+Oregon-Win64-Shipping.exe+172DD84: 48 8D 54 24 20        - lea rdx,[rsp+20]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"Shard Update"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-12
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(SHARD_UPDATE,Oregon-Win64-Shipping.exe,44 89 42 10 48 8B CE) // should be unique
+
+
+SHARD_UPDATE:
+registersymbol(SHARD_UPDATE)
+
+[DISABLE]
+
+SHARD_UPDATE:
+  db 44 89 42 10 48 8B CE
+
+unregistersymbol(SHARD_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.exe+172DD5E
+
+Oregon-Win64-Shipping.exe+172DD44: 7E 0F                 - jle Oregon-Win64-Shipping.exe+172DD55
+Oregon-Win64-Shipping.exe+172DD46: 85 C0                 - test eax,eax
+Oregon-Win64-Shipping.exe+172DD48: 78 14                 - js Oregon-Win64-Shipping.exe+172DD5E
+Oregon-Win64-Shipping.exe+172DD4A: 3B C1                 - cmp eax,ecx
+Oregon-Win64-Shipping.exe+172DD4C: 44 8B C1              - mov r8d,ecx
+Oregon-Win64-Shipping.exe+172DD4F: 44 0F 4C C0           - cmovl r8d,eax
+Oregon-Win64-Shipping.exe+172DD53: EB 09                 - jmp Oregon-Win64-Shipping.exe+172DD5E
+Oregon-Win64-Shipping.exe+172DD55: 85 C0                 - test eax,eax
+Oregon-Win64-Shipping.exe+172DD57: 41 0F 4E C0           - cmovle eax,r8d
+Oregon-Win64-Shipping.exe+172DD5B: 44 8B C0              - mov r8d,eax
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.exe+172DD5E: 44 89 42 10           - mov [rdx+10],r8d
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.exe+172DD62: 48 8B CE              - mov rcx,rsi
+Oregon-Win64-Shipping.exe+172DD65: 48 8B 06              - mov rax,[rsi]
+Oregon-Win64-Shipping.exe+172DD68: FF 90 20 04 00 00     - call qword ptr [rax+00000420]
+Oregon-Win64-Shipping.exe+172DD6E: 83 BE 38 01 00 00 00  - cmp dword ptr [rsi+00000138],00
+Oregon-Win64-Shipping.exe+172DD75: 8B 4B 10              - mov ecx,[rbx+10]
+Oregon-Win64-Shipping.exe+172DD78: 66 0F 6E F1           - movd xmm6,ecx
+Oregon-Win64-Shipping.exe+172DD7C: 0F 5B F6              - cvtdq2ps xmm6,xmm6
+Oregon-Win64-Shipping.exe+172DD7F: 7E 26                 - jle Oregon-Win64-Shipping.exe+172DDA7
+Oregon-Win64-Shipping.exe+172DD81: 48 8B 03              - mov rax,[rbx]
+Oregon-Win64-Shipping.exe+172DD84: 48 8D 54 24 20        - lea rdx,[rsp+20]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>18</ID>
+          <Description>"Inf Fuel"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-14
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(FUEL_UPDATE,Oregon-Win64-Shipping.exe,F3 0F 11 83 D8 10 00 00 0F) // should be unique
+
+FUEL_UPDATE:
+  movss xmm0,[rbx+000010D8]
+registersymbol(FUEL_UPDATE)
+
+[DISABLE]
+
+FUEL_UPDATE:
+  db F3 0F 11 83 D8 10 00 00
+
+unregistersymbol(FUEL_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+EA
+
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+BD: 0F 29 74 24 70           - movaps [rsp+70],xmm6
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+C2: F3 0F 10 B3 D8 10 00 00  - movss xmm6,[rbx+000010D8]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+CA: E8 C1 78 18 FF           - call Oregon-Win64-Shipping.getPxJointLimitConeYAngle
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+CF: 0F 2F F0                 - comiss xmm6,xmm0
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+D2: 76 28                    - jna Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+FC
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+D4: 48 8D 8B 00 10 00 00     - lea rcx,[rbx+00001000]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+DB: 33 D2                    - xor edx,edx
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+DD: E8 1E B1 07 FF           - call Oregon-Win64-Shipping.TMulticastScriptDelegate&lt;FWeakObjectPtr&gt;::ProcessMulticastDelegate&lt;UObject&gt;
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+E2: 48 8B CE                 - mov rcx,rsi
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+E5: E8 A6 78 18 FF           - call Oregon-Win64-Shipping.getPxJointLimitConeYAngle
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+EA: F3 0F 11 83 D8 10 00 00  - movss [rbx+000010D8],xmm0
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+F2: 0F 28 F0                 - movaps xmm6,xmm0
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+F5: C6 83 E8 10 00 00 00     - mov byte ptr [rbx+000010E8],00
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+FC: 0F 57 C0                 - xorps xmm0,xmm0
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+FF: 0F 2F F0                 - comiss xmm6,xmm0
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+102: 0F 87 CA 00 00 00        - ja Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+1D2
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+108: 80 BB 7D 11 00 00 00     - cmp byte ptr [rbx+0000117D],00
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+10F: 74 18                    - je Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+129
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+111: 80 BB A2 11 00 00 00     - cmp byte ptr [rbx+000011A2],00
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+118: 74 0F                    - je Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+129
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+11A: B2 01                    - mov dl,01
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"Inf Fuel"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : High on Life  
+  Version: 
+  Date   : 2026-04-14
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(FUEL_UPDATE,Oregon-Win64-Shipping.exe,F3 0F 11 81 D8 10 00 00) // should be unique
+
+FUEL_UPDATE:
+  movss xmm0,[rcx+000010D8]
+registersymbol(FUEL_UPDATE)
+
+[DISABLE]
+
+FUEL_UPDATE:
+  db F3 0F 11 81 D8 10 00 00
+
+unregistersymbol(FUEL_UPDATE)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+5A
+
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+24: 0F 28 F9                 - movaps xmm7,xmm1
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+27: 48 8B D9                 - mov rbx,rcx
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+2A: 80 38 00                 - cmp byte ptr [rax],00
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+2D: 0F 84 F3 01 00 00        - je Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+226
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+33: 80 B9 DC 10 00 00 00     - cmp byte ptr [rcx+000010DC],00
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+3A: 0F 85 E6 01 00 00        - jne Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+226
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+40: 0F 28 C1                 - movaps xmm0,xmm1
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+43: 48 89 BC 24 A8 00 00 00  - mov [rsp+000000A8],rdi
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+4B: F3 0F 58 81 D8 10 00 00  - addss xmm0,[rcx+000010D8]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+53: 48 8B B9 50 01 00 00     - mov rdi,[rcx+00000150]
+// ---------- INJECTING HERE ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+5A: F3 0F 11 81 D8 10 00 00  - movss [rcx+000010D8],xmm0
+// ---------- DONE INJECTING  ----------
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+62: 48 85 FF                 - test rdi,rdi
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+65: 0F 84 B3 01 00 00        - je Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+21E
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+6B: E8 F0 02 12 00           - call Oregon-Win64-Shipping.AORPlayerCharacter::GetPrivateStaticClass
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+70: 48 8B 57 10              - mov rdx,[rdi+10]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+74: 4C 8D 40 30              - lea r8,[rax+30]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+78: 48 63 40 38              - movsxd  rax,dword ptr [rax+38]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+7C: 3B 42 38                 - cmp eax,[rdx+38]
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+7F: 0F 8F 99 01 00 00        - jg Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+21E
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+85: 48 8B C8                 - mov rcx,rax
+Oregon-Win64-Shipping.UORPlayerMovementComponent::IncrementCurrentFuel+88: 48 8B 42 30              - mov rax,[rdx+30]
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>newmem</Name>
+      <Address>1F0718D0000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
   <Structures StructVersion="2">
     <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
       <Elements>
@@ -594,5 +1024,6 @@
     </Structure>
   </Structures>
   <Comments>Info about this table:
+need to use AOB
 </Comments>
 </CheatTable>

@@ -4,13 +4,64 @@
     <CheatEntry>
       <ID>0</ID>
       <Description>"Version: 0.8.2a.355117"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"Inf Items"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Nightingale  
+  Version: 0.8.2a.355117
+  Date   : 2026-04-10
+  Author : bboyh
+
+}
+
+[ENABLE]
+
+assert("NWX-Win64-Shipping.exe"+61C1309,41 2B C5 89 85 20 01 00 00)
+
+"NWX-Win64-Shipping.exe"+61C1309:
+  db 90 90 90
+
+[DISABLE]
+
+"NWX-Win64-Shipping.exe"+61C1309:
+  db 41 2B C5
+
+
+{
+// ORIGINAL CODE - INJECTION POINT: NWX-Win64-Shipping.exe+61C1309
+
+NWX-Win64-Shipping.exe+61C12D7: 48 85 C9                 - test rcx,rcx
+NWX-Win64-Shipping.exe+61C12DA: 74 05                    - je NWX-Win64-Shipping.exe+61C12E1
+NWX-Win64-Shipping.exe+61C12DC: E8 6F 8D EF FA           - call NWX-Win64-Shipping.exe+10BA050
+NWX-Win64-Shipping.exe+61C12E1: 45 8B AC 24 90 00 00 00  - mov r13d,[r12+00000090]
+NWX-Win64-Shipping.exe+61C12E9: 49 8B D4                 - mov rdx,r12
+NWX-Win64-Shipping.exe+61C12EC: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C12F3: E8 88 CE BF FE           - call NWX-Win64-Shipping.exe+4DBE180
+NWX-Win64-Shipping.exe+61C12F8: 8B 85 20 01 00 00        - mov eax,[rbp+00000120]
+NWX-Win64-Shipping.exe+61C12FE: 48 8D 95 90 00 00 00     - lea rdx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C1305: 48 8B 4D C8              - mov rcx,[rbp-38]
+// ---------- INJECTING HERE ----------
+NWX-Win64-Shipping.exe+61C1309: 41 2B C5                 - sub eax,r13d
+// ---------- DONE INJECTING  ----------
+NWX-Win64-Shipping.exe+61C130C: 89 85 20 01 00 00        - mov [rbp+00000120],eax
+NWX-Win64-Shipping.exe+61C1312: 85 C0                    - test eax,eax
+NWX-Win64-Shipping.exe+61C1314: 7E 69                    - jle NWX-Win64-Shipping.exe+61C137F
+NWX-Win64-Shipping.exe+61C1316: E8 25 8D 00 00           - call NWX-Win64-Shipping.exe+61CA040
+NWX-Win64-Shipping.exe+61C131B: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C1322: E8 99 D5 BF FE           - call NWX-Win64-Shipping.exe+4DBE8C0
+NWX-Win64-Shipping.exe+61C1327: B0 01                    - mov al,01
+NWX-Win64-Shipping.exe+61C1329: E9 C1 02 00 00           - jmp NWX-Win64-Shipping.exe+61C15EF
+NWX-Win64-Shipping.exe+61C132E: 39 5D A0                 - cmp [rbp-60],ebx
+NWX-Win64-Shipping.exe+61C1331: 48 8D 15 58 FE 46 03     - lea rdx,[NWX-Win64-Shipping.exe+9631190]
+}
+</AssemblerScript>
     </CheatEntry>
     <CheatEntry>
       <ID>5</ID>
       <Description>"Take no damage"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Nightingale  
   Version: 0.8.2a.355117
@@ -66,66 +117,8 @@ NWX-Win64-Shipping.exe+4D16C15: 83 F8 01                 - cmp eax,01
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>7</ID>
-      <Description>"Inf Items"</Description>
-      <LastState Activated="1"/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Nightingale  
-  Version: 0.8.2a.355117
-  Date   : 2026-03-14
-  Author : bboyh
-
-  Removes the sub routine which prevents the decrease inventory count on drop.
-}
-
-[ENABLE]
-
-aobscanmodule(DEC_INV,NWX-Win64-Shipping.exe,41 2B C5 89 85 20 01 00 00) // should be unique
-
-DEC_INV:
-  db 90 90 90
-registersymbol(DEC_INV)
-
-[DISABLE]
-
-DEC_INV:
-  db 41 2B C5 89 85 20 01 00 00
-
-unregistersymbol(DEC_INV)
-
-{
-// ORIGINAL CODE - INJECTION POINT: NWX-Win64-Shipping.exe+61C1309
-
-NWX-Win64-Shipping.exe+61C12D7: 48 85 C9                 - test rcx,rcx
-NWX-Win64-Shipping.exe+61C12DA: 74 05                    - je NWX-Win64-Shipping.exe+61C12E1
-NWX-Win64-Shipping.exe+61C12DC: E8 6F 8D EF FA           - call NWX-Win64-Shipping.exe+10BA050
-NWX-Win64-Shipping.exe+61C12E1: 45 8B AC 24 90 00 00 00  - mov r13d,[r12+00000090]
-NWX-Win64-Shipping.exe+61C12E9: 49 8B D4                 - mov rdx,r12
-NWX-Win64-Shipping.exe+61C12EC: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
-NWX-Win64-Shipping.exe+61C12F3: E8 88 CE BF FE           - call NWX-Win64-Shipping.exe+4DBE180
-NWX-Win64-Shipping.exe+61C12F8: 8B 85 20 01 00 00        - mov eax,[rbp+00000120]
-NWX-Win64-Shipping.exe+61C12FE: 48 8D 95 90 00 00 00     - lea rdx,[rbp+00000090]
-NWX-Win64-Shipping.exe+61C1305: 48 8B 4D C8              - mov rcx,[rbp-38]
-// ---------- INJECTING HERE ----------
-NWX-Win64-Shipping.exe+61C1309: 41 2B C5                 - sub eax,r13d
-// ---------- DONE INJECTING  ----------
-NWX-Win64-Shipping.exe+61C130C: 89 85 20 01 00 00        - mov [rbp+00000120],eax
-NWX-Win64-Shipping.exe+61C1312: 85 C0                    - test eax,eax
-NWX-Win64-Shipping.exe+61C1314: 7E 69                    - jle NWX-Win64-Shipping.exe+61C137F
-NWX-Win64-Shipping.exe+61C1316: E8 25 8D 00 00           - call NWX-Win64-Shipping.exe+61CA040
-NWX-Win64-Shipping.exe+61C131B: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
-NWX-Win64-Shipping.exe+61C1322: E8 99 D5 BF FE           - call NWX-Win64-Shipping.exe+4DBE8C0
-NWX-Win64-Shipping.exe+61C1327: B0 01                    - mov al,01
-NWX-Win64-Shipping.exe+61C1329: E9 C1 02 00 00           - jmp NWX-Win64-Shipping.exe+61C15EF
-NWX-Win64-Shipping.exe+61C132E: 39 5D A0                 - cmp [rbp-60],ebx
-NWX-Win64-Shipping.exe+61C1331: 48 8D 15 58 FE 46 03     - lea rdx,[NWX-Win64-Shipping.exe+9631190]
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
       <ID>10</ID>
       <Description>"Inf Run Stamina"</Description>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Nightingale  
   Version: 0.8.2a.355117
@@ -184,7 +177,6 @@ NWX-Win64-Shipping.exe+4D16A91: 83 F8 01           - cmp eax,01
         <CheatEntry>
           <ID>12</ID>
           <Description>"Inf Dash Stamina"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Nightingale  
   Version: 0.8.2a.355117
@@ -243,7 +235,6 @@ NWX-Win64-Shipping.exe+4CB72F1: C3              - ret
     <CheatEntry>
       <ID>11</ID>
       <Description>"Health Pointers"</Description>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -273,6 +264,70 @@ NWX-Win64-Shipping.exe+4CB72F1: C3              - ret
             <Offset>A0</Offset>
             <Offset>A8</Offset>
           </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"Old Codes"</Description>
+      <Options moHideChildren="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"Inf Items (AOB Scan)"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Nightingale  
+  Version: 0.8.2a.355117
+  Date   : 2026-03-14
+  Author : bboyh
+
+  Removes the sub routine which prevents the decrease inventory count on drop.
+}
+
+[ENABLE]
+
+aobscanmodule(DEC_INV,NWX-Win64-Shipping.exe,41 2B C5 89 85 20 01 00 00) // should be unique
+
+DEC_INV:
+  db 90 90 90
+registersymbol(DEC_INV)
+
+[DISABLE]
+
+DEC_INV:
+  db 41 2B C5 89 85 20 01 00 00
+
+unregistersymbol(DEC_INV)
+
+{
+// ORIGINAL CODE - INJECTION POINT: NWX-Win64-Shipping.exe+61C1309
+
+NWX-Win64-Shipping.exe+61C12D7: 48 85 C9                 - test rcx,rcx
+NWX-Win64-Shipping.exe+61C12DA: 74 05                    - je NWX-Win64-Shipping.exe+61C12E1
+NWX-Win64-Shipping.exe+61C12DC: E8 6F 8D EF FA           - call NWX-Win64-Shipping.exe+10BA050
+NWX-Win64-Shipping.exe+61C12E1: 45 8B AC 24 90 00 00 00  - mov r13d,[r12+00000090]
+NWX-Win64-Shipping.exe+61C12E9: 49 8B D4                 - mov rdx,r12
+NWX-Win64-Shipping.exe+61C12EC: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C12F3: E8 88 CE BF FE           - call NWX-Win64-Shipping.exe+4DBE180
+NWX-Win64-Shipping.exe+61C12F8: 8B 85 20 01 00 00        - mov eax,[rbp+00000120]
+NWX-Win64-Shipping.exe+61C12FE: 48 8D 95 90 00 00 00     - lea rdx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C1305: 48 8B 4D C8              - mov rcx,[rbp-38]
+// ---------- INJECTING HERE ----------
+NWX-Win64-Shipping.exe+61C1309: 41 2B C5                 - sub eax,r13d
+// ---------- DONE INJECTING  ----------
+NWX-Win64-Shipping.exe+61C130C: 89 85 20 01 00 00        - mov [rbp+00000120],eax
+NWX-Win64-Shipping.exe+61C1312: 85 C0                    - test eax,eax
+NWX-Win64-Shipping.exe+61C1314: 7E 69                    - jle NWX-Win64-Shipping.exe+61C137F
+NWX-Win64-Shipping.exe+61C1316: E8 25 8D 00 00           - call NWX-Win64-Shipping.exe+61CA040
+NWX-Win64-Shipping.exe+61C131B: 48 8D 8D 90 00 00 00     - lea rcx,[rbp+00000090]
+NWX-Win64-Shipping.exe+61C1322: E8 99 D5 BF FE           - call NWX-Win64-Shipping.exe+4DBE8C0
+NWX-Win64-Shipping.exe+61C1327: B0 01                    - mov al,01
+NWX-Win64-Shipping.exe+61C1329: E9 C1 02 00 00           - jmp NWX-Win64-Shipping.exe+61C15EF
+NWX-Win64-Shipping.exe+61C132E: 39 5D A0                 - cmp [rbp-60],ebx
+NWX-Win64-Shipping.exe+61C1331: 48 8D 15 58 FE 46 03     - lea rdx,[NWX-Win64-Shipping.exe+9631190]
+}
+</AssemblerScript>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -873,5 +928,6 @@ NWX-Win64-Shipping.exe+4CB72F1: C3              - ret
 How to isolate the players health from everyone else?
 The function is shared among all entities.
 current attempt is to find the pointer locations using saved pointer addresses.
-</Comments>
+
+This game might work with pointer scans and non-aob tools.</Comments>
 </CheatTable>
