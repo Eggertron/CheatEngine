@@ -170,11 +170,119 @@ HorizonZeroDawn.exe+FEAD14: 33 C9                    - xor ecx,ecx
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>29</ID>
-      <Description>"Skill Points (read upon entering inventory screen)"</Description>
-      <LastState/>
+      <ID>36</ID>
+      <Description>"Inf Gun Ammo"</Description>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Horizon Zero Dawn: Complete Edition
+  Version: 
+  Date   : 2026-04-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert("HorizonZeroDawn.exe"+10B36EC,E8 9F 79 F3 FF)
+
+"HorizonZeroDawn.exe"+10B36EC:
+  db 90 90 90 90 90
+
+[DISABLE]
+
+"HorizonZeroDawn.exe"+10B36EC:
+  db E8 9F 79 F3 FF
+
+{
+// ORIGINAL CODE - INJECTION POINT: HorizonZeroDawn.exe+10B36EC
+
+HorizonZeroDawn.exe+10B36CB: 48 8B F9              - mov rdi,rcx
+HorizonZeroDawn.exe+10B36CE: 8B F2                 - mov esi,edx
+HorizonZeroDawn.exe+10B36D0: C6 44 24 20 00        - mov byte ptr [rsp+20],00
+HorizonZeroDawn.exe+10B36D5: 41 B0 04              - mov r8b,04
+HorizonZeroDawn.exe+10B36D8: 48 8B 88 C0 02 00 00  - mov rcx,[rax+000002C0]
+HorizonZeroDawn.exe+10B36DF: 8B 69 58              - mov ebp,[rcx+58]
+HorizonZeroDawn.exe+10B36E2: 3B D5                 - cmp edx,ebp
+HorizonZeroDawn.exe+10B36E4: 0F 4C EA              - cmovl ebp,edx
+HorizonZeroDawn.exe+10B36E7: 45 33 C9              - xor r9d,r9d
+HorizonZeroDawn.exe+10B36EA: 8B D5                 - mov edx,ebp
+// ---------- INJECTING HERE ----------
+HorizonZeroDawn.exe+10B36EC: E8 9F 79 F3 FF        - call HorizonZeroDawn.exe+FEB090
+// ---------- DONE INJECTING  ----------
+HorizonZeroDawn.exe+10B36F1: 48 8B 47 30           - mov rax,[rdi+30]
+HorizonZeroDawn.exe+10B36F5: 83 78 5C 00           - cmp dword ptr [rax+5C],00
+HorizonZeroDawn.exe+10B36F9: 74 0B                 - je HorizonZeroDawn.exe+10B3706
+HorizonZeroDawn.exe+10B36FB: 48 83 78 40 00        - cmp qword ptr [rax+40],00
+HorizonZeroDawn.exe+10B3700: 74 04                 - je HorizonZeroDawn.exe+10B3706
+HorizonZeroDawn.exe+10B3702: 32 C0                 - xor al,al
+HorizonZeroDawn.exe+10B3704: EB 02                 - jmp HorizonZeroDawn.exe+10B3708
+HorizonZeroDawn.exe+10B3706: B0 01                 - mov al,01
+HorizonZeroDawn.exe+10B3708: 8B DE                 - mov ebx,esi
+HorizonZeroDawn.exe+10B370A: 48 8B CF              - mov rcx,rdi
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>33</ID>
+      <Description>"Inf Skill Points"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Horizon Zero Dawn: Complete Edition
+  Version: 
+  Date   : 2026-04-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+assert("HorizonZeroDawn.exe"+141F9DC,41 29 45 68 48 8B D7)
+
+"HorizonZeroDawn.exe"+141F9DC:
+  db 90 90 90 90
+
+[DISABLE]
+
+"HorizonZeroDawn.exe"+141F9DC:
+  db 41 29 45 68 48 8B D7
+
+{
+// ORIGINAL CODE - INJECTION POINT: HorizonZeroDawn.exe+141F9DC
+
+HorizonZeroDawn.exe+141F9B8: 48 8B CB           - mov rcx,rbx
+HorizonZeroDawn.exe+141F9BB: 0F B6 F0           - movzx esi,al
+HorizonZeroDawn.exe+141F9BE: FF 15 BC 8F 62 00  - call qword ptr [HorizonZeroDawn.exe+1A48980]
+HorizonZeroDawn.exe+141F9C4: 40 84 F6           - test sil,sil
+HorizonZeroDawn.exe+141F9C7: 74 42              - je HorizonZeroDawn.exe+141FA0B
+HorizonZeroDawn.exe+141F9C9: 49 83 C6 08        - add r14,08
+HorizonZeroDawn.exe+141F9CD: 4D 3B F4           - cmp r14,r12
+HorizonZeroDawn.exe+141F9D0: 0F 85 6A FF FF FF  - jne HorizonZeroDawn.exe+141F940
+HorizonZeroDawn.exe+141F9D6: 8B 47 30           - mov eax,[rdi+30]
+HorizonZeroDawn.exe+141F9D9: 45 33 C0           - xor r8d,r8d
+// ---------- INJECTING HERE ----------
+HorizonZeroDawn.exe+141F9DC: 41 29 45 68        - sub [r13+68],eax
+// ---------- DONE INJECTING  ----------
+HorizonZeroDawn.exe+141F9E0: 48 8B D7           - mov rdx,rdi
+HorizonZeroDawn.exe+141F9E3: 49 8B CD           - mov rcx,r13
+HorizonZeroDawn.exe+141F9E6: E8 A5 86 FF FF     - call HorizonZeroDawn.exe+1418090
+HorizonZeroDawn.exe+141F9EB: 48 8B CF           - mov rcx,rdi
+HorizonZeroDawn.exe+141F9EE: B3 01              - mov bl,01
+HorizonZeroDawn.exe+141F9F0: E8 CB 7D ED FE     - call HorizonZeroDawn.exe+2F77C0
+HorizonZeroDawn.exe+141F9F5: 4C 8B 64 24 50     - mov r12,[rsp+50]
+HorizonZeroDawn.exe+141F9FA: 0F B6 C3           - movzx eax,bl
+HorizonZeroDawn.exe+141F9FD: E9 D9 FE FF FF     - jmp HorizonZeroDawn.exe+141F8DB
+HorizonZeroDawn.exe+141FA02: 48 8B CB           - mov rcx,rbx
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"Skill Points (read upon entering inventory screen)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Horizon Zero Dawn: Complete Edition
   Version: 
   Date   : 2026-04-23
   Author : bboyh
@@ -222,12 +330,14 @@ HorizonZeroDawn.exe+12CB9DE: 84 C0                 - test al,al
 HorizonZeroDawn.exe+12CB9E0: 75 04                 - jne HorizonZeroDawn.exe+12CB9E6
 }
 </AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>12</ID>
       <Description>"Old Codes"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
       <Color>0000FF</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -513,25 +623,20 @@ HorizonZeroDawn.exe+FEAC48: CC                    - int 3
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>23</ID>
+      <ID>30</ID>
       <Description>"pointerscan result"</Description>
-      <LastState Value="600" Activated="1" RealAddress="16508858FA4"/>
       <VariableType>Float</VariableType>
-      <Address>"HorizonZeroDawn.exe"+02FAB0A0</Address>
+      <Address>"HorizonZeroDawn.exe"+071526A8</Address>
       <Offsets>
         <Offset>64</Offset>
         <Offset>1D0</Offset>
-        <Offset>0</Offset>
-        <Offset>28</Offset>
-        <Offset>8</Offset>
-        <Offset>100</Offset>
-        <Offset>48</Offset>
+        <Offset>18</Offset>
+        <Offset>40</Offset>
       </Offsets>
       <CheatEntries>
         <CheatEntry>
           <ID>14</ID>
           <Description>"Max Health"</Description>
-          <LastState Value="280" RealAddress="16508858FA8"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>+4</Address>
@@ -539,162 +644,15 @@ HorizonZeroDawn.exe+FEAC48: CC                    - int 3
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>26</ID>
+      <ID>31</ID>
       <Description>"No description"</Description>
-      <LastState Value="8" Activated="1" RealAddress="16508859638"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>16508859638</Address>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>Float</VariableType>
+      <Address>1EE4BE81284</Address>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Change of call HorizonZeroDawn.exe+FEB090</Description>
-      <AddressString>HorizonZeroDawn.exe+FEACEF</AddressString>
-      <Before>
-        <Byte>CF</Byte>
-        <Byte>88</Byte>
-        <Byte>44</Byte>
-        <Byte>24</Byte>
-        <Byte>20</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>9C</Byte>
-        <Byte>03</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>85</Byte>
-        <Byte>C0</Byte>
-        <Byte>0F</Byte>
-        <Byte>9F</Byte>
-        <Byte>C0</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call HorizonZeroDawn.exe+FEAC50</Description>
-      <AddressString>HorizonZeroDawn.exe+FEAC29</AddressString>
-      <Before>
-        <Byte>8B</Byte>
-        <Byte>D3</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CF</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>22</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>74</Byte>
-        <Byte>24</Byte>
-        <Byte>50</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax+60]</Description>
-      <AddressString>HorizonZeroDawn.exe+FD14EC</AddressString>
-      <Before>
-        <Byte>8B</Byte>
-        <Byte>D7</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CE</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>50</Byte>
-        <Byte>60</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>9C</Byte>
-        <Byte>24</Byte>
-        <Byte>F8</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call HorizonZeroDawn.exe+BB4E40</Description>
-      <AddressString>HorizonZeroDawn.exe+BB4EB3</AddressString>
-      <Before>
-        <Byte>B6</Byte>
-        <Byte>D7</Byte>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CB</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>88</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-        <Byte>FF</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>9B</Byte>
-        <Byte>D8</Byte>
-        <Byte>01</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call HorizonZeroDawn.exe+C61FA0</Description>
-      <AddressString>HorizonZeroDawn.exe+C5DCE0</AddressString>
-      <Before>
-        <Byte>A5</Byte>
-        <Byte>B8</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Before>
-      <Actual>
-        <Byte>E8</Byte>
-        <Byte>BB</Byte>
-        <Byte>42</Byte>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-      </Actual>
-      <After>
-        <Byte>48</Byte>
-        <Byte>8B</Byte>
-        <Byte>CB</Byte>
-        <Byte>E8</Byte>
-        <Byte>53</Byte>
-      </After>
-    </CodeEntry>
-    <CodeEntry>
-      <Description>Change of call qword ptr [rax+08]</Description>
-      <AddressString>HorizonZeroDawn.exe+BE0A9F</AddressString>
-      <Before>
-        <Byte>00</Byte>
-        <Byte>00</Byte>
-        <Byte>49</Byte>
-        <Byte>8B</Byte>
-        <Byte>D6</Byte>
-      </Before>
-      <Actual>
-        <Byte>FF</Byte>
-        <Byte>50</Byte>
-        <Byte>08</Byte>
-      </Actual>
-      <After>
-        <Byte>8B</Byte>
-        <Byte>06</Byte>
-        <Byte>44</Byte>
-        <Byte>3B</Byte>
-        <Byte>F8</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols/>
   <Comments>This game does not seem to use JIT or virtualization to obscure memory address.
-</Comments>
+
+The health update function is shared across all objects. this means finding a pointer scan for the health offset. The point scans seem to move, so better to copy the final health address and lock it.</Comments>
 </CheatTable>
