@@ -2,7 +2,148 @@
 <CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
-      <ID>3</ID>
+      <ID>14</ID>
+      <Description>"Unlimited Item Use/drop/scrap"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Welcome to ParadiZe
+  Version: 
+  Date   : 2026-05-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+assert(Zombie3.exe+60E695,66 2B C5 66 41 89 86 B2 00 00 00)
+
+
+Zombie3.exe+60E695:
+  db 90 90 90
+
+[DISABLE]
+
+Zombie3.exe+60E695:
+  db 66 2B C5 66 41 89 86 B2 00 00 00
+
+{
+// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+60E695
+
+Zombie3.exe+60E667: 48 8D 0D 82 1E CE 00     - lea rcx,[Zombie3.exe+12F04F0]
+Zombie3.exe+60E66E: 8B D5                    - mov edx,ebp
+Zombie3.exe+60E670: E8 4B 3D F1 FF           - call Zombie3.exe+5223C0
+Zombie3.exe+60E675: C6 83 E5 20 00 00 01     - mov byte ptr [rbx+000020E5],01
+Zombie3.exe+60E67C: 85 ED                    - test ebp,ebp
+Zombie3.exe+60E67E: 7F 0D                    - jg Zombie3.exe+60E68D
+Zombie3.exe+60E680: 41 0F B7 AE B2 00 00 00  - movzx ebp,word ptr [r14+000000B2]
+Zombie3.exe+60E688: 0F B7 C5                 - movzx eax,bp
+Zombie3.exe+60E68B: EB 08                    - jmp Zombie3.exe+60E695
+Zombie3.exe+60E68D: 41 0F B7 86 B2 00 00 00  - movzx eax,word ptr [r14+000000B2]
+// ---------- INJECTING HERE ----------
+Zombie3.exe+60E695: 66 2B C5                 - sub ax,bp
+// ---------- DONE INJECTING  ----------
+Zombie3.exe+60E698: 66 41 89 86 B2 00 00 00  - mov [r14+000000B2],ax
+Zombie3.exe+60E6A0: 4C 8B 74 24 68           - mov r14,[rsp+68]
+Zombie3.exe+60E6A5: 66 85 C0                 - test ax,ax
+Zombie3.exe+60E6A8: 0F 8F FD 00 00 00        - jg Zombie3.exe+60E7AB
+Zombie3.exe+60E6AE: 49 8B CF                 - mov rcx,r15
+Zombie3.exe+60E6B1: E8 5A E8 FD FF           - call Zombie3.exe+5ECF10
+Zombie3.exe+60E6B6: 8B D6                    - mov edx,esi
+Zombie3.exe+60E6B8: 48 8B CB                 - mov rcx,rbx
+Zombie3.exe+60E6BB: E8 D0 06 00 00           - call Zombie3.exe+60ED90
+Zombie3.exe+60E6C0: 8B D6                    - mov edx,esi
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Inf Ammo"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Welcome to ParadiZe
+  Version: 
+  Date   : 2026-05-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+assert(Zombie3.exe+667FBF,66 41 2B CF 66 41 89 4A 06)
+assert(Zombie3.exe+668065,66 44 29 7E 02)
+
+Zombie3.exe+668065:
+  db 90 90 90 90 90
+Zombie3.exe+667FBF:
+  db 90 90 90 90 90 90 90 90 90
+
+[DISABLE]
+
+Zombie3.exe+668065:
+  db 66 44 29 7E 02
+
+Zombie3.exe+667FBF:
+  db 66 41 2B CF 66 41 89 4A 06
+
+{
+// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+668065
+
+Zombie3.exe+66803E: 48 83 78 18 10        - cmp qword ptr [rax+18],10
+Zombie3.exe+668043: 72 0C                 - jb Zombie3.exe+668051
+Zombie3.exe+668045: 48 8B 00              - mov rax,[rax]
+Zombie3.exe+668048: EB 07                 - jmp Zombie3.exe+668051
+Zombie3.exe+66804A: 48 8D 05 87 7A C8 00  - lea rax,[Zombie3.exe+12EFAD8]
+Zombie3.exe+668051: 4C 8B C8              - mov r9,rax
+Zombie3.exe+668054: 48 8D 0D 95 08 C9 00  - lea rcx,[Zombie3.exe+12F88F0]
+Zombie3.exe+66805B: 45 8B C7              - mov r8d,r15d
+Zombie3.exe+66805E: 8B D7                 - mov edx,edi
+Zombie3.exe+668060: E8 5B A3 EB FF        - call Zombie3.exe+5223C0
+// ---------- INJECTING HERE ----------
+Zombie3.exe+668065: 66 44 29 7E 02        - sub [rsi+02],r15w
+// ---------- DONE INJECTING  ----------
+Zombie3.exe+66806A: 66 0F 1F 44 00 00     - nop word ptr [rax+rax+00]
+Zombie3.exe+668070: 48 8B 4D D7           - mov rcx,[rbp-29]
+Zombie3.exe+668074: 48 03 CB              - add rcx,rbx
+Zombie3.exe+668077: 66 83 39 00           - cmp word ptr [rcx],00
+Zombie3.exe+66807B: 7C 16                 - jl Zombie3.exe+668093
+Zombie3.exe+66807D: 0F BF 41 04           - movsx eax,word ptr [rcx+04]
+Zombie3.exe+668081: 3B C7                 - cmp eax,edi
+Zombie3.exe+668083: 75 0E                 - jne Zombie3.exe+668093
+Zombie3.exe+668085: 0F B7 46 02           - movzx eax,word ptr [rsi+02]
+Zombie3.exe+668089: 66 39 41 06           - cmp [rcx+06],ax
+}
+
+{
+// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+667FBF
+
+Zombie3.exe+667F97: 49 69 C8 98 08 00 00  - imul rcx,r8,00000898
+Zombie3.exe+667F9E: 49 03 C9              - add rcx,r9
+Zombie3.exe+667FA1: EB 03                 - jmp Zombie3.exe+667FA6
+Zombie3.exe+667FA3: 48 8B CB              - mov rcx,rbx
+Zombie3.exe+667FA6: 8B 81 58 03 00 00     - mov eax,[rcx+00000358]
+Zombie3.exe+667FAC: 41 0F BF 4A 06        - movsx ecx,word ptr [r10+06]
+Zombie3.exe+667FB1: 49 0F BF 7A 04        - movsx rdi,word ptr [r10+04]
+Zombie3.exe+667FB6: 3B C1                 - cmp eax,ecx
+Zombie3.exe+667FB8: 44 8B F9              - mov r15d,ecx
+Zombie3.exe+667FBB: 44 0F 4C F8           - cmovl r15d,eax
+// ---------- INJECTING HERE ----------
+Zombie3.exe+667FBF: 66 41 2B CF           - sub cx,r15w
+// ---------- DONE INJECTING  ----------
+Zombie3.exe+667FC3: 66 41 89 4A 06        - mov [r10+06],cx
+Zombie3.exe+667FC8: 48 8B 45 D7           - mov rax,[rbp-29]
+Zombie3.exe+667FCC: 66 41 83 7C 03 06 01  - cmp word ptr [r11+rax+06],01
+Zombie3.exe+667FD3: 7D 24                 - jnl Zombie3.exe+667FF9
+Zombie3.exe+667FD5: 49 8B 4E 10           - mov rcx,[r14+10]
+Zombie3.exe+667FD9: 4C 8D 45 DF           - lea r8,[rbp-21]
+Zombie3.exe+667FDD: 41 B9 04 00 00 00     - mov r9d,00000004
+Zombie3.exe+667FE3: 66 44 89 65 DF        - mov [rbp-21],r12w
+Zombie3.exe+667FE8: BA F7 03 00 00        - mov edx,000003F7
+Zombie3.exe+667FED: 88 5D E1              - mov [rbp-1F],bl
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
       <Description>"Free Crafting"</Description>
       <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
@@ -60,11 +201,19 @@ Zombie3.exe+60EAC0: 4C 8D 45 B8              - lea r8,[rbp-48]
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>8</ID>
-      <Description>"Unlimited Item Use/drop/scrap"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Welcome to ParadiZe
+      <ID>12</ID>
+      <Description>"Old Codes"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>0000FF</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Free Crafting"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Welcome to ParadiZe
   Version: 
   Date   : 2026-05-25
   Author : bboyh
@@ -73,56 +222,52 @@ Zombie3.exe+60EAC0: 4C 8D 45 B8              - lea r8,[rbp-48]
 }
 
 [ENABLE]
+assert(Zombie3.exe+60EA87, 66 29 9F B2 00 00 00 44 2B FB)
 
-aobscanmodule(USE_ITEM,Zombie3.exe,66 2B C5 66 41 89 86 B2 00 00 00) // should be unique
 
-
-USE_ITEM:
-  db 90 90 90
-registersymbol(USE_ITEM)
+Zombie3.exe+60EA87:
+  db 90 90 90 90 90 90 90 90 90 90
 
 [DISABLE]
 
-USE_ITEM:
-  db 66 2B C5 66 41 89 86 B2 00 00 00
-
-unregistersymbol(USE_ITEM)
+Zombie3.exe+60EA87:
+  db 66 29 9F B2 00 00 00 44 2B FB
 
 {
-// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+60E695
+// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+60EA87
 
-Zombie3.exe+60E667: 48 8D 0D 82 1E CE 00     - lea rcx,[Zombie3.exe+12F04F0]
-Zombie3.exe+60E66E: 8B D5                    - mov edx,ebp
-Zombie3.exe+60E670: E8 4B 3D F1 FF           - call Zombie3.exe+5223C0
-Zombie3.exe+60E675: C6 83 E5 20 00 00 01     - mov byte ptr [rbx+000020E5],01
-Zombie3.exe+60E67C: 85 ED                    - test ebp,ebp
-Zombie3.exe+60E67E: 7F 0D                    - jg Zombie3.exe+60E68D
-Zombie3.exe+60E680: 41 0F B7 AE B2 00 00 00  - movzx ebp,word ptr [r14+000000B2]
-Zombie3.exe+60E688: 0F B7 C5                 - movzx eax,bp
-Zombie3.exe+60E68B: EB 08                    - jmp Zombie3.exe+60E695
-Zombie3.exe+60E68D: 41 0F B7 86 B2 00 00 00  - movzx eax,word ptr [r14+000000B2]
+Zombie3.exe+60EA5F: 49 83 C1 18              - add r9,18
+Zombie3.exe+60EA63: 49 83 79 18 10           - cmp qword ptr [r9+18],10
+Zombie3.exe+60EA68: 72 0C                    - jb Zombie3.exe+60EA76
+Zombie3.exe+60EA6A: 4D 8B 09                 - mov r9,[r9]
+Zombie3.exe+60EA6D: EB 07                    - jmp Zombie3.exe+60EA76
+Zombie3.exe+60EA6F: 4C 8D 0D 62 10 CE 00     - lea r9,[Zombie3.exe+12EFAD8]
+Zombie3.exe+60EA76: 44 8B C6                 - mov r8d,esi
+Zombie3.exe+60EA79: 48 8D 0D F0 19 CE 00     - lea rcx,[Zombie3.exe+12F0470]
+Zombie3.exe+60EA80: 8B D3                    - mov edx,ebx
+Zombie3.exe+60EA82: E8 39 39 F1 FF           - call Zombie3.exe+5223C0
 // ---------- INJECTING HERE ----------
-Zombie3.exe+60E695: 66 2B C5                 - sub ax,bp
+Zombie3.exe+60EA87: 66 29 9F B2 00 00 00     - sub [rdi+000000B2],bx
 // ---------- DONE INJECTING  ----------
-Zombie3.exe+60E698: 66 41 89 86 B2 00 00 00  - mov [r14+000000B2],ax
-Zombie3.exe+60E6A0: 4C 8B 74 24 68           - mov r14,[rsp+68]
-Zombie3.exe+60E6A5: 66 85 C0                 - test ax,ax
-Zombie3.exe+60E6A8: 0F 8F FD 00 00 00        - jg Zombie3.exe+60E7AB
-Zombie3.exe+60E6AE: 49 8B CF                 - mov rcx,r15
-Zombie3.exe+60E6B1: E8 5A E8 FD FF           - call Zombie3.exe+5ECF10
-Zombie3.exe+60E6B6: 8B D6                    - mov edx,esi
-Zombie3.exe+60E6B8: 48 8B CB                 - mov rcx,rbx
-Zombie3.exe+60E6BB: E8 D0 06 00 00           - call Zombie3.exe+60ED90
-Zombie3.exe+60E6C0: 8B D6                    - mov edx,esi
+Zombie3.exe+60EA8E: 44 2B FB                 - sub r15d,ebx
+Zombie3.exe+60EA91: 66 83 BF B2 00 00 00 00  - cmp word ptr [rdi+000000B2],00
+Zombie3.exe+60EA99: 49 C7 C4 FF FF FF FF     - mov r12,FFFFFFFFFFFFFFFF
+Zombie3.exe+60EAA0: 44 89 7C 24 24           - mov [rsp+24],r15d
+Zombie3.exe+60EAA5: 0F 8F 4A 02 00 00        - jg Zombie3.exe+60ECF5
+Zombie3.exe+60EAAB: 66 0F 6F 05 5D 78 CA 00  - movdqa xmm0,[Zombie3.exe+12B6310]
+Zombie3.exe+60EAB3: 45 8D 4C 24 31           - lea r9d,[r12+31]
+Zombie3.exe+60EAB8: 66 0F 6F C8              - movdqa xmm1,xmm0
+Zombie3.exe+60EABC: 4C 89 65 D8              - mov [rbp-28],r12
+Zombie3.exe+60EAC0: 4C 8D 45 B8              - lea r8,[rbp-48]
 }
 </AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>10</ID>
-      <Description>"Inf Ammo"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : Welcome to ParadiZe
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Inf Ammo"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Welcome to ParadiZe
   Version: 
   Date   : 2026-05-25
   Author : bboyh
@@ -208,9 +353,70 @@ Zombie3.exe+667FE8: BA F7 03 00 00        - mov edx,000003F7
 Zombie3.exe+667FED: 88 5D E1              - mov [rbp-1F],bl
 }
 </AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>8</ID>
+          <Description>"Unlimited Item Use/drop/scrap"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : Welcome to ParadiZe
+  Version: 
+  Date   : 2026-05-25
+  Author : bboyh
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(USE_ITEM,Zombie3.exe,66 2B C5 66 41 89 86 B2 00 00 00) // should be unique
+
+
+USE_ITEM:
+  db 90 90 90
+registersymbol(USE_ITEM)
+
+[DISABLE]
+
+USE_ITEM:
+  db 66 2B C5 66 41 89 86 B2 00 00 00
+
+unregistersymbol(USE_ITEM)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Zombie3.exe+60E695
+
+Zombie3.exe+60E667: 48 8D 0D 82 1E CE 00     - lea rcx,[Zombie3.exe+12F04F0]
+Zombie3.exe+60E66E: 8B D5                    - mov edx,ebp
+Zombie3.exe+60E670: E8 4B 3D F1 FF           - call Zombie3.exe+5223C0
+Zombie3.exe+60E675: C6 83 E5 20 00 00 01     - mov byte ptr [rbx+000020E5],01
+Zombie3.exe+60E67C: 85 ED                    - test ebp,ebp
+Zombie3.exe+60E67E: 7F 0D                    - jg Zombie3.exe+60E68D
+Zombie3.exe+60E680: 41 0F B7 AE B2 00 00 00  - movzx ebp,word ptr [r14+000000B2]
+Zombie3.exe+60E688: 0F B7 C5                 - movzx eax,bp
+Zombie3.exe+60E68B: EB 08                    - jmp Zombie3.exe+60E695
+Zombie3.exe+60E68D: 41 0F B7 86 B2 00 00 00  - movzx eax,word ptr [r14+000000B2]
+// ---------- INJECTING HERE ----------
+Zombie3.exe+60E695: 66 2B C5                 - sub ax,bp
+// ---------- DONE INJECTING  ----------
+Zombie3.exe+60E698: 66 41 89 86 B2 00 00 00  - mov [r14+000000B2],ax
+Zombie3.exe+60E6A0: 4C 8B 74 24 68           - mov r14,[rsp+68]
+Zombie3.exe+60E6A5: 66 85 C0                 - test ax,ax
+Zombie3.exe+60E6A8: 0F 8F FD 00 00 00        - jg Zombie3.exe+60E7AB
+Zombie3.exe+60E6AE: 49 8B CF                 - mov rcx,r15
+Zombie3.exe+60E6B1: E8 5A E8 FD FF           - call Zombie3.exe+5ECF10
+Zombie3.exe+60E6B6: 8B D6                    - mov edx,esi
+Zombie3.exe+60E6B8: 48 8B CB                 - mov rcx,rbx
+Zombie3.exe+60E6BB: E8 D0 06 00 00           - call Zombie3.exe+60ED90
+Zombie3.exe+60E6C0: 8B D6                    - mov edx,esi
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
   <Comments>items are 2 bytes long.
-The game memory seems to be static, don't need AOB.</Comments>
+The game memory seems to be static, don't need AOB.
+</Comments>
 </CheatTable>
